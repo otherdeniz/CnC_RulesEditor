@@ -29,7 +29,7 @@ User settings like selected Favorites and custom games mods are stored in the fo
 Print screens and the history of the development process are posted in the cncnet forum on this thread:
 https://forums.cncnet.org/topic/12869-tiberian-sun-rules-editor-version-2024/
 
-# Depndencies
+# Dependencies
 
 It uses Infragistics WinForms 23.2 Components (commercial) - one needs a developer license to create official releases
 You can download the Trial version (Nugets) to build for test purposes
