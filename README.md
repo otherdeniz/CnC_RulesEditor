@@ -26,7 +26,7 @@ The default rules.ini files and default Logos for integrated games are also loca
 User settings like selected Favorites and custom games mods are stored in the folder: %AppData%\TiberiumSunEditor
 (yes there is a typo in the folder name, but i cannot change that anymore, users would lose their settings)
 
-Print screens and the history of the development process are prosted in the cncnet forum on this thread:
+Print screens and the history of the development process are posted in the cncnet forum on this thread:
 https://forums.cncnet.org/topic/12869-tiberian-sun-rules-editor-version-2024/
 
 # Depndencies
