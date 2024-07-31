@@ -1,0 +1,1957 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfFFMpegFormat xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FFMpegFormat>
+    <Name>aa</Name>
+    <NameLong>Audible AA format files</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>aa</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>aac</Name>
+    <NameLong>raw ADTS AAC (Advanced Audio Coding)</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>aac</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>ac3</Name>
+    <NameLong>raw AC-3</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>ac3</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>acm</Name>
+    <NameLong>Interplay ACM</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>acm</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>act</Name>
+    <NameLong>ACT Voice file format</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>adf</Name>
+    <NameLong>Artworx Data Format</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>adf</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>adp</Name>
+    <NameLong>ADP</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>adp</string>
+      <string>dtk</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>ads</Name>
+    <NameLong>Sony PS2 ADS</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>ads</string>
+      <string>ss2</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>adx</Name>
+    <NameLong>CRI ADX</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>adx</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>aea</Name>
+    <NameLong>MD STUDIO audio</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>aea</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>afc</Name>
+    <NameLong>AFC</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>afc</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>aiff</Name>
+    <NameLong>Audio IFF</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>aix</Name>
+    <NameLong>CRI AIX</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>aix</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>amr</Name>
+    <NameLong>3GPP AMR</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>anm</Name>
+    <NameLong>Deluxe Paint Animation</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>apc</Name>
+    <NameLong>CRYO APC</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>ape</Name>
+    <NameLong>Monkey's Audio</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>ape</string>
+      <string>apl</string>
+      <string>mac</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>apng</Name>
+    <NameLong>Animated Portable Network Graphics</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>aqtitle</Name>
+    <NameLong>AQTitle subtitles</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>aqt</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>asf</Name>
+    <NameLong>ASF (Advanced / Active Streaming Format)</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>asf_o</Name>
+    <NameLong>ASF (Advanced / Active Streaming Format)</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>ass</Name>
+    <NameLong>SSA (SubStation Alpha) subtitle</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>ast</Name>
+    <NameLong>AST (Audio Stream)</NameLong>
+    <Codecs>
+      <string>AdpcmAfc</string>
+      <string>PcmS16BePlanar</string>
+    </Codecs>
+    <Extensions>
+      <string>ast</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>au</Name>
+    <NameLong>Sun AU</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>avi</Name>
+    <NameLong>AVI (Audio Video Interleaved)</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>avi</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>avisynth</Name>
+    <NameLong>AviSynth script</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>avs</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>avr</Name>
+    <NameLong>AVR (Audio Visual Research)</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>avr</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>avs</Name>
+    <NameLong>AVS</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>bethsoftvid</Name>
+    <NameLong>Bethesda Softworks VID</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>bfi</Name>
+    <NameLong>Brute Force &amp; Ignorance</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>bin</Name>
+    <NameLong>Binary text</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>bin</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>bink</Name>
+    <NameLong>Bink</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>bit</Name>
+    <NameLong>G.729 BIT file format</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>bit</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>bmv</Name>
+    <NameLong>Discworld II BMV</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>bmv</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>bfstm</Name>
+    <NameLong>BFSTM (Binary Cafe Stream)</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>bfstm</string>
+      <string>bcstm</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>brstm</Name>
+    <NameLong>BRSTM (Binary Revolution Stream)</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>brstm</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>boa</Name>
+    <NameLong>Black Ops Audio</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>c93</Name>
+    <NameLong>Interplay C93</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>caf</Name>
+    <NameLong>Apple CAF (Core Audio Format)</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>cavsvideo</Name>
+    <NameLong>raw Chinese AVS (Audio Video Standard)</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>cdg</Name>
+    <NameLong>CD Graphics</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>cdg</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>cdxl</Name>
+    <NameLong>Commodore CDXL video</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>cdxl</string>
+      <string>xl</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>cine</Name>
+    <NameLong>Phantom Cine</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>concat</Name>
+    <NameLong>Virtual concatenation script</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>data</Name>
+    <NameLong>raw data</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>daud</Name>
+    <NameLong>D-Cinema audio</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>302</string>
+      <string>daud</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>dcstr</Name>
+    <NameLong>Sega DC STR</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>str</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>dfa</Name>
+    <NameLong>Chronomaster DFA</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>dirac</Name>
+    <NameLong>raw Dirac</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>dnxhd</Name>
+    <NameLong>raw DNxHD (SMPTE VC-3)</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>dsf</Name>
+    <NameLong>DSD Stream File (DSF)</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>dsicin</Name>
+    <NameLong>Delphine Software International CIN</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>dss</Name>
+    <NameLong>Digital Speech Standard (DSS)</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>dss</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>dts</Name>
+    <NameLong>raw DTS</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>dts</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>dtshd</Name>
+    <NameLong>raw DTS-HD</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>dtshd</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>dv</Name>
+    <NameLong>DV (Digital Video)</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>dv</string>
+      <string>dif</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>dvbsub</Name>
+    <NameLong>raw dvbsub</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>dvbtxt</Name>
+    <NameLong>dvbtxt</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>dxa</Name>
+    <NameLong>DXA</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>ea</Name>
+    <NameLong>Electronic Arts Multimedia</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>ea_cdata</Name>
+    <NameLong>Electronic Arts cdata</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>cdata</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>eac3</Name>
+    <NameLong>raw E-AC-3</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>eac3</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>epaf</Name>
+    <NameLong>Ensoniq Paris Audio File</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>paf</string>
+      <string>fap</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>ffm</Name>
+    <NameLong>FFM (FFserver live feed)</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>ffmetadata</Name>
+    <NameLong>FFmpeg metadata in text</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>filmstrip</Name>
+    <NameLong>Adobe Filmstrip</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>flm</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>flac</Name>
+    <NameLong>raw FLAC</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>flac</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>flic</Name>
+    <NameLong>FLI/FLC/FLX animation</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>flv</Name>
+    <NameLong>FLV (Flash Video)</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>flv</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>live_flv</Name>
+    <NameLong>live RTMP FLV (Flash Video)</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>flv</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>4xm</Name>
+    <NameLong>4X Technologies</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>frm</Name>
+    <NameLong>Megalux Frame</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>fsb</Name>
+    <NameLong>FMOD Sample Bank</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>fsb</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>g722</Name>
+    <NameLong>raw G.722</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>g722</string>
+      <string>722</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>g723_1</Name>
+    <NameLong>G.723.1</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>tco</string>
+      <string>rco</string>
+      <string>g723_1</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>g729</Name>
+    <NameLong>G.729 raw format demuxer</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>g729</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>genh</Name>
+    <NameLong>GENeric Header</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>genh</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>gif</Name>
+    <NameLong>CompuServe Graphics Interchange Format (GIF)</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>gsm</Name>
+    <NameLong>raw GSM</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>gsm</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>gxf</Name>
+    <NameLong>GXF (General eXchange Format)</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>h261</Name>
+    <NameLong>raw H.261</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>h261</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>h263</Name>
+    <NameLong>raw H.263</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>h264</Name>
+    <NameLong>raw H.264 video</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>h26l</string>
+      <string>h264</string>
+      <string>264</string>
+      <string>avc</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>hevc</Name>
+    <NameLong>raw HEVC video</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>hevc</string>
+      <string>h265</string>
+      <string>265</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>hls,applehttp</Name>
+    <NameLong>Apple HTTP Live Streaming</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>hnm</Name>
+    <NameLong>Cryo HNM v4</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>ico</Name>
+    <NameLong>Microsoft Windows ICO</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>idcin</Name>
+    <NameLong>id Cinematic</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>idf</Name>
+    <NameLong>iCE Draw File</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>idf</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>iff</Name>
+    <NameLong>IFF (Interchange File Format)</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>ilbc</Name>
+    <NameLong>iLBC storage</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>image2</Name>
+    <NameLong>image2 sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>image2pipe</Name>
+    <NameLong>piped image2 sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>alias_pix</Name>
+    <NameLong>Alias/Wavefront PIX image</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>brender_pix</Name>
+    <NameLong>BRender PIX image</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>ingenient</Name>
+    <NameLong>raw Ingenient MJPEG</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>cgi</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>ipmovie</Name>
+    <NameLong>Interplay MVE</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>ircam</Name>
+    <NameLong>Berkeley/IRCAM/CARL Sound Format</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>sf</string>
+      <string>ircam</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>iss</Name>
+    <NameLong>Funcom ISS</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>iv8</Name>
+    <NameLong>IndigoVision 8000 video</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>ivf</Name>
+    <NameLong>On2 IVF</NameLong>
+    <Codecs>
+      <string>Rawvideo</string>
+      <string>Msrle</string>
+      <string>Msrle</string>
+      <string>Rawvideo</string>
+      <string>Mpeg4</string>
+    </Codecs>
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>ivr</Name>
+    <NameLong>IVR (Internet Video Recording)</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>ivr</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>jacosub</Name>
+    <NameLong>JACOsub subtitle format</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>jv</Name>
+    <NameLong>Bitmap Brothers JV</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>lmlm4</Name>
+    <NameLong>raw lmlm4</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>loas</Name>
+    <NameLong>LOAS AudioSyncStream</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>lrc</Name>
+    <NameLong>LRC lyrics</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>lvf</Name>
+    <NameLong>LVF</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>lvf</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>lxf</Name>
+    <NameLong>VR native stream (LXF)</NameLong>
+    <Codecs>
+      <string>Mjpeg</string>
+      <string>Mpeg1Video</string>
+      <string>Mpeg2Video</string>
+      <string>Mpeg2Video</string>
+      <string>Dvvideo</string>
+      <string>Dvvideo</string>
+      <string>Dvvideo</string>
+      <string>Rawvideo</string>
+      <string>Rawvideo</string>
+      <string>Mpeg2Video</string>
+    </Codecs>
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>m4v</Name>
+    <NameLong>raw MPEG-4 video</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>m4v</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>matroska,webm</Name>
+    <NameLong>Matroska / WebM</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>mkv</string>
+      <string>mk3d</string>
+      <string>mka</string>
+      <string>mks</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mgsts</Name>
+    <NameLong>Metal Gear Solid: The Twin Snakes</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>microdvd</Name>
+    <NameLong>MicroDVD subtitle format</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mjpeg</Name>
+    <NameLong>raw MJPEG video</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>mjpg</string>
+      <string>mjpeg</string>
+      <string>mpo</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mlp</Name>
+    <NameLong>raw MLP</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>mlp</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mlv</Name>
+    <NameLong>Magic Lantern Video (MLV)</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mm</Name>
+    <NameLong>American Laser Games MM</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mmf</Name>
+    <NameLong>Yamaha SMAF</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mov,mp4,m4a,3gp,3g2,mj2</Name>
+    <NameLong>QuickTime / MOV</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>mov</string>
+      <string>mp4</string>
+      <string>m4a</string>
+      <string>3gp</string>
+      <string>3g2</string>
+      <string>mj2</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mp3</Name>
+    <NameLong>MP2/3 (MPEG audio layer 2/3)</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>mp2</string>
+      <string>mp3</string>
+      <string>m2a</string>
+      <string>mpa</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mpc</Name>
+    <NameLong>Musepack</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>mpc</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mpc8</Name>
+    <NameLong>Musepack SV8</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mpeg</Name>
+    <NameLong>MPEG-PS (MPEG-2 Program Stream)</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mpegts</Name>
+    <NameLong>MPEG-TS (MPEG-2 Transport Stream)</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mpegtsraw</Name>
+    <NameLong>raw MPEG-TS (MPEG-2 Transport Stream)</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mpegvideo</Name>
+    <NameLong>raw MPEG video</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mpjpeg</Name>
+    <NameLong>MIME multipart JPEG</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>mjpg</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mpl2</Name>
+    <NameLong>MPL2 subtitles</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>txt</string>
+      <string>mpl2</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mpsub</Name>
+    <NameLong>MPlayer subtitles</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>sub</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>msf</Name>
+    <NameLong>Sony PS3 MSF</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>msf</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>msnwctcp</Name>
+    <NameLong>MSN TCP Webcam stream</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mtaf</Name>
+    <NameLong>Konami PS2 MTAF</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>mtaf</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mtv</Name>
+    <NameLong>MTV</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>musx</Name>
+    <NameLong>Eurocom MUSX</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>musx</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mv</Name>
+    <NameLong>Silicon Graphics Movie</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mvi</Name>
+    <NameLong>Motion Pixels MVI</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>mvi</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mxf</Name>
+    <NameLong>MXF (Material eXchange Format)</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mxg</Name>
+    <NameLong>MxPEG clip</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>mxg</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>nc</Name>
+    <NameLong>NC camera feed</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>v</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>nistsphere</Name>
+    <NameLong>NIST SPeech HEader REsources</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>nist</string>
+      <string>sph</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>nsv</Name>
+    <NameLong>Nullsoft Streaming Video</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>nut</Name>
+    <NameLong>NUT</NameLong>
+    <Codecs>
+      <string>Rawvideo</string>
+      <string>Msrle</string>
+      <string>Msrle</string>
+      <string>Rawvideo</string>
+      <string>Mpeg4</string>
+    </Codecs>
+    <Extensions>
+      <string>nut</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>nuv</Name>
+    <NameLong>NuppelVideo</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>ogg</Name>
+    <NameLong>Ogg</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>ogg</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>oma</Name>
+    <NameLong>Sony OpenMG audio</NameLong>
+    <Codecs>
+      <string>Atrac3</string>
+      <string>Atrac3P</string>
+    </Codecs>
+    <Extensions>
+      <string>oma</string>
+      <string>omg</string>
+      <string>aa3</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>paf</Name>
+    <NameLong>Amazing Studio Packed Animation File</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>alaw</Name>
+    <NameLong>PCM A-law</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>al</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>mulaw</Name>
+    <NameLong>PCM mu-law</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>ul</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>f64be</Name>
+    <NameLong>PCM 64-bit floating-point big-endian</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>f64le</Name>
+    <NameLong>PCM 64-bit floating-point little-endian</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>f32be</Name>
+    <NameLong>PCM 32-bit floating-point big-endian</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>f32le</Name>
+    <NameLong>PCM 32-bit floating-point little-endian</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>s32be</Name>
+    <NameLong>PCM signed 32-bit big-endian</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>s32le</Name>
+    <NameLong>PCM signed 32-bit little-endian</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>s24be</Name>
+    <NameLong>PCM signed 24-bit big-endian</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>s24le</Name>
+    <NameLong>PCM signed 24-bit little-endian</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>s16be</Name>
+    <NameLong>PCM signed 16-bit big-endian</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>s16le</Name>
+    <NameLong>PCM signed 16-bit little-endian</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>sw</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>s8</Name>
+    <NameLong>PCM signed 8-bit</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>sb</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>u32be</Name>
+    <NameLong>PCM unsigned 32-bit big-endian</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>u32le</Name>
+    <NameLong>PCM unsigned 32-bit little-endian</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>u24be</Name>
+    <NameLong>PCM unsigned 24-bit big-endian</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>u24le</Name>
+    <NameLong>PCM unsigned 24-bit little-endian</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>u16be</Name>
+    <NameLong>PCM unsigned 16-bit big-endian</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>u16le</Name>
+    <NameLong>PCM unsigned 16-bit little-endian</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>uw</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>u8</Name>
+    <NameLong>PCM unsigned 8-bit</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>ub</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>pjs</Name>
+    <NameLong>PJS (Phoenix Japanimation Society) subtitles</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>pjs</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>pmp</Name>
+    <NameLong>Playstation Portable PMP</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>pva</Name>
+    <NameLong>TechnoTrend PVA</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>pvf</Name>
+    <NameLong>PVF (Portable Voice Format)</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>pvf</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>qcp</Name>
+    <NameLong>QCP</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>r3d</Name>
+    <NameLong>REDCODE R3D</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>rawvideo</Name>
+    <NameLong>raw video</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>yuv</string>
+      <string>cif</string>
+      <string>qcif</string>
+      <string>rgb</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>realtext</Name>
+    <NameLong>RealText subtitle format</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>rt</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>redspark</Name>
+    <NameLong>RedSpark</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>rsd</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>rl2</Name>
+    <NameLong>RL2</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>rm</Name>
+    <NameLong>RealMedia</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>roq</Name>
+    <NameLong>id RoQ</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>rpl</Name>
+    <NameLong>RPL / ARMovie</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>rsd</Name>
+    <NameLong>GameCube RSD</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>rsd</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>rso</Name>
+    <NameLong>Lego Mindstorms RSO</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>rso</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>rtp</Name>
+    <NameLong>RTP input</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>rtsp</Name>
+    <NameLong>RTSP input</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>sami</Name>
+    <NameLong>SAMI subtitle format</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>smi</string>
+      <string>sami</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>sap</Name>
+    <NameLong>SAP input</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>sbg</Name>
+    <NameLong>SBaGen binaural beats script</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>sbg</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>sdp</Name>
+    <NameLong>SDP</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>sdr2</Name>
+    <NameLong>SDR2</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>sdr2</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>film_cpk</Name>
+    <NameLong>Sega FILM / CPK</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>shn</Name>
+    <NameLong>raw Shorten</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>shn</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>siff</Name>
+    <NameLong>Beam Software SIFF</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>vb</string>
+      <string>son</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>sln</Name>
+    <NameLong>Asterisk raw pcm</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>sln</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>smk</Name>
+    <NameLong>Smacker</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>smjpeg</Name>
+    <NameLong>Loki SDL MJPEG</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>mjpg</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>smush</Name>
+    <NameLong>LucasArts Smush</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>sol</Name>
+    <NameLong>Sierra SOL</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>sox</Name>
+    <NameLong>SoX native</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>spdif</Name>
+    <NameLong>IEC 61937 (compressed data in S/PDIF)</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>srt</Name>
+    <NameLong>SubRip subtitle</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>psxstr</Name>
+    <NameLong>Sony Playstation STR</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>stl</Name>
+    <NameLong>Spruce subtitle format</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>stl</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>subviewer1</Name>
+    <NameLong>SubViewer v1 subtitle format</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>sub</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>subviewer</Name>
+    <NameLong>SubViewer subtitle format</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>sub</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>sup</Name>
+    <NameLong>raw HDMV Presentation Graphic Stream subtitles</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>sup</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>svag</Name>
+    <NameLong>Konami PS2 SVAG</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>svag</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>swf</Name>
+    <NameLong>SWF (ShockWave Flash)</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>tak</Name>
+    <NameLong>raw TAK</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>tak</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>tedcaptions</Name>
+    <NameLong>TED Talks captions</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>thp</Name>
+    <NameLong>THP</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>3dostr</Name>
+    <NameLong>3DO STR</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>str</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>tiertexseq</Name>
+    <NameLong>Tiertex Limited SEQ</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>tmv</Name>
+    <NameLong>8088flex TMV</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>truehd</Name>
+    <NameLong>raw TrueHD</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>thd</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>tta</Name>
+    <NameLong>TTA (True Audio)</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>tta</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>txd</Name>
+    <NameLong>Renderware TeXture Dictionary</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>tty</Name>
+    <NameLong>Tele-typewriter</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>ans</string>
+      <string>art</string>
+      <string>asc</string>
+      <string>diz</string>
+      <string>ice</string>
+      <string>nfo</string>
+      <string>txt</string>
+      <string>vt</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>v210</Name>
+    <NameLong>Uncompressed 4:2:2 10-bit</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>v210</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>v210x</Name>
+    <NameLong>Uncompressed 4:2:2 10-bit</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>yuv10</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>vag</Name>
+    <NameLong>Sony PS2 VAG</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>vag</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>vc1</Name>
+    <NameLong>raw VC-1</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>vc1</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>vc1test</Name>
+    <NameLong>VC-1 test bitstream</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>vivo</Name>
+    <NameLong>Vivo</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>viv</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>vmd</Name>
+    <NameLong>Sierra VMD</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>vobsub</Name>
+    <NameLong>VobSub subtitle format</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>idx</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>voc</Name>
+    <NameLong>Creative Voice</NameLong>
+    <Codecs>
+      <string>PcmU8</string>
+      <string>AdpcmSbpro4</string>
+      <string>AdpcmSbpro3</string>
+      <string>AdpcmSbpro2</string>
+      <string>FirstAudio</string>
+    </Codecs>
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>vpk</Name>
+    <NameLong>Sony PS2 VPK</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>vpk</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>vplayer</Name>
+    <NameLong>VPlayer subtitles</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>txt</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>vqf</Name>
+    <NameLong>Nippon Telegraph and Telephone Corporation (NTT) TwinVQ</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>vqf</string>
+      <string>vql</string>
+      <string>vqe</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>w64</Name>
+    <NameLong>Sony Wave64</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>wav</Name>
+    <NameLong>WAV / WAVE (Waveform Audio)</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>wc3movie</Name>
+    <NameLong>Wing Commander III movie</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>webm_dash_manifest</Name>
+    <NameLong>WebM DASH Manifest</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>webvtt</Name>
+    <NameLong>WebVTT subtitle</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>vtt</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>wsaud</Name>
+    <NameLong>Westwood Studios audio</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>wsd</Name>
+    <NameLong>Wideband Single-bit Data (WSD)</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>wsd</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>wsvqa</Name>
+    <NameLong>Westwood Studios VQA</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>wtv</Name>
+    <NameLong>Windows Television (WTV)</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>wve</Name>
+    <NameLong>Psion 3 audio</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>wv</Name>
+    <NameLong>WavPack</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>xa</Name>
+    <NameLong>Maxis XA</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>xbin</Name>
+    <NameLong>eXtended BINary text (XBIN)</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>xmv</Name>
+    <NameLong>Microsoft XMV</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>xmv</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>xvag</Name>
+    <NameLong>Sony PS3 XVAG</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>xvag</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>xwma</Name>
+    <NameLong>Microsoft xWMA</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>yop</Name>
+    <NameLong>Psygnosis YOP</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>yop</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>yuv4mpegpipe</Name>
+    <NameLong>YUV4MPEG pipe</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>y4m</string>
+    </Extensions>
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>bmp_pipe</Name>
+    <NameLong>piped bmp sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>dds_pipe</Name>
+    <NameLong>piped dds sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>dpx_pipe</Name>
+    <NameLong>piped dpx sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>exr_pipe</Name>
+    <NameLong>piped exr sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>j2k_pipe</Name>
+    <NameLong>piped j2k sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>jpeg_pipe</Name>
+    <NameLong>piped jpeg sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>jpegls_pipe</Name>
+    <NameLong>piped jpegls sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>pam_pipe</Name>
+    <NameLong>piped pam sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>pbm_pipe</Name>
+    <NameLong>piped pbm sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>pcx_pipe</Name>
+    <NameLong>piped pcx sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>pgmyuv_pipe</Name>
+    <NameLong>piped pgmyuv sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>pgm_pipe</Name>
+    <NameLong>piped pgm sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>pictor_pipe</Name>
+    <NameLong>piped pictor sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>png_pipe</Name>
+    <NameLong>piped png sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>ppm_pipe</Name>
+    <NameLong>piped ppm sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>qdraw_pipe</Name>
+    <NameLong>piped qdraw sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>sgi_pipe</Name>
+    <NameLong>piped sgi sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>sunrast_pipe</Name>
+    <NameLong>piped sunrast sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>tiff_pipe</Name>
+    <NameLong>piped tiff sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>webp_pipe</Name>
+    <NameLong>piped webp sequence</NameLong>
+    <Codecs />
+    <Extensions />
+  </FFMpegFormat>
+  <FFMpegFormat>
+    <Name>libmodplug</Name>
+    <NameLong>ModPlug demuxer</NameLong>
+    <Codecs />
+    <Extensions>
+      <string>669</string>
+      <string>abc</string>
+      <string>amf</string>
+      <string>ams</string>
+      <string>dbm</string>
+      <string>dmf</string>
+      <string>dsm</string>
+      <string>far</string>
+      <string>it</string>
+      <string>mdl</string>
+      <string>med</string>
+      <string>mid</string>
+      <string>mod</string>
+      <string>mt2</string>
+      <string>mtm</string>
+      <string>okt</string>
+      <string>psm</string>
+      <string>ptm</string>
+      <string>s3m</string>
+      <string>stm</string>
+      <string>ult</string>
+      <string>umx</string>
+      <string>xm</string>
+      <string>itgz</string>
+      <string>itr</string>
+      <string>itz</string>
+      <string>mdgz</string>
+      <string>mdr</string>
+      <string>mdz</string>
+      <string>s3gz</string>
+      <string>s3r</string>
+      <string>s3z</string>
+      <string>xmgz</string>
+      <string>xmr</string>
+      <string>xmz</string>
+    </Extensions>
+  </FFMpegFormat>
+</ArrayOfFFMpegFormat>

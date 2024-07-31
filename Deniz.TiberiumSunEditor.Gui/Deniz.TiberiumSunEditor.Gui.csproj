@@ -1,0 +1,471 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+	<ForceDesignerDPIUnaware>false</ForceDesignerDPIUnaware>
+	<ApplicationIcon>SUN.ICO</ApplicationIcon>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Snippets\Aircrafts\**" />
+    <Compile Remove="Snippets\Buildings\**" />
+    <Compile Remove="Snippets\Infantry\**" />
+    <Compile Remove="Snippets\Vehicles\**" />
+    <EmbeddedResource Remove="Snippets\Aircrafts\**" />
+    <EmbeddedResource Remove="Snippets\Buildings\**" />
+    <EmbeddedResource Remove="Snippets\Infantry\**" />
+    <EmbeddedResource Remove="Snippets\Vehicles\**" />
+    <None Remove="Snippets\Aircrafts\**" />
+    <None Remove="Snippets\Buildings\**" />
+    <None Remove="Snippets\Infantry\**" />
+    <None Remove="Snippets\Vehicles\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Bitmaps\APACHE.bmp" />
+    <None Remove="Bitmaps\APC.bmp" />
+    <None Remove="Bitmaps\ART2.bmp" />
+    <None Remove="Bitmaps\BGGY.bmp" />
+    <None Remove="Bitmaps\BIKE.bmp" />
+    <None Remove="Bitmaps\BUS.bmp" />
+    <None Remove="Bitmaps\CABHUT.bmp" />
+    <None Remove="Bitmaps\CAPYR01.bmp" />
+    <None Remove="Bitmaps\CAPYR02.bmp" />
+    <None Remove="Bitmaps\CAPYR03.bmp" />
+    <None Remove="Bitmaps\CAR.bmp" />
+    <None Remove="Bitmaps\CARGOCAR.bmp" />
+    <None Remove="Bitmaps\CHEMICALSPECIAL.bmp" />
+    <None Remove="Bitmaps\CYBORG.bmp" />
+    <None Remove="Bitmaps\CYC2.bmp" />
+    <None Remove="Bitmaps\DOGGIE.bmp" />
+    <None Remove="Bitmaps\E1.bmp" />
+    <None Remove="Bitmaps\E2.bmp" />
+    <None Remove="Bitmaps\E3.bmp" />
+    <None Remove="Bitmaps\EMPULSESPECIAL.bmp" />
+    <None Remove="Bitmaps\ENGINEER.bmp" />
+    <None Remove="Bitmaps\FIRESTORMSPECIAL.bmp" />
+    <None Remove="Bitmaps\GACNST.bmp" />
+    <None Remove="Bitmaps\GACSAM.bmp" />
+    <None Remove="Bitmaps\GACTWR.bmp" />
+    <None Remove="Bitmaps\GADEPT.bmp" />
+    <None Remove="Bitmaps\GAFIRE.bmp" />
+    <None Remove="Bitmaps\GAFSDF.bmp" />
+    <None Remove="Bitmaps\GAGATE_A.bmp" />
+    <None Remove="Bitmaps\GAGATE_B.bmp" />
+    <None Remove="Bitmaps\GAHPAD.bmp" />
+    <None Remove="Bitmaps\GALITE.bmp" />
+    <None Remove="Bitmaps\GAPAVE.bmp" />
+    <None Remove="Bitmaps\GAPILE.bmp" />
+    <None Remove="Bitmaps\GAPLUG.bmp" />
+    <None Remove="Bitmaps\GAPLUG2.bmp" />
+    <None Remove="Bitmaps\GAPLUG3.bmp" />
+    <None Remove="Bitmaps\GAPLUG4.bmp" />
+    <None Remove="Bitmaps\GAPOWR.bmp" />
+    <None Remove="Bitmaps\GAPOWRUP.bmp" />
+    <None Remove="Bitmaps\GARADR.bmp" />
+    <None Remove="Bitmaps\GAROCK.bmp" />
+    <None Remove="Bitmaps\GASAND.bmp" />
+    <None Remove="Bitmaps\GASILO.bmp" />
+    <None Remove="Bitmaps\GASPOT.bmp" />
+    <None Remove="Bitmaps\GATECH.bmp" />
+    <None Remove="Bitmaps\GAVULC.bmp" />
+    <None Remove="Bitmaps\GAWALL.bmp" />
+    <None Remove="Bitmaps\GAWEAP.bmp" />
+    <None Remove="Bitmaps\GHOST.bmp" />
+    <None Remove="Bitmaps\GHUNTER.bmp" />
+    <None Remove="Bitmaps\HARV.bmp" />
+    <None Remove="Bitmaps\HMEC.bmp" />
+    <None Remove="Bitmaps\HUNTSEEKSPECIAL.bmp" />
+    <None Remove="Bitmaps\HVR.bmp" />
+    <None Remove="Bitmaps\ICBM.bmp" />
+    <None Remove="Bitmaps\IONCANNONSPECIAL.bmp" />
+    <None Remove="Bitmaps\JUGG.bmp" />
+    <None Remove="Bitmaps\JUMPJET.bmp" />
+    <None Remove="Bitmaps\LIMPET.bmp" />
+    <None Remove="Bitmaps\LPST.bmp" />
+    <None Remove="Bitmaps\MCV.bmp" />
+    <None Remove="Bitmaps\MEDIC.bmp" />
+    <None Remove="Bitmaps\MHIJACK.bmp" />
+    <None Remove="Bitmaps\MMCH.bmp" />
+    <None Remove="Bitmaps\MOBWARG.bmp" />
+    <None Remove="Bitmaps\MOBWARN.bmp" />
+    <None Remove="Bitmaps\MSTL.bmp" />
+    <None Remove="Bitmaps\MULTISPECIAL.bmp" />
+    <None Remove="Bitmaps\MUTANT.bmp" />
+    <None Remove="Bitmaps\MUTANT3.bmp" />
+    <None Remove="Bitmaps\MWAR.bmp" />
+    <None Remove="Bitmaps\M_EMP.bmp" />
+    <None Remove="Bitmaps\NAAPWR.bmp" />
+    <None Remove="Bitmaps\NAGATE_A.bmp" />
+    <None Remove="Bitmaps\NAGATE_B.bmp" />
+    <None Remove="Bitmaps\NAHAND.bmp" />
+    <None Remove="Bitmaps\NAHPAD.bmp" />
+    <None Remove="Bitmaps\NALASR.bmp" />
+    <None Remove="Bitmaps\NAMISL.bmp" />
+    <None Remove="Bitmaps\NAOBEL.bmp" />
+    <None Remove="Bitmaps\NAPOST.bmp" />
+    <None Remove="Bitmaps\NAPOWR.bmp" />
+    <None Remove="Bitmaps\NAPULS.bmp" />
+    <None Remove="Bitmaps\NARADR.bmp" />
+    <None Remove="Bitmaps\NASAM.bmp" />
+    <None Remove="Bitmaps\NASTLH.bmp" />
+    <None Remove="Bitmaps\NATECH.bmp" />
+    <None Remove="Bitmaps\NATMPL.bmp" />
+    <None Remove="Bitmaps\NAWALL.bmp" />
+    <None Remove="Bitmaps\NAWAST.bmp" />
+    <None Remove="Bitmaps\NAWEAP.bmp" />
+    <None Remove="Bitmaps\NHUNTER.bmp" />
+    <None Remove="Bitmaps\ORCA.bmp" />
+    <None Remove="Bitmaps\ORCAB.bmp" />
+    <None Remove="Bitmaps\ORCATRAN.bmp" />
+    <None Remove="Bitmaps\PICK.bmp" />
+    <None Remove="Bitmaps\PROC.bmp" />
+    <None Remove="Bitmaps\REAPER.bmp" />
+    <None Remove="Bitmaps\REPAIR.bmp" />
+    <None Remove="Bitmaps\SAPC.bmp" />
+    <None Remove="Bitmaps\SCRIN.bmp" />
+    <None Remove="Bitmaps\SGEN.bmp" />
+    <None Remove="Bitmaps\SMECH.bmp" />
+    <None Remove="Bitmaps\SONIC.bmp" />
+    <None Remove="Bitmaps\STNK.bmp" />
+    <None Remove="Bitmaps\SUBTANK.bmp" />
+    <None Remove="Bitmaps\TRNSPORT.bmp" />
+    <None Remove="Bitmaps\TRUCKA.bmp" />
+    <None Remove="Bitmaps\TTNK.bmp" />
+    <None Remove="Bitmaps\UMAGON.bmp" />
+    <None Remove="Bitmaps\VISC_LRG.bmp" />
+    <None Remove="Bitmaps\WEED.bmp" />
+    <None Remove="Bitmaps\WEEDGUY.bmp" />
+    <None Remove="Bitmaps\_BLANK.bmp" />
+    <None Remove="CSPlugins\Credits.txt" />
+    <None Remove="CSPlugins\CSCore.dll" />
+    <None Remove="CSPlugins\CSCore.Ffmpeg.dll" />
+    <None Remove="CSPlugins\FFmpeg\x64\avcodec-57.dll" />
+    <None Remove="CSPlugins\FFmpeg\x64\avformat-57.dll" />
+    <None Remove="CSPlugins\FFmpeg\x64\avutil-55.dll" />
+    <None Remove="CSPlugins\FFmpeg\x64\swresample-2.dll" />
+    <None Remove="CSPlugins\FFmpeg\x86\avcodec-57.dll" />
+    <None Remove="CSPlugins\FFmpeg\x86\avformat-57.dll" />
+    <None Remove="CSPlugins\FFmpeg\x86\avutil-55.dll" />
+    <None Remove="CSPlugins\FFmpeg\x86\swresample-2.dll" />
+    <None Remove="CSPlugins\taglib-sharp.dll" />
+    <None Remove="Resources\Datastructure.json" />
+    <None Remove="Resources\DTArules.ini" />
+    <None Remove="Resources\Games.json" />
+    <None Remove="Resources\Logos\dta-icon-24.png" />
+    <None Remove="Resources\Logos\MentalOmega-24.png" />
+    <None Remove="Resources\Logos\MO-foehn.png" />
+    <None Remove="Resources\Logos\RA2-Allies.png" />
+    <None Remove="Resources\Logos\ra2-icon-24.png" />
+    <None Remove="Resources\Logos\RA2-Soviet.png" />
+    <None Remove="Resources\Logos\TS-GDI.png" />
+    <None Remove="Resources\Logos\ts-icon-24.png" />
+    <None Remove="Resources\Logos\TS-Nod.png" />
+    <None Remove="Resources\Logos\yr-icon-24.png" />
+    <None Remove="Resources\MixFileEntries\ra2 mix description.txt" />
+    <None Remove="Resources\MixFileEntries\ra2 mm mix description.txt" />
+    <None Remove="Resources\MixFileEntries\td mix description.txt" />
+    <None Remove="Resources\MixFileEntries\ts mix description.txt" />
+    <None Remove="Resources\MOrules.ini" />
+    <None Remove="Resources\RA2MDrulesmd.ini" />
+    <None Remove="Resources\RA2rules.ini" />
+    <None Remove="Resources\startup.aud" />
+    <None Remove="Resources\startup1.aud" />
+    <None Remove="Resources\startup2.aud" />
+    <None Remove="Resources\startup3.aud" />
+    <None Remove="Resources\startup4.aud" />
+    <None Remove="Resources\startup5.aud" />
+    <None Remove="Resources\TSfirestrm.ini" />
+    <None Remove="Resources\TSrules.ini" />
+    <None Remove="Snippets\2 new Aircrafts %28GDI%29.ini" />
+    <None Remove="Snippets\2 new GDI Aircraft.ini" />
+    <None Remove="Snippets\2 new GDI Aircrafts.ini" />
+    <None Remove="Snippets\Boats.ini" />
+    <None Remove="Snippets\DawnOfTheTiberiumAge\readme.txt" />
+    <None Remove="Snippets\Hot Air Baloon %28GDI+NOD%29.ini" />
+    <None Remove="Snippets\Hot Air Baloon.ini" />
+    <None Remove="Snippets\MentalOmega\readme.txt" />
+    <None Remove="Snippets\Mobile Obelisk of light %28NOD%29.ini" />
+    <None Remove="Snippets\Naval Boats %28GDI+NOD%29.ini" />
+    <None Remove="Snippets\RedAlert2\readme.txt" />
+    <None Remove="Snippets\TiberianSun\readme.txt" />
+    <None Remove="Snippets\YurisRevenge\readme.txt" />
+    <None Remove="__ReadMe__.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Bitmaps\_BLANK.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CSPlugins\Credits.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CSPlugins\CSCore.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CSPlugins\CSCore.Ffmpeg.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CSPlugins\FFmpeg\x64\avcodec-57.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CSPlugins\FFmpeg\x64\avformat-57.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CSPlugins\FFmpeg\x64\avutil-55.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CSPlugins\FFmpeg\x64\swresample-2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CSPlugins\FFmpeg\x86\avcodec-57.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CSPlugins\FFmpeg\x86\avformat-57.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CSPlugins\FFmpeg\x86\avutil-55.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CSPlugins\FFmpeg\x86\swresample-2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CSPlugins\taglib-sharp.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\startup1.aud">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\startup2.aud">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\startup3.aud">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\startup4.aud">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\startup5.aud">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="__ReadMe__.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Datastructure.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\DTArules.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Games.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Logos\dta-icon-24.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Logos\MentalOmega-24.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Logos\MO-foehn.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Logos\RA2-Allies.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Logos\ra2-icon-24.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Logos\RA2-Soviet.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Logos\TS-GDI.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Logos\ts-icon-24.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Logos\TS-Nod.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Logos\yr-icon-24.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MixFileEntries\ra2 mix description.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MixFileEntries\ra2 mm mix description.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MixFileEntries\td mix description.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MixFileEntries\ts mix description.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MOrules.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\RA2MDrulesmd.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\RA2rules.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\TSfirestrm.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\TSrules.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Snippets\DawnOfTheTiberiumAge\readme.txt" />
+    <Content Include="Snippets\MentalOmega\readme.txt" />
+    <Content Include="Snippets\RedAlert2\readme.txt" />
+    <Content Include="Snippets\TiberianSun\readme.txt" />
+    <Content Include="Snippets\YurisRevenge\readme.txt" />
+    <Content Include="SUN.ICO" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AnimatedGif" Version="1.0.5" />
+    <PackageReference Include="Infragistics.WinForms.DataSource" Version="23.2.81" />
+    <PackageReference Include="Infragistics.WinForms.Editors" Version="23.2.81" />
+    <PackageReference Include="Infragistics.WinForms.ListView" Version="23.2.81" />
+    <PackageReference Include="Infragistics.WinForms.TabbedMdi" Version="23.2.81" />
+    <PackageReference Include="Infragistics.WinForms.TabControl" Version="23.2.81" />
+    <PackageReference Include="Infragistics.WinForms.Toolbars" Version="23.2.81" />
+    <PackageReference Include="Infragistics.WinForms.WinGrid" Version="23.2.81" />
+    <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="13.10.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Bitmaps\120MM.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Bitmaps\AP.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Bitmaps\BEACH.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Bitmaps\CLEAR.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Bitmaps\HOVERMISSILE.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Bitmaps\ICE.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Bitmaps\MECHRAILGUN.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Bitmaps\MINIGUN.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Bitmaps\RAILROAD.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Bitmaps\RAILSHOT.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Bitmaps\ROAD.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Bitmaps\ROCK.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Bitmaps\ROUGH.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Bitmaps\SA.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Bitmaps\SONICWARHEAD.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Bitmaps\SONICZAP.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Bitmaps\TIBERIUM.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Bitmaps\TUNNEL.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Bitmaps\WALL.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Bitmaps\WATER.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Bitmaps\WEEDS.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="call &quot;$(ProjectDir)CopyContent.bat&quot; &quot;$(ProjectDir)&quot; &quot;$(ProjectDir)$(OutDir)&quot;" />
+  </Target>
+
+  <ItemGroup>
+    <None Remove="C:\Users\esen\.nuget\packages\csaudioplayer\1.1.2\build\..\CSPlugins\taglib-sharp.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\esen\.nuget\packages\csaudioplayer\1.1.2\build\..\CSPlugins\FFmpeg\x86\swresample-2.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\esen\.nuget\packages\csaudioplayer\1.1.2\build\..\CSPlugins\FFmpeg\x86\avutil-55.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\esen\.nuget\packages\csaudioplayer\1.1.2\build\..\CSPlugins\FFmpeg\x86\avformat-57.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\esen\.nuget\packages\csaudioplayer\1.1.2\build\..\CSPlugins\FFmpeg\x86\avcodec-57.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\esen\.nuget\packages\csaudioplayer\1.1.2\build\..\CSPlugins\FFmpeg\x64\Readme.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\esen\.nuget\packages\csaudioplayer\1.1.2\build\..\CSPlugins\CSCore.Ffmpeg.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\esen\.nuget\packages\csaudioplayer\1.1.2\build\..\CSPlugins\CSCore.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\esen\.nuget\packages\csaudioplayer\1.1.2\build\..\CSPlugins\Credits.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Deniz.CCAudioPlayerCore\Deniz.CCAudioPlayerCore.csproj" />
+  </ItemGroup>
+
+</Project>

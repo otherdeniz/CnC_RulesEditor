@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <OutputType>Library</OutputType>
+    <ApplicationVersion>1.1.2.0</ApplicationVersion>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <FileVersion>1.1.2.0</FileVersion>
+    <Description>.NET component to play any type of audio %28and video%29 file to any sound card with a specific format.</Description>
+    <Copyright>Copyright © 2020</Copyright>
+    <Company>microncode.com</Company>
+    <AssemblyTitle>CSAudioPlayer</AssemblyTitle>
+    <Product>CSAudioPlayer</Product>
+    <AssemblyVersion>1.1.2.0</AssemblyVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="FfmpegDecoderEx.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CSAudioPlayer\Resources\Formats.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="CSCore">
+      <HintPath>CSPlugins\CSCore.dll</HintPath>
+    </Reference>
+    <Reference Include="CSCore.Ffmpeg">
+      <HintPath>CSPlugins\CSCore.Ffmpeg.dll</HintPath>
+    </Reference>
+    <Reference Include="taglib-sharp">
+      <HintPath>CSPlugins\taglib-sharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

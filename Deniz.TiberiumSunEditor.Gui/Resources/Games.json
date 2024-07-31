@@ -1,0 +1,159 @@
+{
+	"Games": [
+		{
+			"GameKey": "TiberianSun",
+			"Logo": "ts-icon-24.png",
+			"NewMenuLabel": "Tiberian Sun - Rules of Engagement",
+			"ResourcesDefaultIniFile": "TSrules.ini",
+			"IniNameMatchDetection": "Tiberian Sun -- Official Rules",
+			"SaveAsFilename": "rules.ini",
+			"GameExecutable": "ts-spawn.exe",
+			"SnippetsFolder": "TiberianSun",
+			"BitmapsFolders": "TS",
+			"MixFiles": "TIBSUN.MIX",
+			"Sides": [
+				{
+					"Name": "GDI",
+					"Logo": "TS-GDI.png"
+				},
+				{
+					"Name": "Nod",
+					"Logo": "TS-Nod.png"
+				}
+			]
+		},
+		{
+			"GameKey": "Firestorm",
+			"Logo": "ts-icon-24.png",
+			"NewMenuLabel": "Tiberian Sun - Firestorm Rules",
+			"ResourcesDefaultIniFile": "TSfirestrm.ini",
+			"IniNameMatchDetection": "Tiberian Sun - Firestorm",
+			"SaveAsFilename": "firestrm.ini",
+			"GameExecutable": "ts-spawn.exe",
+			"SnippetsFolder": "TiberianSun",
+			"BitmapsFolders": "TS",
+			"MixFiles": "TIBSUN.MIX",
+			"Sides": [
+				{
+					"Name": "GDI",
+					"Logo": "TS-GDI.png"
+				},
+				{
+					"Name": "Nod",
+					"Logo": "TS-Nod.png"
+				}
+			]
+		},
+		{
+			"GameKey": "DTA",
+			"Logo": "dta-icon-24.png",
+			"NewMenuLabel": "Dawn of the Tiberium Age",
+			"ResourcesDefaultIniFile": "DTArules.ini",
+			"IniNameMatchDetection": "Dawn of the Tiberium Age",
+			"SaveAsFilename": "Rules.ini",
+			"SaveAsRelativeToGameFolder": "INI\\Base",
+			"GameExecutable": "DTA.exe",
+			"SnippetsFolder": "DawnOfTheTiberiumAge",
+			"BitmapsFolders": "DTA",
+			"MixFiles": "TIBSUN.MIX",
+			"Sides": [
+				{
+					"Name": "GDI",
+					"Logo": "TS-GDI.png"
+				},
+				{
+					"Name": "Nod",
+					"Logo": "TS-Nod.png"
+				},
+				{
+					"Name": "Allies",
+					"Logo": "RA2-Allies.png"
+				},
+				{
+					"Name": "Soviet",
+					"Logo": "RA2-Soviet.png"
+				}
+			]
+		},
+		{
+			"GameKey": "RA2",
+			"Logo": "ra2-icon-24.png",
+			"NewMenuLabel": "Red Alert 2 - Rules of Engagement",
+			"NewMenuSeparator": true,
+			"ResourcesDefaultIniFile": "RA2rules.ini",
+			"IniNameMatchDetection": "Red Alert 2 -- Official Rules",
+			"SaveAsFilename": "rules.ini",
+			"GameExecutable": "Ra2.exe",
+			"SnippetsFolder": "RedAlert2",
+			"BitmapsFolders": "RA2",
+			"MixFiles": "ra2.mix,language.mix",
+			"Sides": [
+				{
+					"Name": "GDI",
+					"Logo": "RA2-Allies.png"
+				},
+				{
+					"Name": "Nod",
+					"Logo": "RA2-Soviet.png"
+				}
+			]
+		},
+		{
+			"GameKey": "RA2YR",
+			"Logo": "yr-icon-24.png",
+			"NewMenuLabel": "Red Alert 2 Yuri's Revenge - Rules of Engagement",
+			"ResourcesDefaultIniFile": "RA2MDrulesmd.ini",
+			"IniNameMatchDetection": "Yuri's Revenge",
+			"SaveAsFilename": "rulesmd.ini",
+			"GameExecutable": "RA2MD.exe",
+			"SnippetsFolder": "YurisRevenge",
+			"BitmapsFolders": "RA2,RA2MD",
+			"MixFiles": "ra2md.mix,ra2.mix,langmd.mix,language.mix",
+			"Sides": [
+				{
+					"Name": "GDI",
+					"Logo": "RA2-Allies.png"
+				},
+				{
+					"Name": "Nod",
+					"Logo": "RA2-Soviet.png"
+				},
+				{
+					"Name": "ThirdSide",
+					"Logo": "yr-icon-24.png"
+				}
+			]
+		},
+		{
+			"GameKey": "RA2MO",
+			"Logo": "MentalOmega-24.png",
+			"NewMenuLabel": "Red Alert 2 - Mental Omega",
+			"ResourcesDefaultIniFile": "MOrules.ini",
+			"ResourcesDescriptionIniFile": "RA2MDrulesmd.ini",
+			"IniNameMatchDetection": "Mental Omega",
+			"SaveAsFilename": "rulesmo.ini",
+			"GameExecutable": "MentalOmegaClient.exe",
+			"SnippetsFolder": "MentalOmega",
+			"BitmapsFolders": "MO,RA2,RA2MD,langmd.mix,language.mix",
+			"MixFiles": "ra2md.mix,ra2.mix",
+			"Sides": [
+				{
+					"Name": "GDI",
+					"Logo": "RA2-Allies.png"
+				},
+				{
+					"Name": "Nod",
+					"Logo": "RA2-Soviet.png"
+				},
+				{
+					"Name": "ThirdSide",
+					"Logo": "yr-icon-24.png"
+				},
+				{
+					"Name": "FourthSide",
+					"Logo": "MO-foehn.png"
+				}
+			]
+		}
+	]
+}
