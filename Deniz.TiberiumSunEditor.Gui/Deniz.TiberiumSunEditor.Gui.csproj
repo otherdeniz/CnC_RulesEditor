@@ -157,6 +157,8 @@
     <None Remove="Resources\Datastructure.json" />
     <None Remove="Resources\DTArules.ini" />
     <None Remove="Resources\Games.json" />
+    <None Remove="Resources\loading.pal" />
+    <None Remove="Resources\loading.shp" />
     <None Remove="Resources\Logos\dta-icon-24.png" />
     <None Remove="Resources\Logos\MentalOmega-24.png" />
     <None Remove="Resources\Logos\MO-foehn.png" />
@@ -236,6 +238,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="CSPlugins\taglib-sharp.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\loading.pal">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\loading.shp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\startup1.aud">

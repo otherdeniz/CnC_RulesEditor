@@ -1,6 +1,7 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Model;
 using System.ComponentModel;
 using System.Drawing.Imaging;
+using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls
@@ -14,6 +15,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private bool _isSelected;
         private Bitmap? _unitPicture;
         private Bitmap? _selectedUnitPicture;
+        private AnimationRequirementToken? _animationRequirementToken;
 
         public UnitPickerControl()
         {
@@ -48,7 +50,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 _isSelected = value;
                 BackgroundImage = _isSelected
-                    ? (_selectedUnitPicture ??= UnitPictureGenerator.Instance.GetUnitPicture(_entityModel!, true, out _))
+                    ? (_selectedUnitPicture ??= UnitPictureGenerator.Instance.GetUnitPicture(_entityModel!, true, null, out _))
                     : _unitPicture;
             }
         }
@@ -57,8 +59,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         {
             _entityModel = entityModel;
             _entityModel.FileSection.ValueChanged += FileSectionOnValueChanged;
-            _unitPicture = UnitPictureGenerator.Instance.GetUnitPicture(entityModel, false, out var thumbnailImage);
-            LoadAnimatedThumbnail(thumbnailImage);
+            _unitPicture = UnitPictureGenerator.Instance.GetUnitPicture(entityModel, false, LoadAnimatedThumbnail, out var requirementToken);
+            _animationRequirementToken = requirementToken;
             BackgroundImage = _unitPicture;
             RefreshModifications();
             RefreshIsFavorite();
@@ -67,13 +69,18 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private void FileSectionOnValueChanged(object? sender, IniFileSectionChangedEventArgs e)
         {
             if (e.Key == "Owner"
-                || e.Key == "AnimList")
+                || e.Key == "AnimList"
+                || e.Key == "Name")
             {
                 _selectedUnitPicture = null;
-                _unitPicture = UnitPictureGenerator.Instance.GetUnitPicture(_entityModel!, false, out var thumbnailImage);
-                LoadAnimatedThumbnail(thumbnailImage);
+                if (_animationRequirementToken != null)
+                {
+                    _animationRequirementToken.StillNeeded = false;
+                }
+                _unitPicture = UnitPictureGenerator.Instance.GetUnitPicture(_entityModel!, false, LoadAnimatedThumbnail, out var requirementToken);
+                _animationRequirementToken = requirementToken;
                 BackgroundImage = _isSelected
-                    ? (_selectedUnitPicture = UnitPictureGenerator.Instance.GetUnitPicture(_entityModel!, true, out _))
+                    ? (_selectedUnitPicture = UnitPictureGenerator.Instance.GetUnitPicture(_entityModel!, true, null, out _))
                     : _unitPicture;
             }
         }
@@ -150,6 +157,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             _unitPicture = null;
             _selectedUnitPicture?.Dispose();
             _selectedUnitPicture = null;
+            if (_animationRequirementToken != null)
+            {
+                _animationRequirementToken.StillNeeded = false;
+            }
         }
 
         private void pictureFavorite_Click(object sender, EventArgs e)

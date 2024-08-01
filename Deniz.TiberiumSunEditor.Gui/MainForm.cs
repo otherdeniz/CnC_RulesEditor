@@ -149,6 +149,7 @@ namespace Deniz.TiberiumSunEditor.Gui
         private void LoadFile(IniFile iniFile)
         {
             Cursor = Cursors.WaitCursor;
+            AnimationsAsyncLoader.Instance.Stop(true, true);
             _editMainControl = null;
             mainToolbarsManager.Tools["SaveAs"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["OnlyFavorites"].SharedProps.Enabled = false;
@@ -183,9 +184,11 @@ namespace Deniz.TiberiumSunEditor.Gui
                 return;
             }
             CCGameRepository.Instance.Initialise(fileType.GameDefinition.GetUserGamePath(),
-                fileType.GameDefinition.MixFiles);
+                fileType.GameDefinition.IsCustomMod
+                    ? null
+                    : fileType.GameDefinition.MixFiles);
             BitmapRepository.Instance.Initialise(fileType.GetBitmapSubFolders());
-            var rootModel = new RootModel(iniFile, fileType, showMissingValues:true);
+            var rootModel = new RootModel(iniFile, fileType, showMissingValues: true);
             rootModel.InitialiseLookupItems();
             _editMainControl = new RulesEditMainControl()
             {
@@ -200,6 +203,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["ExportChanges"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = true;
+            AnimationsAsyncLoader.Instance.Start();
             Cursor = Cursors.Default;
         }
 
@@ -308,8 +312,14 @@ namespace Deniz.TiberiumSunEditor.Gui
             Left = left < 250 ? left : 250;
             Height = formHeight;
             Width = formWidth;
+            AnimationsAsyncLoader.Instance.InitialiseUiSyncContext();
             var audStream = ResourcesRepository.Instance.ReadRandomResourcesFileStream("startup*.aud");
             AudioPlayerService.PlaySound(StupidStream.FromFileStream(audStream));
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            AnimationsAsyncLoader.Instance.Stop(false, true);
         }
 
         private void mainToolbarsManager_ToolValueChanged(object sender, ToolEventArgs e)
@@ -319,5 +329,6 @@ namespace Deniz.TiberiumSunEditor.Gui
                 SearchValues(((TextBoxTool)e.Tool).Text);
             }
         }
+
     }
 }

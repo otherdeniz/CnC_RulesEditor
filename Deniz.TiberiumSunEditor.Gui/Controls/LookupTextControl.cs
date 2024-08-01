@@ -16,6 +16,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private bool _doEvents;
         private UltraGridRow? _hoverRow;
         private List<GameEntityModel>? _lookupEntities;
+        private AnimationRequirementToken? _popupAnimationAsyncLoadToken;
 
         public LookupTextControl()
         {
@@ -217,16 +218,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     ClosePopup();
                     if (!string.IsNullOrEmpty(key))
                     {
-                        var animationImage = CCGameRepository.Instance.GetAnimationsImage(key);
-                        if (animationImage != null)
+                        var popupPosition = new Point(
+                            hoverRow.RectInsideBorders.X + Width - 98,
+                            hoverRow.RectInsideBorders.Y + hoverRow.Row.Height + 1);
+                        pictureThumbnail.Location = popupPosition;
+                        pictureThumbnail.Image = BitmapRepository.Instance.BlankImage;
+                        pictureThumbnail.Visible = true;
+                        _popupAnimationAsyncLoadToken = AnimationsAsyncLoader.Instance.LoadAnimation(key, img =>
                         {
-                            var popupPosition = new Point(
-                                hoverRow.RectInsideBorders.X + Width - 98,
-                                hoverRow.RectInsideBorders.Y + hoverRow.Row.Height + 1);
-                            pictureThumbnail.Location = popupPosition;
-                            pictureThumbnail.Image = animationImage;
-                            pictureThumbnail.Visible = true;
-                        }
+                            pictureThumbnail.Image = img;
+                        });
                     }
                     break;
                 default:
@@ -240,8 +241,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                         if (entityThumbnail != null)
                         {
                             pictureThumbnail.Location = popupPosition;
-                            pictureThumbnail.Image = entityThumbnail;
+                            pictureThumbnail.Image = entityThumbnail.Image;
                             pictureThumbnail.Visible = true;
+                            if (entityThumbnail.Kind == ThumbnailKind.Animation)
+                            {
+                                _popupAnimationAsyncLoadToken = entityThumbnail.LoadAnimationAsync(img =>
+                                {
+                                    pictureThumbnail.Image = img;
+                                });
+                            }
                         }
                     }
                     break;
@@ -251,6 +259,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private void ClosePopup()
         {
             pictureThumbnail.Visible = false;
+            if (_popupAnimationAsyncLoadToken != null)
+            {
+                _popupAnimationAsyncLoadToken.StillNeeded = false;
+                _popupAnimationAsyncLoadToken = null;
+            }
         }
 
         private void valuesGrid_AfterSelectChange(object sender, AfterSelectChangeEventArgs e)

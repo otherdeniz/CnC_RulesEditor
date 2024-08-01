@@ -14,6 +14,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
 
         public string LogoFile { get; set; } = "";
 
+        public string? RulesIniMixSource { get; set; }
+
         public string RulesIniPath { get; set; } = "";
 
         public string IniNameMatchDetection { get; set; } = "";

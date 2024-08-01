@@ -9,6 +9,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         private List<GameDefinition> _gameDefinitions = null!;
         private Image? _selectedImage;
         private bool _doEvents = true;
+        private GameTypeDetector? _gameTypeDetector;
 
         public NewCustomModForm()
         {
@@ -68,10 +69,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             CurrentModSetting = customModSetting;
             _doEvents = false;
             textName.Text = customModSetting.Name;
-            comboBoxGameType.SelectedIndex = _gameDefinitions.FindIndex(g => g.GameKey == customModSetting.BaseGameKey);
+            var gameDefinitionIndex = _gameDefinitions.FindIndex(g => g.GameKey == customModSetting.BaseGameKey);
+            SelectedGameDefinition = _gameDefinitions[gameDefinitionIndex];
+            comboBoxGameType.SelectedIndex = gameDefinitionIndex;
             textGamePath.Text = customModSetting.GamePath;
             IconImagePath = customModSetting.LogoFile;
             SelectedImage = LogoRepository.Instance.GetLogo(IconImagePath);
+            _gameTypeDetector = new GameTypeDetector(customModSetting.GamePath);
+            LoadRulesIniSources();
             _doEvents = true;
         }
 
@@ -79,7 +84,42 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         {
             buttonOk.Enabled = !string.IsNullOrEmpty(textName.Text)
                                && !string.IsNullOrEmpty(textGamePath.Text)
-                               && SelectedGameDefinition != null;
+                               && SelectedGameDefinition != null
+                               && comboBoxRulesIni.SelectedIndex > -1;
+        }
+
+        private void LoadRulesIniSources()
+        {
+            comboBoxRulesIni.Items.Clear();
+            if (_gameTypeDetector == null) return;
+            if (!string.IsNullOrEmpty(_gameTypeDetector.GameDirectory))
+            {
+                foreach (var iniFolderRule in _gameTypeDetector.IniFolderRules())
+                {
+                    comboBoxRulesIni.Items.Add(iniFolderRule);
+                    if (CurrentModSetting?.RulesIniPath == iniFolderRule)
+                    {
+                        comboBoxRulesIni.SelectedIndex = comboBoxRulesIni.Items.Count - 1;
+                    }
+
+                }
+            }
+            if (SelectedGameDefinition != null)
+            {
+                foreach (var mixFileContent in _gameTypeDetector.FileManager.MixFilesContents.Where(c => c.FileName == SelectedGameDefinition.SaveAsFilename))
+                {
+                    var mixContentPath = mixFileContent.ToString();
+                    comboBoxRulesIni.Items.Add(mixContentPath);
+                    if (CurrentModSetting?.RulesIniMixSource == mixContentPath)
+                    {
+                        comboBoxRulesIni.SelectedIndex = comboBoxRulesIni.Items.Count - 1;
+                    }
+                }
+            }
+            if (comboBoxRulesIni.SelectedIndex == -1)
+            {
+                comboBoxRulesIni.SelectedIndex = 0;
+            }
         }
 
         private void textName_TextChanged(object sender, EventArgs e)
@@ -103,13 +143,20 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         {
             if (folderBrowserDialog.ShowDialog(this) == DialogResult.OK)
             {
-                if (!File.Exists(Path.Combine(folderBrowserDialog.SelectedPath, @"INI\rules.ini")))
-                {
-                    MessageBox.Show(@"The selected Directory does not contain the mandatory mod-file: 'INI\rules.ini'",
-                        "Not supported mod", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
                 textGamePath.Text = folderBrowserDialog.SelectedPath;
+                _gameTypeDetector = new GameTypeDetector(folderBrowserDialog.SelectedPath);
+                if (_gameTypeDetector.BaseType != null)
+                {
+                    comboBoxGameType.SelectedIndex =
+                        _gameDefinitions.FindIndex(g => g.GameKey == _gameTypeDetector.BaseType.GameKey);
+                }
+                var clientLogoPath = _gameTypeDetector.GetClientLogoPath();
+                if (clientLogoPath != null)
+                {
+                    SelectedImage = LogoRepository.Instance.GetLogo(clientLogoPath);
+                    IconImagePath = clientLogoPath;
+                }
+                LoadRulesIniSources();
             }
         }
 
@@ -136,13 +183,28 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             {
                 CurrentModSetting = new CustomModSetting
                 {
-                    Key = Guid.NewGuid().ToString("N"),
-                    RulesIniPath = @"INI\rules.ini"
+                    Key = Guid.NewGuid().ToString("N")
                 };
             }
             CurrentModSetting.Name = textName.Text;
             CurrentModSetting.BaseGameKey = SelectedGameDefinition!.GameKey;
             CurrentModSetting.GamePath = textGamePath.Text;
+            var selectedRulesIni = (string)comboBoxRulesIni.SelectedItem;
+            if (selectedRulesIni.Contains(":"))
+            {
+                // mix content
+                CurrentModSetting.RulesIniMixSource = selectedRulesIni;
+                var mixFileContent =
+                    _gameTypeDetector!.FileManager.MixFilesContents.First(c =>
+                        c.ToString() == selectedRulesIni);
+                CurrentModSetting.RulesIniPath = UserSettingsFolder.Instance
+                    .SaveFile($"{CurrentModSetting.Key}.ini", mixFileContent.Read()); 
+            }
+            else
+            {
+                CurrentModSetting.RulesIniMixSource = null;
+                CurrentModSetting.RulesIniPath = selectedRulesIni;
+            }
             if (IconImagePath != null)
             {
                 CurrentModSetting.LogoFile = IconImagePath;
@@ -150,7 +212,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             var nameValue = CurrentModSetting.LoadRulesIniFile().GetSection("General")?.GetValue("Name")?.Value;
             if (nameValue == null)
             {
-                MessageBox.Show(@"The selected mod rules.ini file (INI\rules.ini) does not have a 'name' value in the 'General' section",
+                MessageBox.Show(@"The selected mod rules.ini file does not have a 'name' value in the 'General' section",
                     "Not supported mod", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }

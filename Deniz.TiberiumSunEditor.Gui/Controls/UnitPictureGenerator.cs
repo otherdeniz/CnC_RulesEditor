@@ -14,15 +14,39 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             InitializeComponent();
         }
 
-        public Bitmap GetUnitPicture(GameEntityModel entityModel, bool isSelected, out Image thumbnailImage)
+        public Bitmap GetUnitPicture(GameEntityModel entityModel, 
+            bool isSelected, 
+            Action<Image>? afterAnimationLoad, 
+            out AnimationRequirementToken? animationRequirementToken)
+        {
+            var entityThumbnail = entityModel.Thumbnail;
+            if (entityThumbnail == null)
+            {
+                animationRequirementToken = null;
+                return GenerateUnitPicture(entityModel, isSelected, BitmapRepository.Instance.BlankImage);
+            }
+            if (entityThumbnail.Kind == ThumbnailKind.Image)
+            {
+                animationRequirementToken = null;
+                return GenerateUnitPicture(entityModel, isSelected, entityThumbnail.Image);
+            }
+            if (afterAnimationLoad != null)
+            {
+                animationRequirementToken = entityThumbnail.LoadAnimationAsync(afterAnimationLoad);
+            }
+            else
+            {
+                animationRequirementToken = null;
+            }
+            return GenerateUnitPicture(entityModel, isSelected, entityThumbnail.Image);
+        }
+
+        private Bitmap GenerateUnitPicture(GameEntityModel entityModel, bool isSelected, Image thumbnailImage)
         {
             BackColor = isSelected
                 ? Color.LightSkyBlue
                 : Color.White;
-            var entityThumbnail = entityModel.Thumbnail
-                                     ?? BitmapRepository.Instance.BlankImage;
-            thumbnailImage = entityThumbnail;
-            pictureThumbnail.Image = entityThumbnail;
+            pictureThumbnail.Image = thumbnailImage;
             labelKey.Text = entityModel.EntityKey;
             labelName.Text = entityModel.EntityName;
             var bitmap = new Bitmap(ImageListComponent.Instance.Blank1.Images[0], Width, Height);

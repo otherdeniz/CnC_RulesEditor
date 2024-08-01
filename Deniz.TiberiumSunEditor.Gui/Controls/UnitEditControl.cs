@@ -95,8 +95,19 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             EntityModel = entityModel;
             labelName.Text = entityModel.EntityName;
             labelKey.Text = entityModel.EntityKey;
-            pictureThumbnail.Image = EntityModel!.Thumbnail
-                                     ?? BitmapRepository.Instance.BlankImage;
+            if (EntityModel!.Thumbnail?.Kind == ThumbnailKind.Animation)
+            {
+                pictureThumbnail.Image = BitmapRepository.Instance.BlankImage;
+                EntityModel!.Thumbnail.LoadAnimationAsync(img =>
+                {
+                    pictureThumbnail.Image = img;
+                });
+            }
+            else
+            {
+                pictureThumbnail.Image = EntityModel!.Thumbnail?.Image
+                                         ?? BitmapRepository.Instance.BlankImage;
+            }
             ButtonCloseValue_Click(this, EventArgs.Empty);
             RefreshModifications();
             RefreshIsFavorite();

@@ -106,7 +106,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             _selectedModel = entityModel;
             labelKey.Text = entityModel.EntityKey;
             textBoxName.Text = entityModel.EntityName;
-            pictureThumbnail.Image = entityModel.Thumbnail
+            pictureThumbnail.Image = entityModel.Thumbnail?.Image
                                      ?? BitmapRepository.Instance.BlankImage;
             valuesGrid.DataSource = entityModel.FileSection.KeyValues;
             valuesGrid.DisplayLayout.Bands[0].Columns["Key"].CellAppearance.BackColor = Color.FromArgb(230, 230, 230);

@@ -15,6 +15,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
             _customGamePath = customGamePath;
         }
 
+        public bool IsCustomMod => _customGamePath != null;
+
         public string GameKey { get; set; } = "";
 
         public string Logo { get; set; } = "";

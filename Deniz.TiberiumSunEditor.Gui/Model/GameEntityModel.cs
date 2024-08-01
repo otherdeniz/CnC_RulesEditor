@@ -63,7 +63,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             }
         }
 
-        public Image? Thumbnail
+        public ThumbnailModel? Thumbnail
         {
             get
             {
@@ -72,7 +72,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                     var animKeys = FileSection.GetValue("AnimList")?.Value;
                     if (!string.IsNullOrEmpty(animKeys))
                     {
-                        return CCGameRepository.Instance.GetAnimationsImage(animKeys);
+                        return new ThumbnailModel(animKeys);
                     }
                     return null;
                 }
@@ -84,7 +84,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                         var animKeys = RootModel.FindSection(warheadValue)?.GetValue("AnimList")?.Value;
                         if (!string.IsNullOrEmpty(animKeys))
                         {
-                            return CCGameRepository.Instance.GetAnimationsImage(animKeys);
+                            return new ThumbnailModel(animKeys);
                         }
                         return null;
                     }
@@ -95,8 +95,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                     imageKey = EntityKey;
                 }
 
-                return CCGameRepository.Instance.GetCameo(imageKey)
-                    ?? BitmapRepository.Instance.GetBitmap(imageKey);
+                var image = CCGameRepository.Instance.GetCameo(imageKey)
+                            ?? BitmapRepository.Instance.GetBitmap(imageKey);
+                return image != null 
+                    ? new ThumbnailModel(image) 
+                    : null;
             }
         }
 

@@ -84,41 +84,45 @@
             // 
             // labelKey
             // 
+            labelKey.AutoSize = true;
             labelKey.BackColor = Color.Transparent;
             labelKey.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             labelKey.Location = new Point(89, 2);
             labelKey.Margin = new Padding(4, 0, 4, 0);
             labelKey.Name = "labelKey";
-            labelKey.Size = new Size(292, 21);
+            labelKey.Size = new Size(45, 19);
             labelKey.TabIndex = 2;
             labelKey.Text = "4TNK";
             // 
             // labelName
             // 
+            labelName.AutoSize = true;
             labelName.BackColor = Color.Transparent;
             labelName.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             labelName.Location = new Point(89, 23);
             labelName.Margin = new Padding(4, 0, 4, 0);
             labelName.Name = "labelName";
-            labelName.Size = new Size(456, 21);
+            labelName.Size = new Size(105, 19);
             labelName.TabIndex = 2;
             labelName.Text = "Mammoth Tank";
             // 
             // labelModifications
             // 
+            labelModifications.AutoSize = true;
             labelModifications.BackColor = Color.Transparent;
             labelModifications.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             labelModifications.Location = new Point(89, 45);
             labelModifications.Margin = new Padding(4, 0, 4, 0);
             labelModifications.Name = "labelModifications";
-            labelModifications.Size = new Size(175, 21);
+            labelModifications.Size = new Size(89, 15);
             labelModifications.TabIndex = 3;
             labelModifications.Text = "0 Modifications";
             // 
             // pictureBoxFavorite
             // 
+            pictureBoxFavorite.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             pictureBoxFavorite.Cursor = Cursors.Hand;
-            pictureBoxFavorite.Location = new Point(207, 6);
+            pictureBoxFavorite.Location = new Point(166, 6);
             pictureBoxFavorite.Margin = new Padding(4, 3, 4, 3);
             pictureBoxFavorite.Name = "pictureBoxFavorite";
             pictureBoxFavorite.Size = new Size(56, 55);
@@ -128,12 +132,12 @@
             // 
             // panelTop
             // 
-            panelTop.Controls.Add(pictureBoxUnitPreview);
             panelTop.Controls.Add(panelTopRight);
             panelTop.Controls.Add(labelModifications);
             panelTop.Controls.Add(labelName);
             panelTop.Controls.Add(labelKey);
             panelTop.Controls.Add(pictureThumbnail);
+            panelTop.Controls.Add(pictureBoxUnitPreview);
             panelTop.Dock = DockStyle.Top;
             panelTop.Location = new Point(0, 0);
             panelTop.Margin = new Padding(4, 3, 4, 3);
@@ -156,16 +160,16 @@
             panelTopRight.Controls.Add(ButtonCopy);
             panelTopRight.Controls.Add(pictureBoxFavorite);
             panelTopRight.Dock = DockStyle.Right;
-            panelTopRight.Location = new Point(477, 0);
+            panelTopRight.Location = new Point(518, 0);
             panelTopRight.Margin = new Padding(4, 3, 4, 3);
             panelTopRight.Name = "panelTopRight";
-            panelTopRight.Size = new Size(270, 69);
+            panelTopRight.Size = new Size(229, 69);
             panelTopRight.TabIndex = 4;
             // 
             // ButtonDelete
             // 
             ButtonDelete.Image = (Image)resources.GetObject("ButtonDelete.Image");
-            ButtonDelete.Location = new Point(32, 34);
+            ButtonDelete.Location = new Point(3, 34);
             ButtonDelete.Name = "ButtonDelete";
             ButtonDelete.Size = new Size(142, 27);
             ButtonDelete.TabIndex = 6;
@@ -179,7 +183,7 @@
             // ButtonCopy
             // 
             ButtonCopy.Image = (Image)resources.GetObject("ButtonCopy.Image");
-            ButtonCopy.Location = new Point(32, 6);
+            ButtonCopy.Location = new Point(3, 6);
             ButtonCopy.Name = "ButtonCopy";
             ButtonCopy.Size = new Size(142, 27);
             ButtonCopy.TabIndex = 5;
@@ -366,6 +370,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureThumbnail).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxFavorite).EndInit();
             panelTop.ResumeLayout(false);
+            panelTop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxUnitPreview).EndInit();
             panelTopRight.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)valuesGrid).EndInit();

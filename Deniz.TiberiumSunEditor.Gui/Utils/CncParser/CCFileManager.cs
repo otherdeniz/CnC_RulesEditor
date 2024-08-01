@@ -29,6 +29,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
         /// </summary>
         public Dictionary<uint, FileLocationInfo> FileLocationInfos { get; } = new();
 
+        public List<MixFileContent> MixFilesContents { get; } = new();
+
         /// <summary>
         /// List of all MIX files that have been registered with the file manager.
         /// </summary>
@@ -87,13 +89,17 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
             return false;
         }
 
-        public void LoadAllMixFilesInDirectory(string gameSubFolder, bool loadRecursive)
+        public void LoadAllMixFilesInDirectory(string? gameSubFolder, bool loadRecursive)
         {
-            var directoryPath = Path.Combine(GameDirectory, gameSubFolder);
+            var directoryPath = gameSubFolder == null
+                ? GameDirectory
+                : Path.Combine(GameDirectory, gameSubFolder);
             if (!Directory.Exists(directoryPath)) return;
             foreach (var filePath in Directory.GetFiles(directoryPath, "*.mix"))
             {
-                var mixFile = new MixFile(Path.GetFileName(filePath));
+                var fileName = Path.GetFileName(filePath);
+                if (fileName.Contains("movie")) continue;
+                var mixFile = new MixFile(fileName);
                 mixFile.Parse(filePath);
                 AddMix(mixFile);
                 if (loadRecursive)
@@ -106,13 +112,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
         private void LoadMixFileRecursive(MixFile parentFile)
         {
             foreach (var subMix in parentFile.GetFileContents().Where(f => 
-                         f.EndsWith(".mix")
-                         && !f.Contains("movie")))
+                         f.FileName?.EndsWith(".mix") == true
+                         && f.FileName.Contains("movie") == false))
             {
-                uint subMixId = MixFile.GetFileID(subMix);
-                if (FileLocationInfos.TryGetValue(subMixId, out FileLocationInfo value))
+                if (FileLocationInfos.TryGetValue(subMix.Id, out FileLocationInfo value))
                 {
-                    var mixFile = new MixFile(subMix, value.MixFile, value.Offset);
+                    var mixFile = new MixFile(subMix.FileName!, value.MixFile, value.Offset);
                     mixFile.Parse();
                     AddMix(mixFile);
                 }
@@ -164,6 +169,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
 
                 FileLocationInfos[fileEntry.Identifier] = new FileLocationInfo(mixFile, fileEntry.Offset, fileEntry.Size);
             }
+
+            mixFile.GetFileContents().ForEach(MixFilesContents.Add);
+
         }
 
         /// <summary>

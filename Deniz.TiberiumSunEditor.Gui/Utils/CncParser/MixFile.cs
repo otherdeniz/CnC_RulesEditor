@@ -12,7 +12,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
 
         private readonly MixFile? _masterMix; // The MIX file that this MIX file resides in, if any.
         private readonly object _locker = new object();
-        private List<string>? _contentList;
+        private List<MixFileContent>? _contentList;
         private int _bodyOffset;
         private Stream _stream;
 
@@ -44,6 +44,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
         public string FilePath { get; private set; }
 
         public List<MixFileEntry> Entries { get; private set; }
+
+        public MixFile? MasterMix => _masterMix;
 
         /// <summary>
         /// Reads MIX file information from a MIX file in the given file system path.
@@ -144,14 +146,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
             return Entries.FirstOrDefault(e => e.Identifier == id);
         }
 
-        public List<string> GetFileContents()
+        public List<MixFileContent> GetFileContents()
         {
             if (_contentList != null)
             {
                 return _contentList;
             }
 
-            _contentList = new List<string>();
+            _contentList = new List<MixFileContent>();
             var localMixDbId = GetFileID("local mix database.dat");
             var localMixDbEntry = GetEntry(localMixDbId);
             if (localMixDbEntry != null)
@@ -167,7 +169,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
                         if (entryBuffer.Count > 0)
                         {
                             // read entry
-                            _contentList.Add(Encoding.UTF8.GetString(entryBuffer.ToArray()));
+                            var fileName = Encoding.UTF8.GetString(entryBuffer.ToArray());
+                            var entry = Entries.FirstOrDefault(e => e.Identifier == GetFileID(fileName));
+                            if (entry != null)
+                            {
+                                _contentList.Add(new MixFileContent(entry.Identifier, fileName, 
+                                    new FileLocationInfo(this, entry.Offset, entry.Size)));
+                            }
                         }
                         entryBuffer = new List<byte>();
                     }
@@ -180,8 +188,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
             else
             {
                 _contentList = Entries
-                    .Select(e => MixEntryNames.Instance.GetName(e.Identifier))
-                    .Where(n => !string.IsNullOrEmpty(n))
+                    .Select(e => new MixFileContent(e.Identifier, MixEntryNames.Instance.GetName(e.Identifier), 
+                        new FileLocationInfo(this, e.Offset, e.Size)))
+                    .Where(n => !string.IsNullOrEmpty(n.FileName))
                     .ToList();
             }
 

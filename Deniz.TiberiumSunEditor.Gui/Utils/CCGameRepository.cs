@@ -16,6 +16,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
         private readonly Dictionary<string, ImageTools.AnimatedGifImage?> _animationsCache = new();
         private readonly Dictionary<string, ImageTools.AnimatedGifImage?> _infantryAnimationsCache = new();
         private readonly int _cameoBrightnesPercent = 380;
+        private readonly int _animationMaxWidth = 240;
         private CCFileManager? _fileManager;
         private IniFile? _artIniFile;
         private IniFile? _soundIniFile;
@@ -42,17 +43,26 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             _infantryAnimationsCache.Clear();
             _fileManager = null;
             if (!string.IsNullOrEmpty(gameDirectory) 
-                && Directory.Exists(gameDirectory)
-                && !string.IsNullOrEmpty(mixFiles))
+                && Directory.Exists(gameDirectory))
             {
                 _fileManager = new CCFileManager(gameDirectory);
-                foreach (var mixFile in mixFiles.Split(","))
+                if (mixFiles == null)
                 {
-                    _fileManager.LoadMixFile(mixFile, true);
+                    // load all MIX files in root
+                    _fileManager.LoadAllMixFilesInDirectory(null, true);
+                }
+                else
+                {
+                    // load only specified mix files in root
+                    foreach (var mixFile in mixFiles.Split(","))
+                    {
+                        _fileManager.LoadMixFile(mixFile, true);
+                    }
                 }
                 _fileManager.LoadAllMixFilesInDirectory("MIX", true);
 
-                var artIniBytes = _fileManager.LoadFile("art.ini");
+                var artIniBytes = _fileManager.LoadFile("artmd.ini") 
+                                  ?? _fileManager.LoadFile("art.ini");
                 _artIniFile = artIniBytes != null
                     ? IniFile.Load(artIniBytes)
                     : null;
@@ -178,7 +188,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                 {
                     var shpFile = new ShpFile(shpName);
                     shpFile.ParseFromBuffer(shpData);
-                    if (shpFile.FrameCount > 1)
+                    if (shpFile.FrameCount > 1 && shpFile.Width <= _animationMaxWidth)
                     {
                         var blankImage = BitmapRepository.Instance.BlankImage;
                         animationFrames.Add(new Bitmap(blankImage, new Size(blankImage.Width, blankImage.Height)));
@@ -222,7 +232,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             {
                 var shpFile = new ShpFile(shpName);
                 shpFile.ParseFromBuffer(shpData);
-                if (shpFile.FrameCount > 1)
+                if (shpFile.FrameCount > 1 && shpFile.Width <= _animationMaxWidth)
                 {
                     var blankImage = BitmapRepository.Instance.WhiteImage;
                     animationFrames.Add(new Bitmap(blankImage, new Size(blankImage.Width, blankImage.Height)));

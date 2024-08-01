@@ -290,6 +290,7 @@
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "C&C Rules Editor";
+            FormClosing += MainForm_FormClosing;
             Load += MainForm_Load;
             ((System.ComponentModel.ISupportInitialize)mainToolbarsManager).EndInit();
             MainForm_Fill_Panel.ResumeLayout(false);

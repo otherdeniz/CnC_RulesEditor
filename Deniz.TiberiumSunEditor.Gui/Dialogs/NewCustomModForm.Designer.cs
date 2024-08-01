@@ -44,6 +44,8 @@
             buttonIcon = new Button();
             folderBrowserDialog = new FolderBrowserDialog();
             openFileIcon = new OpenFileDialog();
+            label5 = new Label();
+            comboBoxRulesIni = new ComboBox();
             panelBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxIcon).BeginInit();
             SuspendLayout();
@@ -90,7 +92,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 50);
+            label1.Location = new Point(12, 15);
             label1.Name = "label1";
             label1.Size = new Size(42, 15);
             label1.TabIndex = 3;
@@ -99,7 +101,7 @@
             // textName
             // 
             textName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textName.Location = new Point(109, 47);
+            textName.Location = new Point(109, 12);
             textName.Name = "textName";
             textName.Size = new Size(393, 23);
             textName.TabIndex = 0;
@@ -110,7 +112,7 @@
             comboBoxGameType.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             comboBoxGameType.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxGameType.FormattingEnabled = true;
-            comboBoxGameType.Location = new Point(109, 76);
+            comboBoxGameType.Location = new Point(109, 71);
             comboBoxGameType.Name = "comboBoxGameType";
             comboBoxGameType.Size = new Size(393, 23);
             comboBoxGameType.TabIndex = 1;
@@ -119,7 +121,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(12, 79);
+            label2.Location = new Point(12, 74);
             label2.Name = "label2";
             label2.Size = new Size(61, 15);
             label2.TabIndex = 13;
@@ -128,7 +130,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(12, 21);
+            label3.Location = new Point(12, 44);
             label3.Name = "label3";
             label3.Size = new Size(68, 15);
             label3.TabIndex = 3;
@@ -137,7 +139,7 @@
             // textGamePath
             // 
             textGamePath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textGamePath.Location = new Point(109, 18);
+            textGamePath.Location = new Point(109, 41);
             textGamePath.Name = "textGamePath";
             textGamePath.ReadOnly = true;
             textGamePath.Size = new Size(369, 23);
@@ -148,7 +150,7 @@
             // 
             buttonPath.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonPath.Image = (Image)resources.GetObject("buttonPath.Image");
-            buttonPath.Location = new Point(478, 18);
+            buttonPath.Location = new Point(478, 41);
             buttonPath.Name = "buttonPath";
             buttonPath.Size = new Size(24, 24);
             buttonPath.TabIndex = 1;
@@ -159,7 +161,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(12, 109);
+            label4.Location = new Point(12, 104);
             label4.Name = "label4";
             label4.Size = new Size(33, 15);
             label4.TabIndex = 13;
@@ -168,7 +170,7 @@
             // pictureBoxIcon
             // 
             pictureBoxIcon.BorderStyle = BorderStyle.FixedSingle;
-            pictureBoxIcon.Location = new Point(109, 105);
+            pictureBoxIcon.Location = new Point(109, 100);
             pictureBoxIcon.Name = "pictureBoxIcon";
             pictureBoxIcon.Size = new Size(26, 26);
             pictureBoxIcon.SizeMode = PictureBoxSizeMode.Zoom;
@@ -178,7 +180,7 @@
             // buttonIcon
             // 
             buttonIcon.Image = (Image)resources.GetObject("buttonIcon.Image");
-            buttonIcon.Location = new Point(139, 106);
+            buttonIcon.Location = new Point(139, 101);
             buttonIcon.Name = "buttonIcon";
             buttonIcon.Size = new Size(24, 24);
             buttonIcon.TabIndex = 4;
@@ -190,6 +192,25 @@
             // 
             folderBrowserDialog.RootFolder = Environment.SpecialFolder.MyComputer;
             // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(12, 135);
+            label5.Name = "label5";
+            label5.Size = new Size(92, 15);
+            label5.TabIndex = 13;
+            label5.Text = "Default rules.ini:";
+            // 
+            // comboBoxRulesIni
+            // 
+            comboBoxRulesIni.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            comboBoxRulesIni.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxRulesIni.FormattingEnabled = true;
+            comboBoxRulesIni.Location = new Point(109, 132);
+            comboBoxRulesIni.Name = "comboBoxRulesIni";
+            comboBoxRulesIni.Size = new Size(393, 23);
+            comboBoxRulesIni.TabIndex = 1;
+            // 
             // NewCustomModForm
             // 
             AcceptButton = buttonOk;
@@ -200,7 +221,9 @@
             Controls.Add(pictureBoxIcon);
             Controls.Add(buttonIcon);
             Controls.Add(buttonPath);
+            Controls.Add(comboBoxRulesIni);
             Controls.Add(comboBoxGameType);
+            Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(label2);
             Controls.Add(textGamePath);
@@ -235,5 +258,7 @@
         private Button buttonIcon;
         private FolderBrowserDialog folderBrowserDialog;
         private OpenFileDialog openFileIcon;
+        private Label label5;
+        private ComboBox comboBoxRulesIni;
     }
 }
