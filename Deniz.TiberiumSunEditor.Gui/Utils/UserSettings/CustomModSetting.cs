@@ -20,6 +20,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
 
         public string IniNameMatchDetection { get; set; } = "";
 
+        public bool HasAres { get; set; }
+
+        public bool HasPhobos { get; set; }
+
         public string GetRulesIniFilePath()
         {
             return Path.Combine(GamePath, RulesIniPath);

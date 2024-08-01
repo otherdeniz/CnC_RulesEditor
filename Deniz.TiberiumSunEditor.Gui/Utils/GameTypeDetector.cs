@@ -39,6 +39,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                 : null;
         }
 
+        public bool HasModuleAres()
+        {
+            return File.Exists(Path.Combine(GameDirectory, "Ares.dll"));
+        }
+
+        public bool HasModulePhobos()
+        {
+            return File.Exists(Path.Combine(GameDirectory, "Phobos.dll"));
+        }
+
         private GameDefinition? DetectedBaseType()
         {
             if (File.Exists(Path.Combine(GameDirectory, "TIBSUN.MIX")))

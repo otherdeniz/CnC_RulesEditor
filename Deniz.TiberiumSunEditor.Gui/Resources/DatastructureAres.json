@@ -1,0 +1,45 @@
+{
+	"AllMovingUnits": [
+	],
+	
+	"InfantryUnits": [
+	],
+
+	"DrivingVehicleUnits": [
+	],
+
+	"AircraftUnits": [
+	],
+
+	"BuildingUnits": [
+	],
+
+	"Weapons": [
+	],
+	
+	"Warheads": [
+	],
+	
+	"SuperWeaponsGeneral": [
+	],
+	
+	"SuperWeapons": [
+	],
+	
+	"ValueTypes": [
+		{"ValueType":"ArmorTypes","Values":"none,flak,plate,light,medium,heavy,wood,steel,concrete,special_1,special_2"}
+	],
+	
+	"NewBuilding": [
+	],
+	
+	"NewInfantry": [
+	],
+	
+	"NewVehicle": [
+	],
+	
+	"NewAircraft": [
+	]
+	
+}

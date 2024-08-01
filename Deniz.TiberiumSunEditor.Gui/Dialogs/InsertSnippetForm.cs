@@ -15,18 +15,18 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             InitializeComponent();
         }
 
-        public static bool InsertSnippetToModel(Form mainForm, RootModel model)
+        public static bool InsertSnippetToModel(Form mainForm, RootModel rootModel)
         {
             using (var snippetForm = new InsertSnippetForm())
             {
-                snippetForm._defaultFile = model.DefaultFile;
-                snippetForm.ListSnippets(model.FileType.GameDefinition.SnippetsFolder);
+                snippetForm._defaultFile = rootModel.DefaultFile;
+                snippetForm.ListSnippets(rootModel.FileType.GameDefinition.SnippetsFolder);
                 if (snippetForm.ShowDialog(mainForm) == DialogResult.OK
                     && snippetForm._selectedSnippet != null)
                 {
-                    model.File.MergeWithFile(snippetForm._selectedSnippet.Model.File,
+                    rootModel.File.MergeWithFile(snippetForm._selectedSnippet.Model.File,
                         snippetForm._selectedSnippet.Model.DefaultFile);
-                    model.ReloadGameEntites();
+                    rootModel.ReloadGameEntites();
                     return true;
                 }
             }

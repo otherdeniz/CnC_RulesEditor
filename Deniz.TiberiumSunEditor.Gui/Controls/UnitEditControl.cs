@@ -267,6 +267,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 else if (e.Cell.Column.Key == "Value")
                 {
                     if (valueModel.ValueDefinition.ValueList != null
+                        || valueModel.ValueDefinition.ValueType != null
                         || valueModel.ValueDefinition.LookupType != null)
                     {
                         e.Cell.CancelUpdate();

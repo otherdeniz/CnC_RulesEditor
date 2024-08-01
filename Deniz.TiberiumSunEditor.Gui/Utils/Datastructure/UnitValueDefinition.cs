@@ -1,4 +1,6 @@
-﻿namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
+﻿using Newtonsoft.Json;
+
+namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
 {
     public class UnitValueDefinition
     {
@@ -10,10 +12,15 @@
 
         public string? ValueList { get; set; }
 
+        public string? ValueType { get; set; }
+
         public string? LookupType { get; set; }
 
         public bool MultipleValues { get; set; }
 
         public string? GameKeyFilter { get; set; }
+
+        [JsonIgnore] 
+        public string ModuleCategory { get; set; } = "";
     }
 }

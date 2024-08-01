@@ -1,6 +1,7 @@
 ﻿using Deniz.CCAudioPlayerCore;
 using Deniz.TiberiumSunEditor.Gui.Model;
 using Deniz.TiberiumSunEditor.Gui.Utils;
+using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Infragistics.Win.UltraWinGrid;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls
@@ -46,6 +47,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                      && _rootModel.LookupEntities.TryGetValue(valueModel.ValueDefinition.LookupType, out var lookupEntityModels))
             {
                 _lookupEntities = lookupEntityModels;
+            }
+            else if (valueModel.ValueDefinition.ValueType != null)
+            {
+                valueList = _rootModel.Datastructure.ValueTypes
+                    .FirstOrDefault(v => v.ValueType == valueModel.ValueDefinition.ValueType)
+                    ?.Values.Split(",");
             }
             switch (valueModel.ValueDefinition.LookupType)
             {

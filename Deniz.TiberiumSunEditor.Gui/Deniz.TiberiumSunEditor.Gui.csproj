@@ -155,8 +155,12 @@
     <None Remove="CSPlugins\FFmpeg\x86\swresample-2.dll" />
     <None Remove="CSPlugins\taglib-sharp.dll" />
     <None Remove="Resources\Datastructure.json" />
+    <None Remove="Resources\Datastructure.json.documentation.txt" />
+    <None Remove="Resources\DatastructureAres.json" />
+    <None Remove="Resources\DatastructurePhobos.json" />
     <None Remove="Resources\DTArules.ini" />
     <None Remove="Resources\Games.json" />
+    <None Remove="Resources\Games.json.documentation.txt" />
     <None Remove="Resources\loading.pal" />
     <None Remove="Resources\loading.shp" />
     <None Remove="Resources\Logos\dta-icon-24.png" />
@@ -240,10 +244,22 @@
     <Content Include="CSPlugins\taglib-sharp.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Datastructure.json.documentation.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\DatastructureAres.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Games.json.documentation.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\loading.pal">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\loading.shp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\DatastructurePhobos.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\startup1.aud">

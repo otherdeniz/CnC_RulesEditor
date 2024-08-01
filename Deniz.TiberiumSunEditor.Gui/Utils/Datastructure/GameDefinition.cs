@@ -43,6 +43,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
 
         public string MixFiles { get; set; } = "";
 
+        public bool UseAres { get; set; }
+
+        public bool UsePhobos { get; set; }
+
         public List<SideDefinition> Sides { get; set; } = new();
 
         public string? GetUserGamePath()

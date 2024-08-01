@@ -11,10 +11,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             InitializeComponent();
         }
 
-        public void LoadModel(IniFile changesFile, IniFile defaultFile)
+        public void LoadModel(IniFile changesFile, IniFile defaultFile, RootModel rootModel)
         {
             AnimationsAsyncLoader.Instance.Stop(true, false);
-            var changesModel = new RootModel(changesFile, FileTypeModel.Empty, defaultFile);
+            var changesModel = new RootModel(changesFile, FileTypeModel.Empty, defaultFile,
+                useAres: rootModel.UseAres,
+                usePhobos: rootModel.UsePhobos);
             rulesEdit.LoadModel(changesModel, "", "");
             AnimationsAsyncLoader.Instance.Start();
         }

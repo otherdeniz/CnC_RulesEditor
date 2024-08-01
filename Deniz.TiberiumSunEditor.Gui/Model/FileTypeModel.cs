@@ -31,7 +31,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                                 ResourcesDescriptionIniFile = baseGameDefinition.ResourcesDescriptionIniFile ??
                                                               baseGameDefinition.ResourcesDefaultIniFile,
                                 Sides = baseGameDefinition.Sides,
-                                SaveAsFilename = Path.GetFileName(customMod.RulesIniPath)
+                                SaveAsFilename = Path.GetFileName(customMod.RulesIniPath),
+                                UseAres = customMod.HasAres,
+                                UsePhobos = customMod.HasPhobos
                             };
                             return new FileTypeModel(FileBaseType.Rules, nameValue.Value, gameDefinition, customMod.Name);
                         }

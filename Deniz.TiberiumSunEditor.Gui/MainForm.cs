@@ -91,7 +91,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             {
                 var defaultFile = _editMainControl.Model.DefaultFile;
                 var changesFile = _editMainControl.Model.File.GetChangesFile(defaultFile);
-                changesForm.LoadModel(changesFile, defaultFile);
+                changesForm.LoadModel(changesFile, defaultFile, _editMainControl.Model);
                 changesForm.ShowDialog(this);
             }
         }
@@ -188,7 +188,10 @@ namespace Deniz.TiberiumSunEditor.Gui
                     ? null
                     : fileType.GameDefinition.MixFiles);
             BitmapRepository.Instance.Initialise(fileType.GetBitmapSubFolders());
-            var rootModel = new RootModel(iniFile, fileType, showMissingValues: true);
+            var rootModel = new RootModel(iniFile, fileType, 
+                showMissingValues: true, 
+                useAres: fileType.GameDefinition.UseAres,
+                usePhobos: fileType.GameDefinition.UsePhobos);
             rootModel.InitialiseLookupItems();
             _editMainControl = new RulesEditMainControl()
             {

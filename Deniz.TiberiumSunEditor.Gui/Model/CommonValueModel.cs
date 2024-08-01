@@ -69,9 +69,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         public UnitValueDefinition ValueDefinition => CommonValueDefinition;
 
         [Browsable(false)] 
-        public string IniSection => _sectionOverwrite ?? CommonValueDefinition.Section;
+        public string IniSection => _sectionOverwrite 
+                                    ?? CommonValueDefinition.Section;
 
-        public string Category => _categoryOverwrite ?? CommonValueDefinition.Category;
+        public string Category => _categoryOverwrite 
+                                  ?? CommonValueDefinition.Category + CommonValueDefinition.ModuleCategory;
 
         public string Key => CommonValueDefinition.Key;
 

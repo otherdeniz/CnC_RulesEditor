@@ -1,5 +1,7 @@
-﻿using Deniz.TiberiumSunEditor.Gui.Utils;
+﻿using System.Security.Cryptography.X509Certificates;
+using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
+using Deniz.TiberiumSunEditor.Gui.Utils.EqualityComparer;
 using Deniz.TiberiumSunEditor.Gui.Utils.Extensions;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 
@@ -10,23 +12,47 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         private readonly bool _showMissingValues;
         private List<KeyValuePair<string, List<string>>>? _sides;
 
-        public RootModel(IniFile iniFile, FileTypeModel fileType, IniFile? defaultFileOverwrite = null, bool showMissingValues = false)
+        public RootModel(IniFile iniFile, 
+            FileTypeModel fileType, 
+            IniFile? defaultFileOverwrite = null,
+            bool showMissingValues = false,
+            DatastructureFile? datastructureOverwrite = null,
+            bool useAres = false,
+            bool usePhobos = false)
         {
             _showMissingValues = showMissingValues;
             File = iniFile;
             FileType = fileType;
+            UseAres = useAres;
+            UsePhobos = usePhobos;
+            if (datastructureOverwrite == null)
+            {
+                Datastructure = DatastructureFile.Instance;
+                if (useAres)
+                {
+                    Datastructure = Datastructure.MergeWith(DatastructureFile.InstanceAres);
+                }
+                if (usePhobos)
+                {
+                    Datastructure = Datastructure.MergeWith(DatastructureFile.InstancePhobos);
+                }
+            }
+            else
+            {
+                Datastructure = datastructureOverwrite;
+            }
             DefaultFile = defaultFileOverwrite ?? GetDefaultFile(FileType.GameDefinition);
             DescriptionFile = GetDescriptionFile(FileType.GameDefinition);
-            CommonValues = GetCommonValues(DatastructureFile.Instance.CommonGeneral)
+            CommonValues = GetCommonValues(Datastructure.CommonGeneral)
                 .Union(GetOtherValues("General"))
                 .ToList();
-            TiberiumValues = GetCommonValues(DatastructureFile.Instance.TiberiumGeneral)
-                .Union(GetTiberiumValues(DatastructureFile.Instance.TiberiumValues))
+            TiberiumValues = GetCommonValues(Datastructure.TiberiumGeneral)
+                .Union(GetTiberiumValues(Datastructure.TiberiumValues))
                 .ToList();
-            AiValues = GetCommonValues(DatastructureFile.Instance.AIGeneral)
+            AiValues = GetCommonValues(Datastructure.AIGeneral)
                 .Union(GetOtherValues("AI"))
                 .ToList();
-            SuperWeaponValues = GetCommonValues(DatastructureFile.Instance.SuperWeaponsGeneral)
+            SuperWeaponValues = GetCommonValues(Datastructure.SuperWeaponsGeneral)
                 .Union(GetOtherValues("SpecialWeapons"))
                 .ToList();
             LoadGameEntities();
@@ -41,6 +67,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         public IniFile? DescriptionFile { get; }
 
         public FileTypeModel FileType { get; }
+
+        public DatastructureFile Datastructure { get; }
+
+        public bool UseAres { get; }
+
+        public bool UsePhobos { get; }
 
         public List<KeyValuePair<string, List<string>>> Sides => _sides
             ??= DefaultFile.GetSection("Sides")?.KeyValues
@@ -163,11 +195,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             {
                 foreach (var generalValue in generalSection.KeyValues)
                 {
-                    if (!DatastructureFile.Instance.CommonGeneral.Any(v =>
+                    if (!Datastructure.CommonGeneral.Any(v =>
                             v.Section == mainSection && v.Key == generalValue.Key)
-                        && !DatastructureFile.Instance.AIGeneral.Any(v =>
+                        && !Datastructure.AIGeneral.Any(v =>
                             v.Section == mainSection && v.Key == generalValue.Key)
-                        && !DatastructureFile.Instance.SuperWeaponsGeneral.Any(v =>
+                        && !Datastructure.SuperWeaponsGeneral.Any(v =>
                             v.Section == mainSection && v.Key == generalValue.Key))
                     {
                         var defaultValue = defaulSection?.GetValue(generalValue.Key);
@@ -237,33 +269,33 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             LookupItems = new List<LookupItemModel>();
             LookupEntities.Clear();
 
-            var allUnitsModel = DatastructureFile.Instance.AllUnits.Where(GameKeyFilter).Select(u =>
+            var allUnitsModel = Datastructure.AllUnits.Where(GameKeyFilter).Select(u =>
                 new UnitValueModel(u, "1) All units")).ToList();
-            var movingUnitsModel = DatastructureFile.Instance.AllMovingUnits.Select(u =>
+            var movingUnitsModel = Datastructure.AllMovingUnits.Select(u =>
                 new UnitValueModel(u, "2) All moving units")).ToList();
 
             VehicleEntities = GetGameEntities("VehicleTypes",
                 allUnitsModel.Union(movingUnitsModel)
-                    .Union(DatastructureFile.Instance.DrivingVehicleUnits.Select(u =>
+                    .Union(Datastructure.DrivingVehicleUnits.Select(u =>
                         new UnitValueModel(u, "3) Vehicle units")))
                     .ToList());
             AircraftEntities = GetGameEntities("AircraftTypes",
                 allUnitsModel.Union(movingUnitsModel)
-                    .Union(DatastructureFile.Instance.AircraftUnits.Select(u =>
+                    .Union(Datastructure.AircraftUnits.Select(u =>
                         new UnitValueModel(u, "3) Aircraft units")))
                     .ToList());
             InfantryEntities = GetGameEntities("InfantryTypes",
                 allUnitsModel.Union(movingUnitsModel)
-                    .Union(DatastructureFile.Instance.InfantryUnits.Select(u =>
+                    .Union(Datastructure.InfantryUnits.Select(u =>
                         new UnitValueModel(u, "3) Infantry units")))
                     .ToList());
             BuildingEntities = GetGameEntities("BuildingTypes",
                 allUnitsModel
-                    .Union(DatastructureFile.Instance.BuildingUnits.Select(u =>
+                    .Union(Datastructure.BuildingUnits.Select(u =>
                         new UnitValueModel(u, "2) Building units")))
                     .ToList());
             WarheadEntities = GetGameEntities("Warheads",
-                DatastructureFile.Instance.Warheads.Select(u =>
+                Datastructure.Warheads.Select(u =>
                     new UnitValueModel(u, "1) Warheads"))
                     .ToList());
             WeaponEntities = GetGameEntities("Weapons",
@@ -280,11 +312,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                             && baseSection.KeyValues.Any(k => k.Key == "Damage")
                             && baseSection.KeyValues.Any(k => k.Key == "Projectile")))
                     ),
-                DatastructureFile.Instance.Weapons.Select(u =>
+                Datastructure.Weapons.Select(u =>
                         new UnitValueModel(u, "1) Weapons"))
                     .ToList());
             SuperWeaponEntities = GetGameEntities("SuperWeaponTypes",
-                DatastructureFile.Instance.SuperWeapons.Select(u =>
+                Datastructure.SuperWeapons.Select(u =>
                     new UnitValueModel(u, "1) Super Weapons"))
                     .ToList());
             WeaponSounds = GetAllPossibleValues("Weapons", "Report");

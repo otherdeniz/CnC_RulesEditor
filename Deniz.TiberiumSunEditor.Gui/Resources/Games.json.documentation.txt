@@ -1,0 +1,19 @@
+The "games.json" contains all "EMBEDED" Games of the Editor, you can change this file and can add games if you like.
+But you must NOT change the GameKey of "TiberianSun", "RA2" and "RA2YR" - those are used in the source code, everything else you can change
+
+Each game can have the following values:
+(string) GameKey	: unique internal key of the game (can be referenced in 'datastructure.json' with 'GameKeyFilter' to make some values only valid for this game)
+(string) Logo	: the filename of a logo, the logo must be placed in the 'Resources\Logos' folder of th editor, it should be 24x24 pixels (otherwise it will be resized at runtime)
+(string) NewMenuLabel	: the title of the entry in the "New" menu of the editor
+(bool) NewMenuSeparator	: (optional) does this entry displays a separator in the "New" menu of the editor (default value=false)
+(string) ResourcesDefaultIniFile	: you must save the default 'rules.ini' with a unique name in the 'Resources' folder of the editor and provide here the filename
+(string) ResourcesDescriptionIniFile	: (optional) if your rules.ini does no have descriptions (comments) you can load them from another rules.ini file (also placed in 'Resources')
+(string) IniNameMatchDetection	: a substring that can be matched in the [General]->Name tag of an rules.ini - it must be uniquely detectable and must not match any other game
+(string) SaveAsFilename	: the name of the rules.ini when saving in the gamefolder
+(string) SaveAsRelativeToGameFolder	: (optional) if specified the rules.ini will be saved in this sub-folder of the game, otherwise in the root
+(string) GameExecutable	: currently needed only for path-validation when choosing another game-path in the "Games" menu
+(string) SnippetsFolder	: Folder name in the "Snippets" folder of the game, this folder must EXIST even if it's empty, you can use a folder of an existing base game
+(string) BitmapsFolders : Folder name in the "Bitmaps" folder of the game where Cameos are getting loaded, this folder must EXIST even if it's empty, you can use a folder of an existing base game
+(string) MixFiles	: (optional) load only specified mix-files, comma-seperated list. if not specified, all mix files are getting loaded. The order is relevant for search, first file that contains a searched entry is taken
+(bool) UseAres		: (optional) enable Ares (default=false)
+(bool) UsePhobos	: (optional) enable Phobos (default=false)

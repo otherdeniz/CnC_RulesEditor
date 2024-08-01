@@ -232,25 +232,25 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private void unitsBuildings_UnitAdd(object sender, EventArgs e)
         {
             AddNewUnit("BuildingTypes", Model.BuildingEntities,
-                DatastructureFile.Instance.NewBuilding, unitsBuildings);
+                Model.Datastructure.NewBuilding, unitsBuildings);
         }
 
         private void unitsInfantry_UnitAdd(object sender, EventArgs e)
         {
             AddNewUnit("InfantryTypes", Model.InfantryEntities,
-                DatastructureFile.Instance.NewInfantry, unitsInfantry);
+                Model.Datastructure.NewInfantry, unitsInfantry);
         }
 
         private void unitsVehicles_UnitAdd(object sender, EventArgs e)
         {
             AddNewUnit("VehicleTypes", Model.VehicleEntities.Union(Model.AircraftEntities).ToList(),
-                DatastructureFile.Instance.NewVehicle, unitsVehicles);
+                Model.Datastructure.NewVehicle, unitsVehicles);
         }
 
         private void unitsAircrafts_UnitAdd(object sender, EventArgs e)
         {
             AddNewUnit("AircraftTypes", Model.VehicleEntities.Union(Model.AircraftEntities).ToList(),
-                DatastructureFile.Instance.NewAircraft, unitsAircrafts);
+                Model.Datastructure.NewAircraft, unitsAircrafts);
         }
 
     }

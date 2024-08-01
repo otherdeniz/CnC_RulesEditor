@@ -46,6 +46,9 @@
             openFileIcon = new OpenFileDialog();
             label5 = new Label();
             comboBoxRulesIni = new ComboBox();
+            checkBoxAres = new CheckBox();
+            checkBoxPhobos = new CheckBox();
+            label6 = new Label();
             panelBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxIcon).BeginInit();
             SuspendLayout();
@@ -55,7 +58,7 @@
             panelBottom.Controls.Add(buttonOk);
             panelBottom.Controls.Add(buttonCancel);
             panelBottom.Dock = DockStyle.Bottom;
-            panelBottom.Location = new Point(0, 163);
+            panelBottom.Location = new Point(0, 229);
             panelBottom.Name = "panelBottom";
             panelBottom.Size = new Size(514, 43);
             panelBottom.TabIndex = 2;
@@ -210,6 +213,36 @@
             comboBoxRulesIni.Name = "comboBoxRulesIni";
             comboBoxRulesIni.Size = new Size(393, 23);
             comboBoxRulesIni.TabIndex = 1;
+            comboBoxRulesIni.SelectedIndexChanged += comboBoxRulesIni_SelectedIndexChanged;
+            // 
+            // checkBoxAres
+            // 
+            checkBoxAres.AutoSize = true;
+            checkBoxAres.Location = new Point(109, 164);
+            checkBoxAres.Name = "checkBoxAres";
+            checkBoxAres.Size = new Size(93, 19);
+            checkBoxAres.TabIndex = 15;
+            checkBoxAres.Text = "Ares support";
+            checkBoxAres.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxPhobos
+            // 
+            checkBoxPhobos.AutoSize = true;
+            checkBoxPhobos.Location = new Point(109, 189);
+            checkBoxPhobos.Name = "checkBoxPhobos";
+            checkBoxPhobos.Size = new Size(110, 19);
+            checkBoxPhobos.TabIndex = 15;
+            checkBoxPhobos.Text = "Phobos support";
+            checkBoxPhobos.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(12, 165);
+            label6.Name = "label6";
+            label6.Size = new Size(84, 15);
+            label6.TabIndex = 13;
+            label6.Text = "Mod Modules:";
             // 
             // NewCustomModForm
             // 
@@ -217,12 +250,15 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = buttonCancel;
-            ClientSize = new Size(514, 206);
+            ClientSize = new Size(514, 272);
+            Controls.Add(checkBoxPhobos);
+            Controls.Add(checkBoxAres);
             Controls.Add(pictureBoxIcon);
             Controls.Add(buttonIcon);
             Controls.Add(buttonPath);
             Controls.Add(comboBoxRulesIni);
             Controls.Add(comboBoxGameType);
+            Controls.Add(label6);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(label2);
@@ -260,5 +296,8 @@
         private OpenFileDialog openFileIcon;
         private Label label5;
         private ComboBox comboBoxRulesIni;
+        private CheckBox checkBoxAres;
+        private CheckBox checkBoxPhobos;
+        private Label label6;
     }
 }

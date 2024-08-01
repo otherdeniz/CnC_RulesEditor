@@ -173,7 +173,7 @@
 		{"Key":"TechLevel","Description":"tech level required to build this [-1 means can't build]","Default":"-1"},
 		{"Key":"AllowedToStartInMultiplayer","Description":"Can the unit be allocated to a player when starting a multiplayer game","Default":"yes"},
 		{"Key":"Ammo","Description":"number of rounds carried between reloads [-1 means unlimited]","Default":"-1"},
-		{"Key":"Armor","Description":"the armor type of this object [none,wood,light,heavy,concrete]","Default":"none","ValueList":"none,wood,light,heavy,concrete"},
+		{"Key":"Armor","Description":"the armor type of this object [none,wood,light,heavy,concrete]","Default":"none","ValueType":"ArmorTypes"},
 		{"Key":"Strength","Description":"strength (hit points) of this object"},
 		{"Key":"BuildLimit","Description":"arbitrary maximum allowed to build [per house] (def=-1 -- no restriction)","Default":"-1"},
 		{"Key":"Cloakable","Description":"Is it equipped with a cloaking device","Default":"no"},
@@ -343,6 +343,10 @@
 		{"Key":"RechargeTime","Description":"time in minutes to recharge this special (decimals allowed)"}
 	],
 	
+	"ValueTypes": [
+		{"ValueType":"ArmorTypes","Values":"none,wood,light,heavy,concrete"}
+	],
+
 	"NewBuilding": [
 		{"Key":"TechLevel","Value":"1"},
 		{"Key":"Sight","Value":"4"},

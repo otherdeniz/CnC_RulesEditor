@@ -1,0 +1,53 @@
+The "Datastructure.json" contains all value definitions Games of the Editor, you can change this file
+The "DatastructureAres.json" is also used if Ares is enabled in the mod (checbox) - it has the same structure, but everything is optional
+The "DatastructurePhobos.json" is also used if Phobos is enabled in the mod (checbox) - it has the same structure, but everything is optional
+
+=====================================
+All Values
+=====================================
+
+(string) Key    : key of the value
+(string) ValueList : (optional) comma seperated list of possible values
+(string) ValueType : (optional) lookup the possible values in the 'ValueTypes' section of this json file or if overriden by Ares or Phobos, look there
+(string) LookupType : Type of the entitites to lookup, must be the name of the section where the units are listed (example: 'BuildingTypes' or 'InfantryTypes')
+(bool) MultipleValues : (optional) specify "true" if thsi value is a list of possible values (default is "false")
+(string) GameKeyFilter : (optional) specify a list of GameKeys where this value is valid (comma-separated)
+
+=====================================
+Only for Unit Values
+=====================================
+
+(string) Description : description of the value (required by unit values, optional by common values)
+(string) Default     : (optional) default value, if not specified the default is empty
+
+=====================================
+Only for Common Values
+=====================================
+Description is taken from the default rules.ini file
+
+(string) Category : group by header in the grid
+(string) Section  : (optional) in what section of the rules.ini is this value found  (default is "General");
+
+=====================================
+json sections
+=====================================
+
+Common values:  CommonGeneral
+Common values:  AIGeneral
+Common values:  TiberiumGeneral
+Common values:  TiberiumValues
+Unit values:  AllUnits
+Unit values:  AllMovingUnits
+Unit values:  InfantryUnits
+Unit values:  DrivingVehicleUnits
+Unit values:  AircraftUnits
+Unit values:  BuildingUnits
+Unit values:  Weapons
+Unit values:  Warheads
+Common values:  SuperWeaponsGeneral
+Unit values:  SuperWeapons
+Value types lookup: ValueTypes
+Template for new units: NewBuilding
+Template for new units: NewInfantry
+Template for new units: NewVehicle
+Template for new units: NewAircraft

@@ -1,5 +1,6 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
+using Deniz.TiberiumSunEditor.Gui.Utils.EqualityComparer;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
 
@@ -125,19 +126,5 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             }
         }
 
-        private class StringEqualityComparer : IEqualityComparer<string>
-        {
-            public static readonly StringEqualityComparer Instance = new();
-
-            public bool Equals(string x, string y)
-            {
-                return x.Equals(y, StringComparison.InvariantCultureIgnoreCase);
-            }
-
-            public int GetHashCode(string obj)
-            {
-                return obj.GetHashCode();
-            }
-        }
     }
 }
