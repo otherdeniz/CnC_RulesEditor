@@ -168,6 +168,26 @@ namespace Deniz.TiberiumSunEditor.Gui
 
             var fileType = FileTypeModel.ParseFile(iniFile, m =>
             {
+                // detect game of the map 
+                if (iniFile.OriginalFullPath != null)
+                {
+                    var integratedGame = GamesFile.Instance.Games.FirstOrDefault(g =>
+                    {
+                        var gamePath = g.GetUserGamePath();
+                        return gamePath != null && iniFile.OriginalFullPath.StartsWith(gamePath);
+                    });
+                    if (integratedGame != null)
+                    {
+                        return integratedGame;
+                    }
+                    var customMod = UserSettingsFile.Instance.CustomMods.FirstOrDefault(m => 
+                        iniFile.OriginalFullPath.StartsWith(m.GamePath));
+                    if (customMod != null)
+                    {
+                        return customMod.ToGameDefinition();
+                    }
+                }
+                // let the user choose the game of the map
                 using (var openMapForm = new OpenMapForm())
                 {
                     openMapForm.LoadMap(m);

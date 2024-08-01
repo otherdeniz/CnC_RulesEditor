@@ -1,4 +1,5 @@
-﻿using Deniz.TiberiumSunEditor.Gui.Utils.Files;
+﻿using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
+using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 
 namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
 {
@@ -34,5 +35,28 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
             return IniFile.Load(GetRulesIniFilePath());
         }
 
+        public GameDefinition? ToGameDefinition()
+        {
+            var baseGameDefinition =
+                GamesFile.Instance.Games.FirstOrDefault(g => g.GameKey == BaseGameKey);
+            if (baseGameDefinition != null)
+            {
+                return new GameDefinition(GamePath)
+                {
+                    BitmapsFolders = baseGameDefinition.BitmapsFolders,
+                    SnippetsFolder = baseGameDefinition.SnippetsFolder,
+                    GameKey = baseGameDefinition.GameKey,
+                    MixFiles = baseGameDefinition.MixFiles,
+                    ResourcesDefaultIniFile = GetRulesIniFilePath(),
+                    ResourcesDescriptionIniFile = baseGameDefinition.ResourcesDescriptionIniFile ??
+                                                  baseGameDefinition.ResourcesDefaultIniFile,
+                    Sides = baseGameDefinition.Sides,
+                    SaveAsFilename = Path.GetFileName(RulesIniPath),
+                    UseAres = HasAres,
+                    UsePhobos = HasPhobos
+                };
+            }
+            return null;
+        }
     }
 }

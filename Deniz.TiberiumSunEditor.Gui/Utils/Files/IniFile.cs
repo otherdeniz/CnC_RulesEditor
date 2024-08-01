@@ -14,6 +14,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
 
         public List<IniFileSection> Sections { get; } = new();
 
+        public string? OriginalFullPath { get; set; }
+
         public string OriginalFileName { get; set; } = "";
 
         public static IniFile Load(byte[] fileBytes)
@@ -29,6 +31,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
             using (var fileStream = File.OpenRead(filePath))
             {
                 var iniFile = LoadStream(fileStream);
+                iniFile.OriginalFullPath = filePath;
                 iniFile.OriginalFileName = Path.GetFileName(filePath);
                 return iniFile;
             }

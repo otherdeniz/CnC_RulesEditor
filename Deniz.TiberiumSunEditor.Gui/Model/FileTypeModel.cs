@@ -17,24 +17,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 {
                     if (nameValue.Value == customMod.IniNameMatchDetection)
                     {
-                        var baseGameDefinition =
-                            GamesFile.Instance.Games.FirstOrDefault(g => g.GameKey == customMod.BaseGameKey);
-                        if (baseGameDefinition != null)
+                        var gameDefinition = customMod.ToGameDefinition();
+                        if (gameDefinition != null)
                         {
-                            var gameDefinition = new GameDefinition(customMod.GamePath)
-                            {
-                                BitmapsFolders = baseGameDefinition.BitmapsFolders,
-                                SnippetsFolder = baseGameDefinition.SnippetsFolder,
-                                GameKey = baseGameDefinition.GameKey,
-                                MixFiles = baseGameDefinition.MixFiles,
-                                ResourcesDefaultIniFile = customMod.GetRulesIniFilePath(),
-                                ResourcesDescriptionIniFile = baseGameDefinition.ResourcesDescriptionIniFile ??
-                                                              baseGameDefinition.ResourcesDefaultIniFile,
-                                Sides = baseGameDefinition.Sides,
-                                SaveAsFilename = Path.GetFileName(customMod.RulesIniPath),
-                                UseAres = customMod.HasAres,
-                                UsePhobos = customMod.HasPhobos
-                            };
                             return new FileTypeModel(FileBaseType.Rules, nameValue.Value, gameDefinition, customMod.Name);
                         }
                     }
