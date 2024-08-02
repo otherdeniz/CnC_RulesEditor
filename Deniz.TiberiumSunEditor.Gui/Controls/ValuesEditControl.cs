@@ -163,6 +163,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 e.Cell.Appearance.BackColor = valueModel.HasChanges
                     ? Color.NavajoWhite
                     : Color.White;
+                e.Cell.Row.Cells["UseDefaultImage"].Refresh();
             }
         }
 

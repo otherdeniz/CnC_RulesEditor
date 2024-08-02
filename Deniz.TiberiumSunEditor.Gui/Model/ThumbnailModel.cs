@@ -1,5 +1,6 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Exceptions;
+using System.Windows.Forms;
 
 namespace Deniz.TiberiumSunEditor.Gui.Model
 {
@@ -35,6 +36,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             if (AnimationKeys == null)
                 throw new RuntimeException("The Thumbnail is not an animation");
             return AnimationsAsyncLoader.Instance.LoadAnimation(AnimationKeys, afterLoad);
+        }
+
+        public Image? LoadAnimation()
+        {
+            if (AnimationKeys == null)
+                throw new RuntimeException("The Thumbnail is not an animation");
+            var keys = AnimationKeys.Split(",").Distinct();
+            return CCGameRepository.Instance.GetAnimationsImage(string.Join(",", keys));
         }
     }
 }

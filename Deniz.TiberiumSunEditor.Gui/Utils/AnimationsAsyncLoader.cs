@@ -24,7 +24,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             _isRunning = false;
             if (wait)
             {
-                while (_loadTask != null)
+                while (_loadTask?.Status == TaskStatus.Running)
                 {
                     Thread.Sleep(50);
                 }
@@ -49,7 +49,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
         {
             var requirementToken = new AnimationRequirementToken();
             LoadingQueue.Enqueue((keys, afterLoad, requirementToken));
-            if (_loadTask == null && _isRunning)
+            if (_loadTask?.Status != TaskStatus.Running 
+                && _isRunning)
             {
                 _loadTask = Task.Run(LoadTaskEntry);
             }

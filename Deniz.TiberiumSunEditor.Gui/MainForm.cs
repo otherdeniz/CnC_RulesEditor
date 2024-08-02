@@ -212,7 +212,6 @@ namespace Deniz.TiberiumSunEditor.Gui
                 showMissingValues: true, 
                 useAres: fileType.GameDefinition.UseAres,
                 usePhobos: fileType.GameDefinition.UsePhobos);
-            rootModel.InitialiseLookupItems();
             _editMainControl = new RulesEditMainControl()
             {
                 Dock = DockStyle.Fill

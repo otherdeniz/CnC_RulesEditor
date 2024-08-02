@@ -1,9 +1,12 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System.Configuration;
+using System.Security.Cryptography.X509Certificates;
+using System.Windows.Forms;
 using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Deniz.TiberiumSunEditor.Gui.Utils.EqualityComparer;
 using Deniz.TiberiumSunEditor.Gui.Utils.Extensions;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
+using Infragistics.Win;
 
 namespace Deniz.TiberiumSunEditor.Gui.Model
 {
@@ -43,6 +46,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             }
             DefaultFile = defaultFileOverwrite ?? GetDefaultFile(FileType.GameDefinition);
             DescriptionFile = GetDescriptionFile(FileType.GameDefinition);
+            LoadGameEntities();
+            InitialiseLookupItems();
             CommonValues = GetCommonValues(Datastructure.CommonGeneral)
                 .Union(GetOtherValues("General"))
                 .ToList();
@@ -55,7 +60,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             SuperWeaponValues = GetCommonValues(Datastructure.SuperWeaponsGeneral)
                 .Union(GetOtherValues("SpecialWeapons"))
                 .ToList();
-            LoadGameEntities();
+            AudioVisualValues = GetAllSectionValues("AudioVisual");
         }
 
         public event EventHandler<EventArgs>? EntitiesChanged;
@@ -96,6 +101,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 
         public List<CommonValueModel> TiberiumValues { get; }
 
+        public List<CommonValueModel> AudioVisualValues { get; }
+
         public List<GameEntityModel> VehicleEntities { get; private set; } = null!;
 
         public List<GameEntityModel> AircraftEntities { get; private set; } = null!;
@@ -109,6 +116,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         public List<GameEntityModel> WeaponEntities { get; private set; } = null!;
 
         public List<GameEntityModel> SuperWeaponEntities { get; private set; } = null!;
+
+        public List<GameEntityModel> VoxelDebrisEntities { get; private set; } = null!;
 
         public List<string> Animations { get; private set; } = null!;
 
@@ -135,7 +144,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             EntitiesChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public void InitialiseLookupItems()
+        private void InitialiseLookupItems()
         {
             CCGameRepository.Instance.GetAllSounds().ForEach(s =>
                 LookupItems.Add(new LookupItemModel("Sounds", s.Key, s.Value)));
@@ -190,28 +199,40 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         {
             var result = new List<CommonValueModel>();
             var generalSection = File.GetSection(mainSection);
-            var defaulSection = DefaultFile.GetSection(mainSection);
+            var defaultSection = DefaultFile.GetSection(mainSection);
             if (generalSection != null)
             {
-                foreach (var generalValue in generalSection.KeyValues)
+                foreach (var sectionValue in generalSection.KeyValues)
                 {
                     if (!Datastructure.CommonGeneral.Any(v =>
-                            v.Section == mainSection && v.Key == generalValue.Key)
+                            v.Section == mainSection && v.Key == sectionValue.Key)
                         && !Datastructure.AIGeneral.Any(v =>
-                            v.Section == mainSection && v.Key == generalValue.Key)
+                            v.Section == mainSection && v.Key == sectionValue.Key)
                         && !Datastructure.SuperWeaponsGeneral.Any(v =>
-                            v.Section == mainSection && v.Key == generalValue.Key))
+                            v.Section == mainSection && v.Key == sectionValue.Key))
                     {
-                        var defaultValue = defaulSection?.GetValue(generalValue.Key);
+                        var defaultValue = defaultSection?.GetValue(sectionValue.Key);
+                        var detectByKey = !string.IsNullOrEmpty(sectionValue.Value)
+                            ? sectionValue.Value.Split(",").First()
+                            : !string.IsNullOrEmpty(defaultValue?.Value)
+                                ? defaultValue.Value.Split(",").First()
+                                : null;
+                        var detectedLookupType = detectByKey != null
+                            ? DetectLookupType(detectByKey)
+                            : null;
+                        var multipleValues = !string.IsNullOrEmpty(sectionValue.Value) && sectionValue.Value.Contains(",")
+                                             || !string.IsNullOrEmpty(defaultValue?.Value) && defaultValue.Value.Contains(",");
                         result.Add(new CommonValueModel(
                             new CommonValueDefinition
                             {
-                                Key = generalValue.Key,
+                                Key = sectionValue.Key,
                                 Category = $"Other '{mainSection}' values",
-                                Section = mainSection
+                                Section = mainSection,
+                                LookupType = detectedLookupType,
+                                MultipleValues = multipleValues
                             },
-                            defaultValue?.Comment ?? generalValue.Comment ?? "",
-                            generalValue,
+                            defaultValue?.Comment ?? sectionValue.Comment ?? "",
+                            sectionValue,
                             defaultValue?.Value ?? ""));
                     }
                 }
@@ -262,6 +283,60 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 }
             }
             return result;
+        }
+
+        private List<CommonValueModel> GetAllSectionValues(string mainSection)
+        {
+            var result = new List<CommonValueModel>();
+            var fileSection = File.GetSection(mainSection);
+            var defaultSection = DefaultFile.GetSection(mainSection);
+            if (fileSection != null)
+            {
+                foreach (var sectionValue in fileSection.KeyValues)
+                {
+                    var defaultValue = defaultSection?.GetValue(sectionValue.Key);
+                    var detectByKey = !string.IsNullOrEmpty(sectionValue.Value)
+                        ? sectionValue.Value.Split(",").First()
+                        : !string.IsNullOrEmpty(defaultValue?.Value)
+                            ? defaultValue.Value.Split(",").First()
+                            : null;
+                    var detectedLookupType = detectByKey != null
+                        ? DetectLookupType(detectByKey)
+                        : null;
+                    var multipleValues = !string.IsNullOrEmpty(sectionValue.Value) && sectionValue.Value.Contains(",")
+                                         || !string.IsNullOrEmpty(defaultValue?.Value) && defaultValue.Value.Contains(",");
+                    result.Add(new CommonValueModel(
+                        new CommonValueDefinition
+                        {
+                            Key = sectionValue.Key,
+                            Category = $"'{mainSection}' values",
+                            Section = mainSection,
+                            LookupType = detectedLookupType,
+                            MultipleValues = multipleValues
+                        },
+                        defaultValue?.Comment ?? sectionValue.Comment ?? "",
+                        sectionValue,
+                        defaultValue?.Value ?? ""));
+
+                }
+            }
+
+            return result;
+        }
+
+        private string? DetectLookupType(string valueKey)
+        {
+            var lookupEntityType = LookupItems.FirstOrDefault(l => 
+                string.Equals(l.Key, valueKey, StringComparison.InvariantCultureIgnoreCase))?.EntityType;
+            if (lookupEntityType != null)
+            {
+                return lookupEntityType;
+            }
+            if (Animations.Contains(valueKey, StringEqualityComparer.Instance))
+            {
+                return "Animations";
+            }
+            return null;
         }
 
         private void LoadGameEntities()
@@ -319,6 +394,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 Datastructure.SuperWeapons.Select(u =>
                     new UnitValueModel(u, "1) Super Weapons"))
                     .ToList());
+            VoxelDebrisEntities = GetGameEntities("VoxelDebrisTypes",
+                s => (s.KeyValues.Any(k => k.Key == "Elasticity")
+                      && s.KeyValues.Any(k => k.Key == "MinAngularVelocity")
+                      && s.KeyValues.Any(k => k.Key == "Duration"))
+                     || (DefaultFile.GetSection(s.SectionName) is { } defaultSection
+                         && (defaultSection.KeyValues.Any(k => k.Key == "Elasticity")
+                             && defaultSection.KeyValues.Any(k => k.Key == "MinAngularVelocity")
+                             && defaultSection.KeyValues.Any(k => k.Key == "Duration"))
+                     ),
+                new List<UnitValueModel>());
             WeaponSounds = GetAllPossibleValues("Weapons", "Report");
             WeaponProjectiles = GetAllPossibleValues("Weapons", "Projectile");
             var housesSection = DefaultFile.GetSection("Houses") ?? DefaultFile.GetSection("Countries");

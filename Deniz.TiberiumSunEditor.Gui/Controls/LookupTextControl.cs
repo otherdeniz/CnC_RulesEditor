@@ -3,6 +3,7 @@ using Deniz.TiberiumSunEditor.Gui.Model;
 using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Infragistics.Win.UltraWinGrid;
+using System.Windows.Forms;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls
 {
@@ -175,7 +176,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 .IndexOf(_valueModel.Value);
             if (selectedIndex > -1)
             {
-                valuesGrid.Selected.Rows.Add(valuesGrid.Rows[selectedIndex]);
+                var selectedRow = valuesGrid.Rows[selectedIndex];
+                valuesGrid.Selected.Rows.Add(selectedRow);
+                valuesGrid.ActiveRowScrollRegion.ScrollRowIntoView(selectedRow);
             }
             _doEvents = true;
         }
@@ -188,7 +191,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 .IndexOf(_valueModel.Value);
             if (selectedIndex > -1)
             {
-                valuesGrid.Selected.Rows.Add(valuesGrid.Rows[selectedIndex]);
+                var selectedRow = valuesGrid.Rows[selectedIndex];
+                valuesGrid.Selected.Rows.Add(selectedRow);
+                valuesGrid.ActiveRowScrollRegion.ScrollRowIntoView(selectedRow);
+                PlaySelectedSound(_valueModel.Value);
             }
             _doEvents = true;
         }
@@ -207,7 +213,20 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             _doEvents = true;
         }
 
-        private UnitPopupForm? _unitPopupForm;
+        private void PlaySelectedSound(string key)
+        {
+            switch (_valueModel.ValueDefinition.LookupType)
+            {
+                case "Sounds":
+                case "WeaponSounds":
+                    var audStream = CCGameRepository.Instance.GetAudioStream(key);
+                    if (audStream != null)
+                    {
+                        AudioPlayerService.PlaySound(audStream);
+                    }
+                    break;
+            }
+        }
 
         private void OpenPopup(string key, RowUIElement hoverRow)
         {
@@ -225,16 +244,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     ClosePopup();
                     if (!string.IsNullOrEmpty(key))
                     {
-                        var popupPosition = new Point(
-                            hoverRow.RectInsideBorders.X + Width - 98,
-                            hoverRow.RectInsideBorders.Y + hoverRow.Row.Height + 1);
-                        pictureThumbnail.Location = popupPosition;
-                        pictureThumbnail.Image = BitmapRepository.Instance.BlankImage;
-                        pictureThumbnail.Visible = true;
-                        _popupAnimationAsyncLoadToken = AnimationsAsyncLoader.Instance.LoadAnimation(key, img =>
+                        var animationImage = CCGameRepository.Instance.GetAnimationsImage(key);
+                        if (animationImage != null)
                         {
-                            pictureThumbnail.Image = img;
-                        });
+                            var popupPosition = new Point(
+                                hoverRow.RectInsideBorders.X + Width - 98,
+                                hoverRow.RectInsideBorders.Y + hoverRow.Row.Height + 1);
+                            pictureThumbnail.Location = popupPosition;
+                            pictureThumbnail.Image = animationImage;
+                            pictureThumbnail.Visible = true;
+                        }
                     }
                     break;
                 default:
@@ -248,14 +267,18 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                         if (entityThumbnail != null)
                         {
                             pictureThumbnail.Location = popupPosition;
-                            pictureThumbnail.Image = entityThumbnail.Image;
                             pictureThumbnail.Visible = true;
                             if (entityThumbnail.Kind == ThumbnailKind.Animation)
                             {
-                                _popupAnimationAsyncLoadToken = entityThumbnail.LoadAnimationAsync(img =>
+                                var animationImage = CCGameRepository.Instance.GetAnimationsImage(key);
+                                if (animationImage != null)
                                 {
-                                    pictureThumbnail.Image = img;
-                                });
+                                    pictureThumbnail.Image = animationImage;
+                                }
+                            }
+                            else
+                            {
+                                pictureThumbnail.Image = entityThumbnail.Image;
                             }
                         }
                     }

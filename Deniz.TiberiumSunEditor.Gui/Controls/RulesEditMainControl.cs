@@ -147,6 +147,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             mainTab.Tabs["Common"].Visible = valuesEditCommon.LoadValuesGrid(Model, Model.CommonValues);
             mainTab.Tabs["Tiberium"].Visible = valuesEditTiberium.LoadValuesGrid(Model, Model.TiberiumValues);
             mainTab.Tabs["AI"].Visible = valuesEditAi.LoadValuesGrid(Model, Model.AiValues);
+            mainTab.Tabs["AudioVisual"].Visible = valuesEditAudioVisual.LoadValuesGrid(Model, Model.AudioVisualValues);
         }
 
         private void CreateCopy(EntityCopyEventArgs e, 
