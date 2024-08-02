@@ -8,20 +8,18 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
     {
         private static DatastructureFile? _instance;
         private static DatastructureFile? _instanceAres;
-        private static DatastructureFile? _instancePhobos;
 
         public static DatastructureFile Instance => _instance ??= LoadFile("Datastructure.json", null);
-        public static DatastructureFile InstanceAres => _instanceAres ??= LoadFile("DatastructureAres.json", "Ares");
-        public static DatastructureFile InstancePhobos => _instancePhobos ??= LoadFile("DatastructurePhobos.json", "Phobos");
+        public static DatastructureFile InstanceAres => _instanceAres ??= LoadFile("DatastructureAres.json", "ARES");
 
-        private static DatastructureFile LoadFile(string fileName, string? moduleCategory)
+        protected static DatastructureFile LoadFile(string fileName, string? moduleCategory)
         {
             using (var fileStream = ResourcesRepository.Instance.ReadResourcesFileStream(fileName))
             {
                 var file = Load<DatastructureFile>(fileStream);
                 if (moduleCategory != null)
                 {
-                    file.ApplyModuleCategory($" [{moduleCategory}]");
+                    file.ApplyModuleCategory($"{moduleCategory}: ");
                 }
                 return file;
             }
@@ -34,6 +32,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
         public List<CommonValueDefinition> TiberiumGeneral { get; set; } = new();
 
         public List<CommonValueDefinition> TiberiumValues { get; set; } = new();
+
+        public List<CommonValueDefinition> AudioVisualValues { get; set; } = new();
 
         public List<UnitValueDefinition> AllUnits { get; set; } = new();
 
@@ -64,6 +64,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
         public List<KeyValueDefinition> NewVehicle { get; set; } = new();
 
         public List<KeyValueDefinition> NewAircraft { get; set; } = new();
+
+        public List<AdditionalTypesSectionDefinition> AdditionalTypes { get; set; } = new();
 
         public DatastructureFile MergeWith(DatastructureFile priorityFile)
         {
@@ -126,25 +128,28 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
                 NewVehicle = priorityFile.NewVehicle
                     .UnionBy(NewVehicle, k => k.Key, StringEqualityComparer.Instance)
                     .ToList(),
+                AdditionalTypes = priorityFile.AdditionalTypes
+                    .Union(AdditionalTypes)
+                    .ToList()
             };
         }
 
-        private void ApplyModuleCategory(string moduleCategory)
+        protected void ApplyModuleCategory(string moduleCategory)
         {
-            CommonGeneral.ForEach(v => v.ModuleCategory = moduleCategory);
-            AIGeneral.ForEach(v => v.ModuleCategory = moduleCategory);
-            TiberiumGeneral.ForEach(v => v.ModuleCategory = moduleCategory);
-            TiberiumValues.ForEach(v => v.ModuleCategory = moduleCategory);
-            AllUnits.ForEach(v => v.ModuleCategory = moduleCategory);
-            AllMovingUnits.ForEach(v => v.ModuleCategory = moduleCategory);
-            InfantryUnits.ForEach(v => v.ModuleCategory = moduleCategory);
-            DrivingVehicleUnits.ForEach(v => v.ModuleCategory = moduleCategory);
-            AircraftUnits.ForEach(v => v.ModuleCategory = moduleCategory);
-            BuildingUnits.ForEach(v => v.ModuleCategory = moduleCategory);
-            Weapons.ForEach(v => v.ModuleCategory = moduleCategory);
-            Warheads.ForEach(v => v.ModuleCategory = moduleCategory);
-            SuperWeaponsGeneral.ForEach(v => v.ModuleCategory = moduleCategory);
-            SuperWeapons.ForEach(v => v.ModuleCategory = moduleCategory);
+            CommonGeneral.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
+            AIGeneral.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
+            TiberiumGeneral.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
+            TiberiumValues.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
+            AllUnits.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
+            AllMovingUnits.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
+            InfantryUnits.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
+            DrivingVehicleUnits.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
+            AircraftUnits.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
+            BuildingUnits.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
+            Weapons.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
+            Warheads.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
+            SuperWeaponsGeneral.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
+            SuperWeapons.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
         }
     }
 }

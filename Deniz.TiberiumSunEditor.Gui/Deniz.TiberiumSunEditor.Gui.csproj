@@ -178,6 +178,11 @@
     <None Remove="Resources\MixFileEntries\td mix description.txt" />
     <None Remove="Resources\MixFileEntries\ts mix description.txt" />
     <None Remove="Resources\MOrules.ini" />
+    <None Remove="Resources\Phobos\Rules.Attached effects.ini" />
+    <None Remove="Resources\Phobos\Rules.Disguise logic additions.ini" />
+    <None Remove="Resources\Phobos\Rules.Projectile interception logic.ini" />
+    <None Remove="Resources\Phobos\Rules.Radiation Types.ini" />
+    <None Remove="Resources\Phobos\Rules.Shields.ini" />
     <None Remove="Resources\RA2MDrulesmd.ini" />
     <None Remove="Resources\RA2rules.ini" />
     <None Remove="Resources\startup.aud" />
@@ -260,6 +265,21 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\DatastructurePhobos.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Phobos\Rules.Attached effects.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Phobos\Rules.Disguise logic additions.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Phobos\Rules.Projectile interception logic.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Phobos\Rules.Radiation Types.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Phobos\Rules.Shields.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\startup1.aud">

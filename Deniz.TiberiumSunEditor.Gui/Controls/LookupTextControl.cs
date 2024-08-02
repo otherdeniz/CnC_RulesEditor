@@ -96,6 +96,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 var lookupType = valueModel.ValueDefinition.LookupType == "self"
                     ? selfLookupType
                     : valueModel.ValueDefinition.LookupType;
+                if (lookupType == "WeaponTypes")
+                {
+                    // only when not Ares, otherwise use 'WeaponTypes' and map all 'Weapons' to 'WeaponTypes'
+                    lookupType = "Weapons";
+                }
                 var lookupItems = rootModel.LookupItems.Where(e => e.EntityType == lookupType).ToList();
                 if (valueModel.ValueDefinition.MultipleValues)
                 {

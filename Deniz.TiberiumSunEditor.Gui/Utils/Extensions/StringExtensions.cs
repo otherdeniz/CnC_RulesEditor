@@ -6,5 +6,10 @@
         {
             return text == "yes" || text == "no" || text.StartsWith("yes,");
         }
+
+        public static bool IsTrueFalse(this string text)
+        {
+            return text == "true" || text == "false";
+        }
     }
 }

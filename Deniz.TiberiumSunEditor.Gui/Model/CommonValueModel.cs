@@ -73,7 +73,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                                     ?? CommonValueDefinition.Section;
 
         public string Category => _categoryOverwrite 
-                                  ?? CommonValueDefinition.Category + CommonValueDefinition.ModuleCategory;
+                                  ?? CommonValueDefinition.ModuleCategory + CommonValueDefinition.Category;
 
         public string Key => CommonValueDefinition.Key;
 

@@ -12,6 +12,8 @@
             _resourcesPath = Path.Combine(Application.StartupPath, "Resources");
         }
 
+        public string ResourcesPath => _resourcesPath;
+
         public byte[] ReadResourcesFile(string fileName)
         {
             return File.ReadAllBytes(Path.Combine(_resourcesPath, fileName));

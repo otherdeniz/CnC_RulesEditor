@@ -21,7 +21,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             _fileSection = fileSection;
             _defaultSection = defaultSection;
             EntityModel = entityModel;
-            Category = category + valueDefinition.ModuleCategory;
+            Category = valueDefinition.ModuleCategory + category;
             Key = key;
             ValueDefinition = valueDefinition;
             NormalValue = _defaultSection?.GetValue(key)?.Value ?? "";

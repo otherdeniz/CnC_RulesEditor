@@ -37,7 +37,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 }
                 if (usePhobos)
                 {
-                    Datastructure = Datastructure.MergeWith(DatastructureFile.InstancePhobos);
+                    Datastructure = Datastructure.MergeWith(DatastructurePhobosFile.InstancePhobos);
                 }
             }
             else
@@ -118,6 +118,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         public List<GameEntityModel> SuperWeaponEntities { get; private set; } = null!;
 
         public List<GameEntityModel> VoxelDebrisEntities { get; private set; } = null!;
+
+        public List<AdditionalGameEntityModels> AdditionalEntities { get; private set; } = null!;
 
         public List<string> Animations { get; private set; } = null!;
 
@@ -418,6 +420,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                     "AircraftTypes",
                     "InfantryTypes"
                 }, "MovementZone");
+            // additional entities
+            AdditionalEntities = new List<AdditionalGameEntityModels>();
+            foreach (var additionalType in Datastructure.AdditionalTypes)
+            {
+                var gameEntities = GetGameEntities(additionalType.TypesName,
+                    additionalType.ValueDefinitions
+                        .Select(d => new UnitValueModel(d, $"{additionalType.Module}: {d.ModuleCategory}")).ToList());
+                AdditionalEntities.Add(new AdditionalGameEntityModels(additionalType.Module, 
+                    additionalType.TypesName, gameEntities));
+            }
         }
 
         private List<GameEntityModel> GetGameEntities(string entitiesTypesSection, 

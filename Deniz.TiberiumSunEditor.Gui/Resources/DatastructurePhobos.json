@@ -6,6 +6,11 @@
 	],
 	
 	"InfantryUnits": [
+		{"Key":"DefaultDisguise","Description":"Infantry can now have its DefaultDisguise overridden per-type","LookupType":"InfantryTypes"},
+		{"Key":"NotHuman.RandomDeathSequence","Description":"Infantry with NotHuman=yes can now play random death anim sequence between Die1 to Die5 instead of the hardcoded Die1","Default":"no"},
+		{"Key":"Slaved","Description":"is this infantry a slave","Default":"no"},
+		{"Key":"Slaved.OwnerWhenMasterKilled","Description":"suicide: Kill each slave if the slave miner is killed; master: Free the slaves but keep the house of the slave unchanged; neutral: The slaves belong to civilian house; killer: Free the slaves and give them to the house of the slave miner’s killer. (vanilla behavior)","ValueList":",suicide,master,killer,neutral"},
+		{"Key":"SlavesFreeSound","Description":"SlavesFreeSound is now dehardcoded from AudioVisual and can be set individually for each enslavable infantry type","LookupType":"Sounds"}
 	],
 
 	"DrivingVehicleUnits": [

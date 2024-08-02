@@ -67,7 +67,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                     var animationImage = CCGameRepository.Instance.GetAnimationsImage(string.Join(",", keys));
                     if (animationImage != null)
                     {
-                        _uiSyncContext.Send(img =>
+                        _uiSyncContext.Post(img =>
                         {
                             try
                             {

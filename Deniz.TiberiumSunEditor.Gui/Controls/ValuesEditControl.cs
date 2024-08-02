@@ -131,6 +131,23 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                             valuesGrid_AfterCellUpdate(this, new CellEventArgs(e.Cell));
                         }
                     }
+                    else if (valueModel.Value.IsTrueFalse() || valueModel.DefaultValue.IsTrueFalse())
+                    {
+                        if (valueModel.Value != "true")
+                        {
+                            e.Cell.CancelUpdate();
+                            valueModel.Value = "true";
+                            e.Cell.Refresh();
+                            valuesGrid_AfterCellUpdate(this, new CellEventArgs(e.Cell));
+                        }
+                        else
+                        {
+                            e.Cell.CancelUpdate();
+                            valueModel.Value = "false";
+                            e.Cell.Refresh();
+                            valuesGrid_AfterCellUpdate(this, new CellEventArgs(e.Cell));
+                        }
+                    }
                 }
             }
         }
