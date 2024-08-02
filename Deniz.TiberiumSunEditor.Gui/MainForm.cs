@@ -13,6 +13,7 @@ namespace Deniz.TiberiumSunEditor.Gui
     public partial class MainForm : Form
     {
         private RulesEditMainControl? _editMainControl;
+        private bool _doEvents;
 
         public MainForm()
         {
@@ -244,6 +245,7 @@ namespace Deniz.TiberiumSunEditor.Gui
 
         private void mainToolbarsManager_ToolClick(object sender, ToolClickEventArgs e)
         {
+            if (!_doEvents) return;
             if (e.Tool.Key.StartsWith("NewRules:"))
             {
                 if (e.Tool.Key.StartsWith("NewRules:Mod:"))
@@ -272,6 +274,12 @@ namespace Deniz.TiberiumSunEditor.Gui
                     break;
                 case "Games":
                     ButtonGamesSettings();
+                    break;
+                case "SettingOpeningSound":
+                    UserSettingsFile.Instance.SettingPlayOpeningSound =
+                        !UserSettingsFile.Instance.SettingPlayOpeningSound;
+                    UserSettingsFile.Instance.Save();
+                    ((StateButtonTool)e.Tool).Checked = UserSettingsFile.Instance.SettingPlayOpeningSound;
                     break;
                 case "OnlyFavoriteValues":
                     ShowOnlyFavoriteValues = !ShowOnlyFavoriteValues;
@@ -333,8 +341,13 @@ namespace Deniz.TiberiumSunEditor.Gui
             Height = formHeight;
             Width = formWidth;
             AnimationsAsyncLoader.Instance.InitialiseUiSyncContext();
-            var audStream = ResourcesRepository.Instance.ReadRandomResourcesFileStream("startup*.aud");
-            AudioPlayerService.PlaySound(StupidStream.FromFileStream(audStream));
+            if (UserSettingsFile.Instance.SettingPlayOpeningSound)
+            {
+                ((StateButtonTool)mainToolbarsManager.Tools["SettingOpeningSound"]).Checked = true;
+                var audStream = ResourcesRepository.Instance.ReadRandomResourcesFileStream("startup*.aud");
+                AudioPlayerService.PlaySound(StupidStream.FromFileStream(audStream));
+            }
+            _doEvents = true;
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)

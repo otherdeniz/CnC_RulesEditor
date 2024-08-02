@@ -23,6 +23,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
 
         public List<string> FavoriteUnitValues { get; set; } = new();
 
+        public bool SettingPlayOpeningSound { get; set; } = true;
+
         public List<GamePathSetting> GamePaths { get; set; } = new();
 
         public List<CustomModSetting> CustomMods { get; set; } = new();
