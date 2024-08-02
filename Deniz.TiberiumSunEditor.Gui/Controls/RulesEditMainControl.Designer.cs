@@ -79,6 +79,8 @@
             ultraTabPageControl12 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
             tabPhobos = new Infragistics.Win.UltraWinTabControl.UltraTabControl();
             ultraTabSharedControlsPage2 = new Infragistics.Win.UltraWinTabControl.UltraTabSharedControlsPage();
+            panelPhobosShowEmpty = new Panel();
+            checkBoxPhobosShowEmpty = new CheckBox();
             mainTab = new Infragistics.Win.UltraWinTabControl.UltraTabControl();
             ultraTabSharedControlsPage1 = new Infragistics.Win.UltraWinTabControl.UltraTabSharedControlsPage();
             panelTitle = new Panel();
@@ -103,6 +105,7 @@
             ultraTabPageControl12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)tabPhobos).BeginInit();
             tabPhobos.SuspendLayout();
+            panelPhobosShowEmpty.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)mainTab).BeginInit();
             mainTab.SuspendLayout();
             panelTitle.SuspendLayout();
@@ -111,7 +114,7 @@
             // ultraTabPageControl1
             // 
             ultraTabPageControl1.Controls.Add(valuesEditCommon);
-            ultraTabPageControl1.Location = new Point(-10000, -10000);
+            ultraTabPageControl1.Location = new Point(1, 29);
             ultraTabPageControl1.Margin = new Padding(4, 3, 4, 3);
             ultraTabPageControl1.Name = "ultraTabPageControl1";
             ultraTabPageControl1.Size = new Size(1035, 446);
@@ -180,7 +183,7 @@
             // unitsBuildings
             // 
             unitsBuildings.BackColor = Color.White;
-            unitsBuildings.CanAdd = true;
+            unitsBuildings.CanAddUnlisted = true;
             unitsBuildings.CanCopy = true;
             unitsBuildings.Dock = DockStyle.Fill;
             unitsBuildings.Location = new Point(0, 0);
@@ -189,7 +192,7 @@
             unitsBuildings.Size = new Size(1035, 446);
             unitsBuildings.TabIndex = 0;
             unitsBuildings.UnitCreateCopy += unitsBuildings_UnitCreateCopy;
-            unitsBuildings.UnitAdd += unitsBuildings_UnitAdd;
+            unitsBuildings.UnitAddUnlisted += unitsBuildings_UnitAdd;
             // 
             // ultraTabPageControl3
             // 
@@ -202,7 +205,7 @@
             // unitsInfantry
             // 
             unitsInfantry.BackColor = Color.White;
-            unitsInfantry.CanAdd = true;
+            unitsInfantry.CanAddUnlisted = true;
             unitsInfantry.CanCopy = true;
             unitsInfantry.Dock = DockStyle.Fill;
             unitsInfantry.Location = new Point(0, 0);
@@ -211,7 +214,7 @@
             unitsInfantry.Size = new Size(1035, 446);
             unitsInfantry.TabIndex = 1;
             unitsInfantry.UnitCreateCopy += unitsInfantry_UnitCreateCopy;
-            unitsInfantry.UnitAdd += unitsInfantry_UnitAdd;
+            unitsInfantry.UnitAddUnlisted += unitsInfantry_UnitAdd;
             // 
             // ultraTabPageControl5
             // 
@@ -224,7 +227,7 @@
             // unitsVehicles
             // 
             unitsVehicles.BackColor = Color.White;
-            unitsVehicles.CanAdd = true;
+            unitsVehicles.CanAddUnlisted = true;
             unitsVehicles.CanCopy = true;
             unitsVehicles.Dock = DockStyle.Fill;
             unitsVehicles.Location = new Point(0, 0);
@@ -233,7 +236,7 @@
             unitsVehicles.Size = new Size(1035, 446);
             unitsVehicles.TabIndex = 1;
             unitsVehicles.UnitCreateCopy += unitsVehicles_UnitCreateCopy;
-            unitsVehicles.UnitAdd += unitsVehicles_UnitAdd;
+            unitsVehicles.UnitAddUnlisted += unitsVehicles_UnitAdd;
             // 
             // ultraTabPageControl6
             // 
@@ -246,7 +249,7 @@
             // unitsAircrafts
             // 
             unitsAircrafts.BackColor = Color.White;
-            unitsAircrafts.CanAdd = true;
+            unitsAircrafts.CanAddUnlisted = true;
             unitsAircrafts.CanCopy = true;
             unitsAircrafts.Dock = DockStyle.Fill;
             unitsAircrafts.Location = new Point(0, 0);
@@ -255,7 +258,7 @@
             unitsAircrafts.Size = new Size(1035, 446);
             unitsAircrafts.TabIndex = 2;
             unitsAircrafts.UnitCreateCopy += unitsAircrafts_UnitCreateCopy;
-            unitsAircrafts.UnitAdd += unitsAircrafts_UnitAdd;
+            unitsAircrafts.UnitAddUnlisted += unitsAircrafts_UnitAdd;
             // 
             // ultraTabPageControl4
             // 
@@ -359,7 +362,8 @@
             // ultraTabPageControl12
             // 
             ultraTabPageControl12.Controls.Add(tabPhobos);
-            ultraTabPageControl12.Location = new Point(1, 29);
+            ultraTabPageControl12.Controls.Add(panelPhobosShowEmpty);
+            ultraTabPageControl12.Location = new Point(-10000, -10000);
             ultraTabPageControl12.Name = "ultraTabPageControl12";
             ultraTabPageControl12.Size = new Size(1035, 446);
             // 
@@ -367,19 +371,39 @@
             // 
             tabPhobos.Controls.Add(ultraTabSharedControlsPage2);
             tabPhobos.Dock = DockStyle.Fill;
-            tabPhobos.Location = new Point(0, 0);
+            tabPhobos.Location = new Point(0, 24);
             tabPhobos.Name = "tabPhobos";
             appearance110.FontData.BoldAsString = "True";
             tabPhobos.SelectedTabAppearance = appearance110;
             tabPhobos.SharedControlsPage = ultraTabSharedControlsPage2;
-            tabPhobos.Size = new Size(1035, 446);
+            tabPhobos.Size = new Size(1035, 422);
             tabPhobos.TabIndex = 0;
             // 
             // ultraTabSharedControlsPage2
             // 
             ultraTabSharedControlsPage2.Location = new Point(1, 20);
             ultraTabSharedControlsPage2.Name = "ultraTabSharedControlsPage2";
-            ultraTabSharedControlsPage2.Size = new Size(1031, 423);
+            ultraTabSharedControlsPage2.Size = new Size(1031, 399);
+            // 
+            // panelPhobosShowEmpty
+            // 
+            panelPhobosShowEmpty.Controls.Add(checkBoxPhobosShowEmpty);
+            panelPhobosShowEmpty.Dock = DockStyle.Top;
+            panelPhobosShowEmpty.Location = new Point(0, 0);
+            panelPhobosShowEmpty.Name = "panelPhobosShowEmpty";
+            panelPhobosShowEmpty.Size = new Size(1035, 24);
+            panelPhobosShowEmpty.TabIndex = 2;
+            // 
+            // checkBoxPhobosShowEmpty
+            // 
+            checkBoxPhobosShowEmpty.AutoSize = true;
+            checkBoxPhobosShowEmpty.Location = new Point(6, 3);
+            checkBoxPhobosShowEmpty.Name = "checkBoxPhobosShowEmpty";
+            checkBoxPhobosShowEmpty.Size = new Size(124, 19);
+            checkBoxPhobosShowEmpty.TabIndex = 1;
+            checkBoxPhobosShowEmpty.Text = "Show empty Types";
+            checkBoxPhobosShowEmpty.UseVisualStyleBackColor = true;
+            checkBoxPhobosShowEmpty.CheckedChanged += checkBoxPhobosShowEmpty_CheckedChanged;
             // 
             // mainTab
             // 
@@ -458,7 +482,7 @@
             ultraTab111.Appearance = appearance19;
             ultraTab111.Key = "Phobos";
             ultraTab111.TabPage = ultraTabPageControl12;
-            ultraTab111.Text = "PHOBOS";
+            ultraTab111.Text = "PHOBOS Types";
             mainTab.Tabs.AddRange(new Infragistics.Win.UltraWinTabControl.UltraTab[] { ultraTab11, ultraTab19, ultraTab17, ultraTab110, ultraTab1, ultraTab12, ultraTab14, ultraTab15, ultraTab13, ultraTab16, ultraTab18, ultraTab111 });
             // 
             // ultraTabSharedControlsPage1
@@ -532,6 +556,8 @@
             ultraTabPageControl12.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)tabPhobos).EndInit();
             tabPhobos.ResumeLayout(false);
+            panelPhobosShowEmpty.ResumeLayout(false);
+            panelPhobosShowEmpty.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)mainTab).EndInit();
             mainTab.ResumeLayout(false);
             panelTitle.ResumeLayout(false);
@@ -574,5 +600,7 @@
         private Infragistics.Win.UltraWinTabControl.UltraTabPageControl ultraTabPageControl12;
         private Infragistics.Win.UltraWinTabControl.UltraTabControl tabPhobos;
         private Infragistics.Win.UltraWinTabControl.UltraTabSharedControlsPage ultraTabSharedControlsPage2;
+        private CheckBox checkBoxPhobosShowEmpty;
+        private Panel panelPhobosShowEmpty;
     }
 }

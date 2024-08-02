@@ -71,7 +71,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
                             Key = commonKeyValue.Key,
                             Section = valueSection.Section.SectionName!,
                             ValueList = commonKeyValue.Comment != null ? DetectValueList(commonKeyValue.Comment) : null,
-                            LookupType = commonKeyValue.Comment != null ? DetectLookupType(commonKeyValue.Comment) : null
+                            LookupType = commonKeyValue.Comment != null ? DetectLookupType(commonKeyValue.Comment) : null,
+                            MultipleValues = commonKeyValue.Comment?.Contains("list of ") ?? false
                         });
                     }
                 }
@@ -87,7 +88,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
                             Description = unitKeyValue.Comment,
                             Key = unitKeyValue.Key,
                             ValueList = unitKeyValue.Comment != null ? DetectValueList(unitKeyValue.Comment) : null,
-                            LookupType = unitKeyValue.Comment != null ? DetectLookupType(unitKeyValue.Comment) : null
+                            LookupType = unitKeyValue.Comment != null ? DetectLookupType(unitKeyValue.Comment) : null,
+                            MultipleValues = unitKeyValue.Comment?.StartsWith("list of ") ?? false
                         });
                     }
                 }
@@ -151,13 +153,24 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
 
         private string? DetectLookupType(string comment)
         {
-            if (comment.EndsWith("Type") && !comment.Contains(" "))
+            var trimmedComment = comment.StartsWith("list of ", StringComparison.InvariantCultureIgnoreCase)
+                ? comment.Substring(8)
+                : comment;
+            if (trimmedComment.EndsWith("Type") && !trimmedComment.Contains(" "))
             {
-                return $"{comment}s";
+                return $"{trimmedComment}s";
             }
-            if (comment == "Animation")
+            if (trimmedComment.EndsWith("Types") && !trimmedComment.Contains(" "))
+            {
+                return trimmedComment;
+            }
+            if (trimmedComment == "Animation")
             {
                 return "Animations";
+            }
+            if (trimmedComment == "Sound")
+            {
+                return "Sounds";
             }
             return null;
         }

@@ -3,6 +3,8 @@
 	],
 	
 	"AllMovingUnits": [
+		{"Key":"Passengers.SyncOwner","Description":"Transports with Passengers.SyncOwner set to true will have the owner of their passengers changed to match the transport if transport’s owner changes.","Default":"false"},
+		{"Key":"Passengers.SyncOwner.RevertOnExit","Description":" if set to true (which is the default), changes the passengers’ owner back to whatever it was originally when they entered the transport when they are ejected.","Default":"true"},
 	],
 	
 	"InfantryUnits": [

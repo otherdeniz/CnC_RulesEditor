@@ -178,11 +178,20 @@
     <None Remove="Resources\MixFileEntries\td mix description.txt" />
     <None Remove="Resources\MixFileEntries\ts mix description.txt" />
     <None Remove="Resources\MOrules.ini" />
+    <None Remove="Resources\Phobos\Rules.Aircraft spawner customizations.ini" />
     <None Remove="Resources\Phobos\Rules.Attached effects.ini" />
+    <None Remove="Resources\Phobos\Rules.Automatic passenger deletion.ini" />
+    <None Remove="Resources\Phobos\Rules.Automatically firing weapons.ini" />
     <None Remove="Resources\Phobos\Rules.Disguise logic additions.ini" />
     <None Remove="Resources\Phobos\Rules.Projectile interception logic.ini" />
+    <None Remove="Resources\Phobos\Rules.Projectile trajectories.ini" />
     <None Remove="Resources\Phobos\Rules.Radiation Types.ini" />
     <None Remove="Resources\Phobos\Rules.Shields.ini" />
+    <None Remove="Resources\Phobos\Rules.Spy Effects.ini" />
+    <None Remove="Resources\Phobos\Rules.Super Weapons Convert TechnoType.ini" />
+    <None Remove="Resources\Phobos\Rules.Super Weapons Limbo Delivery.ini" />
+    <None Remove="Resources\Phobos\Rules.Super Weapons Next.ini" />
+    <None Remove="Resources\Phobos\Rules.Super Weapons Warhead or Weapon detonation at target cell.ini" />
     <None Remove="Resources\RA2MDrulesmd.ini" />
     <None Remove="Resources\RA2rules.ini" />
     <None Remove="Resources\startup.aud" />
@@ -267,7 +276,16 @@
     <Content Include="Resources\DatastructurePhobos.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Phobos\Rules.Aircraft spawner customizations.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Phobos\Rules.Attached effects.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Phobos\Rules.Automatic passenger deletion.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Phobos\Rules.Automatically firing weapons.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Phobos\Rules.Disguise logic additions.ini">
@@ -276,10 +294,28 @@
     <Content Include="Resources\Phobos\Rules.Projectile interception logic.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Phobos\Rules.Projectile trajectories.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Phobos\Rules.Radiation Types.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Phobos\Rules.Shields.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Phobos\Rules.Spy Effects.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Phobos\Rules.Super Weapons Convert TechnoType.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Phobos\Rules.Super Weapons Limbo Delivery.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Phobos\Rules.Super Weapons Next.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Phobos\Rules.Super Weapons Warhead or Weapon detonation at target cell.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\startup1.aud">

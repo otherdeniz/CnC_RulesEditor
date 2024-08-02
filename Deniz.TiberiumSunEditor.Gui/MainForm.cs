@@ -149,7 +149,6 @@ namespace Deniz.TiberiumSunEditor.Gui
         private void LoadFile(IniFile iniFile)
         {
             Cursor = Cursors.WaitCursor;
-            AnimationsAsyncLoader.Instance.Stop(true, true);
             _editMainControl = null;
             mainToolbarsManager.Tools["SaveAs"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["OnlyFavorites"].SharedProps.Enabled = false;
@@ -225,7 +224,6 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["ExportChanges"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = true;
-            AnimationsAsyncLoader.Instance.Start();
             Cursor = Cursors.Default;
         }
 

@@ -45,6 +45,7 @@
             buttonOk.TabIndex = 10;
             buttonOk.Text = "Ok";
             buttonOk.UseVisualStyleBackColor = true;
+            buttonOk.Click += buttonOk_Click;
             // 
             // buttonCancel
             // 
@@ -55,6 +56,7 @@
             buttonCancel.TabIndex = 11;
             buttonCancel.Text = "Cancel";
             buttonCancel.UseVisualStyleBackColor = true;
+            buttonCancel.Click += buttonCancel_Click;
             // 
             // TextNewKey
             // 
@@ -62,7 +64,8 @@
             TextNewKey.Location = new Point(133, 12);
             TextNewKey.Name = "TextNewKey";
             TextNewKey.Size = new Size(211, 23);
-            TextNewKey.TabIndex = 4;
+            TextNewKey.TabIndex = 0;
+            TextNewKey.TextChanged += TextNewKey_TextChanged;
             // 
             // label3
             // 
@@ -75,8 +78,10 @@
             // 
             // AddEmptyForm
             // 
+            AcceptButton = buttonOk;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = buttonCancel;
             ClientSize = new Size(364, 89);
             ControlBox = false;
             Controls.Add(buttonOk);
@@ -86,6 +91,7 @@
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "AddEmptyForm";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "Add new item";
             ResumeLayout(false);
             PerformLayout();

@@ -44,6 +44,7 @@
             toolStripLabelItem = new ToolStripLabel();
             toolStripButtonNext = new ToolStripButton();
             toolStripLabelTotal = new ToolStripLabel();
+            buttonAddEmpty = new ToolStripButton();
             unitsLayoutPanel.SuspendLayout();
             panelLeft.SuspendLayout();
             toolStripAdd.SuspendLayout();
@@ -142,7 +143,7 @@
             // 
             // toolStripAdd
             // 
-            toolStripAdd.Items.AddRange(new ToolStripItem[] { buttonAddUnit });
+            toolStripAdd.Items.AddRange(new ToolStripItem[] { buttonAddUnit, buttonAddEmpty });
             toolStripAdd.Location = new Point(0, 0);
             toolStripAdd.Name = "toolStripAdd";
             toolStripAdd.Size = new Size(238, 25);
@@ -201,6 +202,15 @@
             toolStripLabelTotal.Size = new Size(66, 22);
             toolStripLabelTotal.Text = "1'000 Items";
             // 
+            // buttonAddEmpty
+            // 
+            buttonAddEmpty.Image = (Image)resources.GetObject("buttonAddEmpty.Image");
+            buttonAddEmpty.ImageTransparentColor = Color.Magenta;
+            buttonAddEmpty.Name = "buttonAddEmpty";
+            buttonAddEmpty.Size = new Size(49, 22);
+            buttonAddEmpty.Text = "Add";
+            buttonAddEmpty.Click += buttonAddEmpty_Click;
+            // 
             // UnitsListControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -240,5 +250,6 @@
         private ToolStripLabel toolStripLabelTotal;
         private ToolStrip toolStripAdd;
         private ToolStripButton buttonAddUnit;
+        private ToolStripButton buttonAddEmpty;
     }
 }

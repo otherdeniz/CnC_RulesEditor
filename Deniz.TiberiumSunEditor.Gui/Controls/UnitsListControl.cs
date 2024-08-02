@@ -21,13 +21,17 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         }
 
         public event EventHandler<EntityCopyEventArgs>? UnitCreateCopy;
-        public event EventHandler<EventArgs>? UnitAdd;
+        public event EventHandler<EventArgs>? UnitAddUnlisted;
+        public event EventHandler<EventArgs>? UnitAddEmpty;
 
         [DefaultValue(true)]
         public bool OrderByThumbnail { get; set; } = true;
 
         [DefaultValue(false)]
-        public bool CanAdd { get; set; }
+        public bool CanAddUnlisted { get; set; }
+
+        [DefaultValue(false)]
+        public bool CanAddEmpty { get; set; }
 
         [DefaultValue(false)]
         public bool CanCopy
@@ -196,7 +200,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void buttonAddUnit_Click(object sender, EventArgs e)
         {
-            UnitAdd?.Invoke(this, e);
+            UnitAddUnlisted?.Invoke(this, e);
+        }
+
+        private void buttonAddEmpty_Click(object sender, EventArgs e)
+        {
+            UnitAddEmpty?.Invoke(this, e);
         }
 
         private void unitEdit_FavoriteClick(object sender, EventArgs e)
@@ -232,9 +241,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void UnitsListControl_Load(object sender, EventArgs e)
         {
-            toolStripAdd.Visible = CanAdd 
-                                   && !ReadonlyMode 
+            buttonAddUnit.Visible = CanAddUnlisted;
+            buttonAddEmpty.Visible = CanAddEmpty;
+            toolStripAdd.Visible = (CanAddUnlisted || CanAddEmpty)
+                                   && !ReadonlyMode
                                    && CCGameRepository.Instance.IsLoaded;
         }
+
     }
 }

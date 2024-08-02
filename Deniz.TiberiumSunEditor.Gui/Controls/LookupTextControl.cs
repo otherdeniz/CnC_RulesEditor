@@ -1,9 +1,7 @@
 ﻿using Deniz.CCAudioPlayerCore;
 using Deniz.TiberiumSunEditor.Gui.Model;
 using Deniz.TiberiumSunEditor.Gui.Utils;
-using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Infragistics.Win.UltraWinGrid;
-using System.Windows.Forms;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls
 {
@@ -19,6 +17,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private UltraGridRow? _hoverRow;
         private List<GameEntityModel>? _lookupEntities;
         private AnimationRequirementToken? _popupAnimationAsyncLoadToken;
+        private string? _lookupType;
 
         public LookupTextControl()
         {
@@ -44,11 +43,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 valueList = valueModel.ValueDefinition.ValueList.Split(",");
             }
-            else if (valueModel.ValueDefinition.LookupType != null
-                     && _rootModel.LookupEntities.TryGetValue(valueModel.ValueDefinition.LookupType, out var lookupEntityModels))
-            {
-                _lookupEntities = lookupEntityModels;
-            }
             else if (valueModel.ValueDefinition.ValueType != null)
             {
                 valueList = _rootModel.Datastructure.ValueTypes
@@ -73,6 +67,23 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     valueList = rootModel.Houses;
                     break;
             }
+            _lookupType = valueModel.ValueDefinition.LookupType == "self"
+                ? selfLookupType
+                : valueModel.ValueDefinition.LookupType;
+            if (_lookupType == "WeaponTypes")
+            {
+                // only when not Ares, otherwise use 'WeaponTypes' and map all 'Weapons' to 'WeaponTypes'
+                _lookupType = "Weapons";
+            }
+            if (_lookupType == "WarheadTypes")
+            {
+                _lookupType = "Warheads";
+            }
+            if (_lookupType != null
+                && _rootModel.LookupEntities.TryGetValue(_lookupType, out var lookupEntityModels))
+            {
+                _lookupEntities = lookupEntityModels;
+            }
             if (valueList != null)
             {
                 if (valueModel.ValueDefinition.MultipleValues)
@@ -91,17 +102,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     LoadTextValuesGrid();
                 }
             }
-            else if (valueModel.ValueDefinition.LookupType != null)
+            else if (_lookupType != null)
             {
-                var lookupType = valueModel.ValueDefinition.LookupType == "self"
-                    ? selfLookupType
-                    : valueModel.ValueDefinition.LookupType;
-                if (lookupType == "WeaponTypes")
-                {
-                    // only when not Ares, otherwise use 'WeaponTypes' and map all 'Weapons' to 'WeaponTypes'
-                    lookupType = "Weapons";
-                }
-                var lookupItems = rootModel.LookupItems.Where(e => e.EntityType == lookupType).ToList();
+                var lookupItems = rootModel.LookupItems.Where(e => e.EntityType == _lookupType).ToList();
                 if (valueModel.ValueDefinition.MultipleValues)
                 {
                     var selectedKeys = valueModel.Value.Split(",", StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -220,7 +223,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void PlaySelectedSound(string key)
         {
-            switch (_valueModel.ValueDefinition.LookupType)
+            switch (_lookupType)
             {
                 case "Sounds":
                 case "WeaponSounds":
@@ -235,7 +238,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void OpenPopup(string key, RowUIElement hoverRow)
         {
-            switch (_valueModel.ValueDefinition.LookupType)
+            switch (_lookupType)
             {
                 case "Sounds":
                 case "WeaponSounds":
@@ -275,7 +278,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                             pictureThumbnail.Visible = true;
                             if (entityThumbnail.Kind == ThumbnailKind.Animation)
                             {
-                                var animationImage = CCGameRepository.Instance.GetAnimationsImage(key);
+                                var animationImage = entityThumbnail.LoadAnimation();
                                 if (animationImage != null)
                                 {
                                     pictureThumbnail.Image = animationImage;

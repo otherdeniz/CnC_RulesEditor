@@ -48,9 +48,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             rulesEdit.Visible = false;
             Application.DoEvents();
             _selectedSnippet = snippetModel;
-            AnimationsAsyncLoader.Instance.Stop(true, false);
             rulesEdit.LoadModel(snippetModel.Model, "Snippet", snippetModel.Name);
-            AnimationsAsyncLoader.Instance.Start();
             rulesEdit.Visible = true;
             buttonOk.Enabled = true;
         }

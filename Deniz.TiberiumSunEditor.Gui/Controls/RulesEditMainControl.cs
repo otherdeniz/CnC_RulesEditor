@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using Deniz.TiberiumSunEditor.Gui.Dialogs;
 using Deniz.TiberiumSunEditor.Gui.Model;
+using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Infragistics.Win.UltraWinTabControl;
 
@@ -13,7 +14,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private bool _titleVisible = true;
         private string _searchText = "";
         private bool _showOnlyFavoriteUnits;
-        private List<UnitsListControl>? _phobosUnitsListControls;
 
         public RootModel Model { get; private set; } = null!;
 
@@ -51,7 +51,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 unitsWeapons.ReadonlyMode = _readonlyMode;
                 unitsWarheads.ReadonlyMode = _readonlyMode;
                 unitsSuperWeapons.ReadonlyMode = _readonlyMode;
-                _phobosUnitsListControls?.ForEach(c => c.ReadonlyMode = _readonlyMode);
+                panelPhobosShowEmpty.Visible = !_readonlyMode;
             }
         }
 
@@ -74,7 +74,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 unitsWeapons.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
                 unitsWarheads.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
                 unitsSuperWeapons.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
-                _phobosUnitsListControls?.ForEach(c => c.ShowOnlyFavoriteValues = _showOnlyFavoriteValues);
             }
         }
 
@@ -93,7 +92,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 unitsWeapons.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
                 unitsWarheads.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
                 unitsSuperWeapons.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
-                _phobosUnitsListControls?.ForEach(c => c.ShowOnlyFavoriteValues = _showOnlyFavoriteUnits);
             }
         }
 
@@ -116,7 +114,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 unitsWeapons.SearchText = _searchText;
                 unitsWarheads.SearchText = _searchText;
                 unitsSuperWeapons.SearchText = _searchText;
-                _phobosUnitsListControls?.ForEach(c => c.SearchText = _searchText);
             }
         }
 
@@ -136,6 +133,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         public void LoadModels()
         {
+            AnimationsAsyncLoader.Instance.Stop(true, false);
             mainTab.Tabs["Buildings"].Visible = unitsBuildings.LoadModel(Model.BuildingEntities);
             mainTab.Tabs["Infantry"].Visible = unitsInfantry.LoadModel(Model.InfantryEntities);
             mainTab.Tabs["Vehicles"].Visible = unitsVehicles.LoadModel(Model.VehicleEntities);
@@ -168,13 +166,21 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 {
                     var unitListConrol = new UnitsListControl
                     {
-                        Dock = DockStyle.Fill
+                        Dock = DockStyle.Fill,
+                        CanAddEmpty = true
                     };
                     unitListConrol.ReadonlyMode = _readonlyMode;
                     unitListConrol.SearchText = _searchText;
                     unitListConrol.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
                     unitListConrol.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
-                    if (unitListConrol.LoadModel(additionalGameEntities.Entities) || !_readonlyMode)
+                    unitListConrol.UnitAddEmpty += (sender, args) =>
+                    {
+                        Cursor = Cursors.WaitCursor;
+                        AddEmptyUnit(additionalGameEntities.EntityType);
+                        Cursor = Cursors.Default;
+                    };
+                    var hasEntries = unitListConrol.LoadModel(additionalGameEntities.Entities);
+                    if (hasEntries || !_readonlyMode)
                     {
                         var additionalTabControl = new UltraTabPageControl
                         {
@@ -184,7 +190,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                         };
                         var additionalTab = new UltraTab
                         {
-                            Text = additionalGameEntities.EntityType
+                            Text = additionalGameEntities.EntityType,
+                            Visible = hasEntries || checkBoxPhobosShowEmpty.Checked,
+                            Tag = hasEntries
                         };
                         additionalTab.TabPage = additionalTabControl;
                         additionalTabControl.Controls.Add(unitListConrol);
@@ -195,10 +203,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 }
             }
             mainTab.Tabs["Phobos"].Visible = hasPhobos;
+            AnimationsAsyncLoader.Instance.Start();
         }
 
-        private void CreateCopy(EntityCopyEventArgs e, 
-            string? entityTypes, 
+        private void CreateCopy(EntityCopyEventArgs e,
+            string? entityTypes,
             bool addImage,
             UnitsListControl unitsListControl)
         {
@@ -220,6 +229,29 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
             Model.ReloadGameEntites();
             unitsListControl.SelectKey(e.NewKey);
+        }
+
+        private void AddEmptyUnit(string? entityTypes)
+        {
+            using (var addEmptyForm = new AddEmptyForm())
+            {
+                addEmptyForm.LoadModel(Model);
+                if (addEmptyForm.ShowDialog(this.ParentForm) == DialogResult.OK)
+                {
+                    var newKey = addEmptyForm.TextNewKey.Text;
+                    Model.File.AddSection(newKey);
+                    if (entityTypes != null)
+                    {
+                        var entitiesTypesSection = Model.File.GetSection(entityTypes)
+                                                   ?? Model.File.AddSection(entityTypes);
+                        var typeKey = entitiesTypesSection.KeyValues.Any()
+                            ? entitiesTypesSection.KeyValues.Max(k => int.Parse(k.Key)) + 1
+                            : Model.FileType.BaseType == FileBaseType.Rules ? 1 : 900;
+                        entitiesTypesSection.SetValue(typeKey.ToString(), newKey);
+                    }
+                    Model.ReloadGameEntites();
+                }
+            }
         }
 
         private void AddNewUnit(string entityType,
@@ -301,5 +333,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 Model.Datastructure.NewAircraft, unitsAircrafts);
         }
 
+        private void checkBoxPhobosShowEmpty_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach (var phobosTab in tabPhobos.Tabs)
+            {
+                phobosTab.Visible = checkBoxPhobosShowEmpty.Checked || (bool)phobosTab.Tag;
+            }
+        }
     }
 }
