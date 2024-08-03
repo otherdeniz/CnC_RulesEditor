@@ -182,7 +182,10 @@
     <None Remove="Resources\Phobos\Rules.Attached effects.ini" />
     <None Remove="Resources\Phobos\Rules.Automatic passenger deletion.ini" />
     <None Remove="Resources\Phobos\Rules.Automatically firing weapons.ini" />
+    <None Remove="Resources\Phobos\Rules.Build limit group.ini" />
     <None Remove="Resources\Phobos\Rules.Disguise logic additions.ini" />
+    <None Remove="Resources\Phobos\Rules.Extra warhead detonations.ini" />
+    <None Remove="Resources\Phobos\Rules.Kill Object Automatically.ini" />
     <None Remove="Resources\Phobos\Rules.Projectile interception logic.ini" />
     <None Remove="Resources\Phobos\Rules.Projectile trajectories.ini" />
     <None Remove="Resources\Phobos\Rules.Radiation Types.ini" />
@@ -288,7 +291,16 @@
     <Content Include="Resources\Phobos\Rules.Automatically firing weapons.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Phobos\Rules.Build limit group.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Phobos\Rules.Disguise logic additions.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Phobos\Rules.Extra warhead detonations.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Phobos\Rules.Kill Object Automatically.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Phobos\Rules.Projectile interception logic.ini">
