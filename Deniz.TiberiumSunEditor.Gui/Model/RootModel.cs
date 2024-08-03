@@ -1,12 +1,8 @@
-﻿using System.Configuration;
-using System.Security.Cryptography.X509Certificates;
-using System.Windows.Forms;
-using Deniz.TiberiumSunEditor.Gui.Utils;
+﻿using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Deniz.TiberiumSunEditor.Gui.Utils.EqualityComparer;
 using Deniz.TiberiumSunEditor.Gui.Utils.Extensions;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
-using Infragistics.Win;
 
 namespace Deniz.TiberiumSunEditor.Gui.Model
 {
@@ -102,6 +98,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         public List<CommonValueModel> TiberiumValues { get; }
 
         public List<CommonValueModel> AudioVisualValues { get; }
+
+        public List<GameEntityModel> SideEntities { get; private set; } = null!;
 
         public List<GameEntityModel> VehicleEntities { get; private set; } = null!;
 
@@ -326,7 +324,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             return result;
         }
 
-        private string? DetectLookupType(string valueKey)
+        public string? DetectLookupType(string valueKey)
         {
             var lookupEntityType = LookupItems.FirstOrDefault(l => 
                 string.Equals(l.Key, valueKey, StringComparison.InvariantCultureIgnoreCase))?.EntityType;
@@ -351,6 +349,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             var movingUnitsModel = Datastructure.AllMovingUnits.Select(u =>
                 new UnitValueModel(u, "2) All moving units")).ToList();
 
+            var sidesEntityKeys = (File.GetSection("Sides")?.KeyValues.SelectMany(k => k.Value.Split(",")).ToList()
+                                   ?? new List<string>())
+                .Union(DefaultFile.GetSection("Sides")?.KeyValues.SelectMany(k => k.Value.Split(",")).ToList()
+                       ?? new List<string>());
+            SideEntities = GetGameEntities("Sides", sidesEntityKeys,
+                Datastructure.Sides.Select(u =>
+                        new UnitValueModel(u, "1) Side"))
+                    .ToList());
             VehicleEntities = GetGameEntities("VehicleTypes",
                 allUnitsModel.Union(movingUnitsModel)
                     .Union(Datastructure.DrivingVehicleUnits.Select(u =>
@@ -373,7 +379,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                     .ToList());
             WarheadEntities = GetGameEntities("Warheads",
                 Datastructure.Warheads.Select(u =>
-                    new UnitValueModel(u, "1) Warheads"))
+                        new UnitValueModel(u, "1) Warheads"))
                     .ToList());
             WeaponEntities = GetGameEntities("Weapons",
                 s => (s.KeyValues.Any(k => k.Key == "Warhead")
@@ -435,11 +441,18 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         private List<GameEntityModel> GetGameEntities(string entitiesTypesSection, 
             List<UnitValueModel> unitValueList)
         {
-            var result = new List<GameEntityModel>();
-            var entityKeysList = (File.GetSection(entitiesTypesSection)?.KeyValues.Select(k => k.Value).ToList()
+            var entityKeys = (File.GetSection(entitiesTypesSection)?.KeyValues.Select(k => k.Value).ToList()
                                   ?? new List<string>())
                 .Union(DefaultFile.GetSection(entitiesTypesSection)?.KeyValues.Select(k => k.Value).ToList()
                        ?? new List<string>());
+            return GetGameEntities(entitiesTypesSection, entityKeys, unitValueList);
+        }
+
+        private List<GameEntityModel> GetGameEntities(string entityType,
+            IEnumerable<string> entityKeysList,
+            List<UnitValueModel> unitValueList)
+        {
+            var result = new List<GameEntityModel>();
             foreach (var entityKey in entityKeysList.OrderBy(e => e))
             {
                 var fileSection = File.GetSection(entityKey);
@@ -447,7 +460,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 if (fileSection != null)
                 {
                     result.Add(new GameEntityModel(this,
-                        entitiesTypesSection,
+                        entityType,
                         fileSection,
                         defaultSection,
                         unitValueList));
@@ -455,17 +468,17 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 else if (defaultSection != null && _showMissingValues)
                 {
                     result.Add(new GameEntityModel(this,
-                        entitiesTypesSection,
+                        entityType,
                         File.AddSection(entityKey),
                         defaultSection,
                         unitValueList));
                 }
-                LookupItems.Add(new LookupItemModel(entitiesTypesSection, entityKey,
+                LookupItems.Add(new LookupItemModel(entityType, entityKey,
                     fileSection?.GetValue("Name")?.Value
                     ?? (defaultSection ?? fileSection)?.HeaderComments.FirstOrDefault()?.Comment
                     ?? ""));
             }
-            LookupEntities.Add(entitiesTypesSection, result);
+            LookupEntities.Add(entityType, result);
             return result;
         }
 

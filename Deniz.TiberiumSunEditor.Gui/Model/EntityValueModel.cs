@@ -78,7 +78,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         public string Description => ValueDefinition.Description ?? "";
 
         [Browsable(false)]
-        public UnitValueDefinition ValueDefinition { get; }
+        public UnitValueDefinition ValueDefinition { get; set; }
 
         [Browsable(false)]
         public GameEntityModel EntityModel { get; }

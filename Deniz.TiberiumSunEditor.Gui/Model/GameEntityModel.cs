@@ -34,7 +34,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                         fileSection,
                         defaultSection,
                         k.Key,
-                        new UnitValueDefinition {Key = k.Key})))
+                        new UnitValueDefinition {Key = k.Key, DetectTypeAtRuntime = true})))
                 .ToList();
         }
 
@@ -89,6 +89,17 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                         }
                         return null;
                     }
+                }
+                if (EntityType == "Sides")
+                {
+                    var sideName = FileSection.GetValue("Side")?.Value;
+                    var sideDefinition = RootModel.FileType.GameDefinition.Sides
+                        .FirstOrDefault(d => d.Name.Equals(sideName, StringComparison.InvariantCultureIgnoreCase));
+                    if (sideDefinition != null)
+                    {
+                        return new ThumbnailModel(BitmapRepository.Instance.BlankImage.OverlayImage(sideDefinition.GetLogoImage()));
+                    }
+                    return null;
                 }
                 var imageKey = FileSection.GetValue("Image")?.Value;
                 if (string.IsNullOrEmpty(imageKey) || imageKey == "null")

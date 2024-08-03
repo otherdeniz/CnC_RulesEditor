@@ -44,6 +44,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 valuesEditTiberium.ReadonlyMode = _readonlyMode;
                 valuesEditAi.ReadonlyMode = _readonlyMode;
                 valuesEditSuperWeapons.ReadonlyMode = _readonlyMode;
+                unitsSides.ReadonlyMode = _readonlyMode;
                 unitsBuildings.ReadonlyMode = _readonlyMode;
                 unitsInfantry.ReadonlyMode = _readonlyMode;
                 unitsVehicles.ReadonlyMode = _readonlyMode;
@@ -67,6 +68,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 valuesEditTiberium.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
                 valuesEditAi.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
                 valuesEditSuperWeapons.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
+                unitsSides.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
                 unitsBuildings.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
                 unitsInfantry.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
                 unitsVehicles.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
@@ -85,6 +87,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             set
             {
                 _showOnlyFavoriteUnits = value;
+                unitsSides.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
                 unitsBuildings.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
                 unitsInfantry.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
                 unitsVehicles.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
@@ -107,6 +110,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 valuesEditTiberium.SearchText = _searchText;
                 valuesEditAi.SearchText = _searchText;
                 valuesEditSuperWeapons.SearchText = _searchText;
+                unitsSides.SearchText = _searchText;
                 unitsBuildings.SearchText = _searchText;
                 unitsInfantry.SearchText = _searchText;
                 unitsVehicles.SearchText = _searchText;
@@ -134,6 +138,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         public void LoadModels()
         {
             AnimationsAsyncLoader.Instance.Stop(true, false);
+            mainTab.Tabs["Sides"].Visible = unitsSides.LoadModel(Model.SideEntities);
             mainTab.Tabs["Buildings"].Visible = unitsBuildings.LoadModel(Model.BuildingEntities);
             mainTab.Tabs["Infantry"].Visible = unitsInfantry.LoadModel(Model.InfantryEntities);
             mainTab.Tabs["Vehicles"].Visible = unitsVehicles.LoadModel(Model.VehicleEntities);

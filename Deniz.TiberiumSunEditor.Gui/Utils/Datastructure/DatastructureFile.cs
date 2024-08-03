@@ -35,6 +35,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
 
         public List<CommonValueDefinition> AudioVisualValues { get; set; } = new();
 
+        public List<UnitValueDefinition> Sides { get; set; } = new();
+
         public List<UnitValueDefinition> AllUnits { get; set; } = new();
 
         public List<UnitValueDefinition> AllMovingUnits { get; set; } = new();
@@ -76,6 +78,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
                     .ToList(),
                 CommonGeneral = priorityFile.CommonGeneral
                     .UnionBy(CommonGeneral, k => k.Key, StringEqualityComparer.Instance)
+                    .ToList(),
+                Sides = priorityFile.Sides
+                    .UnionBy(Sides, k => k.Key, StringEqualityComparer.Instance)
                     .ToList(),
                 AircraftUnits = priorityFile.AircraftUnits
                     .UnionBy(AircraftUnits, k => k.Key, StringEqualityComparer.Instance)

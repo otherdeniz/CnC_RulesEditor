@@ -22,5 +22,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
 
         [JsonIgnore] 
         public string ModuleCategory { get; set; } = "";
+
+        [JsonIgnore]
+        public bool DetectTypeAtRuntime { get; set; }
     }
 }

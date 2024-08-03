@@ -167,6 +167,25 @@
         {"Key":"EWGates","Section":"AI","Category":"4) Build settings","LookupType":"BuildingTypes","MultipleValues":true}
 	],
 	
+	"Sides": [
+		{"Key":"Name","Description":"display name"},
+		{"Key":"Suffix","Description":"dont change this"},
+		{"Key":"Prefix","Description":"dont change this"},
+		{"Key":"Side","Description":"dont change this"},
+		{"Key":"Color","Description":"color to use when displaying objects owned by this country [see color schemes]"},
+		{"Key":"Multiplay","Description":"This house used as placeholder for multiplay house","Default":"no"},
+		{"Key":"SmartAI","Description":"Does it presume to have the smart AI logic already enabled","Default":"no"},
+		{"Key":"MultiplayPassive","Description":"is this a passive side in multiplayer (neutral)","Default":"false"},
+		{"Key":"Airspeed","Description":" multiplier to speed for all air units [larger means faster]","Default":"1.0"},
+		{"Key":"Armor","Description":"multiplier to armor strength for all units and buildings [larger means stronger]","Default":"1.0"},
+		{"Key":"Cost","Description":"multiplier to cost for all units and buildings [larger means costlier]","Default":"1.0"},
+		{"Key":"Firepower","Description":"multiplier to firepower for all weapons [larger means more damage]","Default":"1.0"},
+		{"Key":"Groundspeed","Description":"multiplier to speed for all ground units [larger means faster]","Default":"1.0"},
+		{"Key":"ROF","Description":"multiplier to Rate Of Fire for all weapons [larger means slower ROF]","Default":"1.0"},
+		{"Key":"BuildTime","Description":"multiplier to general object build time [larger means longer to build]","Default":"1.0"},
+		{"Key":"WallOwner","Description":"Will this house own walls that are placed near its buildings","Default":"yes"}
+	],
+	
 	"AllUnits": [
 		{"Key":"BaseSection","Description":"The base unit from which this unit inherits all properties (only 'Dawn of the Tiberium Age')","LookupType":"self","GameKeyFilter":"DTA"},
 		{"Key":"Image","Description":"The base unit from which this unit inherits the image","LookupType":"self","GameKeyFilter":"DTA"},

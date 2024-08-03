@@ -188,6 +188,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         {
             _lookupValue = valueModel;
             _lookupValueRow = row;
+            groupBoxValueChooser.Text = valueModel.ValueDefinition.LookupType ?? "Value";
             panelValueChooser.Visible = true;
             panelUseDefault.Visible = true;
             var defaultValueLabel = string.IsNullOrEmpty(valueModel.DefaultValue)

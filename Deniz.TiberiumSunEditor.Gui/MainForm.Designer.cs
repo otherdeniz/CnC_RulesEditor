@@ -94,6 +94,7 @@
             Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool110 = new Infragistics.Win.UltraWinToolbars.ButtonTool("Games");
             Infragistics.Win.Appearance appearance131 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinToolbars.PopupMenuTool popupMenuTool17 = new Infragistics.Win.UltraWinToolbars.PopupMenuTool("SettingsMenu");
+            Infragistics.Win.Appearance appearance135 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinToolbars.StateButtonTool stateButtonTool16 = new Infragistics.Win.UltraWinToolbars.StateButtonTool("SettingOpeningSound", "");
             Infragistics.Win.UltraWinToolbars.StateButtonTool stateButtonTool15 = new Infragistics.Win.UltraWinToolbars.StateButtonTool("SettingOpeningSound", "");
             Infragistics.Win.Appearance appearance134 = new Infragistics.Win.Appearance();
@@ -219,6 +220,8 @@
             appearance131.Image = resources.GetObject("appearance131.Image");
             buttonTool110.SharedPropsInternal.AppearancesSmall.Appearance = appearance131;
             buttonTool110.SharedPropsInternal.Caption = "Games";
+            appearance135.Image = resources.GetObject("appearance135.Image");
+            popupMenuTool17.SharedPropsInternal.AppearancesSmall.Appearance = appearance135;
             popupMenuTool17.SharedPropsInternal.Caption = "Settings";
             popupMenuTool17.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] { stateButtonTool16 });
             appearance134.Image = resources.GetObject("appearance134.Image");
@@ -245,7 +248,7 @@
             _MainForm_Toolbars_Dock_Area_Right.BackColor = SystemColors.Control;
             _MainForm_Toolbars_Dock_Area_Right.DockedPosition = Infragistics.Win.UltraWinToolbars.DockedPosition.Right;
             _MainForm_Toolbars_Dock_Area_Right.ForeColor = SystemColors.ControlText;
-            _MainForm_Toolbars_Dock_Area_Right.Location = new Point(1209, 35);
+            _MainForm_Toolbars_Dock_Area_Right.Location = new Point(1224, 35);
             _MainForm_Toolbars_Dock_Area_Right.Name = "_MainForm_Toolbars_Dock_Area_Right";
             _MainForm_Toolbars_Dock_Area_Right.Size = new Size(0, 579);
             _MainForm_Toolbars_Dock_Area_Right.ToolbarsManager = mainToolbarsManager;
@@ -258,7 +261,7 @@
             _MainForm_Toolbars_Dock_Area_Top.ForeColor = SystemColors.ControlText;
             _MainForm_Toolbars_Dock_Area_Top.Location = new Point(0, 0);
             _MainForm_Toolbars_Dock_Area_Top.Name = "_MainForm_Toolbars_Dock_Area_Top";
-            _MainForm_Toolbars_Dock_Area_Top.Size = new Size(1209, 35);
+            _MainForm_Toolbars_Dock_Area_Top.Size = new Size(1224, 35);
             _MainForm_Toolbars_Dock_Area_Top.ToolbarsManager = mainToolbarsManager;
             // 
             // _MainForm_Toolbars_Dock_Area_Bottom
@@ -269,7 +272,7 @@
             _MainForm_Toolbars_Dock_Area_Bottom.ForeColor = SystemColors.ControlText;
             _MainForm_Toolbars_Dock_Area_Bottom.Location = new Point(0, 614);
             _MainForm_Toolbars_Dock_Area_Bottom.Name = "_MainForm_Toolbars_Dock_Area_Bottom";
-            _MainForm_Toolbars_Dock_Area_Bottom.Size = new Size(1209, 0);
+            _MainForm_Toolbars_Dock_Area_Bottom.Size = new Size(1224, 0);
             _MainForm_Toolbars_Dock_Area_Bottom.ToolbarsManager = mainToolbarsManager;
             // 
             // MainForm_Fill_Panel
@@ -277,7 +280,7 @@
             MainForm_Fill_Panel.Dock = DockStyle.Fill;
             MainForm_Fill_Panel.Location = new Point(0, 35);
             MainForm_Fill_Panel.Name = "MainForm_Fill_Panel";
-            MainForm_Fill_Panel.Size = new Size(1209, 579);
+            MainForm_Fill_Panel.Size = new Size(1224, 579);
             MainForm_Fill_Panel.TabIndex = 4;
             // 
             // openFileDialog
@@ -288,7 +291,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1209, 614);
+            ClientSize = new Size(1224, 614);
             Controls.Add(MainForm_Fill_Panel);
             Controls.Add(_MainForm_Toolbars_Dock_Area_Left);
             Controls.Add(_MainForm_Toolbars_Dock_Area_Right);

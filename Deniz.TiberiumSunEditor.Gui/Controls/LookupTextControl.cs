@@ -7,6 +7,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 {
     public partial class LookupTextControl : UserControl
     {
+        private readonly string[] _allTechoTypes = new string[]
+            { "BuildingTypes", "InantryTypes", "VehicleTypes", "AircraftTypes" };
         private IValueModel _valueModel = null!;
         private RootModel _rootModel = null!;
         private List<LookupTextValueModel>? _textValuesModel;
@@ -79,10 +81,19 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 _lookupType = "Warheads";
             }
-            if (_lookupType != null
-                && _rootModel.LookupEntities.TryGetValue(_lookupType, out var lookupEntityModels))
+            if (_lookupType != null)
             {
-                _lookupEntities = lookupEntityModels;
+                if (_rootModel.LookupEntities.TryGetValue(_lookupType, out var lookupEntityModels))
+                {
+                    _lookupEntities = lookupEntityModels;
+                }
+                else if (_lookupType == "TechnoTypes")
+                {
+                    _lookupEntities = _rootModel.LookupEntities
+                        .Where(e => _allTechoTypes.Any(t => e.Key == t))
+                        .SelectMany(e => e.Value)
+                        .ToList();
+                }
             }
             if (valueList != null)
             {
@@ -104,7 +115,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
             else if (_lookupType != null)
             {
-                var lookupItems = rootModel.LookupItems.Where(e => e.EntityType == _lookupType).ToList();
+                var lookupItems = rootModel.LookupItems
+                    .Where(e => _lookupType == "TechnoTypes" 
+                        ? _allTechoTypes.Any(t => e.EntityType == t) 
+                        : e.EntityType == _lookupType)
+                    .ToList();
                 if (valueModel.ValueDefinition.MultipleValues)
                 {
                     var selectedKeys = valueModel.Value.Split(",", StringSplitOptions.RemoveEmptyEntries).ToList();

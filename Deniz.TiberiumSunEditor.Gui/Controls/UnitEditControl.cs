@@ -220,6 +220,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         {
             _lookupEntityValue = valueModel;
             _lookupEntityRow = row;
+            groupBoxValueChooser.Text = valueModel.ValueDefinition.LookupType ?? "Value";
             panelValueChooser.Visible = true;
             if (valueModel.DefaultValue != valueModel.NormalValue)
             {
@@ -306,6 +307,30 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                             valueModel.Value = "false";
                             e.Cell.Refresh();
                             valuesGrid_AfterCellUpdate(this, new CellEventArgs(e.Cell));
+                        }
+                    }
+                    else if (valueModel.ValueDefinition.DetectTypeAtRuntime)
+                    {
+                        var detectByKey = !string.IsNullOrEmpty(valueModel.Value)
+                            ? valueModel.Value.Split(",").First()
+                            : !string.IsNullOrEmpty(valueModel.DefaultValue)
+                                ? valueModel.DefaultValue.Split(",").First()
+                                : null;
+                        var detectedLookupType = detectByKey != null
+                            ? EntityModel!.RootModel.DetectLookupType(detectByKey)
+                            : null;
+                        if (detectedLookupType != null)
+                        {
+                            valueModel.ValueDefinition = new UnitValueDefinition
+                            {
+                                Key = valueModel.ValueDefinition.Key,
+                                LookupType = detectedLookupType,
+                                MultipleValues = valueModel.Value.Contains(",") 
+                                                 || valueModel.DefaultValue.Contains(",")
+                            };
+                            e.Cell.CancelUpdate();
+                            e.Cell.Appearance.BackColor = Color.LightSkyBlue;
+                            LookupEntityValue(valueModel, e.Cell.Row);
                         }
                     }
                 }
