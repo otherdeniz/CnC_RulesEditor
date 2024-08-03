@@ -47,6 +47,8 @@
             Infragistics.Win.Appearance appearance15 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinTabControl.UltraTab ultraTab13 = new Infragistics.Win.UltraWinTabControl.UltraTab();
             Infragistics.Win.Appearance appearance16 = new Infragistics.Win.Appearance();
+            Infragistics.Win.UltraWinTabControl.UltraTab ultraTab113 = new Infragistics.Win.UltraWinTabControl.UltraTab();
+            Infragistics.Win.Appearance appearance112 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinTabControl.UltraTab ultraTab16 = new Infragistics.Win.UltraWinTabControl.UltraTab();
             Infragistics.Win.Appearance appearance17 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinTabControl.UltraTab ultraTab18 = new Infragistics.Win.UltraWinTabControl.UltraTab();
@@ -73,6 +75,8 @@
             unitsAircrafts = new UnitsListControl();
             ultraTabPageControl4 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
             unitsWeapons = new UnitsListControl();
+            ultraTabPageControl14 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
+            unitsProjectiles = new UnitsListControl();
             ultraTabPageControl7 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
             unitsWarheads = new UnitsListControl();
             ultraTabPageControl9 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
@@ -100,6 +104,7 @@
             ultraTabPageControl5.SuspendLayout();
             ultraTabPageControl6.SuspendLayout();
             ultraTabPageControl4.SuspendLayout();
+            ultraTabPageControl14.SuspendLayout();
             ultraTabPageControl7.SuspendLayout();
             ultraTabPageControl9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainerSuperWeapons).BeginInit();
@@ -180,7 +185,7 @@
             // ultraTabPageControl13
             // 
             ultraTabPageControl13.Controls.Add(unitsSides);
-            ultraTabPageControl13.Location = new Point(1, 29);
+            ultraTabPageControl13.Location = new Point(-10000, -10000);
             ultraTabPageControl13.Name = "ultraTabPageControl13";
             ultraTabPageControl13.Size = new Size(1169, 446);
             // 
@@ -302,6 +307,26 @@
             unitsWeapons.Size = new Size(1169, 446);
             unitsWeapons.TabIndex = 3;
             unitsWeapons.UnitCreateCopy += unitsWeapons_UnitCreateCopy;
+            // 
+            // ultraTabPageControl14
+            // 
+            ultraTabPageControl14.Controls.Add(unitsProjectiles);
+            ultraTabPageControl14.Location = new Point(1, 29);
+            ultraTabPageControl14.Name = "ultraTabPageControl14";
+            ultraTabPageControl14.Size = new Size(1169, 446);
+            // 
+            // unitsProjectiles
+            // 
+            unitsProjectiles.BackColor = Color.White;
+            unitsProjectiles.CanCopy = true;
+            unitsProjectiles.Dock = DockStyle.Fill;
+            unitsProjectiles.Location = new Point(0, 0);
+            unitsProjectiles.Margin = new Padding(4, 3, 4, 3);
+            unitsProjectiles.Name = "unitsProjectiles";
+            unitsProjectiles.OrderByThumbnail = false;
+            unitsProjectiles.Size = new Size(1169, 446);
+            unitsProjectiles.TabIndex = 0;
+            unitsProjectiles.UnitCreateCopy += unitsProjectiles_UnitCreateCopy;
             // 
             // ultraTabPageControl7
             // 
@@ -443,6 +468,7 @@
             mainTab.Controls.Add(ultraTabPageControl11);
             mainTab.Controls.Add(ultraTabPageControl12);
             mainTab.Controls.Add(ultraTabPageControl13);
+            mainTab.Controls.Add(ultraTabPageControl14);
             mainTab.Dock = DockStyle.Fill;
             mainTab.Location = new Point(0, 23);
             mainTab.Margin = new Padding(4, 3, 4, 3);
@@ -496,6 +522,11 @@
             ultraTab13.Key = "Weapons";
             ultraTab13.TabPage = ultraTabPageControl4;
             ultraTab13.Text = "Weapons";
+            appearance112.Image = resources.GetObject("appearance112.Image");
+            ultraTab113.Appearance = appearance112;
+            ultraTab113.Key = "Projectiles";
+            ultraTab113.TabPage = ultraTabPageControl14;
+            ultraTab113.Text = "Projectiles";
             appearance17.Image = resources.GetObject("appearance17.Image");
             ultraTab16.Appearance = appearance17;
             ultraTab16.Key = "Warheads";
@@ -511,7 +542,7 @@
             ultraTab111.Key = "Phobos";
             ultraTab111.TabPage = ultraTabPageControl12;
             ultraTab111.Text = "PHOBOS Types";
-            mainTab.Tabs.AddRange(new Infragistics.Win.UltraWinTabControl.UltraTab[] { ultraTab11, ultraTab19, ultraTab17, ultraTab110, ultraTab112, ultraTab1, ultraTab12, ultraTab14, ultraTab15, ultraTab13, ultraTab16, ultraTab18, ultraTab111 });
+            mainTab.Tabs.AddRange(new Infragistics.Win.UltraWinTabControl.UltraTab[] { ultraTab11, ultraTab19, ultraTab17, ultraTab110, ultraTab112, ultraTab1, ultraTab12, ultraTab14, ultraTab15, ultraTab13, ultraTab113, ultraTab16, ultraTab18, ultraTab111 });
             // 
             // ultraTabSharedControlsPage1
             // 
@@ -575,6 +606,7 @@
             ultraTabPageControl5.ResumeLayout(false);
             ultraTabPageControl6.ResumeLayout(false);
             ultraTabPageControl4.ResumeLayout(false);
+            ultraTabPageControl14.ResumeLayout(false);
             ultraTabPageControl7.ResumeLayout(false);
             ultraTabPageControl9.ResumeLayout(false);
             splitContainerSuperWeapons.Panel1.ResumeLayout(false);
@@ -633,5 +665,7 @@
         private Panel panelPhobosShowEmpty;
         private Infragistics.Win.UltraWinTabControl.UltraTabPageControl ultraTabPageControl13;
         private UnitsListControl unitsSides;
+        private Infragistics.Win.UltraWinTabControl.UltraTabPageControl ultraTabPageControl14;
+        private UnitsListControl unitsProjectiles;
     }
 }

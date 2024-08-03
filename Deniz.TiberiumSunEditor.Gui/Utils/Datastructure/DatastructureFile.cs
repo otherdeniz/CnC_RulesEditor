@@ -51,6 +51,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
 
         public List<UnitValueDefinition> Weapons { get; set; } = new();
 
+        public List<UnitValueDefinition> Projectiles { get; set; } = new();
+
         public List<UnitValueDefinition> Warheads { get; set; } = new();
 
         public List<CommonValueDefinition> SuperWeaponsGeneral { get; set; } = new();
@@ -82,6 +84,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
                 Sides = priorityFile.Sides
                     .UnionBy(Sides, k => k.Key, StringEqualityComparer.Instance)
                     .ToList(),
+                AudioVisualValues = priorityFile.AudioVisualValues
+                    .UnionBy(AudioVisualValues, k => k.Key, StringEqualityComparer.Instance)
+                    .ToList(),
                 AircraftUnits = priorityFile.AircraftUnits
                     .UnionBy(AircraftUnits, k => k.Key, StringEqualityComparer.Instance)
                     .ToList(),
@@ -102,6 +107,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
                     .ToList(),
                 Warheads = priorityFile.Warheads
                     .UnionBy(Warheads, k => k.Key, StringEqualityComparer.Instance)
+                    .ToList(),
+                Projectiles = priorityFile.Projectiles
+                    .UnionBy(Projectiles, k => k.Key, StringEqualityComparer.Instance)
                     .ToList(),
                 Weapons = priorityFile.Weapons
                     .UnionBy(Weapons, k => k.Key, StringEqualityComparer.Instance)
@@ -145,6 +153,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
             AIGeneral.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
             TiberiumGeneral.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
             TiberiumValues.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
+            AudioVisualValues.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
             AllUnits.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
             AllMovingUnits.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
             InfantryUnits.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
@@ -152,6 +161,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
             AircraftUnits.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
             BuildingUnits.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
             Weapons.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
+            Projectiles.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
             Warheads.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
             SuperWeaponsGeneral.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
             SuperWeapons.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));

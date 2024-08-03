@@ -171,7 +171,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             return null;
         }
 
-        public Image? GetAnimationsImage(string animationKeys)
+        public Image? GetAnimationsImage(string animationKeys, double autoStretchToFactor = 0.2d)
         {
             if (_fileManager == null || _animPaletteColors == null) return null;
             if (_animationsCache.TryGetValue(animationKeys, out var animatedGifImage))
@@ -199,7 +199,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                             frameBitmap.MakeTransparent(_animPaletteColors[0]);
                             var brigthBitmap = frameBitmap.BrigthenUp(_cameoBrightnesPercent, true);
                             brigthBitmap.MakeTransparent(Color.Black);
-                            animationFrames.Add(blankImage.OverlayImage(brigthBitmap, 0.8));
+                            animationFrames.Add(blankImage.OverlayImage(brigthBitmap, autoStretchToFactor));
                             brigthBitmap.Dispose();
                         }
                     }

@@ -326,10 +326,36 @@
 		{"Key":"Range","Description":"maximum cell range"},
 		{"Key":"MinimumRange","Description":"minimum range to target","Default":"0"},
 		{"Key":"Speed","Description":"speed of projectile to target (100 is maximum)"},
-		{"Key":"Projectile","Description":"projectile characteristic to use","LookupType":"WeaponProjectiles"},
+		{"Key":"Projectile","Description":"projectile characteristic to use","LookupType":"Projectiles"},
 		{"Key":"Warhead","Description":"warhead to attach to projectile","LookupType":"Warheads"},
 		{"Key":"Report","Description":"List of sounds to random play when firing","Default":"","LookupType":"WeaponSounds","MultipleValues":true},
 		{"Key":"Bright","Description":"Does this weapons bullet cause a lighting effect when it impacts? If set, this will override the warheads 'Bright' flag.","Default":"no"}
+	],
+	
+	"Projectiles": [
+		{"Key":"AA","Description":"Anti-Aircraft: Can this weapon fire upon flying aircraft","Default":"no"},
+		{"Key":"AG","Description":"Anti-Ground: Can this weapon fire upon ground objects","Default":"no"},
+		{"Key":"ASW","Description":"Anti-Submarine-Warfare: Can this weapon fire under water","Default":"no"},
+		{"Key":"Acceleration","Description":"amount to increase missile speed","Default":"3"},
+		{"Key":"Airburst","Description":"Does it try to fly over the target instead of hit it","Default":"no"},
+		{"Key":"Arcing","Description":"Does it fly in an arc","Default":"no"},
+		{"Key":"Arm","Description":"arming delay","Default":"0"},
+		{"Key":"Bouncy","Description":"Does it bounce a bit upon impact","Default":"no"},
+		{"Key":"Elasticity","Description":"'bounciness' of the object [should be 0.0 through 1.0]","Default":"0.75"},
+		{"Key":"Degenerates","Description":"Does the bullet strength weaken as it travels","Default":"no"},
+		{"Key":"Dropping","Description":"Does it fall from a starting height","Default":"no"},
+		{"Key":"High","Description":"Can it fly over walls","Default":"no"},
+		{"Key":"VeryHigh","Description":"Does it fly at a very high cruise altitude","Default":"no"},
+		{"Key":"Image","Description":"image to use during flight","LookupType":"ProjectileAnimations"},
+		{"Key":"Inaccurate","Description":"Is it inherently inaccurate","Default":"no"},
+		{"Key":"Inviso","Description":"Is the projectile invisible as it travels","Default":"no"},
+		{"Key":"Parachuted","Description":"Equipped with a parachute for dropping from plane","Default":"no"},
+		{"Key":"Proximity","Description":"Does it blow up when near its target","Default":"no"},
+		{"Key":"ROT","Description":"Rate Of Turn [non zero implies homing]","Default":"0"},
+		{"Key":"Ranged","Description":"Can it run out of fuel","Default":"no"},
+		{"Key":"Shadow","Description":"If High, does this bullet need to have a shadow drawn?","Default":"yes"},
+		{"Key":"Color","Description":"Color scheme to use for special remapping projectiles","Default":"none"},
+		{"Key":"Cluster","Description":"number of explosions attached to projectile [cluster-bomb]","Default":"1"}
 	],
 	
 	"Warheads": [

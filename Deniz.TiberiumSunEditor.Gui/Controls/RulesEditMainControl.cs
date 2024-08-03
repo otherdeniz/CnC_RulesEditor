@@ -3,6 +3,7 @@ using Deniz.TiberiumSunEditor.Gui.Dialogs;
 using Deniz.TiberiumSunEditor.Gui.Model;
 using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
+using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 using Infragistics.Win.UltraWinTabControl;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls
@@ -43,6 +44,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 valuesEditCommon.ReadonlyMode = _readonlyMode;
                 valuesEditTiberium.ReadonlyMode = _readonlyMode;
                 valuesEditAi.ReadonlyMode = _readonlyMode;
+                valuesEditAudioVisual.ReadonlyMode = _readonlyMode;
                 valuesEditSuperWeapons.ReadonlyMode = _readonlyMode;
                 unitsSides.ReadonlyMode = _readonlyMode;
                 unitsBuildings.ReadonlyMode = _readonlyMode;
@@ -50,6 +52,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 unitsVehicles.ReadonlyMode = _readonlyMode;
                 unitsAircrafts.ReadonlyMode = _readonlyMode;
                 unitsWeapons.ReadonlyMode = _readonlyMode;
+                unitsProjectiles.ReadonlyMode = _readonlyMode;
                 unitsWarheads.ReadonlyMode = _readonlyMode;
                 unitsSuperWeapons.ReadonlyMode = _readonlyMode;
                 panelPhobosShowEmpty.Visible = !_readonlyMode;
@@ -67,6 +70,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 valuesEditCommon.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
                 valuesEditTiberium.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
                 valuesEditAi.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
+                valuesEditAudioVisual.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
                 valuesEditSuperWeapons.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
                 unitsSides.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
                 unitsBuildings.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
@@ -74,6 +78,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 unitsVehicles.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
                 unitsAircrafts.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
                 unitsWeapons.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
+                unitsProjectiles.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
                 unitsWarheads.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
                 unitsSuperWeapons.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
             }
@@ -93,6 +98,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 unitsVehicles.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
                 unitsAircrafts.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
                 unitsWeapons.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
+                unitsProjectiles.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
                 unitsWarheads.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
                 unitsSuperWeapons.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
             }
@@ -109,6 +115,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 valuesEditCommon.SearchText = _searchText;
                 valuesEditTiberium.SearchText = _searchText;
                 valuesEditAi.SearchText = _searchText;
+                valuesEditAudioVisual.SearchText = _searchText;
                 valuesEditSuperWeapons.SearchText = _searchText;
                 unitsSides.SearchText = _searchText;
                 unitsBuildings.SearchText = _searchText;
@@ -116,6 +123,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 unitsVehicles.SearchText = _searchText;
                 unitsAircrafts.SearchText = _searchText;
                 unitsWeapons.SearchText = _searchText;
+                unitsProjectiles.SearchText = _searchText;
                 unitsWarheads.SearchText = _searchText;
                 unitsSuperWeapons.SearchText = _searchText;
             }
@@ -144,6 +152,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             mainTab.Tabs["Vehicles"].Visible = unitsVehicles.LoadModel(Model.VehicleEntities);
             mainTab.Tabs["Aircrafts"].Visible = unitsAircrafts.LoadModel(Model.AircraftEntities);
             mainTab.Tabs["Weapons"].Visible = unitsWeapons.LoadModel(Model.WeaponEntities);
+            mainTab.Tabs["Projectiles"].Visible = unitsProjectiles.LoadModel(Model.ProjectileEntities);
             mainTab.Tabs["Warheads"].Visible = unitsWarheads.LoadModel(Model.WarheadEntities);
             var hasSuperWeapons = unitsSuperWeapons.LoadModel(Model.SuperWeaponEntities);
             if (valuesEditSuperWeapons.LoadValuesGrid(Model, Model.SuperWeaponValues))
@@ -214,7 +223,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private void CreateCopy(EntityCopyEventArgs e,
             string? entityTypes,
             bool addImage,
-            UnitsListControl unitsListControl)
+            UnitsListControl unitsListControl,
+            Action<IniFileSection>? afterCreatedAction = null)
         {
             var newSection = Model.File.AddSection(e.NewKey);
             e.SourceEntityModel.FileSection.KeyValues.ForEach(k => newSection.SetValue(k.Key, k.Value));
@@ -223,6 +233,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 newSection.SetValue("Image", e.SourceEntityModel.EntityKey);
             }
+            afterCreatedAction?.Invoke(newSection);
             if (entityTypes != null)
             {
                 var entitiesTypesSection = Model.File.GetSection(entityTypes)
@@ -314,6 +325,21 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             CreateCopy(e, "Warheads", false, unitsWarheads);
         }
 
+        private void unitsProjectiles_UnitCreateCopy(object sender, EntityCopyEventArgs e)
+        {
+            CreateCopy(e, "Projectiles", false, unitsProjectiles, newSection =>
+            {
+                foreach (var entityValueModel in e.SourceEntityModel.EntityValueList.Where(v => v.DefaultValue != ""))
+                {
+                    // we write all defaults, otherwise the section is not detectable as Projectile section
+                    if (newSection.GetValue(entityValueModel.Key) == null)
+                    {
+                        newSection.SetValue(entityValueModel.Key, entityValueModel.DefaultValue);
+                    }
+                }
+            });
+        }
+
         private void unitsBuildings_UnitAdd(object sender, EventArgs e)
         {
             AddNewUnit("BuildingTypes", Model.BuildingEntities,
@@ -345,5 +371,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 phobosTab.Visible = checkBoxPhobosShowEmpty.Checked || (bool)phobosTab.Tag;
             }
         }
+
     }
 }

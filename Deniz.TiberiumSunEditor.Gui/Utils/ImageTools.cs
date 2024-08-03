@@ -75,8 +75,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                 && overlayHeight < editHeight * autoStrechToFactor)
             {
                 var factor = (overlayWidth / editWidth > overlayHeight / editHeight)
-                    ? overlayWidth / editWidth * autoStrechToFactor // fit width
-                    : overlayHeight / editHeight * autoStrechToFactor; // fit height
+                    ? editWidth / overlayWidth * autoStrechToFactor // fit width
+                    : editHeight / overlayHeight * autoStrechToFactor; // fit height
                 overlayHeight = overlayHeight * factor;
                 overlayWidth = overlayWidth * factor;
             }

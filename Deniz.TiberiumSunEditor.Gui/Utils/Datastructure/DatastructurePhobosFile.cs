@@ -128,7 +128,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
                 case "SOMEINFANTRY":
                     return InfantryUnits;
                 case "SOMEPROJECTILE":
-                    return null; // not supported yet
+                    return Projectiles;
                 case "SOMESW":
                     return SuperWeapons;
             }

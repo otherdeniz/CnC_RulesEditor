@@ -3,6 +3,7 @@ using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Deniz.TiberiumSunEditor.Gui.Utils.EqualityComparer;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
+using System.Windows.Forms;
 
 namespace Deniz.TiberiumSunEditor.Gui.Model
 {
@@ -89,6 +90,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                         }
                         return null;
                     }
+                }
+                if (EntityType == "Projectiles")
+                {
+                    var animKey = FileSection.GetValue("Image")?.Value;
+                    if (!string.IsNullOrEmpty(animKey))
+                    {
+                        return new ThumbnailModel(animKey);
+                    }
+                    return null;
                 }
                 if (EntityType == "Sides")
                 {

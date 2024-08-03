@@ -134,7 +134,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     if (valueModel is EntityValueModel entityValueModel)
                     {
                         _multiValuesModel.InsertRange(0,
-                            GetAllUniqueValues(entityValueModel.EntityModel.EntityType, valueModel.Key)
+                            _rootModel.GetAllPossibleValues(entityValueModel.EntityModel.EntityType, valueModel.Key)
                                 .Where(v => _multiValuesModel.All(l => !string.Equals(l.Key, v, StringComparison.CurrentCultureIgnoreCase)))
                                 .Select(v => new LookupMultiValueModel
                                 {
@@ -163,7 +163,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     if (valueModel is EntityValueModel entityValueModel)
                     {
                         _singleValuesModel.InsertRange(1,
-                            GetAllUniqueValues(entityValueModel.EntityModel.EntityType, valueModel.Key)
+                            _rootModel.GetAllPossibleValues(entityValueModel.EntityModel.EntityType, valueModel.Key)
                                 .Where(v => _singleValuesModel.All(l => !string.Equals(l.Key, v, StringComparison.CurrentCultureIgnoreCase)))
                                 .Select(v => new LookupSingleValueModel
                                 {
@@ -174,21 +174,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     LoadSingleValuesGrid();
                 }
             }
-        }
-
-        private List<string> GetAllUniqueValues(string entityType, string valueKey)
-        {
-            var allSectionKeys = _rootModel.LookupItems
-                .Where(l => l.EntityType == entityType)
-                .Select(l => l.Key)
-                .ToList();
-            return allSectionKeys.Select(s =>
-                    _rootModel.DefaultFile.GetSection(s)?.GetValue(valueKey)?.Value)
-                .Where(v => !string.IsNullOrEmpty(v))
-                .SelectMany(v => v!.Split(",", StringSplitOptions.RemoveEmptyEntries))
-                .Distinct()
-                .OrderBy(v => v)
-                .ToList();
         }
 
         private void LoadTextValuesGrid()
@@ -264,6 +249,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     }
                     break;
                 case "Animations":
+                case "ProjectileAnimations":
                     ClosePopup();
                     if (!string.IsNullOrEmpty(key))
                     {
@@ -290,18 +276,19 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                         if (entityThumbnail != null)
                         {
                             pictureThumbnail.Location = popupPosition;
-                            pictureThumbnail.Visible = true;
                             if (entityThumbnail.Kind == ThumbnailKind.Animation)
                             {
                                 var animationImage = entityThumbnail.LoadAnimation();
                                 if (animationImage != null)
                                 {
                                     pictureThumbnail.Image = animationImage;
+                                    pictureThumbnail.Visible = true;
                                 }
                             }
                             else
                             {
                                 pictureThumbnail.Image = entityThumbnail.Image;
+                                pictureThumbnail.Visible = true;
                             }
                         }
                     }

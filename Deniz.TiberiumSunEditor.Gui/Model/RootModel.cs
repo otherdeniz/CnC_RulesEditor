@@ -117,6 +117,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 
         public List<GameEntityModel> VoxelDebrisEntities { get; private set; } = null!;
 
+        public List<GameEntityModel> ProjectileEntities { get; private set; } = null!;
+
         public List<AdditionalGameEntityModels> AdditionalEntities { get; private set; } = null!;
 
         public List<string> Animations { get; private set; } = null!;
@@ -142,6 +144,118 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             LoadGameEntities();
             InitialiseLookupItems();
             EntitiesChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void LoadGameEntities()
+        {
+            LookupItems = new List<LookupItemModel>();
+            LookupEntities.Clear();
+
+            var allUnitsModel = Datastructure.AllUnits.Where(GameKeyFilter).Select(u =>
+                new UnitValueModel(u, "1) All units")).ToList();
+            var movingUnitsModel = Datastructure.AllMovingUnits.Select(u =>
+                new UnitValueModel(u, "2) All moving units")).ToList();
+
+            var sidesEntityKeys = (File.GetSection("Sides")?.KeyValues.SelectMany(k => k.Value.Split(",")).ToList()
+                                   ?? new List<string>())
+                .Union(DefaultFile.GetSection("Sides")?.KeyValues.SelectMany(k => k.Value.Split(",")).ToList()
+                       ?? new List<string>());
+            SideEntities = GetGameEntities("Sides", sidesEntityKeys,
+                Datastructure.Sides.Select(u =>
+                        new UnitValueModel(u, "1) Side"))
+                    .ToList());
+            VehicleEntities = GetGameEntities("VehicleTypes",
+                allUnitsModel.Union(movingUnitsModel)
+                    .Union(Datastructure.DrivingVehicleUnits.Select(u =>
+                        new UnitValueModel(u, "3) Vehicle units")))
+                    .ToList());
+            AircraftEntities = GetGameEntities("AircraftTypes",
+                allUnitsModel.Union(movingUnitsModel)
+                    .Union(Datastructure.AircraftUnits.Select(u =>
+                        new UnitValueModel(u, "3) Aircraft units")))
+                    .ToList());
+            InfantryEntities = GetGameEntities("InfantryTypes",
+                allUnitsModel.Union(movingUnitsModel)
+                    .Union(Datastructure.InfantryUnits.Select(u =>
+                        new UnitValueModel(u, "3) Infantry units")))
+                    .ToList());
+            BuildingEntities = GetGameEntities("BuildingTypes",
+                allUnitsModel
+                    .Union(Datastructure.BuildingUnits.Select(u =>
+                        new UnitValueModel(u, "2) Building units")))
+                    .ToList());
+            WarheadEntities = GetGameEntities("Warheads",
+                Datastructure.Warheads.Select(u =>
+                        new UnitValueModel(u, "1) Warheads"))
+                    .ToList());
+            WeaponEntities = GetGameEntities("Weapons",
+                s => (s.KeyValues.Any(k => k.Key == "Warhead")
+                      && s.KeyValues.Any(k => k.Key == "Damage")
+                      && s.KeyValues.Any(k => k.Key == "Projectile"))
+                || (DefaultFile.GetSection(s.GetValue("BaseSection")?.Value ?? s.SectionName) is { } defaultSection
+                    && (defaultSection.KeyValues.Any(k => k.Key == "Warhead")
+                        && defaultSection.KeyValues.Any(k => k.Key == "Damage")
+                        && defaultSection.KeyValues.Any(k => k.Key == "Projectile")
+                        || (defaultSection.GetValue("BaseSection") is { } baseValue &&
+                            DefaultFile.GetSection(baseValue.Value) is { } baseSection
+                            && baseSection.KeyValues.Any(k => k.Key == "Warhead")
+                            && baseSection.KeyValues.Any(k => k.Key == "Damage")
+                            && baseSection.KeyValues.Any(k => k.Key == "Projectile")))
+                    ),
+                Datastructure.Weapons.Select(u =>
+                        new UnitValueModel(u, "1) Weapons"))
+                    .ToList());
+            SuperWeaponEntities = GetGameEntities("SuperWeaponTypes",
+                Datastructure.SuperWeapons.Select(u =>
+                    new UnitValueModel(u, "1) Super Weapons"))
+                    .ToList());
+            VoxelDebrisEntities = GetGameEntities("VoxelDebris",
+                s => (s.KeyValues.Any(k => k.Key == "Elasticity")
+                      && s.KeyValues.Any(k => k.Key == "MinAngularVelocity")
+                      && s.KeyValues.Any(k => k.Key == "Duration"))
+                     || (DefaultFile.GetSection(s.SectionName) is { } defaultSection
+                         && (defaultSection.KeyValues.Any(k => k.Key == "Elasticity")
+                             && defaultSection.KeyValues.Any(k => k.Key == "MinAngularVelocity")
+                             && defaultSection.KeyValues.Any(k => k.Key == "Duration"))
+                     ),
+                new List<UnitValueModel>());
+            WeaponSounds = GetAllPossibleValues("Weapons", "Report");
+            WeaponProjectiles = GetAllPossibleValues("Weapons", "Projectile");
+            ProjectileEntities = GetGameEntities("Projectiles",
+                s => WeaponProjectiles.Any(p => s.SectionName == p)
+                     || (s.KeyValues.Any(k => k.Key == "AA")
+                         && s.KeyValues.Any(k => k.Key == "AG")
+                         && s.KeyValues.Any(k => k.Key == "Image"))
+                     || (DefaultFile.GetSection(s.SectionName) is { } defaultSection
+                         && (defaultSection.KeyValues.Any(k => k.Key == "AA")
+                             && defaultSection.KeyValues.Any(k => k.Key == "AG")
+                             && defaultSection.KeyValues.Any(k => k.Key == "Image"))
+                     ),
+                Datastructure.Projectiles.Select(u =>
+                        new UnitValueModel(u, "1) Projectiles"))
+                    .ToList());
+            var housesSection = DefaultFile.GetSection("Houses") ?? DefaultFile.GetSection("Countries");
+            Houses = housesSection?.KeyValues.Select(k => k.Value).Distinct().ToList()
+                     ?? new List<string>() { "GDI", "Nod" };
+            Animations = DefaultFile.GetSection("Animations")?.KeyValues.Select(k => k.Value).ToList()
+                         ?? GetAllPossibleValues("Warheads", "AnimList", false);
+            MovementZones = GetAllPossibleValues(
+                new List<string>()
+                {
+                    "VehicleTypes",
+                    "AircraftTypes",
+                    "InfantryTypes"
+                }, "MovementZone");
+            // additional entities
+            AdditionalEntities = new List<AdditionalGameEntityModels>();
+            foreach (var additionalType in Datastructure.AdditionalTypes)
+            {
+                var gameEntities = GetGameEntities(additionalType.TypesName,
+                    additionalType.ValueDefinitions
+                        .Select(d => new UnitValueModel(d, $"{additionalType.Module}: {d.ModuleCategory}")).ToList());
+                AdditionalEntities.Add(new AdditionalGameEntityModels(additionalType.Module,
+                    additionalType.TypesName, gameEntities));
+            }
         }
 
         private void InitialiseLookupItems()
@@ -339,105 +453,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             return null;
         }
 
-        private void LoadGameEntities()
-        {
-            LookupItems = new List<LookupItemModel>();
-            LookupEntities.Clear();
-
-            var allUnitsModel = Datastructure.AllUnits.Where(GameKeyFilter).Select(u =>
-                new UnitValueModel(u, "1) All units")).ToList();
-            var movingUnitsModel = Datastructure.AllMovingUnits.Select(u =>
-                new UnitValueModel(u, "2) All moving units")).ToList();
-
-            var sidesEntityKeys = (File.GetSection("Sides")?.KeyValues.SelectMany(k => k.Value.Split(",")).ToList()
-                                   ?? new List<string>())
-                .Union(DefaultFile.GetSection("Sides")?.KeyValues.SelectMany(k => k.Value.Split(",")).ToList()
-                       ?? new List<string>());
-            SideEntities = GetGameEntities("Sides", sidesEntityKeys,
-                Datastructure.Sides.Select(u =>
-                        new UnitValueModel(u, "1) Side"))
-                    .ToList());
-            VehicleEntities = GetGameEntities("VehicleTypes",
-                allUnitsModel.Union(movingUnitsModel)
-                    .Union(Datastructure.DrivingVehicleUnits.Select(u =>
-                        new UnitValueModel(u, "3) Vehicle units")))
-                    .ToList());
-            AircraftEntities = GetGameEntities("AircraftTypes",
-                allUnitsModel.Union(movingUnitsModel)
-                    .Union(Datastructure.AircraftUnits.Select(u =>
-                        new UnitValueModel(u, "3) Aircraft units")))
-                    .ToList());
-            InfantryEntities = GetGameEntities("InfantryTypes",
-                allUnitsModel.Union(movingUnitsModel)
-                    .Union(Datastructure.InfantryUnits.Select(u =>
-                        new UnitValueModel(u, "3) Infantry units")))
-                    .ToList());
-            BuildingEntities = GetGameEntities("BuildingTypes",
-                allUnitsModel
-                    .Union(Datastructure.BuildingUnits.Select(u =>
-                        new UnitValueModel(u, "2) Building units")))
-                    .ToList());
-            WarheadEntities = GetGameEntities("Warheads",
-                Datastructure.Warheads.Select(u =>
-                        new UnitValueModel(u, "1) Warheads"))
-                    .ToList());
-            WeaponEntities = GetGameEntities("Weapons",
-                s => (s.KeyValues.Any(k => k.Key == "Warhead")
-                      && s.KeyValues.Any(k => k.Key == "Damage")
-                      && s.KeyValues.Any(k => k.Key == "Projectile"))
-                || (DefaultFile.GetSection(s.GetValue("BaseSection")?.Value ?? s.SectionName) is { } defaultSection
-                    && (defaultSection.KeyValues.Any(k => k.Key == "Warhead")
-                        && defaultSection.KeyValues.Any(k => k.Key == "Damage")
-                        && defaultSection.KeyValues.Any(k => k.Key == "Projectile")
-                        || (defaultSection.GetValue("BaseSection") is { } baseValue &&
-                            DefaultFile.GetSection(baseValue.Value) is { } baseSection
-                            && baseSection.KeyValues.Any(k => k.Key == "Warhead")
-                            && baseSection.KeyValues.Any(k => k.Key == "Damage")
-                            && baseSection.KeyValues.Any(k => k.Key == "Projectile")))
-                    ),
-                Datastructure.Weapons.Select(u =>
-                        new UnitValueModel(u, "1) Weapons"))
-                    .ToList());
-            SuperWeaponEntities = GetGameEntities("SuperWeaponTypes",
-                Datastructure.SuperWeapons.Select(u =>
-                    new UnitValueModel(u, "1) Super Weapons"))
-                    .ToList());
-            VoxelDebrisEntities = GetGameEntities("VoxelDebrisTypes",
-                s => (s.KeyValues.Any(k => k.Key == "Elasticity")
-                      && s.KeyValues.Any(k => k.Key == "MinAngularVelocity")
-                      && s.KeyValues.Any(k => k.Key == "Duration"))
-                     || (DefaultFile.GetSection(s.SectionName) is { } defaultSection
-                         && (defaultSection.KeyValues.Any(k => k.Key == "Elasticity")
-                             && defaultSection.KeyValues.Any(k => k.Key == "MinAngularVelocity")
-                             && defaultSection.KeyValues.Any(k => k.Key == "Duration"))
-                     ),
-                new List<UnitValueModel>());
-            WeaponSounds = GetAllPossibleValues("Weapons", "Report");
-            WeaponProjectiles = GetAllPossibleValues("Weapons", "Projectile");
-            var housesSection = DefaultFile.GetSection("Houses") ?? DefaultFile.GetSection("Countries");
-            Houses = housesSection?.KeyValues.Select(k => k.Value).Distinct().ToList()
-                     ?? new List<string>() { "GDI", "Nod" };
-            Animations = DefaultFile.GetSection("Animations")?.KeyValues.Select(k => k.Value).ToList()
-                         ?? GetAllPossibleValues("Warheads", "AnimList", false);
-            MovementZones = GetAllPossibleValues(
-                new List<string>()
-                {
-                    "VehicleTypes",
-                    "AircraftTypes",
-                    "InfantryTypes"
-                }, "MovementZone");
-            // additional entities
-            AdditionalEntities = new List<AdditionalGameEntityModels>();
-            foreach (var additionalType in Datastructure.AdditionalTypes)
-            {
-                var gameEntities = GetGameEntities(additionalType.TypesName,
-                    additionalType.ValueDefinitions
-                        .Select(d => new UnitValueModel(d, $"{additionalType.Module}: {d.ModuleCategory}")).ToList());
-                AdditionalEntities.Add(new AdditionalGameEntityModels(additionalType.Module, 
-                    additionalType.TypesName, gameEntities));
-            }
-        }
-
         private List<GameEntityModel> GetGameEntities(string entitiesTypesSection, 
             List<UnitValueModel> unitValueList)
         {
@@ -517,15 +532,25 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 
         public List<string> GetAllPossibleValues(List<string> searchEntityTypes, string valueKey, bool orderByName = true)
         {
-            var allValues = new List<string>();
-            foreach (var entityKey in LookupItems.Where(l => searchEntityTypes.Contains(l.EntityType)).Select(l => l.Key))
-            {
-                allValues.AddRange(File.GetSection(entityKey)?.GetValue(valueKey)?.Value.Split(",") ?? new string[] { });
-                allValues.AddRange(DefaultFile.GetSection(entityKey)?.GetValue(valueKey)?.Value.Split(",") ?? new string[] { });
-            }
-            return orderByName 
-                ? allValues.Distinct().OrderBy(s => s).ToList() 
-                : allValues.Distinct().ToList();
+            var allSectionKeys = LookupItems
+                .Where(l => searchEntityTypes.Contains(l.EntityType, StringEqualityComparer.Instance))
+                .Select(l => l.Key)
+                .ToList();
+            var distinctValues =
+                allSectionKeys.Select(s =>
+                        File.GetSection(s)?.GetValue(valueKey)?.Value)
+                    .Where(v => !string.IsNullOrEmpty(v))
+                    .SelectMany(v => v!.Split(",", StringSplitOptions.RemoveEmptyEntries))
+                    .Union(
+                        allSectionKeys.Select(s =>
+                                DefaultFile.GetSection(s)?.GetValue(valueKey)?.Value)
+                            .Where(v => !string.IsNullOrEmpty(v))
+                            .SelectMany(v => v!.Split(",", StringSplitOptions.RemoveEmptyEntries))
+                    )
+                    .Distinct();
+            return orderByName
+                ? distinctValues.OrderBy(s => s).ToList()
+                : distinctValues.ToList();
         }
 
         private bool GameKeyFilter(UnitValueDefinition valueDefinition)
