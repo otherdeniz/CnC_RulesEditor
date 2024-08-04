@@ -5,6 +5,19 @@
 		{"Key":"EngineerAlwaysCaptureTech","Category":"Multi Engineer","Default":"yes","Description":"Specifies whether tech buildings can be captured no matter what their current health status is."}
 	],
 
+	"Sides": [
+		{"Key":"Crew","LookupType":"InfantryTypes","Description":"The InfantryType that is spawned as a survivor when objects (with Crewed=yes set) owned by this side are destroyed (or, in the case of buildings, sold)."},
+		{"Key":"Engineer","LookupType":"InfantryTypes","Description":"The InfantryType that has a chance to be spawned when buildings with Factory=BuildingType owned by this side are destroyed or sold. Defaults to [General]->Engineer."},
+		{"Key":"Technician","LookupType":"InfantryTypes","Description":"The InfantryType that has a chance to be spawned when armed objects owned by this side are destroyed or sold. Defaults to [General]->Technician."},
+		{"Key":"DefaultDisguise","LookupType":"InfantryTypes","Description":"Default InfantryType that disguisable infantry will be disguised as when first created."},
+		{"Key":"SurvivorDivisor","Description":"(integer) An object’s refund amount is divided by this number to determine how many survivors will be spawned when this object is destroyed (or, in the case of buildings, sold)."},
+		{"Key":"AI.BaseDefenses","LookupType":"BuildingTypes","MultipleValues":true,"Description":"List of base defense buildings that the AI can build."},
+		{"Key":"AI.BaseDefenseCounts","Description":"(list of integers) The maximum amount of base defense building that the AI can build. (listed as AI difficulties: hard, medium, easy) Defaults to [General]->AlliedBaseDefenseCounts for GDI (Allied), [General]->SovietBaseDefenseCounts for Nod (Soviet), and [General]->ThirdBaseDefenseCounts for ThirdSide (Yuri)."}
+	],
+	
+	"AllUnits": [
+	],
+	
 	"AllMovingUnits": [
 	],
 	
@@ -15,6 +28,7 @@
 	],
 
 	"AircraftUnits": [
+		{"Key":"ReloadRate","Description":"(decimal - minutes) The interval between restoring one round of ammunition when docked to a UnitReload=yes building. Defaults to [General]->ReloadRate."}
 	],
 
 	"BuildingUnits": [
