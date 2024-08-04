@@ -274,6 +274,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                         e.Cell.CancelUpdate();
                         e.Cell.Appearance.BackColor = Color.LightSkyBlue;
                         LookupEntityValue(valueModel, e.Cell.Row);
+                        if (_isRightClick 
+                            && valueModel.ValueDefinition.LookupType != null
+                            && EntityModel!.RootModel.LookupEntities.ContainsKey(valueModel.ValueDefinition.LookupType))
+                        {
+                            QuickEditForm.ExecueShow(this.ParentForm!, EntityModel!.RootModel, valueModel.Value);
+                        }
+                        _isRightClick = false;
                     }
                     else if (valueModel.Value.IsYesNo() || valueModel.DefaultValue.IsYesNo())
                     {
@@ -325,7 +332,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                             {
                                 Key = valueModel.ValueDefinition.Key,
                                 LookupType = detectedLookupType,
-                                MultipleValues = valueModel.Value.Contains(",") 
+                                MultipleValues = valueModel.Value.Contains(",")
                                                  || valueModel.DefaultValue.Contains(",")
                             };
                             e.Cell.CancelUpdate();
@@ -335,6 +342,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     }
                 }
             }
+        }
+
+        private bool _isRightClick;
+        private void valuesGrid_MouseDown(object sender, MouseEventArgs e)
+        {
+            _isRightClick = e.Button == MouseButtons.Right;
         }
 
         private void valuesGrid_InitializeRow(object sender, InitializeRowEventArgs e)
@@ -350,6 +363,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 }
                 else
                 {
+                    if (valueModel.ValueDefinition.LookupType != null
+                        && EntityModel!.RootModel.LookupEntities.ContainsKey(valueModel.ValueDefinition.LookupType))
+                    {
+                        e.Row.Cells["Value"].ToolTipText = "Right-click to open Quick-Edit";
+                    }
                     e.Row.Cells["Key"].Activation = Activation.NoEdit;
                     e.Row.Cells["NormalValue"].Activation = Activation.NoEdit;
                     e.Row.Cells["DefaultValue"].Activation = Activation.NoEdit;
@@ -438,14 +456,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private void ultraComboAddValue_ValueChanged(object sender, EventArgs e)
         {
             if (EntityModel == null) return;
-            if (ultraComboAddValue.SelectedItem?.DataValue is IGrouping<string, IniFileLineKeyValue> selectedKey) 
+            if (ultraComboAddValue.SelectedItem?.DataValue is IGrouping<string, IniFileLineKeyValue> selectedKey)
             {
                 EntityModel.EntityValueList.Add(new EntityValueModel(
                     EntityModel,
                     "Other values",
-                    EntityModel.FileSection, 
-                    EntityModel.DefaultSection, 
-                    selectedKey.Key, 
+                    EntityModel.FileSection,
+                    EntityModel.DefaultSection,
+                    selectedKey.Key,
                     new UnitValueDefinition
                     {
                         Key = selectedKey.Key,
@@ -456,6 +474,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 valuesGrid.Focus();
             }
         }
+
     }
 
     public class EntityCopyEventArgs : EventArgs

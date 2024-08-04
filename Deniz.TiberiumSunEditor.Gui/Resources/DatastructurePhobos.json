@@ -28,7 +28,6 @@
 	],
 
 	"Weapons": [
-		{"Key":"ExtraWarheads","Description":"have same weapon detonate multiple Warheads on impact by listing","LookupType":"Warheads","MultipleValues":true}
 	],
 	
 	"Warheads": [

@@ -74,6 +74,7 @@
             valuesGrid.AfterCellUpdate += valuesGrid_AfterCellUpdate;
             valuesGrid.InitializeRow += valuesGrid_InitializeRow;
             valuesGrid.ClickCell += valuesGrid_ClickCell;
+            valuesGrid.MouseDown += valuesGrid_MouseDown;
             // 
             // panelValueChooser
             // 

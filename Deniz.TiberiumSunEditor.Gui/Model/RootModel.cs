@@ -294,16 +294,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                         fileValue,
                         defaultValue?.Value ?? ""));
                 }
-                else if (defaultValue != null && _showMissingValues)
+                else if (_showMissingValues)
                 {
                     result.Add(new CommonValueModel(
                         valueDefinition,
-                        valueDefinition.Description ?? defaultValue.Comment ??
+                        valueDefinition.Description ?? defaultValue?.Comment ??
                         DescriptionFile?.GetSection(valueDefinition.Section)?.GetValue(valueDefinition.Key)?.Comment ?? "",
                         File,
                         valueDefinition.Section,
                         valueDefinition.Key,
-                        defaultValue.Value));
+                        defaultValue != null ? defaultValue.Value : valueDefinition.Default));
                 }
             }
             return result;
@@ -340,7 +340,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                             new CommonValueDefinition
                             {
                                 Key = sectionValue.Key,
-                                Category = $"Other '{mainSection}' values",
+                                Category = $"Z) Other '{mainSection}' values",
                                 Section = mainSection,
                                 LookupType = detectedLookupType,
                                 MultipleValues = multipleValues

@@ -43,7 +43,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             if (AnimationKeys == null)
                 throw new RuntimeException("The Thumbnail is not an animation");
             var keys = AnimationKeys.Split(",").Distinct();
-            return CCGameRepository.Instance.GetAnimationsImage(string.Join(",", keys));
+            try
+            {
+                return CCGameRepository.Instance.GetAnimationsImage(string.Join(",", keys));
+            }
+            catch (Exception)
+            {
+                // GDI+ error, async generation still running
+                return null;
+            }
         }
     }
 }

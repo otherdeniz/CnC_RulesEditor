@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using Deniz.TiberiumSunEditor.Gui.Model;
 using Deniz.TiberiumSunEditor.Gui.Utils.Extensions;
+using Deniz.TiberiumSunEditor.Gui.Dialogs;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls
 {
@@ -113,6 +114,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                         e.Cell.CancelUpdate();
                         e.Cell.Appearance.BackColor = Color.LightSkyBlue;
                         LookupEntityValue(valueModel, e.Cell.Row);
+                        if (_isRightClick
+                            && valueModel.ValueDefinition.LookupType != null
+                            && _rootModel.LookupEntities.ContainsKey(valueModel.ValueDefinition.LookupType))
+                        {
+                            QuickEditForm.ExecueShow(this.ParentForm!, _rootModel, valueModel.Value);
+                        }
+                        _isRightClick = false;
                     }
                     else if (valueModel.Value.IsYesNo() || valueModel.DefaultValue.IsYesNo())
                     {
@@ -152,6 +160,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
         }
 
+        private bool _isRightClick;
+        private void valuesGrid_MouseDown(object sender, MouseEventArgs e)
+        {
+            _isRightClick = e.Button == MouseButtons.Right;
+        }
+
         private void valuesGrid_InitializeRow(object sender, InitializeRowEventArgs e)
         {
             if (e.Row.ListObject is CommonValueModel valueModel)
@@ -165,6 +179,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 }
                 else
                 {
+                    if (valueModel.ValueDefinition.LookupType != null
+                        && _rootModel.LookupEntities.ContainsKey(valueModel.ValueDefinition.LookupType))
+                    {
+                        e.Row.Cells["Value"].ToolTipText = "Right-click to open Quick-Edit";
+                    }
                     e.Row.Cells["Key"].Activation = Activation.NoEdit;
                     e.Row.Cells["DefaultValue"].Activation = Activation.NoEdit;
                     e.Row.Cells["Description"].Activation = Activation.NoEdit;

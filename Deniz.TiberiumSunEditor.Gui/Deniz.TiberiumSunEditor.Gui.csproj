@@ -183,6 +183,7 @@
     <None Remove="Resources\Phobos\Rules.Automatic passenger deletion.ini" />
     <None Remove="Resources\Phobos\Rules.Automatically firing weapons.ini" />
     <None Remove="Resources\Phobos\Rules.Build limit group.ini" />
+    <None Remove="Resources\Phobos\Rules.Burst delay customizations.ini" />
     <None Remove="Resources\Phobos\Rules.Disguise logic additions.ini" />
     <None Remove="Resources\Phobos\Rules.Extra warhead detonations.ini" />
     <None Remove="Resources\Phobos\Rules.Kill Object Automatically.ini" />
@@ -292,6 +293,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Phobos\Rules.Build limit group.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Phobos\Rules.Burst delay customizations.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Phobos\Rules.Disguise logic additions.ini">

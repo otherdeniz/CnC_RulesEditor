@@ -38,10 +38,10 @@
             labelModifications = new Label();
             pictureBoxFavorite = new PictureBox();
             panelTop = new Panel();
-            pictureBoxUnitPreview = new PictureBox();
             panelTopRight = new Panel();
             ButtonDelete = new Button();
             ButtonCopy = new Button();
+            pictureBoxUnitPreview = new PictureBox();
             valuesGrid = new Infragistics.Win.UltraWinGrid.UltraGrid();
             panelValueChooser = new Panel();
             groupBoxValueChooser = new GroupBox();
@@ -57,8 +57,8 @@
             ((System.ComponentModel.ISupportInitialize)pictureThumbnail).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxFavorite).BeginInit();
             panelTop.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxUnitPreview).BeginInit();
             panelTopRight.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxUnitPreview).BeginInit();
             ((System.ComponentModel.ISupportInitialize)valuesGrid).BeginInit();
             panelValueChooser.SuspendLayout();
             groupBoxValueChooser.SuspendLayout();
@@ -145,15 +145,6 @@
             panelTop.Size = new Size(747, 69);
             panelTop.TabIndex = 5;
             // 
-            // pictureBoxUnitPreview
-            // 
-            pictureBoxUnitPreview.Anchor = AnchorStyles.Top;
-            pictureBoxUnitPreview.Location = new Point(324, 0);
-            pictureBoxUnitPreview.Name = "pictureBoxUnitPreview";
-            pictureBoxUnitPreview.Size = new Size(100, 70);
-            pictureBoxUnitPreview.TabIndex = 5;
-            pictureBoxUnitPreview.TabStop = false;
-            // 
             // panelTopRight
             // 
             panelTopRight.Controls.Add(ButtonDelete);
@@ -194,6 +185,15 @@
             ButtonCopy.Visible = false;
             ButtonCopy.Click += ButtonCopy_Click;
             // 
+            // pictureBoxUnitPreview
+            // 
+            pictureBoxUnitPreview.Anchor = AnchorStyles.Top;
+            pictureBoxUnitPreview.Location = new Point(324, 0);
+            pictureBoxUnitPreview.Name = "pictureBoxUnitPreview";
+            pictureBoxUnitPreview.Size = new Size(100, 70);
+            pictureBoxUnitPreview.TabIndex = 5;
+            pictureBoxUnitPreview.TabStop = false;
+            // 
             // valuesGrid
             // 
             ultraGridBand1.Override.AllowGroupBy = Infragistics.Win.DefaultableBoolean.True;
@@ -224,6 +224,7 @@
             valuesGrid.AfterCellUpdate += valuesGrid_AfterCellUpdate;
             valuesGrid.InitializeRow += valuesGrid_InitializeRow;
             valuesGrid.ClickCell += valuesGrid_ClickCell;
+            valuesGrid.MouseDown += valuesGrid_MouseDown;
             // 
             // panelValueChooser
             // 
@@ -371,8 +372,8 @@
             ((System.ComponentModel.ISupportInitialize)pictureBoxFavorite).EndInit();
             panelTop.ResumeLayout(false);
             panelTop.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxUnitPreview).EndInit();
             panelTopRight.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBoxUnitPreview).EndInit();
             ((System.ComponentModel.ISupportInitialize)valuesGrid).EndInit();
             panelValueChooser.ResumeLayout(false);
             groupBoxValueChooser.ResumeLayout(false);
