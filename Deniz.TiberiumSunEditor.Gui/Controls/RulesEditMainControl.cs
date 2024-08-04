@@ -261,7 +261,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                         var entitiesTypesSection = Model.File.GetSection(entityTypes)
                                                    ?? Model.File.AddSection(entityTypes);
                         var typeKey = entitiesTypesSection.KeyValues.Any()
-                            ? entitiesTypesSection.KeyValues.Max(k => int.Parse(k.Key)) + 1
+                            ? entitiesTypesSection.KeyValues.Max(k => int.TryParse(k.Key, out var number) ? number : 0) + 1
                             : Model.FileType.BaseType == FileBaseType.Rules ? 1 : 900;
                         entitiesTypesSection.SetValue(typeKey.ToString(), newKey);
                     }
@@ -288,7 +288,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 var entitiesTypesSection = Model.File.GetSection(entityType)
                                            ?? Model.File.AddSection(entityType);
                 var typeKey = entitiesTypesSection.KeyValues.Any()
-                    ? entitiesTypesSection.KeyValues.Max(k => int.Parse(k.Key)) + 1
+                    ? entitiesTypesSection.KeyValues.Max(k => int.TryParse(k.Key, out var number) ? number : 0) + 1
                     : 900;
                 entitiesTypesSection.SetValue(typeKey.ToString(), addUnitResult.Key);
                 Model.ReloadGameEntites();
