@@ -316,30 +316,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                             valuesGrid_AfterCellUpdate(this, new CellEventArgs(e.Cell));
                         }
                     }
-                    else if (valueModel.ValueDefinition.DetectTypeAtRuntime)
-                    {
-                        var detectByKey = !string.IsNullOrEmpty(valueModel.Value)
-                            ? valueModel.Value.Split(",").First()
-                            : !string.IsNullOrEmpty(valueModel.DefaultValue)
-                                ? valueModel.DefaultValue.Split(",").First()
-                                : null;
-                        var detectedLookupType = detectByKey != null
-                            ? EntityModel!.RootModel.DetectLookupType(detectByKey)
-                            : null;
-                        if (detectedLookupType != null)
-                        {
-                            valueModel.ValueDefinition = new UnitValueDefinition
-                            {
-                                Key = valueModel.ValueDefinition.Key,
-                                LookupType = detectedLookupType,
-                                MultipleValues = valueModel.Value.Contains(",")
-                                                 || valueModel.DefaultValue.Contains(",")
-                            };
-                            e.Cell.CancelUpdate();
-                            e.Cell.Appearance.BackColor = Color.LightSkyBlue;
-                            LookupEntityValue(valueModel, e.Cell.Row);
-                        }
-                    }
                 }
             }
         }
@@ -363,6 +339,27 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 }
                 else
                 {
+                    if (valueModel.ValueDefinition.DetectTypeAtRuntime)
+                    {
+                        var detectByKey = !string.IsNullOrEmpty(valueModel.Value)
+                            ? valueModel.Value.Split(",").First()
+                            : !string.IsNullOrEmpty(valueModel.DefaultValue)
+                                ? valueModel.DefaultValue.Split(",").First()
+                                : null;
+                        var detectedLookupType = detectByKey != null
+                            ? EntityModel!.RootModel.DetectLookupType(detectByKey)
+                            : null;
+                        if (detectedLookupType != null)
+                        {
+                            valueModel.ValueDefinition = new UnitValueDefinition
+                            {
+                                Key = valueModel.ValueDefinition.Key,
+                                LookupType = detectedLookupType,
+                                MultipleValues = valueModel.Value.Contains(",")
+                                                 || valueModel.DefaultValue.Contains(",")
+                            };
+                        }
+                    }
                     if (valueModel.ValueDefinition.LookupType != null
                         && EntityModel!.RootModel.LookupEntities.ContainsKey(valueModel.ValueDefinition.LookupType))
                     {

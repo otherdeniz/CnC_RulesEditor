@@ -377,9 +377,10 @@
 	],
 	
 	"SuperWeaponsGeneral": [
-		{"Key":"IonCannonDamage","Section":"CombatDamage","Category":"1) General Values"},
-		{"Key":"AtomDamage","Section":"CombatDamage","Category":"1) General Values"},
-		{"Key":"DamageToFirestormDamageCoefficient","Category":"1) General Values"}
+		{"Key":"IonCannonDamage","Section":"CombatDamage","Category":"1) CombatDamage Values"},
+		{"Key":"IonCannonWarhead","Section":"CombatDamage","Category":"1) CombatDamage Values","LookupType":"Warheads"},
+		{"Key":"AtomDamage","Section":"CombatDamage","Category":"1) CombatDamage Values"},
+		{"Key":"DamageToFirestormDamageCoefficient","Category":"2) General Values"}
 	],
 	
 	"SuperWeapons": [

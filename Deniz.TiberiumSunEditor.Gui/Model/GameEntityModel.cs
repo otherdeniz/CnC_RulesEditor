@@ -91,7 +91,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                         return null;
                     }
                 }
-                if (EntityType == "Projectiles")
+                if (EntityType == "Projectiles" 
+                    || EntityType == "Particles")
                 {
                     var animKey = FileSection.GetValue("Image")?.Value;
                     if (!string.IsNullOrEmpty(animKey))
@@ -99,6 +100,19 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                         return new ThumbnailModel(animKey);
                     }
                     return null;
+                }
+                if (EntityType == "ParticleSystems")
+                {
+                    var particleValue = FileSection.GetValue("HoldsWhat")?.Value;
+                    if (particleValue != null)
+                    {
+                        var animKey = RootModel.FindSection(particleValue)?.GetValue("Image")?.Value;
+                        if (!string.IsNullOrEmpty(animKey))
+                        {
+                            return new ThumbnailModel(animKey);
+                        }
+                        return null;
+                    }
                 }
                 if (EntityType == "Sides")
                 {

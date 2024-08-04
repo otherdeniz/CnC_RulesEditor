@@ -113,11 +113,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 
         public List<GameEntityModel> WeaponEntities { get; private set; } = null!;
 
+        public List<GameEntityModel> ProjectileEntities { get; private set; } = null!;
+
         public List<GameEntityModel> SuperWeaponEntities { get; private set; } = null!;
 
         public List<GameEntityModel> VoxelDebrisEntities { get; private set; } = null!;
 
-        public List<GameEntityModel> ProjectileEntities { get; private set; } = null!;
+        public List<GameEntityModel> ParticleEntities { get; private set; } = null!;
+
+        public List<GameEntityModel> ParticleSystemEntities { get; private set; } = null!;
 
         public List<AdditionalGameEntityModels> AdditionalEntities { get; private set; } = null!;
 
@@ -209,16 +213,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 Datastructure.SuperWeapons.Select(u =>
                     new UnitValueModel(u, "1) Super Weapons"))
                     .ToList());
-            VoxelDebrisEntities = GetGameEntities("VoxelDebris",
-                s => (s.KeyValues.Any(k => k.Key == "Elasticity")
-                      && s.KeyValues.Any(k => k.Key == "MinAngularVelocity")
-                      && s.KeyValues.Any(k => k.Key == "Duration"))
-                     || (DefaultFile.GetSection(s.SectionName) is { } defaultSection
-                         && (defaultSection.KeyValues.Any(k => k.Key == "Elasticity")
-                             && defaultSection.KeyValues.Any(k => k.Key == "MinAngularVelocity")
-                             && defaultSection.KeyValues.Any(k => k.Key == "Duration"))
-                     ),
-                new List<UnitValueModel>());
             WeaponSounds = GetAllPossibleValues("Weapons", "Report");
             WeaponProjectiles = GetAllPossibleValues("Weapons", "Projectile");
             ProjectileEntities = GetGameEntities("Projectiles",
@@ -246,6 +240,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                     "AircraftTypes",
                     "InfantryTypes"
                 }, "MovementZone");
+            VoxelDebrisEntities = GetGameEntities("VoxelAnims", new List<UnitValueModel>());
+            ParticleEntities = GetGameEntities("Particles", new List<UnitValueModel>());
+            ParticleSystemEntities = GetGameEntities("ParticleSystems", new List<UnitValueModel>());
             // additional entities
             AdditionalEntities = new List<AdditionalGameEntityModels>();
             foreach (var additionalType in Datastructure.AdditionalTypes)

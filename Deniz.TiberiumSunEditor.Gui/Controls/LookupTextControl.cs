@@ -40,6 +40,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             _singleValuesModel = null;
             _multiValuesModel = null;
             _doEvents = false;
+            textBoxSearch.Text = string.Empty;
             IEnumerable<string>? valueList = null;
             if (valueModel.ValueDefinition.ValueList != null)
             {
@@ -116,8 +117,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             else if (_lookupType != null)
             {
                 var lookupItems = rootModel.LookupItems
-                    .Where(e => _lookupType == "TechnoTypes" 
-                        ? _allTechoTypes.Any(t => e.EntityType == t) 
+                    .Where(e => _lookupType == "TechnoTypes"
+                        ? _allTechoTypes.Any(t => e.EntityType == t)
                         : e.EntityType == _lookupType)
                     .ToList();
                 if (valueModel.ValueDefinition.MultipleValues)
@@ -176,11 +177,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
         }
 
-        private void LoadTextValuesGrid()
+        private void LoadTextValuesGrid(List<LookupTextValueModel>? filteredTextValuesModel = null)
         {
+            _doEvents = false;
+            var valuesList = filteredTextValuesModel ?? _textValuesModel!;
             valuesGrid.DisplayLayout.Override.CellClickAction = CellClickAction.RowSelect;
-            valuesGrid.DataSource = _textValuesModel;
-            var selectedIndex = _textValuesModel!.Select(v => v.Value).ToList()
+            valuesGrid.DataSource = valuesList;
+            var selectedIndex = valuesList.Select(v => v.Value).ToList()
                 .IndexOf(_valueModel.Value);
             if (selectedIndex > -1)
             {
@@ -191,11 +194,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             _doEvents = true;
         }
 
-        private void LoadSingleValuesGrid()
+        private void LoadSingleValuesGrid(List<LookupSingleValueModel>? filteredSingleValuesModel = null)
         {
+            _doEvents = false;
+            var valuesList = filteredSingleValuesModel ?? _singleValuesModel!;
             valuesGrid.DisplayLayout.Override.CellClickAction = CellClickAction.RowSelect;
-            valuesGrid.DataSource = _singleValuesModel;
-            var selectedIndex = _singleValuesModel!.Select(v => v.Key).ToList()
+            valuesGrid.DataSource = valuesList;
+            var selectedIndex = valuesList!.Select(v => v.Key).ToList()
                 .IndexOf(_valueModel.Value);
             if (selectedIndex > -1)
             {
@@ -207,17 +212,21 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             _doEvents = true;
         }
 
-        private void LoadMultiTextValuesGrid()
+        private void LoadMultiTextValuesGrid(List<LookupMultiTextValueModel>? filteredMultiTextValuesModel = null)
         {
+            _doEvents = false;
             valuesGrid.DisplayLayout.Override.CellClickAction = CellClickAction.Default;
-            valuesGrid.DataSource = _multiTextValuesModel?.OrderBy(v => v.Selected ? 0 : 1).ToList();
+            valuesGrid.DataSource = (filteredMultiTextValuesModel ?? _multiTextValuesModel)?
+                .OrderBy(v => v.Selected ? 0 : 1).ToList();
             _doEvents = true;
         }
 
-        private void LoadMultiValuesGrid()
+        private void LoadMultiValuesGrid(List<LookupMultiValueModel>? filteredMultiValuesModel = null)
         {
+            _doEvents = false;
             valuesGrid.DisplayLayout.Override.CellClickAction = CellClickAction.Default;
-            valuesGrid.DataSource = _multiValuesModel?.OrderBy(v => v.Selected ? 0 : 1).ToList();
+            valuesGrid.DataSource = (filteredMultiValuesModel ?? _multiValuesModel)?
+                .OrderBy(v => v.Selected ? 0 : 1).ToList();
             _doEvents = true;
         }
 
@@ -258,7 +267,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                         {
                             var popupPosition = new Point(
                                 hoverRow.RectInsideBorders.X + Width - 98,
-                                hoverRow.RectInsideBorders.Y + hoverRow.Row.Height + 1);
+                                hoverRow.RectInsideBorders.Y + hoverRow.Row.Height + valuesGrid.Top + 1);
                             pictureThumbnail.Location = popupPosition;
                             pictureThumbnail.Image = animationImage;
                             pictureThumbnail.Visible = true;
@@ -271,7 +280,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     {
                         var popupPosition = new Point(
                             hoverRow.RectInsideBorders.X + Width - 98,
-                            hoverRow.RectInsideBorders.Y + hoverRow.Row.Height + 1);
+                            hoverRow.RectInsideBorders.Y + hoverRow.Row.Height + valuesGrid.Top + 1);
                         var entityThumbnail = _lookupEntities.FirstOrDefault(e => e.EntityKey == key)?.Thumbnail;
                         if (entityThumbnail != null)
                         {
@@ -382,5 +391,49 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
         }
 
+        private void textBoxSearch_TextChanged(object sender, EventArgs e)
+        {
+            var searchText = textBoxSearch.Text;
+            if (_textValuesModel != null)
+            {
+                LoadTextValuesGrid(searchText == string.Empty
+                    ? null
+                    : _textValuesModel
+                        .Where(v => v.Value.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
+                        .ToList());
+            }
+            else if (_singleValuesModel != null)
+            {
+                LoadSingleValuesGrid(searchText == string.Empty
+                    ? null
+                    : _singleValuesModel
+                        .Where(v => v.Key.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)
+                                    || v.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
+                        .ToList());
+            }
+            else if (_multiTextValuesModel != null)
+            {
+                LoadMultiTextValuesGrid(searchText == string.Empty
+                    ? null
+                    : _multiTextValuesModel
+                        .Where(v => v.Value.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
+                        .ToList());
+            }
+            else if (_multiValuesModel != null)
+            {
+                LoadMultiValuesGrid(searchText == string.Empty
+                    ? null
+                    : _multiValuesModel
+                        .Where(v => v.Key.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)
+                                    || v.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
+                        .ToList());
+            }
+            buttonResetSearch.Enabled = searchText != string.Empty;
+        }
+
+        private void buttonResetSearch_Click(object sender, EventArgs e)
+        {
+            textBoxSearch.Text = string.Empty;
+        }
     }
 }
