@@ -37,8 +37,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                         var latestRelease = GetLatestRelease();
                         if (latestRelease != null)
                         {
-                            var revisionNumber = int.Parse(VersionRegex.Match(latestRelease.Release.Name).Groups[1].Value);
-                            if (revisionNumber > currentVeresion.Revision)
+                            var buildNumber = int.Parse(VersionRegex.Match(latestRelease.Release.Name).Groups[1].Value);
+                            if (buildNumber > currentVeresion.Build)
                             {
                                 _uiContext.Send(args =>
                                 {
