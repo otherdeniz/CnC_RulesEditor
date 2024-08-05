@@ -18,6 +18,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         }
         public string Key { get; }
 
+        [DisplayName("Target Value")]
         public string TargetValue
         {
             get => _targetSection.GetValue(Key)?.Value ?? string.Empty;
@@ -30,6 +31,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 ? null
                 : ImageListComponent.Instance.Arrows24.Images[0];
 
+        [DisplayName("Source Value")]
         public string SourceValue => _sourceSection.GetValue(Key)?.Value ?? string.Empty;
 
         public string Description { get; }

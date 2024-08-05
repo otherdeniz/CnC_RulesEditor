@@ -45,6 +45,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             // add controls
             foreach (var entityModel in _targetModel.RootModel.LookupEntities[_targetModel.EntityType])
             {
+                if (entityModel.EntityKey == _targetModel.EntityKey)
+                    continue;
                 var unitPicker = new UnitPickerControl
                 {
                     ReadonlyMode = true

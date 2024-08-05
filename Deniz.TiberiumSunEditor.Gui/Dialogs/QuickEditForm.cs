@@ -14,7 +14,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         public static void ExecueShow(Form parentForm, RootModel rootModel, string entityKeys)
         {
             var editForm = new QuickEditForm();
-            if (!string.IsNullOrEmpty(entityKeys) 
+            if (!string.IsNullOrEmpty(entityKeys)
                 && editForm.LoadEntities(rootModel, entityKeys))
             {
                 editForm.Show(parentForm);
@@ -47,7 +47,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                     };
                     var ultraTab = new UltraTab
                     {
-                        Text = entityKey
+                        Text = $"{entityKey} [{entityModel.EntityType}]"
                     };
                     ultraTab.TabPage = tabPageControl;
                     tabPageControl.Controls.Add(unitEditControl);
@@ -57,6 +57,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                 }
             }
             return result;
+        }
+
+        private void buttonClose_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QuickEditForm));
             ultraTabEntities = new Infragistics.Win.UltraWinTabControl.UltraTabControl();
             ultraTabSharedControlsPage1 = new Infragistics.Win.UltraWinTabControl.UltraTabSharedControlsPage();
+            buttonClose = new Button();
             ((System.ComponentModel.ISupportInitialize)ultraTabEntities).BeginInit();
             ultraTabEntities.SuspendLayout();
             SuspendLayout();
@@ -55,11 +56,26 @@
             ultraTabSharedControlsPage1.Name = "ultraTabSharedControlsPage1";
             ultraTabSharedControlsPage1.Size = new Size(935, 675);
             // 
+            // buttonClose
+            // 
+            buttonClose.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            buttonClose.Image = (Image)resources.GetObject("buttonClose.Image");
+            buttonClose.Location = new Point(840, 666);
+            buttonClose.Name = "buttonClose";
+            buttonClose.Size = new Size(90, 26);
+            buttonClose.TabIndex = 2;
+            buttonClose.Text = "Close";
+            buttonClose.TextAlign = ContentAlignment.MiddleRight;
+            buttonClose.TextImageRelation = TextImageRelation.ImageBeforeText;
+            buttonClose.UseVisualStyleBackColor = true;
+            buttonClose.Click += buttonClose_Click;
+            // 
             // QuickEditForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(947, 706);
+            Controls.Add(buttonClose);
             Controls.Add(ultraTabEntities);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "QuickEditForm";
@@ -75,5 +91,6 @@
 
         private Infragistics.Win.UltraWinTabControl.UltraTabControl ultraTabEntities;
         private Infragistics.Win.UltraWinTabControl.UltraTabSharedControlsPage ultraTabSharedControlsPage1;
+        private Button buttonClose;
     }
 }
