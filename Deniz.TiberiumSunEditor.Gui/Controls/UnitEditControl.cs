@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Threading;
 using Deniz.TiberiumSunEditor.Gui.Dialogs;
 using Deniz.TiberiumSunEditor.Gui.Model;
 using Deniz.TiberiumSunEditor.Gui.Utils;
@@ -16,7 +15,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private EntityValueModel? _lookupEntityValue;
         private UltraGridRow? _lookupEntityRow;
         private bool _canCopy;
-        private bool _canDelete;
+        private bool _canTakeValues = true;
         private bool _readonlyMode;
         private bool _showModifications = true;
 
@@ -42,14 +41,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
         }
 
-        [DefaultValue(false)]
-        public bool CanDelete
+        [DefaultValue(true)]
+        public bool CanTakeValues
         {
-            get => _canDelete;
+            get => _canTakeValues;
             set
             {
-                _canDelete = value;
-                ButtonDelete.Visible = _canDelete;
+                _canTakeValues = value;
+                ButtonTakeValues.Visible = _canTakeValues;
             }
         }
 
@@ -165,6 +164,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void LoadValueGrid()
         {
+            valuesGrid.DataSource = null;
             valuesGrid.DataSource = EntityModel!.EntityValueList
                 .Where(FilterValue)
                 .OrderByDescending(v => v.Favorite)
@@ -274,7 +274,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                         e.Cell.CancelUpdate();
                         e.Cell.Appearance.BackColor = Color.LightSkyBlue;
                         LookupEntityValue(valueModel, e.Cell.Row);
-                        if (_isRightClick 
+                        if (_isRightClick
                             && valueModel.ValueDefinition.LookupType != null
                             && EntityModel!.RootModel.LookupEntities.ContainsKey(valueModel.ValueDefinition.LookupType))
                         {
@@ -445,9 +445,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
         }
 
-        private void ButtonDelete_Click(object sender, EventArgs e)
+        private void ButtonTakeValues_Click(object sender, EventArgs e)
         {
-
+            if (EntityModel == null) return;
+            TakeValuesForm.ExecuteShow(this.ParentForm!, EntityModel);
+            LoadValueGrid();
+            RefreshModifications();
+            UnitModificationsChanged?.Invoke(this, EventArgs.Empty);
+            valuesGrid.Focus();
         }
 
         private void ultraComboAddValue_ValueChanged(object sender, EventArgs e)

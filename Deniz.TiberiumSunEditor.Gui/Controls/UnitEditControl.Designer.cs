@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UnitEditControl));
-            Infragistics.Win.UltraWinGrid.UltraGridBand ultraGridBand1 = new Infragistics.Win.UltraWinGrid.UltraGridBand("", -1);
+            Infragistics.Win.UltraWinGrid.UltraGridBand ultraGridBand2 = new Infragistics.Win.UltraWinGrid.UltraGridBand("", -1);
             Infragistics.Win.Appearance appearance12 = new Infragistics.Win.Appearance();
             Infragistics.Win.Appearance appearance11 = new Infragistics.Win.Appearance();
             pictureThumbnail = new PictureBox();
@@ -39,7 +39,7 @@
             pictureBoxFavorite = new PictureBox();
             panelTop = new Panel();
             panelTopRight = new Panel();
-            ButtonDelete = new Button();
+            ButtonTakeValues = new Button();
             ButtonCopy = new Button();
             pictureBoxUnitPreview = new PictureBox();
             valuesGrid = new Infragistics.Win.UltraWinGrid.UltraGrid();
@@ -147,7 +147,7 @@
             // 
             // panelTopRight
             // 
-            panelTopRight.Controls.Add(ButtonDelete);
+            panelTopRight.Controls.Add(ButtonTakeValues);
             panelTopRight.Controls.Add(ButtonCopy);
             panelTopRight.Controls.Add(pictureBoxFavorite);
             panelTopRight.Dock = DockStyle.Right;
@@ -157,19 +157,18 @@
             panelTopRight.Size = new Size(229, 69);
             panelTopRight.TabIndex = 4;
             // 
-            // ButtonDelete
+            // ButtonTakeValues
             // 
-            ButtonDelete.Image = (Image)resources.GetObject("ButtonDelete.Image");
-            ButtonDelete.Location = new Point(3, 34);
-            ButtonDelete.Name = "ButtonDelete";
-            ButtonDelete.Size = new Size(142, 27);
-            ButtonDelete.TabIndex = 6;
-            ButtonDelete.Text = "Delete";
-            ButtonDelete.TextAlign = ContentAlignment.MiddleRight;
-            ButtonDelete.TextImageRelation = TextImageRelation.ImageBeforeText;
-            ButtonDelete.UseVisualStyleBackColor = true;
-            ButtonDelete.Visible = false;
-            ButtonDelete.Click += ButtonDelete_Click;
+            ButtonTakeValues.Image = (Image)resources.GetObject("ButtonTakeValues.Image");
+            ButtonTakeValues.Location = new Point(3, 34);
+            ButtonTakeValues.Name = "ButtonTakeValues";
+            ButtonTakeValues.Size = new Size(142, 27);
+            ButtonTakeValues.TabIndex = 6;
+            ButtonTakeValues.Text = "Take values from";
+            ButtonTakeValues.TextAlign = ContentAlignment.MiddleRight;
+            ButtonTakeValues.TextImageRelation = TextImageRelation.ImageBeforeText;
+            ButtonTakeValues.UseVisualStyleBackColor = true;
+            ButtonTakeValues.Click += ButtonTakeValues_Click;
             // 
             // ButtonCopy
             // 
@@ -196,9 +195,9 @@
             // 
             // valuesGrid
             // 
-            ultraGridBand1.Override.AllowGroupBy = Infragistics.Win.DefaultableBoolean.True;
-            ultraGridBand1.Override.AllowGroupCollapsing = Infragistics.Win.DefaultableBoolean.True;
-            valuesGrid.DisplayLayout.BandsSerializer.Add(ultraGridBand1);
+            ultraGridBand2.Override.AllowGroupBy = Infragistics.Win.DefaultableBoolean.True;
+            ultraGridBand2.Override.AllowGroupCollapsing = Infragistics.Win.DefaultableBoolean.True;
+            valuesGrid.DisplayLayout.BandsSerializer.Add(ultraGridBand2);
             valuesGrid.DisplayLayout.DefaultSelectedBackColor = Color.FromArgb(192, 192, 255);
             valuesGrid.DisplayLayout.DefaultSelectedForeColor = Color.Black;
             valuesGrid.DisplayLayout.GroupByBox.Hidden = true;
@@ -403,7 +402,7 @@
         private LookupTextControl lookupValue;
         private Panel panelUseDefault;
         private Button ButtonUseDefault;
-        private Button ButtonDelete;
+        private Button ButtonTakeValues;
         private Button ButtonCopy;
         private Panel panelCenter;
         private Panel panelAddNew;
