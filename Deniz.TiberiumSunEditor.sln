@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deniz.TiberiumSunEditor.Gui", "Deniz.TiberiumSunEditor.Gui\Deniz.TiberiumSunEditor.Gui.csproj", "{EA36007B-CB9B-403D-B122-E3E26AC4627A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E3C61540-01D9-4C43-BA50-A04EADB61103} = {E3C61540-01D9-4C43-BA50-A04EADB61103}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deniz.CCAudioPlayerCore", "Deniz.CCAudioPlayerCore\Deniz.CCAudioPlayerCore.csproj", "{0B9B6BA1-75C4-481B-BF79-C38996D54369}"
 EndProject
@@ -11,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deniz.Updater", "Deniz.Updater\Deniz.Updater.csproj", "{E3C61540-01D9-4C43-BA50-A04EADB61103}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +31,10 @@ Global
 		{0B9B6BA1-75C4-481B-BF79-C38996D54369}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B9B6BA1-75C4-481B-BF79-C38996D54369}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B9B6BA1-75C4-481B-BF79-C38996D54369}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3C61540-01D9-4C43-BA50-A04EADB61103}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3C61540-01D9-4C43-BA50-A04EADB61103}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3C61540-01D9-4C43-BA50-A04EADB61103}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3C61540-01D9-4C43-BA50-A04EADB61103}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

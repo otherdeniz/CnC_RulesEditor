@@ -7,6 +7,7 @@ using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
 using Infragistics.Win.UltraWinToolbars;
+using System.Diagnostics;
 
 namespace Deniz.TiberiumSunEditor.Gui
 {
@@ -281,6 +282,12 @@ namespace Deniz.TiberiumSunEditor.Gui
                     UserSettingsFile.Instance.Save();
                     ((StateButtonTool)e.Tool).Checked = UserSettingsFile.Instance.SettingPlayOpeningSound;
                     break;
+                case "SettingCheckUpdates":
+                    UserSettingsFile.Instance.SettingAutoUpdate =
+                        !UserSettingsFile.Instance.SettingAutoUpdate;
+                    UserSettingsFile.Instance.Save();
+                    ((StateButtonTool)e.Tool).Checked = UserSettingsFile.Instance.SettingAutoUpdate;
+                    break;
                 case "OnlyFavoriteValues":
                     ShowOnlyFavoriteValues = !ShowOnlyFavoriteValues;
                     ((StateButtonTool)e.Tool).Checked = ShowOnlyFavoriteValues;
@@ -346,6 +353,11 @@ namespace Deniz.TiberiumSunEditor.Gui
                 ((StateButtonTool)mainToolbarsManager.Tools["SettingOpeningSound"]).Checked = true;
                 var audStream = ResourcesRepository.Instance.ReadRandomResourcesFileStream("startup*.aud");
                 AudioPlayerService.PlaySound(StupidStream.FromFileStream(audStream));
+            }
+            if (UserSettingsFile.Instance.SettingAutoUpdate)
+            {
+                ((StateButtonTool)mainToolbarsManager.Tools["SettingCheckUpdates"]).Checked = true;
+                AutoUpdateManager.CheckForUpdate(this);
             }
             _doEvents = true;
         }

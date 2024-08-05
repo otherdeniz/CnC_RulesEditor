@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Deniz.Updater": {
+      "commandName": "Project",
+      "commandLineArgs": "https://github.com/otherdeniz/CnC_RulesEditor/releases/download/v2.4.25/TiberianSunEditor_v2.4.25.zip Deniz.TiberiumSunEditor.Gui.exe"
+    }
+  }
+}

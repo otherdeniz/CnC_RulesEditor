@@ -248,7 +248,8 @@
 		{"Key":"Speed","Description":"speed of this object","Default":"0"},
 		{"Key":"ManualReload","Description":"Must this object reload by coordinating with reloader building","Default":"no"},
 		{"Key":"WalkRate","Description":"walking animation rate [larger means slower]","Default":"1"},
-		{"Key":"Dock","Description":"preferred docking building [e.g., harvester -> refinery, helicopter -> helipad]","Default":"","LookupType":"BuildingTypes"}
+		{"Key":"Dock","Description":"preferred docking building [e.g., harvester -> refinery, helicopter -> helipad]","Default":"","LookupType":"BuildingTypes"},
+		{"Key":"Locomotor","Description":"object mov handling","LookupType":"Locomotors"}
 	],
 	
 	"InfantryUnits": [
@@ -438,7 +439,7 @@
 		{"Key":"MaxDebris","Value":"4"},
 		{"Key":"MovementZone","Value":"Normal"},
 		{"Key":"MoveToShroud","Value":"yes"},
-		{"Key":"Locomotor","Value":"{4A582746-9839-11d1-B709-00A024DDAFD1}"},
+		{"Key":"Locomotor","Value":"{4A582741-9839-11d1-B709-00A024DDAFD1}"},
 		{"Key":"ThreatPosed","Value":"20"},
 		{"Key":"DamageParticleSystems","Value":"SparkSys,SmallGreySSys"}
 	],

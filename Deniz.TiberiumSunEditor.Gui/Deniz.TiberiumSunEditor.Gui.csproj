@@ -440,6 +440,7 @@
     <PackageReference Include="Infragistics.WinForms.WinGrid" Version="23.2.81" />
     <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="13.10.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Octokit" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -524,7 +525,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="call &quot;$(ProjectDir)CopyContent.bat&quot; &quot;$(ProjectDir)&quot; &quot;$(ProjectDir)$(OutDir)&quot;" />
+    <Exec Command="call &quot;$(ProjectDir)CopyContent.bat&quot; &quot;$(ProjectDir)&quot; &quot;$(ProjectDir)$(OutDir)&quot; $(Configuration)" />
   </Target>
 
   <ItemGroup>

@@ -257,8 +257,19 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 
         private void InitialiseLookupItems()
         {
+            // Sounds
             CCGameRepository.Instance.GetAllSounds().ForEach(s =>
                 LookupItems.Add(new LookupItemModel("Sounds", s.Key, s.Value)));
+            // Locomotors
+            const string locomotorsType = "Locomotors";
+            LookupItems.Add(new LookupItemModel(locomotorsType, "{4A582741-9839-11d1-B709-00A024DDAFD1}", "Ground Vehicles"));
+            LookupItems.Add(new LookupItemModel(locomotorsType, "{4A582742-9839-11d1-B709-00A024DDAFD1}", "Hover Vehicles"));
+            LookupItems.Add(new LookupItemModel(locomotorsType, "{4A582743-9839-11d1-B709-00A024DDAFD1}", "Subtarranean Vehicles"));
+            LookupItems.Add(new LookupItemModel(locomotorsType, "{4A582744-9839-11d1-B709-00A024DDAFD1}", "Ground Infantry"));
+            LookupItems.Add(new LookupItemModel(locomotorsType, "{4A582745-9839-11d1-B709-00A024DDAFD1}", "Drop Pod"));
+            LookupItems.Add(new LookupItemModel(locomotorsType, "{4A582746-9839-11d1-B709-00A024DDAFD1}", "Aircraft"));
+            LookupItems.Add(new LookupItemModel(locomotorsType, "{55D141B8-DB94-11d1-AC98-006008055BB5}", "Walker Vehicles"));
+            LookupItems.Add(new LookupItemModel(locomotorsType, "{92612C46-F71F-11d1-AC9F-006008055BB5}", "Jumpjet Infantry"));
         }
 
         private static IniFile GetDefaultFile(GameDefinition gameDefinition)
