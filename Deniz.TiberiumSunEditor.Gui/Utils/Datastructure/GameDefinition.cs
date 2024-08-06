@@ -27,11 +27,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
 
         public string ResourcesDefaultIniFile { get; set; } = "";
 
+        public string ResourcesDefaultArtIniFile { get; set; } = "";
+
         public string? ResourcesDescriptionIniFile { get; set; }
 
         public string IniNameMatchDetection { get; set; } = "";
 
         public string SaveAsFilename { get; set; } = "";
+
+        public string SaveAsArtFilename { get; set; } = "";
 
         public string SaveAsRelativeToGameFolder { get; set; } = "";
 
