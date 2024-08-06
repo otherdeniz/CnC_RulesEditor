@@ -25,6 +25,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         public UnitEditControl()
         {
             InitializeComponent();
+            lookupValue.Dock = DockStyle.Fill;
+            lookupColor.Dock = DockStyle.Fill;
         }
 
         public event EventHandler<EventArgs>? FavoriteClick;
@@ -235,12 +237,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             ultraComboAddValue.Items.AddRange(allValueKeys.Select(k => new ValueListItem(k, k.Key)).ToArray());
         }
 
-        private void LookupEntityValue(EntityValueModel valueModel, UltraGridRow row)
+        private void LookupEntityValue(EntityValueModel valueModel, UltraGridRow row, bool isColor)
         {
             _lookupEntityValue = valueModel;
             _lookupEntityRow = row;
-            groupBoxValueChooser.Text = valueModel.ValueDefinition.LookupType ?? "Value";
-            panelValueChooser.Visible = true;
+            groupBoxValueChooser.Text = isColor ? "Color" : valueModel.ValueDefinition.LookupType ?? "Value";
             if (valueModel.DefaultValue != valueModel.NormalValue)
             {
                 panelUseDefault.Visible = true;
@@ -253,7 +254,17 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 panelUseDefault.Visible = false;
             }
-            lookupValue.LoadValues(EntityModel!.RootModel, valueModel, EntityModel.EntityType);
+            if (isColor)
+            {
+                lookupColor.LoadValue(valueModel);
+            }
+            else
+            {
+                lookupValue.LoadValues(EntityModel!.RootModel, valueModel, EntityModel.EntityType);
+            }
+            lookupValue.Visible = !isColor;
+            lookupColor.Visible = isColor;
+            panelValueChooser.Visible = true;
         }
 
         private void pictureBoxFavorite_Click(object sender, EventArgs e)
@@ -292,7 +303,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     {
                         e.Cell.CancelUpdate();
                         e.Cell.Appearance.BackColor = Color.LightSkyBlue;
-                        LookupEntityValue(valueModel, e.Cell.Row);
+                        LookupEntityValue(valueModel, e.Cell.Row, false);
                         if (_isRightClick
                             && valueModel.ValueDefinition.LookupType != null
                             && EntityModel!.RootModel.LookupEntities.ContainsKey(valueModel.ValueDefinition.LookupType))
@@ -300,6 +311,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                             QuickEditForm.ExecueShow(this.ParentForm!, EntityModel!.RootModel, valueModel.Value);
                         }
                         _isRightClick = false;
+                    }
+                    else if (valueModel.IsColorValue)
+                    {
+                        e.Cell.CancelUpdate();
+                        e.Cell.Appearance.BackColor = Color.LightSkyBlue;
+                        LookupEntityValue(valueModel, e.Cell.Row, true);
                     }
                     else if (valueModel.Value.IsYesNo() || valueModel.DefaultValue.IsYesNo())
                     {
@@ -416,6 +433,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
         }
 
+        private void lookupColor_RefreshEntityValue(object sender, EventArgs e)
+        {
+            lookupValue_RefreshEntityValue(sender, e);
+        }
+
         private void lookupValue_SelectedValueChanged(object sender, EventArgs e)
         {
             var valueCell = _lookupEntityRow?.Cells["Value"];
@@ -501,7 +523,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             if (_usedByEntityModels == null || EntityModel == null) return;
             _usedByPopupForm = new UsedByPopupForm
             {
-                Location = labelUsedBy.PointToScreen(new Point(0, labelUsedBy.Height+5))
+                Location = labelUsedBy.PointToScreen(new Point(0, labelUsedBy.Height + 5))
             };
             _usedByPopupForm.LoadUsedByEntities(_usedByEntityModels, EntityModel.EntityKey);
             _usedByPopupForm.Show(ParentForm);
@@ -511,6 +533,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         {
             _usedByPopupForm?.Close();
         }
+
     }
 
     public class EntityCopyEventArgs : EventArgs

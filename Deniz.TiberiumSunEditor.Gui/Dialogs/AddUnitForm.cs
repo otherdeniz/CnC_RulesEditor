@@ -82,7 +82,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                          .OrderBy(s => s.SectionName))
             {
                 var entityModel =
-                    new GameEntityModel(_rootModel, _entityType, artSection, artSection, new List<UnitValueModel>());
+                    new GameEntityModel(_rootModel, _entityType, artSection, artSection, new List<CategorizedValueDefinition>());
                 var unitPicker = new UnitPickerControl
                 {
                     ReadonlyMode = true

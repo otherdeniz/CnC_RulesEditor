@@ -16,6 +16,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         public ValuesEditControl()
         {
             InitializeComponent();
+            lookupValue.Dock = DockStyle.Fill;
+            lookupColor.Dock = DockStyle.Fill;
         }
 
         [DefaultValue(false)]
@@ -113,7 +115,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     {
                         e.Cell.CancelUpdate();
                         e.Cell.Appearance.BackColor = Color.LightSkyBlue;
-                        LookupEntityValue(valueModel, e.Cell.Row);
+                        LookupEntityValue(valueModel, e.Cell.Row, false);
                         if (_isRightClick
                             && valueModel.ValueDefinition.LookupType != null
                             && _rootModel.LookupEntities.ContainsKey(valueModel.ValueDefinition.LookupType))
@@ -121,6 +123,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                             QuickEditForm.ExecueShow(this.ParentForm!, _rootModel, valueModel.Value);
                         }
                         _isRightClick = false;
+                    }
+                    else if (valueModel.IsColorValue)
+                    {
+                        e.Cell.CancelUpdate();
+                        e.Cell.Appearance.BackColor = Color.LightSkyBlue;
+                        LookupEntityValue(valueModel, e.Cell.Row, true);
                     }
                     else if (valueModel.Value.IsYesNo() || valueModel.DefaultValue.IsYesNo())
                     {
@@ -203,18 +211,27 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
         }
 
-        private void LookupEntityValue(CommonValueModel valueModel, UltraGridRow row)
+        private void LookupEntityValue(CommonValueModel valueModel, UltraGridRow row, bool isColor)
         {
             _lookupValue = valueModel;
             _lookupValueRow = row;
-            groupBoxValueChooser.Text = valueModel.ValueDefinition.LookupType ?? "Value";
-            panelValueChooser.Visible = true;
+            groupBoxValueChooser.Text = isColor ? "Color" : valueModel.ValueDefinition.LookupType ?? "Value";
             panelUseDefault.Visible = true;
             var defaultValueLabel = string.IsNullOrEmpty(valueModel.DefaultValue)
                 ? "[empty]"
                 : valueModel.DefaultValue;
             ButtonUseDefault.Text = $"Use Default: {defaultValueLabel}";
-            lookupValue.LoadValues(_rootModel, valueModel);
+            if (isColor)
+            {
+                lookupColor.LoadValue(valueModel);
+            }
+            else
+            {
+                lookupValue.LoadValues(_rootModel, valueModel);
+            }
+            lookupValue.Visible = !isColor;
+            lookupColor.Visible = isColor;
+            panelValueChooser.Visible = true;
         }
 
         private void lookupValue_SelectedValueChanged(object sender, EventArgs e)
@@ -236,6 +253,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 valueCell.Refresh();
                 valuesGrid_AfterCellUpdate(this, new CellEventArgs(valueCell));
             }
+        }
+
+        private void lookupColor_RefreshEntityValue(object sender, EventArgs e)
+        {
+            lookupValue_RefreshEntityValue(sender, e);
         }
 
         private void ButtonCloseValue_Click(object sender, EventArgs e)

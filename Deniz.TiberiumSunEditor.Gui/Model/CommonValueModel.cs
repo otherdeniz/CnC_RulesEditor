@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using Deniz.TiberiumSunEditor.Gui.Controls;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
+using Deniz.TiberiumSunEditor.Gui.Utils.Extensions;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
 
@@ -129,5 +130,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 
         public string Description { get; }
 
+        [Browsable(false)]
+        public bool IsColorValue => Key.EndsWith("Color") && Value.IsRgbColor();
     }
 }

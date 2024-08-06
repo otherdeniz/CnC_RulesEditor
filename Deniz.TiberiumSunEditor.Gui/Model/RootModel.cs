@@ -156,9 +156,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             LookupEntities.Clear();
 
             var allUnitsModel = Datastructure.AllUnits.Where(GameKeyFilter).Select(u =>
-                new UnitValueModel(u, "1) All units")).ToList();
+                new CategorizedValueDefinition(u, "1) All units")).ToList();
             var movingUnitsModel = Datastructure.AllMovingUnits.Select(u =>
-                new UnitValueModel(u, "2) All moving units")).ToList();
+                new CategorizedValueDefinition(u, "2) All moving units")).ToList();
 
             var sidesEntityKeys = (File.GetSection("Sides")?.KeyValues.SelectMany(k => k.Value.Split(",")).ToList()
                                    ?? new List<string>())
@@ -166,31 +166,31 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                        ?? new List<string>());
             SideEntities = GetGameEntities("Sides", sidesEntityKeys,
                 Datastructure.Sides.Select(u =>
-                        new UnitValueModel(u, "1) Side"))
+                        new CategorizedValueDefinition(u, "1) Side"))
                     .ToList());
             VehicleEntities = GetGameEntities("VehicleTypes",
                 allUnitsModel.Union(movingUnitsModel)
                     .Union(Datastructure.DrivingVehicleUnits.Select(u =>
-                        new UnitValueModel(u, "3) Vehicle units")))
+                        new CategorizedValueDefinition(u, "3) Vehicle units")))
                     .ToList());
             AircraftEntities = GetGameEntities("AircraftTypes",
                 allUnitsModel.Union(movingUnitsModel)
                     .Union(Datastructure.AircraftUnits.Select(u =>
-                        new UnitValueModel(u, "3) Aircraft units")))
+                        new CategorizedValueDefinition(u, "3) Aircraft units")))
                     .ToList());
             InfantryEntities = GetGameEntities("InfantryTypes",
                 allUnitsModel.Union(movingUnitsModel)
                     .Union(Datastructure.InfantryUnits.Select(u =>
-                        new UnitValueModel(u, "3) Infantry units")))
+                        new CategorizedValueDefinition(u, "3) Infantry units")))
                     .ToList());
             BuildingEntities = GetGameEntities("BuildingTypes",
                 allUnitsModel
                     .Union(Datastructure.BuildingUnits.Select(u =>
-                        new UnitValueModel(u, "2) Building units")))
+                        new CategorizedValueDefinition(u, "2) Building units")))
                     .ToList());
             WarheadEntities = GetGameEntities("Warheads",
                 Datastructure.Warheads.Select(u =>
-                        new UnitValueModel(u, "1) Warheads"))
+                        new CategorizedValueDefinition(u, "1) Warheads"))
                     .ToList());
             WeaponEntities = GetGameEntities("Weapons",
                 s => (s.KeyValues.Any(k => k.Key == "Warhead")
@@ -207,11 +207,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                             && baseSection.KeyValues.Any(k => k.Key == "Projectile")))
                     ),
                 Datastructure.Weapons.Select(u =>
-                        new UnitValueModel(u, "1) Weapons"))
+                        new CategorizedValueDefinition(u, "1) Weapons"))
                     .ToList());
             SuperWeaponEntities = GetGameEntities("SuperWeaponTypes",
                 Datastructure.SuperWeapons.Select(u =>
-                    new UnitValueModel(u, "1) Super Weapons"))
+                    new CategorizedValueDefinition(u, "1) Super Weapons"))
                     .ToList());
             WeaponSounds = GetAllPossibleValues("Weapons", "Report");
             WeaponProjectiles = GetAllPossibleValues("Weapons", "Projectile");
@@ -226,7 +226,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                              && defaultSection.KeyValues.Any(k => k.Key == "Image"))
                      ),
                 Datastructure.Projectiles.Select(u =>
-                        new UnitValueModel(u, "1) Projectiles"))
+                        new CategorizedValueDefinition(u, "1) Projectiles"))
                     .ToList());
             var housesSection = DefaultFile.GetSection("Houses") ?? DefaultFile.GetSection("Countries");
             Houses = housesSection?.KeyValues.Select(k => k.Value).Distinct().ToList()
@@ -240,16 +240,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                     "AircraftTypes",
                     "InfantryTypes"
                 }, "MovementZone");
-            VoxelDebrisEntities = GetGameEntities("VoxelAnims", new List<UnitValueModel>());
-            ParticleEntities = GetGameEntities("Particles", new List<UnitValueModel>());
-            ParticleSystemEntities = GetGameEntities("ParticleSystems", new List<UnitValueModel>());
+            VoxelDebrisEntities = GetGameEntities("VoxelAnims", new List<CategorizedValueDefinition>());
+            ParticleEntities = GetGameEntities("Particles", new List<CategorizedValueDefinition>());
+            ParticleSystemEntities = GetGameEntities("ParticleSystems", new List<CategorizedValueDefinition>());
             // additional entities
             AdditionalEntities = new List<AdditionalGameEntityModels>();
             foreach (var additionalType in Datastructure.AdditionalTypes)
             {
                 var gameEntities = GetGameEntities(additionalType.TypesName,
                     additionalType.ValueDefinitions
-                        .Select(d => new UnitValueModel(d, $"{additionalType.Module}: {d.ModuleCategory}")).ToList());
+                        .Select(d => new CategorizedValueDefinition(d, $"{additionalType.Module}: {d.ModuleCategory}")).ToList());
                 AdditionalEntities.Add(new AdditionalGameEntityModels(additionalType.Module,
                     additionalType.TypesName, gameEntities));
             }
@@ -462,7 +462,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         }
 
         private List<GameEntityModel> GetGameEntities(string entitiesTypesSection, 
-            List<UnitValueModel> unitValueList)
+            List<CategorizedValueDefinition> unitValueList)
         {
             var entityKeys = (File.GetSection(entitiesTypesSection)?.KeyValues.Select(k => k.Value).ToList()
                                   ?? new List<string>())
@@ -473,7 +473,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 
         private List<GameEntityModel> GetGameEntities(string entityType,
             IEnumerable<string> entityKeysList,
-            List<UnitValueModel> unitValueList)
+            List<CategorizedValueDefinition> unitValueList)
         {
             var result = new List<GameEntityModel>();
             foreach (var entityKey in entityKeysList.OrderBy(e => e))
@@ -507,7 +507,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 
         private List<GameEntityModel> GetGameEntities(string entityType, 
             Func<IniFileSection, bool> sectionFilter,
-            List<UnitValueModel> unitValueList)
+            List<CategorizedValueDefinition> unitValueList)
         {
             var result = new List<GameEntityModel>();
             var fileSections = File.Sections.Where(sectionFilter).ToList();

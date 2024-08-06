@@ -3,6 +3,7 @@ using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
 using System.ComponentModel;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
+using Deniz.TiberiumSunEditor.Gui.Utils.Extensions;
 
 namespace Deniz.TiberiumSunEditor.Gui.Model
 {
@@ -76,6 +77,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         public string DefaultValue => ValueDefinition.Default;
 
         public string Description => ValueDefinition.Description ?? "";
+
+        [Browsable(false)]
+        public bool IsColorValue => Key.EndsWith("Color") && Value.IsRgbColor();
 
         [Browsable(false)]
         public UnitValueDefinition ValueDefinition { get; set; }

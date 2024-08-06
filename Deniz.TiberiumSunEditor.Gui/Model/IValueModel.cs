@@ -9,7 +9,7 @@ public interface IValueModel
     string Value { get; set; }
     string DefaultValue { get; }
     string Description { get; }
-
+    bool IsColorValue { get; }
     UnitValueDefinition ValueDefinition { get; }
     bool Favorite { get; set; }
 }

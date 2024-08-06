@@ -34,6 +34,7 @@
             valuesGrid = new Infragistics.Win.UltraWinGrid.UltraGrid();
             panelValueChooser = new Panel();
             groupBoxValueChooser = new GroupBox();
+            lookupColor = new LookupColorControl();
             lookupValue = new LookupTextControl();
             panelUseDefault = new Panel();
             ButtonUseDefault = new Button();
@@ -89,6 +90,7 @@
             // 
             // groupBoxValueChooser
             // 
+            groupBoxValueChooser.Controls.Add(lookupColor);
             groupBoxValueChooser.Controls.Add(lookupValue);
             groupBoxValueChooser.Controls.Add(panelUseDefault);
             groupBoxValueChooser.Controls.Add(panelCloseValue);
@@ -102,13 +104,21 @@
             groupBoxValueChooser.TabStop = false;
             groupBoxValueChooser.Text = "Value";
             // 
+            // lookupColor
+            // 
+            lookupColor.Location = new Point(44, 103);
+            lookupColor.Name = "lookupColor";
+            lookupColor.Size = new Size(225, 211);
+            lookupColor.TabIndex = 6;
+            lookupColor.Visible = false;
+            lookupColor.RefreshEntityValue += lookupColor_RefreshEntityValue;
+            // 
             // lookupValue
             // 
-            lookupValue.Dock = DockStyle.Fill;
             lookupValue.Location = new Point(4, 19);
             lookupValue.Margin = new Padding(5, 3, 5, 3);
             lookupValue.Name = "lookupValue";
-            lookupValue.Size = new Size(290, 426);
+            lookupValue.Size = new Size(290, 214);
             lookupValue.TabIndex = 3;
             lookupValue.RefreshEntityValue += lookupValue_RefreshEntityValue;
             lookupValue.SelectedValueChanged += lookupValue_SelectedValueChanged;
@@ -191,5 +201,6 @@
         private Button ButtonCloseValue;
         private Panel panelUseDefault;
         private Button ButtonUseDefault;
+        private LookupColorControl lookupColor;
     }
 }

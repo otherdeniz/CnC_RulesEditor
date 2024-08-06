@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UnitEditControl));
-            Infragistics.Win.UltraWinGrid.UltraGridBand ultraGridBand4 = new Infragistics.Win.UltraWinGrid.UltraGridBand("", -1);
+            Infragistics.Win.UltraWinGrid.UltraGridBand ultraGridBand1 = new Infragistics.Win.UltraWinGrid.UltraGridBand("", -1);
             Infragistics.Win.Appearance appearance12 = new Infragistics.Win.Appearance();
             Infragistics.Win.Appearance appearance11 = new Infragistics.Win.Appearance();
             pictureThumbnail = new PictureBox();
@@ -46,6 +46,7 @@
             valuesGrid = new Infragistics.Win.UltraWinGrid.UltraGrid();
             panelValueChooser = new Panel();
             groupBoxValueChooser = new GroupBox();
+            lookupColor = new LookupColorControl();
             lookupValue = new LookupTextControl();
             panelUseDefault = new Panel();
             ButtonUseDefault = new Button();
@@ -211,9 +212,9 @@
             // 
             // valuesGrid
             // 
-            ultraGridBand4.Override.AllowGroupBy = Infragistics.Win.DefaultableBoolean.True;
-            ultraGridBand4.Override.AllowGroupCollapsing = Infragistics.Win.DefaultableBoolean.True;
-            valuesGrid.DisplayLayout.BandsSerializer.Add(ultraGridBand4);
+            ultraGridBand1.Override.AllowGroupBy = Infragistics.Win.DefaultableBoolean.True;
+            ultraGridBand1.Override.AllowGroupCollapsing = Infragistics.Win.DefaultableBoolean.True;
+            valuesGrid.DisplayLayout.BandsSerializer.Add(ultraGridBand1);
             valuesGrid.DisplayLayout.DefaultSelectedBackColor = Color.FromArgb(192, 192, 255);
             valuesGrid.DisplayLayout.DefaultSelectedForeColor = Color.Black;
             valuesGrid.DisplayLayout.GroupByBox.Hidden = true;
@@ -254,6 +255,7 @@
             // 
             // groupBoxValueChooser
             // 
+            groupBoxValueChooser.Controls.Add(lookupColor);
             groupBoxValueChooser.Controls.Add(lookupValue);
             groupBoxValueChooser.Controls.Add(panelUseDefault);
             groupBoxValueChooser.Controls.Add(panelCloseValue);
@@ -267,14 +269,23 @@
             groupBoxValueChooser.TabStop = false;
             groupBoxValueChooser.Text = "Value";
             // 
+            // lookupColor
+            // 
+            lookupColor.Location = new Point(49, 115);
+            lookupColor.Name = "lookupColor";
+            lookupColor.Size = new Size(225, 211);
+            lookupColor.TabIndex = 5;
+            lookupColor.Visible = false;
+            lookupColor.RefreshEntityValue += lookupColor_RefreshEntityValue;
+            // 
             // lookupValue
             // 
-            lookupValue.Dock = DockStyle.Fill;
             lookupValue.Location = new Point(4, 19);
             lookupValue.Margin = new Padding(5, 3, 5, 3);
             lookupValue.Name = "lookupValue";
-            lookupValue.Size = new Size(290, 481);
+            lookupValue.Size = new Size(290, 200);
             lookupValue.TabIndex = 3;
+            lookupValue.Visible = false;
             lookupValue.RefreshEntityValue += lookupValue_RefreshEntityValue;
             lookupValue.SelectedValueChanged += lookupValue_SelectedValueChanged;
             // 
@@ -426,5 +437,6 @@
         private Infragistics.Win.UltraWinEditors.UltraComboEditor ultraComboAddValue;
         private PictureBox pictureBoxUnitPreview;
         private Label labelUsedBy;
+        private LookupColorControl lookupColor;
     }
 }

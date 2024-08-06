@@ -13,7 +13,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             string entityType,
             IniFileSection fileSection,
             IniFileSection? defaultSection,
-            List<UnitValueModel> unitValueList)
+            List<CategorizedValueDefinition> unitValueList)
         {
             RootModel = rootModel;
             EntityType = entityType;

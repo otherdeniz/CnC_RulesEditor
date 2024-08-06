@@ -2,9 +2,9 @@
 
 namespace Deniz.TiberiumSunEditor.Gui.Model
 {
-    public class UnitValueModel
+    public class CategorizedValueDefinition
     {
-        public UnitValueModel(UnitValueDefinition unitValueDefinition, string category)
+        public CategorizedValueDefinition(UnitValueDefinition unitValueDefinition, string category)
         {
             UnitValueDefinition = unitValueDefinition;
             Category = category;
