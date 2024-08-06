@@ -1,4 +1,5 @@
-﻿using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
+﻿using Deniz.TiberiumSunEditor.Gui.Utils.Files;
+using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
 
 namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
 {
@@ -57,6 +58,27 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
         {
             return _customGamePath 
                    ?? UserSettingsFile.Instance.GamePaths.FirstOrDefault(g => g.GameKey == GameKey)?.GamePath;
+        }
+
+        public IniFile LoadDefaultRulesFile()
+        {
+            return !string.IsNullOrEmpty(ResourcesDefaultIniFile)
+                ? IniFile.Load(ResourcesRepository.Instance.ReadResourcesFile(ResourcesDefaultIniFile))
+                : new IniFile();
+        }
+
+        public IniFile LoadDefaultArtFile()
+        {
+            return !string.IsNullOrEmpty(ResourcesDefaultArtIniFile)
+                ? IniFile.Load(ResourcesRepository.Instance.ReadResourcesFile(ResourcesDefaultArtIniFile))
+                : new IniFile();
+        }
+
+        public IniFile? LoadDescriptionRulesFile()
+        {
+            return !string.IsNullOrEmpty(ResourcesDescriptionIniFile)
+                ? IniFile.Load(ResourcesRepository.Instance.ReadResourcesFile(ResourcesDescriptionIniFile))
+                : null;
         }
 
     }

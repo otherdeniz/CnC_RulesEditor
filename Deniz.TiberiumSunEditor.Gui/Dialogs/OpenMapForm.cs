@@ -14,9 +14,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
 
         public GameDefinition? SelectedGameDefinition { get; private set; }
 
-        public void LoadMap(string mapName)
+        public void LoadFile(string fileName)
         {
-            LabelMap.Text = mapName;
+            LabelMap.Text = fileName;
             _gameDefinitions = GamesFile.Instance.Games
                 .Union(UserSettingsFile.Instance.CustomMods.Select(m => m.ToGameDefinition())
                     .Where(g => g != null).Select(g => g!))

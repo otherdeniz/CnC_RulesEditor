@@ -40,8 +40,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             {
                 Datastructure = datastructureOverwrite;
             }
-            DefaultFile = defaultFileOverwrite ?? GetDefaultFile(FileType.GameDefinition);
-            DescriptionFile = GetDescriptionFile(FileType.GameDefinition);
+            DefaultFile = defaultFileOverwrite ?? FileType.GameDefinition.LoadDefaultRulesFile();
+            DescriptionFile = FileType.GameDefinition.LoadDescriptionRulesFile();
             LoadGameEntities();
             InitialiseLookupItems();
             CommonValues = GetCommonValues(Datastructure.CommonGeneral)
@@ -272,20 +272,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             LookupItems.Add(new LookupItemModel(locomotorsType, "{92612C46-F71F-11d1-AC9F-006008055BB5}", "Jumpjet Infantry"));
         }
 
-        private static IniFile GetDefaultFile(GameDefinition gameDefinition)
-        {
-            return !string.IsNullOrEmpty(gameDefinition.ResourcesDefaultIniFile) 
-                ? IniFile.Load(ResourcesRepository.Instance.ReadResourcesFile(gameDefinition.ResourcesDefaultIniFile)) 
-                : new IniFile();
-        }
-
-        private static IniFile? GetDescriptionFile(GameDefinition gameDefinition)
-        {
-            return !string.IsNullOrEmpty(gameDefinition.ResourcesDescriptionIniFile)
-                ? IniFile.Load(ResourcesRepository.Instance.ReadResourcesFile(gameDefinition.ResourcesDescriptionIniFile))
-                : null;
-        }
-
         private List<CommonValueModel> GetCommonValues(List<CommonValueDefinition> valueDefinitions)
         {
             var result = new List<CommonValueModel>();
@@ -464,10 +450,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         private List<GameEntityModel> GetGameEntities(string entitiesTypesSection, 
             List<CategorizedValueDefinition> unitValueList)
         {
-            var entityKeys = (File.GetSection(entitiesTypesSection)?.KeyValues.Select(k => k.Value).ToList()
-                                  ?? new List<string>())
-                .Union(DefaultFile.GetSection(entitiesTypesSection)?.KeyValues.Select(k => k.Value).ToList()
-                       ?? new List<string>());
+            var entityKeys = (File.GetSection(entitiesTypesSection)?.KeyValues.Select(k => k.Value)
+                              ?? Enumerable.Empty<string>())
+                .Union(DefaultFile.GetSection(entitiesTypesSection)?.KeyValues.Select(k => k.Value)
+                       ?? Enumerable.Empty<string>());
             return GetGameEntities(entitiesTypesSection, entityKeys, unitValueList);
         }
 

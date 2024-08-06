@@ -8,11 +8,17 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
     {
         public static FileTypeModel Empty { get; } = new FileTypeModel(FileBaseType.Unknown, "Empty");
 
-        public static FileTypeModel? ParseFile(IniFile iniFile, Func<string, GameDefinition?>? mapGameDefintion = null)
+        public static FileTypeModel? ParseFile(IniFile iniFile, 
+            GameDefinition? overrideGameDefinition = null, 
+            Func<string, GameDefinition?>? fileGameDefintion = null)
         {
             var nameValue = iniFile.GetSection("General")?.GetValue("Name");
             if (nameValue != null)
             {
+                if (overrideGameDefinition != null)
+                {
+                    return new FileTypeModel(FileBaseType.Rules, nameValue.Value, overrideGameDefinition);
+                }
                 foreach (var customMod in UserSettingsFile.Instance.CustomMods)
                 {
                     if (nameValue.Value == customMod.IniNameMatchDetection)
@@ -32,16 +38,33 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                     }
                 }
             }
-            if (iniFile.GetSection("Map") != null && mapGameDefintion != null)
+            if (iniFile.GetSection("Map") != null && fileGameDefintion != null)
             {
                 var mapName = iniFile.GetSection("Basic")?.GetValue("Name")?.Value ?? "?";
-                var mapGame = mapGameDefintion(mapName);
+                var mapGame = overrideGameDefinition
+                              ?? fileGameDefintion(mapName);
                 if (mapGame == null)
                 {
                     return null;
                 }
                 return new FileTypeModel(FileBaseType.Map, mapName, mapGame);
             }
+
+            if ((iniFile.OriginalFileName.Equals("art.ini", StringComparison.InvariantCultureIgnoreCase)
+                 || iniFile.OriginalFileName.Equals("artmd.ini", StringComparison.InvariantCultureIgnoreCase)
+                 || iniFile.Sections.Any()
+                 && iniFile.Sections[0].Lines.OfType<IniFileLineComment>().FirstOrDefault()?.Comment == "ART.INI")
+                && fileGameDefintion != null)
+            {
+                var artGame = overrideGameDefinition 
+                              ?? fileGameDefintion(iniFile.OriginalFileName);
+                if (artGame == null)
+                {
+                    return null;
+                }
+                return new FileTypeModel(FileBaseType.Art, iniFile.OriginalFileName, artGame);
+            }
+
             return new FileTypeModel(FileBaseType.Unknown, iniFile.OriginalFileName);
         }
 
@@ -68,7 +91,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                     case FileBaseType.Rules:
                         return Key;
                     case FileBaseType.Map:
-                        return $"Map:{Key}";
+                        return $"Map: {Key}";
+                    case FileBaseType.Art:
+                        return $"Art: {Key}";
                     default:
                         return BaseType.ToString();
                 }
@@ -89,6 +114,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
     {
         Rules,
         Map,
+        Art,
         Unknown
     }
 }

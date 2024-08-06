@@ -49,7 +49,6 @@
             Infragistics.Win.Appearance appearance113 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinToolbars.PopupMenuTool popupMenuTool11 = new Infragistics.Win.UltraWinToolbars.PopupMenuTool("New");
             Infragistics.Win.Appearance appearance115 = new Infragistics.Win.Appearance();
-            Infragistics.Win.UltraWinToolbars.PopupMenuTool popupMenuTool110 = new Infragistics.Win.UltraWinToolbars.PopupMenuTool("TestMenu");
             Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool17 = new Infragistics.Win.UltraWinToolbars.ButtonTool("NewRules");
             Infragistics.Win.Appearance appearance116 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool19 = new Infragistics.Win.UltraWinToolbars.ButtonTool("NewFirestorm");
@@ -126,7 +125,7 @@
             mainToolbarsManager.DockWithinContainer = this;
             mainToolbarsManager.DockWithinContainerBaseType = typeof(Form);
             mainToolbarsManager.ImageSizeSmall = new Size(24, 24);
-            mainToolbarsManager.ShowFullMenusDelay = 500;
+            mainToolbarsManager.ShowFullMenusDelay = 100;
             mainToolbarsManager.ShowQuickCustomizeButton = false;
             ultraToolbar1.DockedColumn = 0;
             ultraToolbar1.DockedRow = 0;
@@ -154,7 +153,6 @@
             appearance115.Image = resources.GetObject("appearance115.Image");
             popupMenuTool11.SharedPropsInternal.AppearancesSmall.Appearance = appearance115;
             popupMenuTool11.SharedPropsInternal.Caption = "New";
-            popupMenuTool11.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] { popupMenuTool110 });
             appearance116.Image = resources.GetObject("appearance116.Image");
             buttonTool17.SharedPropsInternal.AppearancesSmall.Appearance = appearance116;
             buttonTool17.SharedPropsInternal.Caption = "Tiberian Sun - Rules of Engagement";

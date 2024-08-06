@@ -12,9 +12,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
     {
         private bool _readonlyMode;
         private bool _showOnlyFavoriteValues;
+        private bool _showOnlyFavoriteUnits;
         private bool _titleVisible = true;
         private string _searchText = "";
-        private bool _showOnlyFavoriteUnits;
 
         public RootModel Model { get; private set; } = null!;
 

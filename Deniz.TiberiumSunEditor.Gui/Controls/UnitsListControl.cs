@@ -33,6 +33,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         [DefaultValue(false)]
         public bool CanAddEmpty { get; set; }
 
+        [DefaultValue(true)]
+        public bool CanTakeValues
+        {
+            get => unitEdit.CanTakeValues;
+            set => unitEdit.CanTakeValues = value;
+        }
+
         [DefaultValue(false)]
         public bool CanCopy
         {

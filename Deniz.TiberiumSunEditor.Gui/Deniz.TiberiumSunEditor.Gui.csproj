@@ -204,6 +204,7 @@
     <None Remove="Resources\startup3.aud" />
     <None Remove="Resources\startup4.aud" />
     <None Remove="Resources\startup5.aud" />
+    <None Remove="Resources\TSart.ini" />
     <None Remove="Resources\TSfirestrm.ini" />
     <None Remove="Resources\TSrules.ini" />
     <None Remove="Snippets\2 new Aircrafts %28GDI%29.ini" />
@@ -350,6 +351,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\startup5.aud">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\TSart.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="__ReadMe__.txt">

@@ -74,9 +74,9 @@
             label1.AutoSize = true;
             label1.Location = new Point(12, 9);
             label1.Name = "label1";
-            label1.Size = new Size(69, 15);
+            label1.Size = new Size(42, 15);
             label1.TabIndex = 7;
-            label1.Text = "Map Name:";
+            label1.Text = "Name:";
             // 
             // comboBoxGameType
             // 
@@ -115,7 +115,7 @@
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "OpenMapForm";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Open Map";
+            Text = "Open File";
             ResumeLayout(false);
             PerformLayout();
         }
