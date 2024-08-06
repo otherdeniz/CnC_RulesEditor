@@ -156,7 +156,7 @@
 
         public ShpFrameInfo GetShpFrameInfo(int frameIndex) => _shpFrameInfos![frameIndex];
 
-        public byte[] GetUncompressedFrameData(int frameIndex, byte[] fileData)
+        public byte[]? GetUncompressedFrameData(int frameIndex, byte[] fileData)
         {
             ShpFrameInfo frameInfo = _shpFrameInfos![frameIndex];
 

@@ -1,5 +1,4 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Controls;
-using Infragistics.Win;
 
 namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser;
 
@@ -32,13 +31,16 @@ public class ShpImageMultiFrame
 
             var blankImage = ImageListComponent.Instance.Black150.Images[0];
             var bitmap = new Bitmap(blankImage, new Size(_shpFile.Width, _shpFile.Height));
-            var pixelIndex = 0;
-            for (int y = 0; y < frameInfo.Height; y++)
+            if (imageData != null)
             {
-                for (int x = 0; x < frameInfo.Width; x++)
+                var pixelIndex = 0;
+                for (int y = 0; y < frameInfo.Height; y++)
                 {
-                    bitmap.SetPixel(x + frameInfo.XOffset, frameInfo.YOffset + y, ColorPalette[imageData[pixelIndex]]);
-                    pixelIndex++;
+                    for (int x = 0; x < frameInfo.Width; x++)
+                    {
+                        bitmap.SetPixel(x + frameInfo.XOffset, frameInfo.YOffset + y, ColorPalette[imageData[pixelIndex]]);
+                        pixelIndex++;
+                    }
                 }
             }
             bitmaps.Add(bitmap);

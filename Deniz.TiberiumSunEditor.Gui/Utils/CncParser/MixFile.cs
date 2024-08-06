@@ -14,7 +14,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
         private readonly object _locker = new object();
         private List<MixFileContent>? _contentList;
         private int _bodyOffset;
-        private Stream _stream;
+        private Stream? _stream;
 
         /// <summary>
         /// The start offset for this MIX file when it's inside another MIX file.
@@ -69,16 +69,19 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
         /// </summary>
         /// <param name="stream">The stream. Can be null for MIX files that
         /// reside inside another MIX file.</param>
-        public void Parse(Stream stream = null)
+        public void Parse(Stream? stream = null)
         {
             if (_masterMix != null)
             {
                 _masterMix.OpenFile();
-                stream = this._stream = _masterMix._stream;
-                stream.Position = _mixStartOffset;
+                stream = _stream = _masterMix._stream;
+                if (stream != null)
+                {
+                    stream.Position = _mixStartOffset;
+                }
             }
 
-            if (stream.Length < INDEX_POSITION)
+            if (stream == null || stream.Length < INDEX_POSITION)
                 return;
 
             Entries = new List<MixFileEntry>();
@@ -130,7 +133,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
             if (_masterMix != null)
             {
                 _masterMix.OpenFile();
-                this._stream = _masterMix._stream;
+                _stream = _masterMix._stream;
                 return;
             }
 
