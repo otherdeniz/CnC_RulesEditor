@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using Deniz.TiberiumSunEditor.Gui.Dialogs;
+using Deniz.TiberiumSunEditor.Gui.Dialogs.Popup;
 using Deniz.TiberiumSunEditor.Gui.Model;
 using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
@@ -18,6 +19,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private bool _canTakeValues = true;
         private bool _readonlyMode;
         private bool _showModifications = true;
+        private List<GameEntityModel>? _usedByEntityModels;
+        private UsedByPopupForm? _usedByPopupForm;
 
         public UnitEditControl()
         {
@@ -109,6 +112,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
             ButtonCloseValue_Click(this, EventArgs.Empty);
             RefreshModifications();
+            RefreshUsedByLabel();
             RefreshIsFavorite();
             LoadValueGrid();
             LoadAddNewKeys();
@@ -130,6 +134,21 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             pictureBoxFavorite.Image = EntityModel.Favorite
                 ? ImageListComponent.Instance.Favorite48.Images[1]
                 : ImageListComponent.Instance.Favorite48.Images[0];
+        }
+
+        private void RefreshUsedByLabel()
+        {
+            if (EntityModel == null) return;
+            labelUsedBy.Visible = false;
+            _usedByEntityModels = EntityModel.RootModel.LookupEntities.Values.SelectMany(l => l)
+                .Where(e => e.FileSection.KeyValues.Any(k =>
+                    k.Value.Split(",").Any(v => v == EntityModel.EntityKey)))
+                .ToList();
+            if (_usedByEntityModels.Count > 0)
+            {
+                labelUsedBy.Text = $"Used by: {_usedByEntityModels.Count}";
+                labelUsedBy.Visible = true;
+            }
         }
 
         private void LoadUnitPreview()
@@ -477,6 +496,21 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
         }
 
+        private void labelUsedBy_MouseEnter(object sender, EventArgs e)
+        {
+            if (_usedByEntityModels == null || EntityModel == null) return;
+            _usedByPopupForm = new UsedByPopupForm
+            {
+                Location = labelUsedBy.PointToScreen(new Point(0, labelUsedBy.Height+5))
+            };
+            _usedByPopupForm.LoadUsedByEntities(_usedByEntityModels, EntityModel.EntityKey);
+            _usedByPopupForm.Show(ParentForm);
+        }
+
+        private void labelUsedBy_MouseLeave(object sender, EventArgs e)
+        {
+            _usedByPopupForm?.Close();
+        }
     }
 
     public class EntityCopyEventArgs : EventArgs

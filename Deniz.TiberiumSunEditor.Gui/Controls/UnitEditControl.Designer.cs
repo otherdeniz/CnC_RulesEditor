@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UnitEditControl));
-            Infragistics.Win.UltraWinGrid.UltraGridBand ultraGridBand2 = new Infragistics.Win.UltraWinGrid.UltraGridBand("", -1);
+            Infragistics.Win.UltraWinGrid.UltraGridBand ultraGridBand4 = new Infragistics.Win.UltraWinGrid.UltraGridBand("", -1);
             Infragistics.Win.Appearance appearance12 = new Infragistics.Win.Appearance();
             Infragistics.Win.Appearance appearance11 = new Infragistics.Win.Appearance();
             pictureThumbnail = new PictureBox();
@@ -38,6 +38,7 @@
             labelModifications = new Label();
             pictureBoxFavorite = new PictureBox();
             panelTop = new Panel();
+            labelUsedBy = new Label();
             panelTopRight = new Panel();
             ButtonTakeValues = new Button();
             ButtonCopy = new Button();
@@ -132,6 +133,7 @@
             // 
             // panelTop
             // 
+            panelTop.Controls.Add(labelUsedBy);
             panelTop.Controls.Add(panelTopRight);
             panelTop.Controls.Add(labelModifications);
             panelTop.Controls.Add(labelName);
@@ -144,6 +146,20 @@
             panelTop.Name = "panelTop";
             panelTop.Size = new Size(747, 69);
             panelTop.TabIndex = 5;
+            // 
+            // labelUsedBy
+            // 
+            labelUsedBy.AutoSize = true;
+            labelUsedBy.Font = new Font("Segoe UI", 9F, FontStyle.Underline, GraphicsUnit.Point);
+            labelUsedBy.ForeColor = Color.DarkBlue;
+            labelUsedBy.Location = new Point(196, 45);
+            labelUsedBy.Name = "labelUsedBy";
+            labelUsedBy.Size = new Size(61, 15);
+            labelUsedBy.TabIndex = 6;
+            labelUsedBy.Text = "Used by: 0";
+            labelUsedBy.Visible = false;
+            labelUsedBy.MouseEnter += labelUsedBy_MouseEnter;
+            labelUsedBy.MouseLeave += labelUsedBy_MouseLeave;
             // 
             // panelTopRight
             // 
@@ -195,9 +211,9 @@
             // 
             // valuesGrid
             // 
-            ultraGridBand2.Override.AllowGroupBy = Infragistics.Win.DefaultableBoolean.True;
-            ultraGridBand2.Override.AllowGroupCollapsing = Infragistics.Win.DefaultableBoolean.True;
-            valuesGrid.DisplayLayout.BandsSerializer.Add(ultraGridBand2);
+            ultraGridBand4.Override.AllowGroupBy = Infragistics.Win.DefaultableBoolean.True;
+            ultraGridBand4.Override.AllowGroupCollapsing = Infragistics.Win.DefaultableBoolean.True;
+            valuesGrid.DisplayLayout.BandsSerializer.Add(ultraGridBand4);
             valuesGrid.DisplayLayout.DefaultSelectedBackColor = Color.FromArgb(192, 192, 255);
             valuesGrid.DisplayLayout.DefaultSelectedForeColor = Color.Black;
             valuesGrid.DisplayLayout.GroupByBox.Hidden = true;
@@ -409,5 +425,6 @@
         private Label labelAddValue;
         private Infragistics.Win.UltraWinEditors.UltraComboEditor ultraComboAddValue;
         private PictureBox pictureBoxUnitPreview;
+        private Label labelUsedBy;
     }
 }
