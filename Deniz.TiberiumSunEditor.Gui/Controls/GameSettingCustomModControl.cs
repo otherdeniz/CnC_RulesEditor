@@ -18,7 +18,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         public void LoadCustomMod(CustomModSetting customModSetting)
         {
             _customModSetting = customModSetting;
-            labelGame.Text = customModSetting.Name;
+            labelGame.Text = customModSetting.Name.Replace("&", "&&");
             pictureGameIcon.Image = LogoRepository.Instance.GetLogo(customModSetting.LogoFile);
             labelPath.Text = customModSetting.GamePath;
         }

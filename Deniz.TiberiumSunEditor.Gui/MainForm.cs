@@ -139,7 +139,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                 {
                     Image = LogoRepository.Instance.GetLogo(customMod.LogoFile)
                 };
-                newMenuButton.SharedPropsInternal.Caption = $"{baseGame.GameKey} - {customMod.Name}";
+                newMenuButton.SharedPropsInternal.Caption = $"{baseGame.GameKey} - {customMod.Name.Replace("&", "&&")}";
                 mainToolbarsManager.Tools.Add(newMenuButton);
                 var newMenuButtonInstance = new ButtonTool($"NewRules:Mod:{customMod.Key}");
                 newMenuButtonInstance.InstanceProps.IsFirstInGroup = isFirst;

@@ -1,4 +1,5 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
+using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
 
 namespace Deniz.TiberiumSunEditor.Gui.Dialogs
 {
@@ -16,7 +17,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         public void LoadMap(string mapName)
         {
             LabelMap.Text = mapName;
-            _gameDefinitions = GamesFile.Instance.Games;
+            _gameDefinitions = GamesFile.Instance.Games
+                .Union(UserSettingsFile.Instance.CustomMods.Select(m => m.ToGameDefinition())
+                    .Where(g => g != null).Select(g => g!))
+                .ToList();
             _gameDefinitions.ForEach(g => comboBoxGameType.Items.Add(g.NewMenuLabel));
         }
 
