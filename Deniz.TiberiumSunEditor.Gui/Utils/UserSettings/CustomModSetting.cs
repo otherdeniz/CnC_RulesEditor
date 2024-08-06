@@ -43,6 +43,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
             {
                 return new GameDefinition(GamePath)
                 {
+                    NewMenuLabel = $"{BaseGameKey} - {Name}",
                     BitmapsFolders = baseGameDefinition.BitmapsFolders,
                     SnippetsFolder = baseGameDefinition.SnippetsFolder,
                     GameKey = baseGameDefinition.GameKey,

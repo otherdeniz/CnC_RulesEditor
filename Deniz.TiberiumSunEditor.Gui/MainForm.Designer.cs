@@ -304,6 +304,10 @@
             // 
             openFileDialog.Filter = "Supported Files|*.ini;*.mpr;*.map|All Files|*.*";
             // 
+            // saveFileDialog
+            // 
+            saveFileDialog.Filter = "Supported Files|*.ini;*.mpr;*.map|All Files|*.*";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
