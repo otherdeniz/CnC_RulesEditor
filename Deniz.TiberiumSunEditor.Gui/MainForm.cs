@@ -307,7 +307,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                 MainForm_Fill_Panel.ClientArea.Controls.Remove(control);
                 control.Dispose();
             }
-            CCGameRepository.Instance.Initialise(fileType.GameDefinition.GetUserGamePath(),
+            CCGameRepository.Instance.Initialise(fileType.GameDefinition,
                 fileType.GameDefinition.IsCustomMod
                     ? null
                     : fileType.GameDefinition.MixFiles);
@@ -352,7 +352,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                 MainForm_Fill_Panel.ClientArea.Controls.Remove(control);
                 control.Dispose();
             }
-            CCGameRepository.Instance.Initialise(fileType.GameDefinition.GetUserGamePath(),
+            CCGameRepository.Instance.Initialise(fileType.GameDefinition,
                 fileType.GameDefinition.IsCustomMod
                     ? null
                     : fileType.GameDefinition.MixFiles);

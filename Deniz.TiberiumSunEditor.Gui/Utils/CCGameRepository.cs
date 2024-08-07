@@ -3,6 +3,7 @@ using Deniz.TiberiumSunEditor.Gui.Utils.CncParser;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 using System.Drawing.Imaging;
 using Deniz.CCAudioPlayerCore;
+using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using ImageMagick;
 
 namespace Deniz.TiberiumSunEditor.Gui.Utils
@@ -28,7 +29,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
 
         public IniFile? ArtFile => _artIniFile;
 
-        public void Initialise(string? gameDirectory, string? mixFiles = null)
+        public void Initialise(GameDefinition gameDefinition, string? mixFiles = null)
         {
             _cameosCache.Clear();
             foreach (var animatedGifImage in _animationsCache.Values)
@@ -42,6 +43,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             }
             _infantryAnimationsCache.Clear();
             _fileManager = null;
+            var gameDirectory = gameDefinition.GetUserGamePath();
             if (!string.IsNullOrEmpty(gameDirectory) 
                 && Directory.Exists(gameDirectory))
             {
@@ -82,7 +84,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                     ? PalFile.ReadFromFile(unitmPalBytes).Colors
                     : null;
 
-                var soundIniBytes = _fileManager.LoadFile("sound.ini");
+                var soundIniBytes = _fileManager.LoadFile("soundmd.ini")
+                                    ?? _fileManager.LoadFile("sound.ini");
                 _soundIniFile = soundIniBytes != null
                     ? IniFile.Load(soundIniBytes)
                     : null;
