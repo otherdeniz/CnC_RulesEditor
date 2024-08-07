@@ -10,11 +10,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             InitializeComponent();
         }
 
-        public void LoadModel(IniFile changesFile, IniFile defaultFile, RootModel rootModel)
+        public void LoadModel(IniFile changesFile, IniFile defaultFile, RulesRootModel rulesRootModel)
         {
-            var changesModel = new RootModel(changesFile, FileTypeModel.Empty, defaultFile,
-                useAres: rootModel.UseAres,
-                usePhobos: rootModel.UsePhobos);
+            var changesModel = new RulesRootModel(changesFile, FileTypeModel.Empty, defaultFile,
+                useAres: rulesRootModel.UseAres,
+                usePhobos: rulesRootModel.UsePhobos);
             rulesEdit.LoadModel(changesModel, "", "");
         }
 

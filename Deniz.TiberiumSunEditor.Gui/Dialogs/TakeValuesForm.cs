@@ -43,7 +43,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             unitsLayoutPanel.Controls.Clear();
             controlsToDispose.ForEach(c => c.Dispose());
             // add controls
-            foreach (var entityModel in _targetModel.RootModel.LookupEntities[_targetModel.EntityType])
+            foreach (var entityModel in _targetModel.RulesRootModel.LookupEntities[_targetModel.EntityType])
             {
                 if (entityModel.EntityKey == _targetModel.EntityKey)
                     continue;

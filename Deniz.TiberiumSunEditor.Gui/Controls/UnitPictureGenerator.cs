@@ -99,7 +99,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private List<Image> GetUnitSideImages(GameEntityModel entityModel)
         {
             return entityModel.Sides
-                .Select(s => entityModel.RootModel.FileType.GameDefinition.Sides.FirstOrDefault(d => d.Name == s))
+                .Select(s => entityModel.RulesRootModel.FileType.GameDefinition.Sides.FirstOrDefault(d => d.Name == s))
                 .Where(l => l != null)
                 .Select(l => l!.GetLogoImage())
                 .ToList();

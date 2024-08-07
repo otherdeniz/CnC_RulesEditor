@@ -10,7 +10,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private readonly string[] _allTechoTypes = new string[]
             { "BuildingTypes", "InantryTypes", "VehicleTypes", "AircraftTypes" };
         private IValueModel _valueModel = null!;
-        private RootModel _rootModel = null!;
+        private RulesRootModel _rulesRootModel = null!;
         private List<LookupTextValueModel>? _textValuesModel;
         private List<LookupMultiTextValueModel>? _multiTextValuesModel;
         private List<LookupSingleValueModel>? _singleValuesModel;
@@ -29,10 +29,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         public event EventHandler<EventArgs>? RefreshEntityValue;
         public event EventHandler<EventArgs>? SelectedValueChanged;
 
-        public void LoadValues(RootModel rootModel, IValueModel valueModel, string? selfLookupType = null)
+        public void LoadValues(RulesRootModel rulesRootModel, IValueModel valueModel, string? selfLookupType = null)
         {
             ClosePopup();
-            _rootModel = rootModel;
+            _rulesRootModel = rulesRootModel;
             _valueModel = valueModel;
             valuesGrid.DataSource = null;
             _textValuesModel = null;
@@ -48,26 +48,26 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
             else if (valueModel.ValueDefinition.ValueType != null)
             {
-                valueList = _rootModel.Datastructure.ValueTypes
+                valueList = _rulesRootModel.Datastructure.ValueTypes
                     .FirstOrDefault(v => v.ValueType == valueModel.ValueDefinition.ValueType)
                     ?.Values.Split(",");
             }
             switch (valueModel.ValueDefinition.LookupType)
             {
                 case "Animations":
-                    valueList = rootModel.Animations;
+                    valueList = rulesRootModel.Animations;
                     break;
                 case "MovementZones":
-                    valueList = rootModel.MovementZones;
+                    valueList = rulesRootModel.MovementZones;
                     break;
                 case "WeaponSounds":
-                    valueList = rootModel.WeaponSounds;
+                    valueList = rulesRootModel.WeaponSounds;
                     break;
                 case "WeaponProjectiles":
-                    valueList = rootModel.WeaponProjectiles;
+                    valueList = rulesRootModel.WeaponProjectiles;
                     break;
                 case "Houses":
-                    valueList = rootModel.Houses;
+                    valueList = rulesRootModel.Houses;
                     break;
             }
             _lookupType = valueModel.ValueDefinition.LookupType == "self"
@@ -84,13 +84,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
             if (_lookupType != null)
             {
-                if (_rootModel.LookupEntities.TryGetValue(_lookupType, out var lookupEntityModels))
+                if (_rulesRootModel.LookupEntities.TryGetValue(_lookupType, out var lookupEntityModels))
                 {
                     _lookupEntities = lookupEntityModels;
                 }
                 else if (_lookupType == "TechnoTypes")
                 {
-                    _lookupEntities = _rootModel.LookupEntities
+                    _lookupEntities = _rulesRootModel.LookupEntities
                         .Where(e => _allTechoTypes.Any(t => e.Key == t))
                         .SelectMany(e => e.Value)
                         .ToList();
@@ -116,7 +116,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
             else if (_lookupType != null)
             {
-                var lookupItems = rootModel.LookupItems
+                var lookupItems = rulesRootModel.LookupItems
                     .Where(e => _lookupType == "TechnoTypes"
                         ? _allTechoTypes.Any(t => e.EntityType == t)
                         : e.EntityType == _lookupType)
@@ -135,7 +135,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     if (valueModel is EntityValueModel entityValueModel)
                     {
                         _multiValuesModel.InsertRange(0,
-                            _rootModel.GetAllPossibleValues(entityValueModel.EntityModel.EntityType, valueModel.Key)
+                            _rulesRootModel.GetAllPossibleValues(entityValueModel.EntityModel.EntityType, valueModel.Key)
                                 .Where(v => _multiValuesModel.All(l => !string.Equals(l.Key, v, StringComparison.CurrentCultureIgnoreCase)))
                                 .Select(v => new LookupMultiValueModel
                                 {
@@ -164,7 +164,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     if (valueModel is EntityValueModel entityValueModel)
                     {
                         _singleValuesModel.InsertRange(1,
-                            _rootModel.GetAllPossibleValues(entityValueModel.EntityModel.EntityType, valueModel.Key)
+                            _rulesRootModel.GetAllPossibleValues(entityValueModel.EntityModel.EntityType, valueModel.Key)
                                 .Where(v => _singleValuesModel.All(l => !string.Equals(l.Key, v, StringComparison.CurrentCultureIgnoreCase)))
                                 .Select(v => new LookupSingleValueModel
                                 {

@@ -81,6 +81,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
         }
 
+        [DefaultValue(true)] 
+        public bool ShowUsedBy { get; set; } = true;
+
         [DefaultValue(false)]
         [Browsable(false)]
         public bool ShowOnlyFavoriteValues { get; set; }
@@ -142,7 +145,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         {
             if (EntityModel == null) return;
             labelUsedBy.Visible = false;
-            _usedByEntityModels = EntityModel.RootModel.LookupEntities.Values.SelectMany(l => l)
+            if (!ShowUsedBy) return;
+            _usedByEntityModels = EntityModel.RulesRootModel.LookupEntities.Values.SelectMany(l => l)
                 .Where(e => e.FileSection.KeyValues.Any(k =>
                     k.Value.Split(",").Any(v => v == EntityModel.EntityKey)))
                 .ToList();
@@ -222,7 +226,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private void LoadAddNewKeys()
         {
             if (EntityModel == null || ReadonlyMode) return;
-            var allSectionKeys = EntityModel.RootModel.LookupItems
+            var allSectionKeys = EntityModel.RulesRootModel.LookupItems
                 .Where(l => l.EntityType == EntityModel.EntityType)
                 .Select(l => l.Key)
                 .ToList();
@@ -260,7 +264,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
             else
             {
-                lookupValue.LoadValues(EntityModel!.RootModel, valueModel, EntityModel.EntityType);
+                lookupValue.LoadValues(EntityModel!.RulesRootModel, valueModel, EntityModel.EntityType);
             }
             lookupValue.Visible = !isColor;
             lookupColor.Visible = isColor;
@@ -306,9 +310,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                         LookupEntityValue(valueModel, e.Cell.Row, false);
                         if (_isRightClick
                             && valueModel.ValueDefinition.LookupType != null
-                            && EntityModel!.RootModel.LookupEntities.ContainsKey(valueModel.ValueDefinition.LookupType))
+                            && EntityModel!.RulesRootModel.LookupEntities.ContainsKey(valueModel.ValueDefinition.LookupType))
                         {
-                            QuickEditForm.ExecueShow(this.ParentForm!, EntityModel!.RootModel, valueModel.Value);
+                            QuickEditForm.ExecueShow(this.ParentForm!, EntityModel!.RulesRootModel, valueModel.Value);
                         }
                         _isRightClick = false;
                     }
@@ -383,7 +387,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                                 ? valueModel.DefaultValue.Split(",").First()
                                 : null;
                         var detectedLookupType = detectByKey != null
-                            ? EntityModel!.RootModel.DetectLookupType(detectByKey)
+                            ? EntityModel!.RulesRootModel.DetectLookupType(detectByKey)
                             : null;
                         if (detectedLookupType != null)
                         {
@@ -397,7 +401,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                         }
                     }
                     if (valueModel.ValueDefinition.LookupType != null
-                        && EntityModel!.RootModel.LookupEntities.ContainsKey(valueModel.ValueDefinition.LookupType))
+                        && EntityModel!.RulesRootModel.LookupEntities.ContainsKey(valueModel.ValueDefinition.LookupType))
                     {
                         e.Row.Cells["Value"].ToolTipText = "Right-click to open Quick-Edit";
                     }
@@ -476,7 +480,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             if (EntityModel == null) return;
             using (var copyForm = new CreateCopyForm())
             {
-                copyForm.LoadModel(EntityModel.RootModel);
+                copyForm.LoadModel(EntityModel.RulesRootModel);
                 copyForm.LabelKey.Text = $"{EntityModel.EntityKey} ({EntityModel.EntityName})";
                 if (copyForm.ShowDialog(this.ParentForm) == DialogResult.OK)
                 {

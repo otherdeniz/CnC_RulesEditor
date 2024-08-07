@@ -4,17 +4,24 @@ using Deniz.TiberiumSunEditor.Gui.Utils.EqualityComparer;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
 using System.Windows.Forms;
+using Deniz.TiberiumSunEditor.Gui.Model.Interface;
 
 namespace Deniz.TiberiumSunEditor.Gui.Model
 {
     public class GameEntityModel
     {
-        public GameEntityModel(RootModel rootModel,
+        private readonly IniFileSection? _rulesFileSection;
+
+        public GameEntityModel(RulesRootModel rulesRootModel,
+            IRootModel rootModel,
             string entityType,
             IniFileSection fileSection,
             IniFileSection? defaultSection,
-            List<CategorizedValueDefinition> unitValueList)
+            List<CategorizedValueDefinition> unitValueList,
+            IniFileSection? rulesFileSection = null)
         {
+            _rulesFileSection = rulesFileSection;
+            RulesRootModel = rulesRootModel;
             RootModel = rootModel;
             EntityType = entityType;
             FileSection = fileSection;
@@ -39,13 +46,23 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 .ToList();
         }
 
-        public RootModel RootModel { get; }
+        public RulesRootModel RulesRootModel { get; }
+
+        public IRootModel RootModel { get; }
 
         public string EntityType { get; }
 
         public string EntityKey => FileSection.SectionName ?? "_";
 
-        public string EntityName => FileSection.GetValue("Name")?.Value
+        public IniFileSection FileSection { get; }
+
+        public IniFileSection? DefaultSection { get; }
+
+        public IniFileSection RulesFileSection => _rulesFileSection ?? FileSection;
+
+        public List<EntityValueModel> EntityValueList { get; }
+
+        public string EntityName => GetRulesFileValue("Name")?.Value
                                     ?? (DefaultSection ?? FileSection).HeaderComments.FirstOrDefault()?.Comment
                                     ?? "";
 
@@ -53,10 +70,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         {
             get
             {
-                var houses = FileSection.GetValue("Owner")?.Value.Split(",");
+                var houses = GetRulesFileValue("Owner")?.Value.Split(",");
                 if (houses?.Any() == true)
                 {
-                    return RootModel.Sides
+                    return RulesRootModel.Sides
                         .Where(s => s.Value.Any(v => houses.Contains(v, StringEqualityComparer.Instance)))
                         .Select(s => s.Key)
                         .ToList();
@@ -71,7 +88,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             {
                 if (EntityType == "Warheads")
                 {
-                    var animKeys = FileSection.GetValue("AnimList")?.Value;
+                    var animKeys = GetRulesFileValue("AnimList")?.Value;
                     if (!string.IsNullOrEmpty(animKeys))
                     {
                         return new ThumbnailModel(animKeys);
@@ -80,10 +97,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 }
                 if (EntityType == "Weapons")
                 {
-                    var warheadValue = FileSection.GetValue("Warhead")?.Value;
+                    var warheadValue = GetRulesFileValue("Warhead")?.Value;
                     if (warheadValue != null)
                     {
-                        var animKeys = RootModel.FindSection(warheadValue)?.GetValue("AnimList")?.Value;
+                        var animKeys = RulesRootModel.FindSection(warheadValue)?.GetValue("AnimList")?.Value;
                         if (!string.IsNullOrEmpty(animKeys))
                         {
                             return new ThumbnailModel(animKeys);
@@ -94,7 +111,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 if (EntityType == "Projectiles" 
                     || EntityType == "Particles")
                 {
-                    var animKey = FileSection.GetValue("Image")?.Value;
+                    var animKey = GetRulesFileValue("Image")?.Value;
                     if (!string.IsNullOrEmpty(animKey))
                     {
                         return new ThumbnailModel(animKey);
@@ -103,10 +120,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 }
                 if (EntityType == "ParticleSystems")
                 {
-                    var particleValue = FileSection.GetValue("HoldsWhat")?.Value;
+                    var particleValue = GetRulesFileValue("HoldsWhat")?.Value;
                     if (particleValue != null)
                     {
-                        var animKey = RootModel.FindSection(particleValue)?.GetValue("Image")?.Value;
+                        var animKey = RulesRootModel.FindSection(particleValue)?.GetValue("Image")?.Value;
                         if (!string.IsNullOrEmpty(animKey))
                         {
                             return new ThumbnailModel(animKey);
@@ -114,10 +131,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                         return null;
                     }
                 }
+                if (EntityType == "Animations")
+                {
+                    return new ThumbnailModel(EntityKey);
+                }
                 if (EntityType == "Sides")
                 {
-                    var sideName = FileSection.GetValue("Side")?.Value;
-                    var sideDefinition = RootModel.FileType.GameDefinition.Sides
+                    var sideName = GetRulesFileValue("Side")?.Value;
+                    var sideDefinition = RulesRootModel.FileType.GameDefinition.Sides
                         .FirstOrDefault(d => d.Name.Equals(sideName, StringComparison.InvariantCultureIgnoreCase));
                     if (sideDefinition != null)
                     {
@@ -125,7 +146,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                     }
                     return null;
                 }
-                var imageKey = FileSection.GetValue("Image")?.Value;
+                var imageKey = GetRulesFileValue("Image")?.Value;
                 if (string.IsNullOrEmpty(imageKey) || imageKey == "null")
                 {
                     imageKey = EntityKey;
@@ -145,12 +166,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                     DefaultSection?.GetValue(v.Key)?.Value ?? "", 
                     StringComparison.InvariantCultureIgnoreCase));
 
-        public IniFileSection FileSection { get; }
-
-        public IniFileSection? DefaultSection { get; }
-
-        public List<EntityValueModel> EntityValueList { get; }
-
         public bool Favorite
         {
             get => UserSettingsFile.Instance.SectionsSettings.IsFavorite(FileSection.SectionName ?? "_");
@@ -161,5 +176,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             }
         }
 
+        private IniFileLineKeyValue? GetRulesFileValue(string key)
+        {
+            return FileSection != RulesFileSection 
+                ? RulesFileSection.GetValue(key)
+                : FileSection.GetValue(key) ?? DefaultSection?.GetValue(key);
+        }
     }
 }

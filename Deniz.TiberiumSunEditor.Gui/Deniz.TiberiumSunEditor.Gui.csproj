@@ -154,10 +154,12 @@
     <None Remove="CSPlugins\FFmpeg\x86\avutil-55.dll" />
     <None Remove="CSPlugins\FFmpeg\x86\swresample-2.dll" />
     <None Remove="CSPlugins\taglib-sharp.dll" />
+    <None Remove="Resources\Artstructure.json" />
     <None Remove="Resources\Datastructure.json" />
     <None Remove="Resources\Datastructure.json.documentation.txt" />
     <None Remove="Resources\DatastructureAres.json" />
     <None Remove="Resources\DatastructurePhobos.json" />
+    <None Remove="Resources\DTAArt.ini" />
     <None Remove="Resources\DTArules.ini" />
     <None Remove="Resources\Games.json" />
     <None Remove="Resources\Games.json.documentation.txt" />
@@ -178,6 +180,8 @@
     <None Remove="Resources\MixFileEntries\td mix description.txt" />
     <None Remove="Resources\MixFileEntries\ts mix description.txt" />
     <None Remove="Resources\MOrules.ini" />
+    <None Remove="Resources\Phobos\Art.Animations.ini" />
+    <None Remove="Resources\Phobos\Art.Laser Trails.ini" />
     <None Remove="Resources\Phobos\Rules.Aircraft spawner customizations.ini" />
     <None Remove="Resources\Phobos\Rules.Attached effects.ini" />
     <None Remove="Resources\Phobos\Rules.Automatic passenger deletion.ini" />
@@ -196,6 +200,8 @@
     <None Remove="Resources\Phobos\Rules.Super Weapons Limbo Delivery.ini" />
     <None Remove="Resources\Phobos\Rules.Super Weapons Next.ini" />
     <None Remove="Resources\Phobos\Rules.Super Weapons Warhead or Weapon detonation at target cell.ini" />
+    <None Remove="Resources\RA2art.ini" />
+    <None Remove="Resources\RA2MDartmd.ini" />
     <None Remove="Resources\RA2MDrulesmd.ini" />
     <None Remove="Resources\RA2rules.ini" />
     <None Remove="Resources\startup.aud" />
@@ -266,10 +272,16 @@
     <Content Include="CSPlugins\taglib-sharp.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Artstructure.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Datastructure.json.documentation.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\DatastructureAres.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\DTAArt.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Games.json.documentation.txt">
@@ -282,6 +294,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\DatastructurePhobos.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Phobos\Art.Animations.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Phobos\Art.Laser Trails.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Phobos\Rules.Aircraft spawner customizations.ini">
@@ -336,6 +354,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Phobos\Rules.Super Weapons Warhead or Weapon detonation at target cell.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\RA2art.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\RA2MDartmd.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\startup1.aud">

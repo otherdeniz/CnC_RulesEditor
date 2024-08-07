@@ -47,6 +47,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             set => unitEdit.CanCopy = value;
         }
 
+        [DefaultValue(true)]
+        public bool ShowUsedBy
+        {
+            get => unitEdit.ShowUsedBy; 
+            set => unitEdit.ShowUsedBy = value;
+        }
+
         [DefaultValue(false)]
         public bool ReadonlyMode
         {
@@ -172,9 +179,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             var entitySides = entityModel.Sides;
             if (entitySides.Any())
             {
-                for (int i = 0; i < entityModel.RootModel.FileType.GameDefinition.Sides.Count; i++)
+                for (int i = 0; i < entityModel.RulesRootModel.FileType.GameDefinition.Sides.Count; i++)
                 {
-                    var gameSide = entityModel.RootModel.FileType.GameDefinition.Sides[i];
+                    var gameSide = entityModel.RulesRootModel.FileType.GameDefinition.Sides[i];
                     if (entitySides.Contains(gameSide.Name))
                     {
                         return i + 1;

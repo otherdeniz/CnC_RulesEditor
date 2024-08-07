@@ -4,16 +4,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
 {
     public partial class CreateCopyForm : Form
     {
-        private RootModel _rootModel = null!;
+        private RulesRootModel _rulesRootModel = null!;
 
         public CreateCopyForm()
         {
             InitializeComponent();
         }
 
-        public void LoadModel(RootModel rootModel)
+        public void LoadModel(RulesRootModel rulesRootModel)
         {
-            _rootModel = rootModel;
+            _rulesRootModel = rulesRootModel;
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
@@ -23,7 +23,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
 
         private void buttonOk_Click(object sender, EventArgs e)
         {
-            if (_rootModel.File.Sections.Any(s =>
+            if (_rulesRootModel.File.Sections.Any(s =>
                     string.Equals(s.SectionName ?? "_", TextNewKey.Text,
                         StringComparison.InvariantCultureIgnoreCase)))
             {

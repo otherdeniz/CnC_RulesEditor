@@ -8,20 +8,20 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
 {
     public partial class AddUnitForm : Form
     {
-        private RootModel _rootModel = null!;
+        private RulesRootModel _rulesRootModel = null!;
         private string _entityType = null!;
         private List<GameEntityModel> _existingEntityModels = null!;
         private UnitPickerControl? _selectedUnitPickerControl;
         private GameEntityModel? _selectedModel;
 
         public static AddUnitResult? ExecuteAddUnit(Form parentForm,
-            RootModel rootModel,
+            RulesRootModel rulesRootModel,
             string entityType,
             List<GameEntityModel> existingEntityModels)
         {
             using (var form = new AddUnitForm())
             {
-                form._rootModel = rootModel;
+                form._rulesRootModel = rulesRootModel;
                 form._entityType = entityType;
                 form._existingEntityModels = existingEntityModels;
                 form.LoadUnits();
@@ -82,7 +82,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                          .OrderBy(s => s.SectionName))
             {
                 var entityModel =
-                    new GameEntityModel(_rootModel, _entityType, artSection, artSection, new List<CategorizedValueDefinition>());
+                    new GameEntityModel(_rulesRootModel, _rulesRootModel, _entityType, artSection, artSection, new List<CategorizedValueDefinition>());
                 var unitPicker = new UnitPickerControl
                 {
                     ReadonlyMode = true

@@ -16,7 +16,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private bool _titleVisible = true;
         private string _searchText = "";
 
-        public RootModel Model { get; private set; } = null!;
+        public RulesRootModel Model { get; private set; } = null!;
 
         public RulesEditMainControl()
         {
@@ -129,7 +129,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
         }
 
-        public void LoadModel(RootModel model, string? fileTypeOverride = null, string? nameOverride = null)
+        public void LoadModel(RulesRootModel model, string? fileTypeOverride = null, string? nameOverride = null)
         {
             Model = model;
             labelType.Text = fileTypeOverride ?? model.FileType.TypeLabel;

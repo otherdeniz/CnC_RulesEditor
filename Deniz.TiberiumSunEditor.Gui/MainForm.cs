@@ -52,33 +52,58 @@ namespace Deniz.TiberiumSunEditor.Gui
 
         private void ButtonSaveAs()
         {
-            if (_editRulesMainControl == null) return;
-            if (_editRulesMainControl.Model.FileType.BaseType == FileBaseType.Rules)
+            if (_editRulesMainControl != null)
             {
-                var relativeFolder = string.IsNullOrEmpty(_editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
+                if (_editRulesMainControl.Model.FileType.BaseType == FileBaseType.Rules)
+                {
+                    var relativeFolder = string.IsNullOrEmpty(_editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
+                        ? "root"
+                        : _editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder;
+                    var userGamePath = _editRulesMainControl.Model.FileType.GameDefinition.GetUserGamePath();
+                    if (!string.IsNullOrEmpty(userGamePath) && Directory.Exists(userGamePath))
+                    {
+                        if (!string.IsNullOrEmpty(_editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder))
+                        {
+                            userGamePath = Path.Combine(userGamePath,
+                                _editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder);
+                        }
+                        saveFileDialog.InitialDirectory = userGamePath;
+                    }
+                    saveFileDialog.Title = $"Save this file in games {relativeFolder} folder";
+                    saveFileDialog.FileName = _editRulesMainControl.Model.FileType.GameDefinition.SaveAsFilename;
+                }
+                else
+                {
+                    saveFileDialog.Title = "Save as";
+                    saveFileDialog.FileName = _editRulesMainControl.Model.File.OriginalFileName;
+                }
+                if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
+                {
+                    _editRulesMainControl.Model.File.SaveAs(saveFileDialog.FileName);
+                }
+            }
+
+            if (_editArtMainControl != null)
+            {
+                var relativeFolder = string.IsNullOrEmpty(_editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
                     ? "root"
-                    : _editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder;
-                var userGamePath = _editRulesMainControl.Model.FileType.GameDefinition.GetUserGamePath();
+                    : _editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder;
+                var userGamePath = _editArtMainControl.Model.FileType.GameDefinition.GetUserGamePath();
                 if (!string.IsNullOrEmpty(userGamePath) && Directory.Exists(userGamePath))
                 {
-                    if (!string.IsNullOrEmpty(_editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder))
+                    if (!string.IsNullOrEmpty(_editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder))
                     {
                         userGamePath = Path.Combine(userGamePath,
-                            _editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder);
+                            _editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder);
                     }
                     saveFileDialog.InitialDirectory = userGamePath;
                 }
                 saveFileDialog.Title = $"Save this file in games {relativeFolder} folder";
-                saveFileDialog.FileName = _editRulesMainControl.Model.FileType.GameDefinition.SaveAsFilename;
-            }
-            else
-            {
-                saveFileDialog.Title = "Save as";
-                saveFileDialog.FileName = _editRulesMainControl.Model.File.OriginalFileName;
-            }
-            if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
-            {
-                _editRulesMainControl.Model.File.SaveAs(saveFileDialog.FileName);
+                saveFileDialog.FileName = _editArtMainControl.Model.FileType.GameDefinition.SaveAsArtFilename;
+                if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
+                {
+                    _editArtMainControl.Model.File.SaveAs(saveFileDialog.FileName);
+                }
             }
         }
 
@@ -101,13 +126,25 @@ namespace Deniz.TiberiumSunEditor.Gui
 
         private void ButtonShowChanges()
         {
-            if (_editRulesMainControl == null) return;
-            using (var changesForm = new ShowChangesForm())
+            if (_editRulesMainControl != null)
             {
-                var defaultFile = _editRulesMainControl.Model.DefaultFile;
-                var changesFile = _editRulesMainControl.Model.File.GetChangesFile(defaultFile);
-                changesForm.LoadModel(changesFile, defaultFile, _editRulesMainControl.Model);
-                changesForm.ShowDialog(this);
+                using (var changesForm = new ShowChangesForm())
+                {
+                    var defaultFile = _editRulesMainControl.Model.DefaultFile;
+                    var changesFile = _editRulesMainControl.Model.File.GetChangesFile(defaultFile);
+                    changesForm.LoadModel(changesFile, defaultFile, _editRulesMainControl.Model);
+                    changesForm.ShowDialog(this);
+                }
+            }
+            if (_editArtMainControl != null)
+            {
+                using (var changesForm = new ShowArtChangesForm())
+                {
+                    var defaultFile = _editArtMainControl.Model.DefaultFile;
+                    var changesFile = _editArtMainControl.Model.File.GetChangesFile(defaultFile);
+                    changesForm.LoadModel(changesFile, defaultFile, _editArtMainControl.Model.RulesRootModel);
+                    changesForm.ShowDialog(this);
+                }
             }
         }
 
@@ -275,7 +312,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                     ? null
                     : fileType.GameDefinition.MixFiles);
             BitmapRepository.Instance.Initialise(fileType.GetBitmapSubFolders());
-            var rootModel = new RootModel(rulesFile, fileType, 
+            var rootModel = new RulesRootModel(rulesFile, fileType, 
                 showMissingValues: true, 
                 useAres: fileType.GameDefinition.UseAres,
                 usePhobos: fileType.GameDefinition.UsePhobos);
@@ -320,7 +357,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                     ? null
                     : fileType.GameDefinition.MixFiles);
             BitmapRepository.Instance.Initialise(fileType.GetBitmapSubFolders());
-            var rulesRootModel = new RootModel(rulesFile, fileType,
+            var rulesRootModel = new RulesRootModel(rulesFile, fileType,
                 showMissingValues: true,
                 useAres: fileType.GameDefinition.UseAres,
                 usePhobos: fileType.GameDefinition.UsePhobos);

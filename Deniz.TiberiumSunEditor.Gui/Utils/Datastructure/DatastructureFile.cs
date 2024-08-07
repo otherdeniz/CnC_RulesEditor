@@ -1,14 +1,15 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Utils.EqualityComparer;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
-using System.Linq;
 
 namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
 {
     public class DatastructureFile : JsonFileBase
     {
+        private static DatastructureFile? _artInstance;
         private static DatastructureFile? _instance;
         private static DatastructureFile? _instanceAres;
 
+        public static DatastructureFile ArtInstance => _artInstance ??= LoadFile("Artstructure.json", null);
         public static DatastructureFile Instance => _instance ??= LoadFile("Datastructure.json", null);
         public static DatastructureFile InstanceAres => _instanceAres ??= LoadFile("DatastructureAres.json", "ARES");
 
@@ -58,6 +59,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
         public List<CommonValueDefinition> SuperWeaponsGeneral { get; set; } = new();
 
         public List<UnitValueDefinition> SuperWeapons { get; set; } = new();
+
+        public List<UnitValueDefinition> Animations { get; set; } = new();
 
         public List<ValueLookupDefinition> ValueTypes { get; set; } = new();
 
@@ -126,6 +129,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
                 SuperWeaponsGeneral = priorityFile.SuperWeaponsGeneral
                     .UnionBy(SuperWeaponsGeneral, k => k.Key, StringEqualityComparer.Instance)
                     .ToList(),
+                Animations = priorityFile.Animations
+                    .UnionBy(Animations, k => k.Key, StringEqualityComparer.Instance)
+                    .ToList(),
                 ValueTypes = priorityFile.ValueTypes
                     .UnionBy(ValueTypes, k => k.ValueType, StringEqualityComparer.Instance)
                     .ToList(),
@@ -165,6 +171,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
             Warheads.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
             SuperWeaponsGeneral.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
             SuperWeapons.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
+            Animations.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
         }
     }
 }

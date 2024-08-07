@@ -11,11 +11,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             InitializeComponent();
         }
 
-        public static void ExecueShow(Form parentForm, RootModel rootModel, string entityKeys)
+        public static void ExecueShow(Form parentForm, RulesRootModel rulesRootModel, string entityKeys)
         {
             var editForm = new QuickEditForm();
             if (!string.IsNullOrEmpty(entityKeys)
-                && editForm.LoadEntities(rootModel, entityKeys))
+                && editForm.LoadEntities(rulesRootModel, entityKeys))
             {
                 editForm.Show(parentForm);
             }
@@ -25,12 +25,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             }
         }
 
-        private bool LoadEntities(RootModel rootModel, string entityKeys)
+        private bool LoadEntities(RulesRootModel rulesRootModel, string entityKeys)
         {
             var result = false;
             foreach (var entityKey in entityKeys.Split(",", StringSplitOptions.RemoveEmptyEntries))
             {
-                var entityModel = rootModel.LookupEntities.Values.SelectMany(v => v)
+                var entityModel = rulesRootModel.LookupEntities.Values.SelectMany(v => v)
                     .FirstOrDefault(m => m.EntityKey == entityKey);
                 if (entityModel != null)
                 {

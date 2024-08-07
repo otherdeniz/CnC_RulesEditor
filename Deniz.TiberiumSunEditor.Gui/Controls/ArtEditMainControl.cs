@@ -42,9 +42,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 unitsInfantry.ReadonlyMode = _readonlyMode;
                 unitsVehicles.ReadonlyMode = _readonlyMode;
                 unitsAircrafts.ReadonlyMode = _readonlyMode;
-                unitsWeapons.ReadonlyMode = _readonlyMode;
                 unitsProjectiles.ReadonlyMode = _readonlyMode;
-                unitsWarheads.ReadonlyMode = _readonlyMode;
+                unitsAnimations.ReadonlyMode = _readonlyMode;
                 panelPhobosShowEmpty.Visible = !_readonlyMode;
             }
         }
@@ -61,9 +60,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 unitsInfantry.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
                 unitsVehicles.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
                 unitsAircrafts.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
-                unitsWeapons.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
                 unitsProjectiles.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
-                unitsWarheads.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
+                unitsAnimations.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
             }
         }
 
@@ -79,9 +77,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 unitsInfantry.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
                 unitsVehicles.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
                 unitsAircrafts.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
-                unitsWeapons.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
                 unitsProjectiles.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
-                unitsWarheads.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
+                unitsAnimations.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
             }
         }
 
@@ -97,9 +94,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 unitsInfantry.SearchText = _searchText;
                 unitsVehicles.SearchText = _searchText;
                 unitsAircrafts.SearchText = _searchText;
-                unitsWeapons.SearchText = _searchText;
                 unitsProjectiles.SearchText = _searchText;
-                unitsWarheads.SearchText = _searchText;
+                unitsAnimations.SearchText = _searchText;
             }
         }
 
@@ -124,6 +120,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             mainTab.Tabs["Infantry"].Visible = unitsInfantry.LoadModel(Model.InfantryEntities);
             mainTab.Tabs["Vehicles"].Visible = unitsVehicles.LoadModel(Model.VehicleEntities);
             mainTab.Tabs["Aircrafts"].Visible = unitsAircrafts.LoadModel(Model.AircraftEntities);
+            mainTab.Tabs["Projectiles"].Visible = unitsProjectiles.LoadModel(Model.ProjectileEntities);
+            mainTab.Tabs["Animations"].Visible = unitsAnimations.LoadModel(Model.AnimationEntities);
             var hasPhobos = false;
             tabPhobos.Tabs.Clear();
             tabPhobos.Controls.OfType<UltraTabPageControl>().ToList().ForEach(c =>
@@ -180,5 +178,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             AnimationsAsyncLoader.Instance.Start();
         }
 
+        private void checkBoxPhobosShowEmpty_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

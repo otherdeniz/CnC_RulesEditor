@@ -1,4 +1,5 @@
-﻿using Deniz.TiberiumSunEditor.Gui.Utils;
+﻿using Deniz.TiberiumSunEditor.Gui.Model.Interface;
+using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Deniz.TiberiumSunEditor.Gui.Utils.EqualityComparer;
 using Deniz.TiberiumSunEditor.Gui.Utils.Extensions;
@@ -6,12 +7,12 @@ using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 
 namespace Deniz.TiberiumSunEditor.Gui.Model
 {
-    public class RootModel
+    public class RulesRootModel : IRootModel
     {
         private readonly bool _showMissingValues;
         private List<KeyValuePair<string, List<string>>>? _sides;
 
-        public RootModel(IniFile iniFile, 
+        public RulesRootModel(IniFile iniFile, 
             FileTypeModel fileType, 
             IniFile? defaultFileOverwrite = null,
             bool showMissingValues = false,
@@ -155,9 +156,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             LookupItems = new List<LookupItemModel>();
             LookupEntities.Clear();
 
-            var allUnitsModel = Datastructure.AllUnits.Where(GameKeyFilter).Select(u =>
+            var allUnitsDefinitions = Datastructure.AllUnits.Where(GameKeyFilter).Select(u =>
                 new CategorizedValueDefinition(u, "1) All units")).ToList();
-            var movingUnitsModel = Datastructure.AllMovingUnits.Select(u =>
+            var movingUnitsDefinitions = Datastructure.AllMovingUnits.Select(u =>
                 new CategorizedValueDefinition(u, "2) All moving units")).ToList();
 
             var sidesEntityKeys = (File.GetSection("Sides")?.KeyValues.SelectMany(k => k.Value.Split(",")).ToList()
@@ -169,22 +170,22 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                         new CategorizedValueDefinition(u, "1) Side"))
                     .ToList());
             VehicleEntities = GetGameEntities("VehicleTypes",
-                allUnitsModel.Union(movingUnitsModel)
+                allUnitsDefinitions.Union(movingUnitsDefinitions)
                     .Union(Datastructure.DrivingVehicleUnits.Select(u =>
                         new CategorizedValueDefinition(u, "3) Vehicle units")))
                     .ToList());
             AircraftEntities = GetGameEntities("AircraftTypes",
-                allUnitsModel.Union(movingUnitsModel)
+                allUnitsDefinitions.Union(movingUnitsDefinitions)
                     .Union(Datastructure.AircraftUnits.Select(u =>
                         new CategorizedValueDefinition(u, "3) Aircraft units")))
                     .ToList());
             InfantryEntities = GetGameEntities("InfantryTypes",
-                allUnitsModel.Union(movingUnitsModel)
+                allUnitsDefinitions.Union(movingUnitsDefinitions)
                     .Union(Datastructure.InfantryUnits.Select(u =>
                         new CategorizedValueDefinition(u, "3) Infantry units")))
                     .ToList());
             BuildingEntities = GetGameEntities("BuildingTypes",
-                allUnitsModel
+                allUnitsDefinitions
                     .Union(Datastructure.BuildingUnits.Select(u =>
                         new CategorizedValueDefinition(u, "2) Building units")))
                     .ToList());
@@ -468,7 +469,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 var defaultSection = DefaultFile.GetSection(entityKey);
                 if (fileSection != null)
                 {
-                    result.Add(new GameEntityModel(this,
+                    result.Add(new GameEntityModel(this, this,
                         entityType,
                         fileSection,
                         defaultSection,
@@ -476,7 +477,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 }
                 else if (defaultSection != null && _showMissingValues)
                 {
-                    result.Add(new GameEntityModel(this,
+                    result.Add(new GameEntityModel(this, this,
                         entityType,
                         File.AddSection(entityKey),
                         defaultSection,
@@ -499,7 +500,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             var fileSections = File.Sections.Where(sectionFilter).ToList();
             foreach (var fileSection in fileSections)
             {
-                result.Add(new GameEntityModel(this,
+                result.Add(new GameEntityModel(this, this,
                     entityType,
                     fileSection,
                     DefaultFile.GetSection(fileSection.SectionName),

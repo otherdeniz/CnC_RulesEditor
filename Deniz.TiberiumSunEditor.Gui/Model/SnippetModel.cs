@@ -9,7 +9,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         {
             Folder = folder;
             Name = name;
-            Model = new RootModel(file, FileTypeModel.ParseFile(defaultFile)!, defaultFile);
+            Model = new RulesRootModel(file, FileTypeModel.ParseFile(defaultFile)!, defaultFile);
         }
 
         public string Folder { get; }
@@ -17,6 +17,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         public string Name { get; }
 
         [Browsable(false)]
-        public RootModel Model { get; }
+        public RulesRootModel Model { get; }
     }
 }

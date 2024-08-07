@@ -8,7 +8,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 {
     public partial class ValuesEditControl : UserControl
     {
-        private RootModel _rootModel = null!;
+        private RulesRootModel _rulesRootModel = null!;
         private List<CommonValueModel>? _values;
         private CommonValueModel? _lookupValue;
         private UltraGridRow? _lookupValueRow;
@@ -31,9 +31,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         [Browsable(false)]
         public string SearchText { get; set; } = "";
 
-        public bool LoadValuesGrid(RootModel rootModel, List<CommonValueModel> values)
+        public bool LoadValuesGrid(RulesRootModel rulesRootModel, List<CommonValueModel> values)
         {
-            _rootModel = rootModel;
+            _rulesRootModel = rulesRootModel;
             ButtonCloseValue_Click(this, EventArgs.Empty);
             var commonValuesList = values
                 .Where(FilterValue)
@@ -118,9 +118,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                         LookupEntityValue(valueModel, e.Cell.Row, false);
                         if (_isRightClick
                             && valueModel.ValueDefinition.LookupType != null
-                            && _rootModel.LookupEntities.ContainsKey(valueModel.ValueDefinition.LookupType))
+                            && _rulesRootModel.LookupEntities.ContainsKey(valueModel.ValueDefinition.LookupType))
                         {
-                            QuickEditForm.ExecueShow(this.ParentForm!, _rootModel, valueModel.Value);
+                            QuickEditForm.ExecueShow(this.ParentForm!, _rulesRootModel, valueModel.Value);
                         }
                         _isRightClick = false;
                     }
@@ -188,7 +188,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 else
                 {
                     if (valueModel.ValueDefinition.LookupType != null
-                        && _rootModel.LookupEntities.ContainsKey(valueModel.ValueDefinition.LookupType))
+                        && _rulesRootModel.LookupEntities.ContainsKey(valueModel.ValueDefinition.LookupType))
                     {
                         e.Row.Cells["Value"].ToolTipText = "Right-click to open Quick-Edit";
                     }
@@ -227,7 +227,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
             else
             {
-                lookupValue.LoadValues(_rootModel, valueModel);
+                lookupValue.LoadValues(_rulesRootModel, valueModel);
             }
             lookupValue.Visible = !isColor;
             lookupColor.Visible = isColor;
