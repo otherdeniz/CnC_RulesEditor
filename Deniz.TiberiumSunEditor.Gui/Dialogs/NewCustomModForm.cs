@@ -77,6 +77,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             SelectedImage = LogoRepository.Instance.GetLogo(IconImagePath);
             _gameTypeDetector = new GameTypeDetector(customModSetting.GamePath);
             LoadRulesIniSources();
+            LoadArtIniSources();
             _doEvents = true;
         }
 
@@ -85,7 +86,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             buttonOk.Enabled = !string.IsNullOrEmpty(textName.Text)
                                && !string.IsNullOrEmpty(textGamePath.Text)
                                && SelectedGameDefinition != null
-                               && comboBoxRulesIni.SelectedIndex > -1;
+                               && comboBoxRulesIni.SelectedIndex > -1
+                               && comboBoxArtIni.SelectedIndex > -1;
         }
 
         private void LoadRulesIniSources()
@@ -94,7 +96,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             if (_gameTypeDetector == null) return;
             if (!string.IsNullOrEmpty(_gameTypeDetector.GameDirectory))
             {
-                foreach (var iniFolderRule in _gameTypeDetector.IniFolderRules())
+                foreach (var iniFolderRule in _gameTypeDetector.IniFolderSearch("rules*.ini"))
                 {
                     comboBoxRulesIni.Items.Add(iniFolderRule);
                     if (CurrentModSetting?.RulesIniPath == iniFolderRule)
@@ -106,7 +108,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             }
             if (SelectedGameDefinition != null)
             {
-                foreach (var mixFileContent in _gameTypeDetector.FileManager.MixFilesContents.Where(c => c.FileName == SelectedGameDefinition.SaveAsFilename))
+                foreach (var mixFileContent in _gameTypeDetector.FileManager.MixFilesContents
+                             .Where(c => c.FileName == SelectedGameDefinition.SaveAsFilename))
                 {
                     var mixContentPath = mixFileContent.ToString();
                     comboBoxRulesIni.Items.Add(mixContentPath);
@@ -119,6 +122,41 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             if (comboBoxRulesIni.SelectedIndex == -1)
             {
                 comboBoxRulesIni.SelectedIndex = 0;
+            }
+        }
+
+        private void LoadArtIniSources()
+        {
+            comboBoxArtIni.Items.Clear();
+            if (_gameTypeDetector == null) return;
+            if (!string.IsNullOrEmpty(_gameTypeDetector.GameDirectory))
+            {
+                foreach (var iniFolderRule in _gameTypeDetector.IniFolderSearch("art*.ini"))
+                {
+                    comboBoxArtIni.Items.Add(iniFolderRule);
+                    if (CurrentModSetting?.RulesIniPath == iniFolderRule)
+                    {
+                        comboBoxArtIni.SelectedIndex = comboBoxArtIni.Items.Count - 1;
+                    }
+
+                }
+            }
+            if (SelectedGameDefinition != null)
+            {
+                foreach (var mixFileContent in _gameTypeDetector.FileManager.MixFilesContents
+                             .Where(c => c.FileName == SelectedGameDefinition.SaveAsArtFilename))
+                {
+                    var mixContentPath = mixFileContent.ToString();
+                    comboBoxArtIni.Items.Add(mixContentPath);
+                    if (CurrentModSetting?.RulesIniMixSource == mixContentPath)
+                    {
+                        comboBoxArtIni.SelectedIndex = comboBoxArtIni.Items.Count - 1;
+                    }
+                }
+            }
+            if (comboBoxArtIni.SelectedIndex == -1)
+            {
+                comboBoxArtIni.SelectedIndex = 0;
             }
         }
 
@@ -140,6 +178,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         }
 
         private void comboBoxRulesIni_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SetButtonOkEnabled();
+        }
+
+        private void comboBoxArtIni_SelectedIndexChanged(object sender, EventArgs e)
         {
             SetButtonOkEnabled();
         }
@@ -166,6 +209,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                 checkBoxPhobos.Checked = _gameTypeDetector.HasModulePhobos();
 
                 LoadRulesIniSources();
+                LoadArtIniSources();
             }
         }
 
@@ -200,6 +244,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             CurrentModSetting.GamePath = textGamePath.Text;
             CurrentModSetting.HasAres = checkBoxAres.Checked;
             CurrentModSetting.HasPhobos = checkBoxPhobos.Checked;
+            // Rules.ini
             var selectedRulesIni = (string)comboBoxRulesIni.SelectedItem;
             if (selectedRulesIni.Contains(":"))
             {
@@ -216,6 +261,24 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                 CurrentModSetting.RulesIniMixSource = null;
                 CurrentModSetting.RulesIniPath = selectedRulesIni;
             }
+            // Art.ini
+            var selectedArtIni = (string)comboBoxArtIni.SelectedItem;
+            if (selectedArtIni.Contains(":"))
+            {
+                // mix content
+                CurrentModSetting.ArtIniMixSource = selectedArtIni;
+                var mixFileContent =
+                    _gameTypeDetector!.FileManager.MixFilesContents.First(c =>
+                        c.ToString() == selectedArtIni);
+                CurrentModSetting.ArtIniPath = UserSettingsFolder.Instance
+                    .SaveFile($"{CurrentModSetting.Key}_art.ini", mixFileContent.Read());
+            }
+            else
+            {
+                CurrentModSetting.ArtIniMixSource = null;
+                CurrentModSetting.ArtIniPath = selectedArtIni;
+            }
+            // Logo
             if (IconImagePath != null)
             {
                 CurrentModSetting.LogoFile = IconImagePath;

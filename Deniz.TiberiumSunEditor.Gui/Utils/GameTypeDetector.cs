@@ -19,12 +19,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
 
         public CCFileManager FileManager { get; }
 
-        public IEnumerable<string> IniFolderRules()
+        public IEnumerable<string> IniFolderSearch(string searchPattern)
         {
             var iniPath = Path.Combine(GameDirectory, "INI");
             if (Directory.Exists(iniPath))
             {
-                return Directory.GetFiles(iniPath, "rules*.ini")
+                return Directory.GetFiles(iniPath, searchPattern)
                     .Select(p => $"INI\\{Path.GetFileName(p)}");
             }
 
