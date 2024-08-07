@@ -74,6 +74,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             comboBoxGameType.SelectedIndex = gameDefinitionIndex;
             textGamePath.Text = customModSetting.GamePath;
             IconImagePath = customModSetting.LogoFile;
+            checkBoxAres.Checked = customModSetting.HasAres;
+            checkBoxPhobos.Checked = customModSetting.HasPhobos;
             SelectedImage = LogoRepository.Instance.GetLogo(IconImagePath);
             _gameTypeDetector = new GameTypeDetector(customModSetting.GamePath);
             LoadRulesIniSources();
