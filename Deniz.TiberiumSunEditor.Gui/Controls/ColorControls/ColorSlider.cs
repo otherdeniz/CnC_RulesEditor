@@ -19,7 +19,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.ColorControls
   /// </summary>
   [DefaultValue("Value")]
   [DefaultEvent("ValueChanged")]
-  public class ColorSlider : UserControl
+  public class ColorSlider : Control
   {
       private static readonly object _eventBarBoundsChanged = new object();
 
