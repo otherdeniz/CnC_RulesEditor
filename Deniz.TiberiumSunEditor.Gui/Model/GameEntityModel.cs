@@ -116,6 +116,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                     {
                         return new ThumbnailModel(animKey);
                     }
+                    var trailerKey = FileSection.GetValue("Trailer")?.Value;
+                    if (!string.IsNullOrEmpty(trailerKey))
+                    {
+                        return new ThumbnailModel(trailerKey);
+                    }
                     return null;
                 }
                 if (EntityType == "ParticleSystems")

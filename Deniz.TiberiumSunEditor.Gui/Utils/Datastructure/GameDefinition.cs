@@ -63,14 +63,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
         public IniFile LoadDefaultRulesFile()
         {
             return !string.IsNullOrEmpty(ResourcesDefaultIniFile)
-                ? IniFile.Load(ResourcesRepository.Instance.ReadResourcesFile(ResourcesDefaultIniFile))
+                ? IniFile.Load(ResourcesRepository.Instance.ReadResourcesFile(ResourcesDefaultIniFile), SaveAsFilename)
                 : new IniFile();
         }
 
         public IniFile LoadDefaultArtFile()
         {
             return !string.IsNullOrEmpty(ResourcesDefaultArtIniFile)
-                ? IniFile.Load(ResourcesRepository.Instance.ReadResourcesFile(ResourcesDefaultArtIniFile))
+                ? IniFile.Load(ResourcesRepository.Instance.ReadResourcesFile(ResourcesDefaultArtIniFile), SaveAsArtFilename)
                 : new IniFile();
         }
 

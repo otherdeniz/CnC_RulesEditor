@@ -234,6 +234,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                      ?? new List<string>() { "GDI", "Nod" };
             Animations = DefaultFile.GetSection("Animations")?.KeyValues.Select(k => k.Value).ToList()
                          ?? GetAllPossibleValues("Warheads", "AnimList", false);
+            Animations.ForEach(a => LookupItems.Add(new LookupItemModel("Animations", a, string.Empty)));
             MovementZones = GetAllPossibleValues(
                 new List<string>()
                 {

@@ -72,7 +72,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 .ToList();
             VehicleEntities = GetGameEntitiesByRulesTypesSection("VehicleTypes", vehicleValueDefinitions)
                 .UnionBy(GetGameEntitiesBySectionFilter("VehicleTypes",
-                        s => s.KeyValues.Any(k => k.Key == "Voxel"), buildingValueDefinitions),
+                        s => s.KeyValues.Any(k => k.Key == "Voxel"), vehicleValueDefinitions),
                     k => k.EntityKey)
                 .ToList();
 
@@ -82,7 +82,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 .ToList();
             InfantryEntities = GetGameEntitiesByRulesTypesSection("InfantryTypes", infantryValueDefinitions)
                 .UnionBy(GetGameEntitiesBySectionFilter("VehicleTypes",
-                        s => s.KeyValues.Any(k => k.Key == "Crawls"), buildingValueDefinitions),
+                        s => s.KeyValues.Any(k => k.Key == "Crawls"), infantryValueDefinitions),
                     k => k.EntityKey)
                 .ToList();
 

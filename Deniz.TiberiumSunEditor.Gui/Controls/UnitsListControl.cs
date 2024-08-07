@@ -245,12 +245,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void toolStripButtonPrev_Click(object sender, EventArgs e)
         {
+            AnimationsAsyncLoader.Instance.Stop(true, false);
             LoadPage(_currentPage - 1);
+            AnimationsAsyncLoader.Instance.Start();
         }
 
         private void toolStripButtonNext_Click(object sender, EventArgs e)
         {
+            AnimationsAsyncLoader.Instance.Stop(true, false);
             LoadPage(_currentPage + 1);
+            AnimationsAsyncLoader.Instance.Start();
         }
 
         private void UnitsListControl_Load(object sender, EventArgs e)

@@ -18,11 +18,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
 
         public string OriginalFileName { get; set; } = "";
 
-        public static IniFile Load(byte[] fileBytes)
+        public static IniFile Load(byte[] fileBytes, string originalFilename = "")
         {
             using (var fileStream = new MemoryStream(fileBytes))
             {
-                return LoadStream(fileStream);
+                var iniFile = LoadStream(fileStream);
+                iniFile.OriginalFileName = originalFilename;
+                return iniFile;
             }
         }
 
