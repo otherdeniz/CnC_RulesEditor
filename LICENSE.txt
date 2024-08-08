@@ -23,3 +23,11 @@ available to you under the terms of the GNU General Public License
 version 3 as published by the Free Software Foundation.
 Copyright (C) Rami 'Rampastring' Pasanen 2024
 https://github.com/Rampastring
+
+-------------------------------------------
+
+This program uses code from the OpenRA project. It is made
+available to you under the terms of the GNU General Public License
+version 3 as published by the Free Software Foundation.
+Copyright 2007-2011 The OpenRA Developers
+https://github.com/OpenRA/OpenRA
