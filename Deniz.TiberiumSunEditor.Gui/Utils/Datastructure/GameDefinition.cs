@@ -5,18 +5,20 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
 {
     public class GameDefinition
     {
-        private readonly string? _customGamePath;
+        private readonly CustomModSetting? _customMod;
 
         public GameDefinition()
         {
         }
 
-        public GameDefinition(string customGamePath)
+        public GameDefinition(CustomModSetting customMod)
         {
-            _customGamePath = customGamePath;
+            _customMod = customMod;
         }
 
-        public bool IsCustomMod => _customGamePath != null;
+        public bool IsCustomMod => _customMod != null;
+
+        public CustomModSetting? CustomMod => _customMod;
 
         public string GameKey { get; set; } = "";
 
@@ -56,7 +58,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
 
         public string? GetUserGamePath()
         {
-            return _customGamePath 
+            return _customMod?.GamePath
                    ?? UserSettingsFile.Instance.GamePaths.FirstOrDefault(g => g.GameKey == GameKey)?.GamePath;
         }
 

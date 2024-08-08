@@ -52,8 +52,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 
             if ((iniFile.OriginalFileName.Equals("art.ini", StringComparison.InvariantCultureIgnoreCase)
                  || iniFile.OriginalFileName.Equals("artmd.ini", StringComparison.InvariantCultureIgnoreCase)
-                 || iniFile.Sections.Any()
-                 && iniFile.Sections[0].Lines.OfType<IniFileLineComment>().FirstOrDefault()?.Comment == "ART.INI")
+                 || iniFile.OriginalFullPath != null && overrideGameDefinition?.ResourcesDefaultArtIniFile == iniFile.OriginalFullPath
+                 || iniFile.Sections.Any() && iniFile.Sections[0].Lines.OfType<IniFileLineComment>().FirstOrDefault()?.Comment == "ART.INI")
                 && fileGameDefintion != null)
             {
                 var artGame = overrideGameDefinition 
@@ -62,7 +62,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 {
                     return null;
                 }
-                return new FileTypeModel(FileBaseType.Art, iniFile.OriginalFileName, artGame);
+
+                var fileTitle = iniFile.OriginalFileName;
+                if (iniFile.OriginalFullPath != null 
+                    && overrideGameDefinition?.ResourcesDefaultArtIniFile == iniFile.OriginalFullPath
+                    && overrideGameDefinition.CustomMod != null)
+                {
+                    fileTitle = overrideGameDefinition.CustomMod.ArtIniMixSource ?? "";
+                }
+                return new FileTypeModel(FileBaseType.Art, fileTitle, artGame);
             }
 
             return new FileTypeModel(FileBaseType.Unknown, iniFile.OriginalFileName);
@@ -86,14 +94,19 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         {
             get
             {
+                var keyLabel = Key;
+                if (GameDefinition.CustomMod != null)
+                {
+                    keyLabel = GameDefinition.CustomMod.Name.Replace("&", "&&");
+                }
                 switch (BaseType)
                 {
                     case FileBaseType.Rules:
-                        return Key;
+                        return $"Rules: {keyLabel}";
                     case FileBaseType.Map:
-                        return $"Map: {Key}";
+                        return $"Map: {keyLabel}";
                     case FileBaseType.Art:
-                        return $"Art: {Key}";
+                        return $"Art: {keyLabel}";
                     default:
                         return BaseType.ToString();
                 }

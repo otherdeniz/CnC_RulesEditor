@@ -59,7 +59,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
                 GamesFile.Instance.Games.FirstOrDefault(g => g.GameKey == BaseGameKey);
             if (baseGameDefinition != null)
             {
-                return new GameDefinition(GamePath)
+                return new GameDefinition(this)
                 {
                     NewMenuLabel = $"{BaseGameKey} - {Name}",
                     BitmapsFolders = baseGameDefinition.BitmapsFolders,
