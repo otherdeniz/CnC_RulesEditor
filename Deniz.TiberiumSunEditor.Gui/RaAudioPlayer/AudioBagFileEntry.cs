@@ -1,13 +1,11 @@
 ﻿using System.Runtime.InteropServices;
 using System.Text;
-using NAudio.Wave;
+using Deniz.CCAudioPlayerCore;
 
 namespace Deniz.TiberiumSunEditor.Gui.RaAudioPlayer;
 
 public class AudioBagFileEntry
 {
-    private static WaveOutEvent? _currentWaveOutEvent;
-
     public AudioBagFileEntry(Stream audioBagStream, AudioIdxEntry entry)
     {
         BagStream = audioBagStream;
@@ -53,7 +51,7 @@ public class AudioBagFileEntry
 
             if (BagStream.Read(s.WriteStart(entry.Size), 0, entry.Size) == entry.Size)
             {
-                var decode = new ImaAdpcmWavDecode();
+                var decode = new CimaAdpcmWavDecode();
                 decode.Load(s.Data, s.Size, channels, entry.ChunkSize);
 
                 int samples = decode.CSamples() / channels;
@@ -110,23 +108,9 @@ public class AudioBagFileEntry
         return buffer;
     }
 
-    // play audio with NAudio
     private void PlayAudio(VirtualBinary audio)
     {
-        var waveProvider = new BufferedWaveProvider(new WaveFormat(IdxHeader.Samplerate, Channels));
-        waveProvider.AddSamples(audio.Data, 0, Convert.ToInt32(audio.Data.Length));
-
-        if (_currentWaveOutEvent != null 
-            && _currentWaveOutEvent.PlaybackState == PlaybackState.Playing)
-        {
-            _currentWaveOutEvent.Stop();
-        }
-
-        var player = new WaveOutEvent();
-        _currentWaveOutEvent = player;
-        player.Init(waveProvider);
-        player.Play();
-
+        AudioPlayerService.PlaySound(new StupidStream(audio.Data));
     }
 
     private static void WriteStruct<T>(BinaryWriter writer, T structure)

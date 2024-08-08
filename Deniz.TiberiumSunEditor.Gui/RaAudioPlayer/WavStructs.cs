@@ -37,4 +37,16 @@ namespace Deniz.TiberiumSunEditor.Gui.RaAudioPlayer
         public WavFormatChunk FormatChunk;
         public WavChunkHeader DataChunkHeader;
     }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct ImaAdpcmChunkHeader
+    {
+        //__int16 sample;
+        //unsigned __int8 index;
+        //unsigned __int8 reserved;
+        public short Sample;
+        public byte Index;
+        public byte Reserved;
+    }
+
 }
