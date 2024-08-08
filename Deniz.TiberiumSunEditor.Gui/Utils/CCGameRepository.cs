@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using Deniz.CCAudioPlayerCore;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using ImageMagick;
+using Deniz.TiberiumSunEditor.Gui.OpenRa;
 
 namespace Deniz.TiberiumSunEditor.Gui.Utils
 {
@@ -19,6 +20,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
         private readonly int _cameoBrightnesPercent = 380;
         private readonly int _animationMaxWidth = 240;
         private CCFileManager? _fileManager;
+        private RaAudioManager? _raAudioManager;
         private IniFile? _artIniFile;
         private IniFile? _soundIniFile;
         private List<Color>? _cameoPaletteColors;
@@ -43,6 +45,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             }
             _infantryAnimationsCache.Clear();
             _fileManager = null;
+            _raAudioManager?.Dispose();
+            _raAudioManager = null;
             var gameDirectory = gameDefinition.GetUserGamePath();
             if (!string.IsNullOrEmpty(gameDirectory) 
                 && Directory.Exists(gameDirectory))
@@ -90,7 +94,44 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                     ? IniFile.Load(soundIniBytes)
                     : null;
 
+                if (gameDefinition.GameKey.StartsWith("RA2"))
+                {
+                    var ra2AudioMixFile = _fileManager.LoadFile("audiomd.mix")
+                                          ?? _fileManager.LoadFile("audio.mix");
+                    if (ra2AudioMixFile != null)
+                    {
+                        _raAudioManager = new RaAudioManager(ra2AudioMixFile);
+                    }
+                }
             }
+        }
+
+        public bool TryPlayRaAudio(string soundKey)
+        {
+            if (_raAudioManager != null && _soundIniFile != null)
+            {
+                try
+                {
+                    var soundValues = _soundIniFile.GetSection(soundKey)?
+                        .GetValue("Sounds")?.Value
+                        .Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                    if (soundValues?.Length > 0)
+                    {
+                        var audioEntry = _raAudioManager.IdxFile.Entries.FirstOrDefault(e =>
+                            e.Name.Equals(soundValues[0].TrimStart('$'), StringComparison.InvariantCultureIgnoreCase));
+                        if (audioEntry != null)
+                        {
+                            _raAudioManager.PlayEntry(audioEntry);
+                        }
+                    }
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"TryPlayRaAudio failed: {e.Message}");
+                }
+            }
+            return false;
         }
 
         public List<KeyValuePair<string, string>> GetAllSounds()

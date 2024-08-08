@@ -50,9 +50,12 @@
         public MixEntryNames(Dictionary<uint, MixEntryItem> idNameMapping)
         {
             IdNameMapping = idNameMapping;
+            GlobalFilenames = IdNameMapping.Select(n => n.Value.Name).ToArray();
         }
 
         public Dictionary<uint, MixEntryItem> IdNameMapping { get; }
+
+        public string[] GlobalFilenames { get; }
 
         public string GetName(uint id)
         {

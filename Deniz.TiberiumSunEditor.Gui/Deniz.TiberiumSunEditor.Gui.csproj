@@ -9,6 +9,7 @@
 	<ForceDesignerDPIUnaware>false</ForceDesignerDPIUnaware>
 	<ApplicationIcon>SUN.ICO</ApplicationIcon>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -467,6 +468,7 @@
     <PackageReference Include="Infragistics.WinForms.Toolbars" Version="23.2.81" />
     <PackageReference Include="Infragistics.WinForms.WinGrid" Version="23.2.81" />
     <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="13.10.0" />
+    <PackageReference Include="NAudio" Version="2.2.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Octokit" Version="13.0.1" />
   </ItemGroup>

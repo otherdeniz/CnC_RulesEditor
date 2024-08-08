@@ -225,8 +225,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         {
             _doEvents = false;
             valuesGrid.DisplayLayout.Override.CellClickAction = CellClickAction.Default;
-            valuesGrid.DataSource = (filteredMultiValuesModel ?? _multiValuesModel)?
+            var dataSource = (filteredMultiValuesModel ?? _multiValuesModel)?
                 .OrderBy(v => v.Selected ? 0 : 1).ToList();
+            valuesGrid.DataSource = dataSource;
+            var firstSelectedValue = dataSource?.FirstOrDefault(d => d.Selected);
+            if (firstSelectedValue != null)
+            {
+                PlaySelectedSound(firstSelectedValue.Key);
+            }
             _doEvents = true;
         }
 
@@ -240,6 +246,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     if (audStream != null)
                     {
                         AudioPlayerService.PlaySound(audStream);
+                    }
+                    else
+                    {
+                        CCGameRepository.Instance.TryPlayRaAudio(key);
                     }
                     break;
             }
@@ -255,6 +265,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     if (audStream != null)
                     {
                         AudioPlayerService.PlaySound(audStream);
+                    }
+                    else
+                    {
+                        CCGameRepository.Instance.TryPlayRaAudio(key);
                     }
                     break;
                 case "Animations":

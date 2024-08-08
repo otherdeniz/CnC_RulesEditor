@@ -6,6 +6,8 @@ namespace Deniz.TiberiumSunEditor.Gui.RaAudioPlayer;
 
 public class AudioBagFileEntry
 {
+    private static WaveOutEvent? _currentWaveOutEvent;
+
     public AudioBagFileEntry(Stream audioBagStream, AudioIdxEntry entry)
     {
         BagStream = audioBagStream;
@@ -114,10 +116,15 @@ public class AudioBagFileEntry
         var waveProvider = new BufferedWaveProvider(new WaveFormat(IdxHeader.Samplerate, Channels));
         waveProvider.AddSamples(audio.Data, 0, Convert.ToInt32(audio.Data.Length));
 
-        WaveOutEvent player = new WaveOutEvent();
+        if (_currentWaveOutEvent != null 
+            && _currentWaveOutEvent.PlaybackState == PlaybackState.Playing)
+        {
+            _currentWaveOutEvent.Stop();
+        }
 
+        var player = new WaveOutEvent();
+        _currentWaveOutEvent = player;
         player.Init(waveProvider);
-
         player.Play();
 
     }
