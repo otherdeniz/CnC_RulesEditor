@@ -1,5 +1,6 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 using System.Text.RegularExpressions;
+using Deniz.TiberiumSunEditor.Gui.Utils.Extensions;
 
 namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
 {
@@ -7,7 +8,21 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
     {
         private static readonly Regex ValueListRegEx = new Regex(@"\((.+\|.+)\)", RegexOptions.Compiled);
 
+        private static DatastructurePhobosFile? _artInstancePhobos;
         private static DatastructurePhobosFile? _instancePhobos;
+        public static DatastructurePhobosFile ArtInstancePhobos
+        {
+            get
+            {
+                if (_artInstancePhobos == null)
+                {
+                    _artInstancePhobos = new DatastructurePhobosFile();
+                    _artInstancePhobos.LoadTemplateInis("Phobos", "Art.*.ini");
+                    _artInstancePhobos.ApplyModuleCategory("PHOBOS{0}: ");
+                }
+                return _artInstancePhobos;
+            }
+        }
         public static DatastructurePhobosFile InstancePhobos
         {
             get
@@ -17,7 +32,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
                     using (var fileStream = ResourcesRepository.Instance.ReadResourcesFileStream("DatastructurePhobos.json"))
                     {
                         _instancePhobos = Load<DatastructurePhobosFile>(fileStream);
-                        _instancePhobos.LoadTemplateInis("Phobos");
+                        _instancePhobos.LoadTemplateInis("Phobos", "Rules.*.ini");
                         _instancePhobos.ApplyModuleCategory("PHOBOS{0}: ");
                     }
                 }
@@ -25,10 +40,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
             }
         }
 
-        private void LoadTemplateInis(string subFolder)
+        private void LoadTemplateInis(string subFolder, string searchPattern)
         {
             var templatePath = Path.Combine(ResourcesRepository.Instance.ResourcesPath, subFolder);
-            var templateInis = Directory.GetFiles(templatePath, "Rules.*.ini").Select(IniFile.Load).ToList();
+            var templateInis = Directory.GetFiles(templatePath, searchPattern).Select(IniFile.Load).ToList();
             // load all Types sections
             var additionalTypesSections = templateInis
                 .SelectMany(i => i.Sections.Where(s => s.SectionName != null 
@@ -131,13 +146,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
                     return Projectiles;
                 case "SOMESW":
                     return SuperWeapons;
+                case "SOMEANIM":
+                    return Animations;
             }
             return AdditionalTypes.FirstOrDefault(t => t.TemplateSection == sectionName)?.ValueDefinitions;
         }
 
         private string GetFileDescription(string fileName)
         {
-            return Path.GetFileNameWithoutExtension(fileName.Replace("Rules.", ""));
+            return Path.GetFileNameWithoutExtension(fileName.TrimStart("Rules.").TrimStart("Art."));
         }
 
         private string? DetectValueList(string comment)

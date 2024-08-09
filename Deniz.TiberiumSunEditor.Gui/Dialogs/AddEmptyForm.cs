@@ -1,19 +1,19 @@
-﻿using Deniz.TiberiumSunEditor.Gui.Model;
+﻿using Deniz.TiberiumSunEditor.Gui.Model.Interface;
 
 namespace Deniz.TiberiumSunEditor.Gui.Dialogs
 {
     public partial class AddEmptyForm : Form
     {
-        private RulesRootModel _rulesRootModel = null!;
+        private IRootModel _rootModel = null!;
 
         public AddEmptyForm()
         {
             InitializeComponent();
         }
 
-        public void LoadModel(RulesRootModel rulesRootModel)
+        public void LoadModel(IRootModel rootModel)
         {
-            _rulesRootModel = rulesRootModel;
+            _rootModel = rootModel;
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
@@ -23,7 +23,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
 
         private void buttonOk_Click(object sender, EventArgs e)
         {
-            if (_rulesRootModel.File.Sections.Any(s =>
+            if (_rootModel.File.Sections.Any(s =>
                     string.Equals(s.SectionName ?? "_", TextNewKey.Text,
                         StringComparison.InvariantCultureIgnoreCase)))
             {

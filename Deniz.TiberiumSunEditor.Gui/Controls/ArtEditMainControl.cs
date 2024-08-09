@@ -1,4 +1,5 @@
-﻿using Deniz.TiberiumSunEditor.Gui.Model;
+﻿using Deniz.TiberiumSunEditor.Gui.Dialogs;
+using Deniz.TiberiumSunEditor.Gui.Model;
 using Deniz.TiberiumSunEditor.Gui.Utils;
 using Infragistics.Win.UltraWinTabControl;
 using System.ComponentModel;
@@ -132,55 +133,85 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     c.Dispose();
                 }
             });
-            //if (Model.UsePhobos)
-            //{
-            //    foreach (var additionalGameEntities in Model.AdditionalEntities.Where(a => a.Module == "PHOBOS"))
-            //    {
-            //        var unitListConrol = new UnitsListControl
-            //        {
-            //            Dock = DockStyle.Fill,
-            //            CanAddEmpty = true
-            //        };
-            //        unitListConrol.ReadonlyMode = _readonlyMode;
-            //        unitListConrol.SearchText = _searchText;
-            //        unitListConrol.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
-            //        unitListConrol.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
-            //        unitListConrol.UnitAddEmpty += (sender, args) =>
-            //        {
-            //            Cursor = Cursors.WaitCursor;
-            //            AddEmptyUnit(additionalGameEntities.EntityType);
-            //            Cursor = Cursors.Default;
-            //        };
-            //        var hasEntries = unitListConrol.LoadModel(additionalGameEntities.Entities);
-            //        if (hasEntries || !_readonlyMode)
-            //        {
-            //            var additionalTabControl = new UltraTabPageControl
-            //            {
-            //                Location = new Point(-10000, -10000),
-            //                Margin = new Padding(4, 3, 4, 3),
-            //                Tag = "Custom"
-            //            };
-            //            var additionalTab = new UltraTab
-            //            {
-            //                Text = additionalGameEntities.EntityType,
-            //                Visible = hasEntries || checkBoxPhobosShowEmpty.Checked,
-            //                Tag = hasEntries
-            //            };
-            //            additionalTab.TabPage = additionalTabControl;
-            //            additionalTabControl.Controls.Add(unitListConrol);
-            //            tabPhobos.Controls.Add(additionalTabControl);
-            //            tabPhobos.Tabs.Add(additionalTab);
-            //            hasPhobos = true;
-            //        }
-            //    }
-            //}
+            if (Model.RulesRootModel.UsePhobos)
+            {
+                foreach (var additionalGameEntities in Model.AdditionalEntities.Where(a => a.Module == "PHOBOS"))
+                {
+                    var unitListConrol = new UnitsListControl
+                    {
+                        Dock = DockStyle.Fill,
+                        CanAddEmpty = true
+                    };
+                    unitListConrol.ReadonlyMode = _readonlyMode;
+                    unitListConrol.SearchText = _searchText;
+                    unitListConrol.ShowOnlyFavoriteUnits = _showOnlyFavoriteUnits;
+                    unitListConrol.ShowOnlyFavoriteValues = _showOnlyFavoriteValues;
+                    unitListConrol.UnitAddEmpty += (sender, args) =>
+                    {
+                        Cursor = Cursors.WaitCursor;
+                        AddEmptyUnit(additionalGameEntities.EntityType);
+                        Cursor = Cursors.Default;
+                    };
+                    var hasEntries = unitListConrol.LoadModel(additionalGameEntities.Entities);
+                    if (hasEntries || !_readonlyMode)
+                    {
+                        var additionalTabControl = new UltraTabPageControl
+                        {
+                            Location = new Point(-10000, -10000),
+                            Margin = new Padding(4, 3, 4, 3),
+                            Tag = "Custom"
+                        };
+                        var additionalTab = new UltraTab
+                        {
+                            Text = additionalGameEntities.EntityType,
+                            Visible = hasEntries || checkBoxPhobosShowEmpty.Checked,
+                            Tag = hasEntries
+                        };
+                        additionalTab.TabPage = additionalTabControl;
+                        additionalTabControl.Controls.Add(unitListConrol);
+                        tabPhobos.Controls.Add(additionalTabControl);
+                        tabPhobos.Tabs.Add(additionalTab);
+                        if (tabPhobos.SelectedTab == null)
+                        {
+                            tabPhobos.SelectedTab = additionalTab;
+                        }
+                        hasPhobos = true;
+                    }
+                }
+            }
             mainTab.Tabs["Phobos"].Visible = hasPhobos;
             AnimationsAsyncLoader.Instance.Start();
         }
 
+        private void AddEmptyUnit(string? entityTypes)
+        {
+            using (var addEmptyForm = new AddEmptyForm())
+            {
+                addEmptyForm.LoadModel(Model);
+                if (addEmptyForm.ShowDialog(this.ParentForm) == DialogResult.OK)
+                {
+                    var newKey = addEmptyForm.TextNewKey.Text;
+                    Model.File.AddSection(newKey);
+                    if (entityTypes != null)
+                    {
+                        var entitiesTypesSection = Model.File.GetSection(entityTypes)
+                                                   ?? Model.File.AddSection(entityTypes);
+                        var typeKey = entitiesTypesSection.KeyValues.Any()
+                            ? entitiesTypesSection.KeyValues.Max(k => int.TryParse(k.Key, out var number) ? number : 0) + 1
+                            : Model.FileType.BaseType == FileBaseType.Rules ? 1 : 900;
+                        entitiesTypesSection.SetValue(typeKey.ToString(), newKey);
+                    }
+                    Model.ReloadGameEntites();
+                }
+            }
+        }
+
         private void checkBoxPhobosShowEmpty_CheckedChanged(object sender, EventArgs e)
         {
-
+            foreach (var phobosTab in tabPhobos.Tabs)
+            {
+                phobosTab.Visible = checkBoxPhobosShowEmpty.Checked || (bool)phobosTab.Tag;
+            }
         }
     }
 }

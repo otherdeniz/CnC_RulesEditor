@@ -18,6 +18,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             File = iniFile;
             DefaultFile = defaultFileOverwrite ?? rulesRootModel.FileType.GameDefinition.LoadDefaultArtFile();
             Artstructure = DatastructureFile.ArtInstance;
+            if (rulesRootModel.UsePhobos)
+            {
+                Artstructure = Artstructure.MergeWith(DatastructurePhobosFile.ArtInstancePhobos);
+            }
             LoadGameEntities();
         }
 
@@ -44,6 +48,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         public List<GameEntityModel> ProjectileEntities { get; private set; } = null!;
 
         public List<GameEntityModel> AnimationEntities { get; private set; } = null!;
+
+        public List<AdditionalGameEntityModels> AdditionalEntities { get; private set; } = null!;
 
         public void ReloadGameEntites()
         {
@@ -109,6 +115,17 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             AnimationEntities = GetGameEntities("Animations",
                 RulesRootModel.Animations,
                 animationValueDefinitions);
+
+            // additional entities
+            AdditionalEntities = new List<AdditionalGameEntityModels>();
+            foreach (var additionalType in Artstructure.AdditionalTypes)
+            {
+                var gameEntities = GetGameEntitiesByArtTypesSection(additionalType.TypesName,
+                    additionalType.ValueDefinitions
+                        .Select(d => new CategorizedValueDefinition(d, $"{additionalType.Module}: {d.ModuleCategory}")).ToList());
+                AdditionalEntities.Add(new AdditionalGameEntityModels(additionalType.Module,
+                    additionalType.TypesName, gameEntities));
+            }
         }
 
         private List<GameEntityModel> GetGameEntitiesByRulesTypesSection(string rulesTypesSection,
@@ -119,6 +136,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 .Union(RulesRootModel.DefaultFile.GetSection(rulesTypesSection)?.KeyValues.Select(k => k.Value)
                        ?? Enumerable.Empty<string>());
             return GetGameEntities(rulesTypesSection, entityKeys, unitValueList);
+        }
+
+        private List<GameEntityModel> GetGameEntitiesByArtTypesSection(string artTypesSection,
+            List<CategorizedValueDefinition> unitValueList)
+        {
+            var entityKeys = (File.GetSection(artTypesSection)?.KeyValues.Select(k => k.Value)
+                              ?? Enumerable.Empty<string>())
+                .Union(DefaultFile.GetSection(artTypesSection)?.KeyValues.Select(k => k.Value)
+                       ?? Enumerable.Empty<string>());
+            return GetGameEntities(artTypesSection, entityKeys, unitValueList);
         }
 
         private List<GameEntityModel> GetGameEntitiesBySectionFilter(string entityType,

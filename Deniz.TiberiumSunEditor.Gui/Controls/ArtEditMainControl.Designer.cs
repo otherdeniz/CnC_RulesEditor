@@ -55,6 +55,8 @@
             unitsAircrafts = new UnitsListControl();
             ultraTabPageControl1 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
             unitsProjectiles = new UnitsListControl();
+            ultraTabPageControl4 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
+            unitsAnimations = new UnitsListControl();
             ultraTabPageControl12 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
             tabPhobos = new Infragistics.Win.UltraWinTabControl.UltraTabControl();
             ultraTabSharedControlsPage2 = new Infragistics.Win.UltraWinTabControl.UltraTabSharedControlsPage();
@@ -65,13 +67,12 @@
             panelTitle = new Panel();
             labelName = new Label();
             labelType = new Label();
-            ultraTabPageControl4 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
-            unitsAnimations = new UnitsListControl();
             ultraTabPageControl2.SuspendLayout();
             ultraTabPageControl3.SuspendLayout();
             ultraTabPageControl5.SuspendLayout();
             ultraTabPageControl6.SuspendLayout();
             ultraTabPageControl1.SuspendLayout();
+            ultraTabPageControl4.SuspendLayout();
             ultraTabPageControl12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)tabPhobos).BeginInit();
             tabPhobos.SuspendLayout();
@@ -79,13 +80,12 @@
             ((System.ComponentModel.ISupportInitialize)mainTab).BeginInit();
             mainTab.SuspendLayout();
             panelTitle.SuspendLayout();
-            ultraTabPageControl4.SuspendLayout();
             SuspendLayout();
             // 
             // ultraTabPageControl2
             // 
             ultraTabPageControl2.Controls.Add(unitsBuildings);
-            ultraTabPageControl2.Location = new Point(-10000, -10000);
+            ultraTabPageControl2.Location = new Point(1, 29);
             ultraTabPageControl2.Margin = new Padding(4, 3, 4, 3);
             ultraTabPageControl2.Name = "ultraTabPageControl2";
             ultraTabPageControl2.Size = new Size(907, 504);
@@ -181,6 +181,26 @@
             unitsProjectiles.ShowUsedBy = false;
             unitsProjectiles.Size = new Size(907, 504);
             unitsProjectiles.TabIndex = 1;
+            // 
+            // ultraTabPageControl4
+            // 
+            ultraTabPageControl4.Controls.Add(unitsAnimations);
+            ultraTabPageControl4.Location = new Point(-10000, -10000);
+            ultraTabPageControl4.Name = "ultraTabPageControl4";
+            ultraTabPageControl4.Size = new Size(907, 504);
+            // 
+            // unitsAnimations
+            // 
+            unitsAnimations.BackColor = Color.White;
+            unitsAnimations.CanTakeValues = false;
+            unitsAnimations.Dock = DockStyle.Fill;
+            unitsAnimations.Location = new Point(0, 0);
+            unitsAnimations.Margin = new Padding(4, 3, 4, 3);
+            unitsAnimations.Name = "unitsAnimations";
+            unitsAnimations.OrderByThumbnail = false;
+            unitsAnimations.ShowUsedBy = false;
+            unitsAnimations.Size = new Size(907, 504);
+            unitsAnimations.TabIndex = 2;
             // 
             // ultraTabPageControl12
             // 
@@ -329,26 +349,6 @@
             labelType.TabIndex = 0;
             labelType.Text = "(type)";
             // 
-            // ultraTabPageControl4
-            // 
-            ultraTabPageControl4.Controls.Add(unitsAnimations);
-            ultraTabPageControl4.Location = new Point(1, 29);
-            ultraTabPageControl4.Name = "ultraTabPageControl4";
-            ultraTabPageControl4.Size = new Size(907, 504);
-            // 
-            // unitsAnimations
-            // 
-            unitsAnimations.BackColor = Color.White;
-            unitsAnimations.CanTakeValues = false;
-            unitsAnimations.Dock = DockStyle.Fill;
-            unitsAnimations.Location = new Point(0, 0);
-            unitsAnimations.Margin = new Padding(4, 3, 4, 3);
-            unitsAnimations.Name = "unitsAnimations";
-            unitsAnimations.OrderByThumbnail = false;
-            unitsAnimations.ShowUsedBy = false;
-            unitsAnimations.Size = new Size(907, 504);
-            unitsAnimations.TabIndex = 2;
-            // 
             // ArtEditMainControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -362,6 +362,7 @@
             ultraTabPageControl5.ResumeLayout(false);
             ultraTabPageControl6.ResumeLayout(false);
             ultraTabPageControl1.ResumeLayout(false);
+            ultraTabPageControl4.ResumeLayout(false);
             ultraTabPageControl12.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)tabPhobos).EndInit();
             tabPhobos.ResumeLayout(false);
@@ -371,7 +372,6 @@
             mainTab.ResumeLayout(false);
             panelTitle.ResumeLayout(false);
             panelTitle.PerformLayout();
-            ultraTabPageControl4.ResumeLayout(false);
             ResumeLayout(false);
         }
 

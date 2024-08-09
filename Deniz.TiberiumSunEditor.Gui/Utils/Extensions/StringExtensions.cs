@@ -20,5 +20,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Extensions
         {
             return _colorRegex.IsMatch(text);
         }
+
+        public static string TrimStart(this string text, string trimText)
+        {
+            if (text.StartsWith(trimText, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return text.Substring(trimText.Length);
+            }
+            return text;
+        }
     }
 }
