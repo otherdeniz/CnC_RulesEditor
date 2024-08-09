@@ -153,7 +153,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                             .Select(c =>
                                 new KeyValuePair<string, string>(
                                     c.FileName!.Substring(0, c.FileName!.Length - 4).ToUpper(CultureInfo.InvariantCulture),
-                                    ""))
+                                    "[not in sound.ini]"))
                         , k => k.Key)
                     .OrderBy(k => k.Key)
                     .ToList();
