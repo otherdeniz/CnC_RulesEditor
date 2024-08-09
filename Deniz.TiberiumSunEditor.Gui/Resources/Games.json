@@ -142,8 +142,8 @@
 			"SaveAsFilename": "rulesmo.ini",
 			"GameExecutable": "MentalOmegaClient.exe",
 			"SnippetsFolder": "MentalOmega",
-			"BitmapsFolders": "MO,RA2,RA2MD,langmd.mix,language.mix",
-			"MixFiles": "ra2md.mix,ra2.mix",
+			"BitmapsFolders": "MO,RA2,RA2MD",
+			"MixFiles": "ra2md.mix,ra2.mix,langmd.mix,language.mix",
 			"Sides": [
 				{
 					"Name": "GDI",

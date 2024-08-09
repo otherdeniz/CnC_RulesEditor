@@ -248,7 +248,7 @@
 		{"Key":"Speed","Description":"speed of this object","Default":"0"},
 		{"Key":"ManualReload","Description":"Must this object reload by coordinating with reloader building","Default":"no"},
 		{"Key":"WalkRate","Description":"walking animation rate [larger means slower]","Default":"1"},
-		{"Key":"Dock","Description":"preferred docking building [e.g., harvester -> refinery, helicopter -> helipad]","Default":"","LookupType":"BuildingTypes"},
+		{"Key":"Dock","Description":"preferred docking buildings [e.g., harvester -> refinery, helicopter -> helipad]","Default":"","LookupType":"BuildingTypes","MultipleValues":true},
 		{"Key":"Locomotor","Description":"object mov handling","LookupType":"Locomotors"}
 	],
 	
