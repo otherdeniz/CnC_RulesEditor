@@ -148,12 +148,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             return result.OrderBy(k => k.Key).ToList();
         }
 
-        public Stream? GetAudioStream(string key)
+        public StupidStream? GetAudioStream(string key)
         {
             var audBytes = _fileManager?.LoadFile($"{key.ToLowerInvariant()}.aud");
             if (audBytes != null)
             {
-                return new StupidStream(audBytes);
+                return new StupidStream(new AudFile(audBytes).ToWav());
             }
             return null;
         }

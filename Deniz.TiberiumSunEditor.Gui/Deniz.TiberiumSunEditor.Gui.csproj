@@ -206,11 +206,9 @@
     <None Remove="Resources\RA2MDrulesmd.ini" />
     <None Remove="Resources\RA2rules.ini" />
     <None Remove="Resources\startup.aud" />
-    <None Remove="Resources\startup1.aud" />
-    <None Remove="Resources\startup2.aud" />
-    <None Remove="Resources\startup3.aud" />
-    <None Remove="Resources\startup4.aud" />
-    <None Remove="Resources\startup5.aud" />
+    <None Remove="Resources\startup_awaiting_orders.wav" />
+    <None Remove="Resources\startup_read_for_action.wav" />
+    <None Remove="Resources\startup_sir-yes-sir.wav" />
     <None Remove="Resources\TSart.ini" />
     <None Remove="Resources\TSfirestrm.ini" />
     <None Remove="Resources\TSrules.ini" />
@@ -363,19 +361,13 @@
     <Content Include="Resources\RA2MDartmd.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\startup1.aud">
+    <Content Include="Resources\startup_awaiting_orders.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\startup2.aud">
+    <Content Include="Resources\startup_read_for_action.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\startup3.aud">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\startup4.aud">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\startup5.aud">
+    <Content Include="Resources\startup_sir-yes-sir.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\TSart.ini">

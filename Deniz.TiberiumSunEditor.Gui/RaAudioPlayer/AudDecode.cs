@@ -28,7 +28,9 @@
         {
             for (int sampleIndex = 0; sampleIndex < csChunk; sampleIndex++)
             {
-                int code = audioIn[sampleIndex >> 1];
+                var inIndex = sampleIndex >> 1;
+                if (audioIn.Length < inIndex + 1) break;
+                int code = audioIn[inIndex];
                 code = (sampleIndex & 1) != 0 ? code >> 4 : code & 0xF;
                 int step = AudImaStepTable[index];
                 int delta = step >> 3;

@@ -24,9 +24,10 @@
             return File.OpenRead(Path.Combine(_resourcesPath, fileName));
         }
 
-        public FileStream ReadRandomResourcesFileStream(string searchPattern)
+        public FileStream? ReadRandomResourcesFileStream(string searchPattern)
         {
             var matchedFiles = Directory.GetFiles(_resourcesPath, searchPattern);
+            if (matchedFiles.Length == 0) return null;
             var rnd = matchedFiles.Length > 1 
                 ? Random.Shared.Next(0, matchedFiles.Length - 1)
                 : 0;

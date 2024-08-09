@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Threading.Tasks;
 using CSAudioPlayer;
 using CSCore.Ffmpeg;
@@ -13,7 +12,7 @@ namespace Deniz.CCAudioPlayerCore
     {
         private static readonly List<cAudioPlayerWasapi> _audioPlayers = new();
 
-        public static void PlaySound(Stream audStream)
+        public static void PlaySound(StupidStream audStream)
         {
             foreach (var player in _audioPlayers.ToArray())
             {

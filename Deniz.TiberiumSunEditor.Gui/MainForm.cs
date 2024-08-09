@@ -546,8 +546,11 @@ namespace Deniz.TiberiumSunEditor.Gui
             if (UserSettingsFile.Instance.SettingPlayOpeningSound)
             {
                 ((StateButtonTool)mainToolbarsManager.Tools["SettingOpeningSound"]).Checked = true;
-                var audStream = ResourcesRepository.Instance.ReadRandomResourcesFileStream("startup*.aud");
-                AudioPlayerService.PlaySound(StupidStream.FromFileStream(audStream));
+                var wavStream = ResourcesRepository.Instance.ReadRandomResourcesFileStream("startup_*.wav");
+                if (wavStream != null)
+                {
+                    AudioPlayerService.PlaySound(StupidStream.FromFileStream(wavStream));
+                }
             }
             if (UserSettingsFile.Instance.SettingAutoUpdate)
             {
