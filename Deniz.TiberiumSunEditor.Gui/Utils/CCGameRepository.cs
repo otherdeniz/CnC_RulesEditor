@@ -2,10 +2,10 @@
 using Deniz.TiberiumSunEditor.Gui.Utils.CncParser;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 using System.Drawing.Imaging;
+using System.Globalization;
 using Deniz.CCAudioPlayerCore;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using ImageMagick;
-using Deniz.TiberiumSunEditor.Gui.OpenRa;
 
 namespace Deniz.TiberiumSunEditor.Gui.Utils
 {
@@ -88,8 +88,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                     ? PalFile.ReadFromFile(unitmPalBytes).Colors
                     : null;
 
-                var soundIniBytes = _fileManager.LoadFile("soundmd.ini")
-                                    ?? _fileManager.LoadFile("sound.ini");
+                var soundIniBytes = _fileManager.LoadFile(gameDefinition.SoundIni ?? "sound.ini");
                 _soundIniFile = soundIniBytes != null
                     ? IniFile.Load(soundIniBytes)
                     : null;
@@ -142,8 +141,22 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             {
                 foreach (var soundValue in soundListSection.KeyValues.Where(k => k.Value != ""))
                 {
-                    result.Add(new KeyValuePair<string, string>(soundValue.Value, soundValue.Comment ?? ""));
+                    result.Add(new KeyValuePair<string, string>(
+                        soundValue.Value.ToUpper(CultureInfo.InvariantCulture),
+                        soundValue.Comment ?? ""));
                 }
+            }
+            if (_fileManager != null)
+            {
+                return result.UnionBy(_fileManager.MixFilesContents
+                            .Where(c => c.FileName?.EndsWith(".aud") == true && c.FileLocationInfo.Size < 50000)
+                            .Select(c =>
+                                new KeyValuePair<string, string>(
+                                    c.FileName!.Substring(0, c.FileName!.Length - 4).ToUpper(CultureInfo.InvariantCulture),
+                                    ""))
+                        , k => k.Key)
+                    .OrderBy(k => k.Key)
+                    .ToList();
             }
             return result.OrderBy(k => k.Key).ToList();
         }

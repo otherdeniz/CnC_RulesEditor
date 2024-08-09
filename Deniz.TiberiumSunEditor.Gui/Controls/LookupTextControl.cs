@@ -183,6 +183,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             var valuesList = filteredTextValuesModel ?? _textValuesModel!;
             valuesGrid.DisplayLayout.Override.CellClickAction = CellClickAction.RowSelect;
             valuesGrid.DataSource = valuesList;
+            valuesGrid.DisplayLayout.Bands[0].ScrollTipField = "Value";
             var selectedIndex = valuesList.Select(v => v.Value).ToList()
                 .IndexOf(_valueModel.Value);
             if (selectedIndex > -1)
@@ -200,6 +201,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             var valuesList = filteredSingleValuesModel ?? _singleValuesModel!;
             valuesGrid.DisplayLayout.Override.CellClickAction = CellClickAction.RowSelect;
             valuesGrid.DataSource = valuesList;
+            valuesGrid.DisplayLayout.Bands[0].ScrollTipField = "Key";
             var selectedIndex = valuesList!.Select(v => v.Key).ToList()
                 .IndexOf(_valueModel.Value);
             if (selectedIndex > -1)
@@ -218,6 +220,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             valuesGrid.DisplayLayout.Override.CellClickAction = CellClickAction.Default;
             valuesGrid.DataSource = (filteredMultiTextValuesModel ?? _multiTextValuesModel)?
                 .OrderBy(v => v.Selected ? 0 : 1).ToList();
+            valuesGrid.DisplayLayout.Bands[0].ScrollTipField = "Value";
             _doEvents = true;
         }
 
@@ -228,6 +231,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             var dataSource = (filteredMultiValuesModel ?? _multiValuesModel)?
                 .OrderBy(v => v.Selected ? 0 : 1).ToList();
             valuesGrid.DataSource = dataSource;
+            valuesGrid.DisplayLayout.Bands[0].ScrollTipField = "Key";
             var firstSelectedValue = dataSource?.FirstOrDefault(d => d.Selected);
             if (firstSelectedValue != null)
             {

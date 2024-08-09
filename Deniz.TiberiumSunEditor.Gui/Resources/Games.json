@@ -59,7 +59,7 @@
 			"GameExecutable": "DTA.exe",
 			"SnippetsFolder": "DawnOfTheTiberiumAge",
 			"BitmapsFolders": "DTA",
-			"MixFiles": "TIBSUN.MIX",
+			"SoundIni": "Sound01.ini",
 			"Sides": [
 				{
 					"Name": "GDI",
@@ -117,6 +117,7 @@
 			"SnippetsFolder": "YurisRevenge",
 			"BitmapsFolders": "RA2,RA2MD",
 			"MixFiles": "ra2md.mix,ra2.mix,langmd.mix,language.mix",
+			"SoundIni": "soundmd.ini",
 			"Sides": [
 				{
 					"Name": "GDI",
@@ -144,6 +145,7 @@
 			"SnippetsFolder": "MentalOmega",
 			"BitmapsFolders": "MO,RA2,RA2MD",
 			"MixFiles": "ra2md.mix,ra2.mix,langmd.mix,language.mix",
+			"SoundIni": "soundmd.ini",
 			"Sides": [
 				{
 					"Name": "GDI",

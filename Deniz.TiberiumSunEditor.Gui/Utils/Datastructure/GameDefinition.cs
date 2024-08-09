@@ -48,7 +48,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
 
         public string BitmapsFolders { get; set; } = "";
 
-        public string MixFiles { get; set; } = "";
+        public string? MixFiles { get; set; } = null;
+
+        public string? SoundIni { get; set; } = null;
 
         public bool UseAres { get; set; }
 
