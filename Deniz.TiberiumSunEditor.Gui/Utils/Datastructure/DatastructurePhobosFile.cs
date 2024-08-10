@@ -189,6 +189,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
             {
                 return "Sounds";
             }
+            if (trimmedComment == "ParticleSystem")
+            {
+                return "ParticleSystems";
+            }
             return null;
         }
     }

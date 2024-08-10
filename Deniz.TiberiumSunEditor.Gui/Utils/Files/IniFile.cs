@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -190,14 +191,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
                 _sectionsDictionary = new Dictionary<string, IniFileSection>();
                 foreach (var section in Sections)
                 {
-                    if (!_sectionsDictionary.ContainsKey(section.SectionName ?? ""))
+                    var sectgionName = section.SectionName?.ToUpper(CultureInfo.InvariantCulture);
+                    if (!_sectionsDictionary.ContainsKey(sectgionName ?? ""))
                     {
-                        _sectionsDictionary.Add(section.SectionName ?? "", section);
+                        _sectionsDictionary.Add(sectgionName ?? "", section);
                     }
                 }
             }
 
-            return _sectionsDictionary.TryGetValue(name ?? "", out var resultSection) 
+            return _sectionsDictionary.TryGetValue(name?.ToUpper(CultureInfo.InvariantCulture) ?? "", out var resultSection) 
                 ? resultSection 
                 : null;
         }
