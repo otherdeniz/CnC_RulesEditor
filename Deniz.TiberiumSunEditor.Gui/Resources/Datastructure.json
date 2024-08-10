@@ -312,6 +312,7 @@
 		{"Key":"ConstructionYard","Description":"This building is a construction yard","Default":"no"},
 		{"Key":"CloakGenerator","Description":"Does this building cloak objects around it","Default":"no"},
 		{"Key":"CloakRadiusInCells","Description":"Cloak radius in cells (default for NOD=12)"},
+		{"Key":"SuperWeapon","Description":"This building enables a super weapon","LookupType":"SuperWeaponTypes"},
 		{"Key":"HasRadialIndicator","Description":"Displays a circle indicator when selected","Default":"no"},
 		{"Key":"RadialColor","Description":"The Color of the circle in RGB numbers (Example for red: 255,0,0)","Default":""},
 		{"Key":"Hospital","Description":"Can this building heal infantry","Default":"no"},

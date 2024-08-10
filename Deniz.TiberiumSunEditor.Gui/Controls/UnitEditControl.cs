@@ -245,7 +245,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         {
             _lookupEntityValue = valueModel;
             _lookupEntityRow = row;
-            groupBoxValueChooser.Text = isColor ? "Color" : valueModel.ValueDefinition.LookupType ?? "Value";
+            groupBoxValueChooser.Text = isColor
+                ? "Color"
+                : ResolveSelf(valueModel.ValueDefinition.LookupType) ?? "Value";
             if (valueModel.DefaultValue != valueModel.NormalValue)
             {
                 panelUseDefault.Visible = true;
@@ -310,7 +312,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                         LookupEntityValue(valueModel, e.Cell.Row, false);
                         if (_isRightClick
                             && valueModel.ValueDefinition.LookupType != null
-                            && EntityModel!.RootModel.LookupEntities.ContainsKey(valueModel.ValueDefinition.LookupType))
+                            && EntityModel!.RootModel.LookupEntities.ContainsKey(ResolveSelf(valueModel.ValueDefinition.LookupType)!))
                         {
                             QuickEditForm.ExecueShow(this.ParentForm!, EntityModel!.RootModel, valueModel.Value);
                         }
@@ -401,7 +403,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                         }
                     }
                     if (valueModel.ValueDefinition.LookupType != null
-                        && EntityModel!.RulesRootModel.LookupEntities.ContainsKey(valueModel.ValueDefinition.LookupType))
+                        && EntityModel!.RulesRootModel.LookupEntities.ContainsKey(ResolveSelf(valueModel.ValueDefinition.LookupType)!))
                     {
                         e.Row.Cells["Value"].ToolTipText = "Right-click to open Quick-Edit";
                     }
@@ -411,6 +413,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     e.Row.Cells["Description"].Activation = Activation.NoEdit;
                 }
             }
+        }
+
+        private string? ResolveSelf(string? entityType)
+        {
+            if (entityType == "self")
+            {
+                return EntityModel!.EntityType;
+            }
+            return entityType;
         }
 
         private void valuesGrid_AfterCellUpdate(object sender, CellEventArgs e)
