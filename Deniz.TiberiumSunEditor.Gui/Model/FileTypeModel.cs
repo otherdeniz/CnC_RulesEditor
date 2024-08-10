@@ -53,7 +53,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             if ((iniFile.OriginalFileName.Equals("art.ini", StringComparison.InvariantCultureIgnoreCase)
                  || iniFile.OriginalFileName.Equals("artmd.ini", StringComparison.InvariantCultureIgnoreCase)
                  || iniFile.OriginalFullPath != null && overrideGameDefinition?.ResourcesDefaultArtIniFile == iniFile.OriginalFullPath
-                 || iniFile.Sections.Any() && iniFile.Sections[0].Lines.OfType<IniFileLineComment>().FirstOrDefault()?.Comment == "ART.INI")
+                 || iniFile.Sections.Any() && iniFile.Sections[0].Lines.OfType<IniFileLineComment>().Any(c => c.Comment.Contains("ART.INI")))
                 && fileGameDefintion != null)
             {
                 var artGame = overrideGameDefinition 

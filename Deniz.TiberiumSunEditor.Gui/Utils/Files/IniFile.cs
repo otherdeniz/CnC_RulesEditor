@@ -225,7 +225,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
             var commentMatch = CommentLineRegEx.Match(lineText);
             if (commentMatch.Success)
             {
-                return new IniFileLineComment()
+                return new IniFileLineComment
                 {
                     Comment = commentMatch.Groups[1].Value.Trim()
                 };
@@ -352,7 +352,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
 
     public class IniFileLineComment : IniFileLineBase
     {
-        public string? Comment { get; set; }
+        public string Comment { get; set; } = "";
 
         public override string ToString()
         {
