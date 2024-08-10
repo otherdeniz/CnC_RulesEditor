@@ -320,6 +320,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 {
                     if (!Datastructure.CommonGeneral.Any(v =>
                             v.Section == mainSection && v.Key == sectionValue.Key)
+                        && !Datastructure.TiberiumGeneral.Any(v =>
+                            v.Section == mainSection && v.Key == sectionValue.Key)
                         && !Datastructure.AIGeneral.Any(v =>
                             v.Section == mainSection && v.Key == sectionValue.Key)
                         && !Datastructure.SuperWeaponsGeneral.Any(v =>
