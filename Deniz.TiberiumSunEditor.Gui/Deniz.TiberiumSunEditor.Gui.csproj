@@ -182,7 +182,10 @@
     <None Remove="Resources\MixFileEntries\ts mix description.txt" />
     <None Remove="Resources\MOrules.ini" />
     <None Remove="Resources\Phobos\Art.Animations.ini" />
+    <None Remove="Resources\Phobos\Art.Attached particle system.ini" />
+    <None Remove="Resources\Phobos\Art.Customizable FLH When Infantry Is Prone Or Deployed.ini" />
     <None Remove="Resources\Phobos\Art.Laser Trails.ini" />
+    <None Remove="Resources\Phobos\Art.Play sound as a detached sound event.ini" />
     <None Remove="Resources\Phobos\Rules.Aircraft spawner customizations.ini" />
     <None Remove="Resources\Phobos\Rules.Attached effects.ini" />
     <None Remove="Resources\Phobos\Rules.Automatic passenger deletion.ini" />
@@ -298,7 +301,16 @@
     <Content Include="Resources\Phobos\Art.Animations.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Phobos\Art.Attached particle system.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Phobos\Art.Customizable FLH When Infantry Is Prone Or Deployed.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Phobos\Art.Laser Trails.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Phobos\Art.Play sound as a detached sound event.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Phobos\Rules.Aircraft spawner customizations.ini">

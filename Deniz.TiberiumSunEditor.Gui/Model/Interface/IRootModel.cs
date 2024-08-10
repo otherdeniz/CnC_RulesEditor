@@ -4,10 +4,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Model.Interface
 {
     public interface IRootModel
     {
-        IniFile File { get; }
+        public IniFile File { get; }
 
-        IniFile DefaultFile { get; }
+        public IniFile DefaultFile { get; }
 
-        FileTypeModel FileType { get; }
+        public FileTypeModel FileType { get; }
+
+        public RulesRootModel RulesModel { get; }
+
+        public List<LookupItemModel> LookupItems { get; }
+
+        public Dictionary<string, List<GameEntityModel>> LookupEntities { get; }
     }
 }

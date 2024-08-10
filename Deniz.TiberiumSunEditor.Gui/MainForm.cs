@@ -142,7 +142,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                 {
                     var defaultFile = _editArtMainControl.Model.DefaultFile;
                     var changesFile = _editArtMainControl.Model.File.GetChangesFile(defaultFile);
-                    changesForm.LoadModel(changesFile, defaultFile, _editArtMainControl.Model.RulesRootModel);
+                    changesForm.LoadModel(changesFile, defaultFile, _editArtMainControl.Model.RulesModel);
                     changesForm.ShowDialog(this);
                 }
             }

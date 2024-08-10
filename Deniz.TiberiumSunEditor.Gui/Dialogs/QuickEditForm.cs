@@ -1,5 +1,6 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Controls;
 using Deniz.TiberiumSunEditor.Gui.Model;
+using Deniz.TiberiumSunEditor.Gui.Model.Interface;
 using Infragistics.Win.UltraWinTabControl;
 
 namespace Deniz.TiberiumSunEditor.Gui.Dialogs
@@ -11,11 +12,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             InitializeComponent();
         }
 
-        public static void ExecueShow(Form parentForm, RulesRootModel rulesRootModel, string entityKeys)
+        public static void ExecueShow(Form parentForm, IRootModel rootModel, string entityKeys)
         {
             var editForm = new QuickEditForm();
             if (!string.IsNullOrEmpty(entityKeys)
-                && editForm.LoadEntities(rulesRootModel, entityKeys))
+                && editForm.LoadEntities(rootModel, entityKeys))
             {
                 editForm.Show(parentForm);
             }
@@ -25,12 +26,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             }
         }
 
-        private bool LoadEntities(RulesRootModel rulesRootModel, string entityKeys)
+        private bool LoadEntities(IRootModel rootModel, string entityKeys)
         {
             var result = false;
             foreach (var entityKey in entityKeys.Split(",", StringSplitOptions.RemoveEmptyEntries))
             {
-                var entityModel = rulesRootModel.LookupEntities.Values.SelectMany(v => v)
+                var entityModel = rootModel.LookupEntities.Values.SelectMany(v => v)
                     .FirstOrDefault(m => m.EntityKey == entityKey);
                 if (entityModel != null)
                 {

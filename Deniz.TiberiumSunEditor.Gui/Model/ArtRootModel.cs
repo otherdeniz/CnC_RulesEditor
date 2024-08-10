@@ -1,5 +1,6 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Model.Interface;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
+using Deniz.TiberiumSunEditor.Gui.Utils.EqualityComparer;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 
 namespace Deniz.TiberiumSunEditor.Gui.Model
@@ -14,7 +15,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             bool showMissingValues = false)
         {
             _showMissingValues = showMissingValues;
-            RulesRootModel = rulesRootModel;
+            RulesModel = rulesRootModel;
             File = iniFile;
             DefaultFile = defaultFileOverwrite ?? rulesRootModel.FileType.GameDefinition.LoadDefaultArtFile();
             Artstructure = DatastructureFile.ArtInstance;
@@ -27,9 +28,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 
         public event EventHandler<EventArgs>? EntitiesChanged;
 
-        public RulesRootModel RulesRootModel { get; }
+        public RulesRootModel RulesModel { get; }
 
-        public FileTypeModel FileType => RulesRootModel.FileType;
+        public FileTypeModel FileType => RulesModel.FileType;
 
         public IniFile File { get; }
 
@@ -50,6 +51,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         public List<GameEntityModel> AnimationEntities { get; private set; } = null!;
 
         public List<AdditionalGameEntityModels> AdditionalEntities { get; private set; } = null!;
+
+        public List<LookupItemModel> LookupItems => RulesModel.LookupItems;
+
+        public Dictionary<string, List<GameEntityModel>> LookupEntities { get; } = new();
 
         public void ReloadGameEntites()
         {
@@ -87,7 +92,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                     new CategorizedValueDefinition(u, "2) Infantry units")))
                 .ToList();
             InfantryEntities = GetGameEntitiesByRulesTypesSection("InfantryTypes", infantryValueDefinitions)
-                .UnionBy(GetGameEntitiesBySectionFilter("VehicleTypes",
+                .UnionBy(GetGameEntitiesBySectionFilter("InfantryTypes",
                         s => s.KeyValues.Any(k => k.Key == "Crawls"), infantryValueDefinitions),
                     k => k.EntityKey)
                 .ToList();
@@ -102,7 +107,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                     new CategorizedValueDefinition(u, "1) Projectiles Image"))
                 .ToList();
             ProjectileEntities = GetGameEntities("Projectiles",
-                RulesRootModel.ProjectileEntities
+                RulesModel.ProjectileEntities
                     .Select(e => e.FileSection.GetValue("Image")?.Value)
                     .Where(v => !string.IsNullOrEmpty(v))
                     .Select(v => v!)
@@ -113,7 +118,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                     new CategorizedValueDefinition(u, "1) Animations"))
                 .ToList();
             AnimationEntities = GetGameEntities("Animations",
-                RulesRootModel.Animations,
+                RulesModel.Animations,
                 animationValueDefinitions);
 
             // additional entities
@@ -131,9 +136,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         private List<GameEntityModel> GetGameEntitiesByRulesTypesSection(string rulesTypesSection,
             List<CategorizedValueDefinition> unitValueList)
         {
-            var entityKeys = (RulesRootModel.File.GetSection(rulesTypesSection)?.KeyValues.Select(k => k.Value)
+            var entityKeys = (RulesModel.File.GetSection(rulesTypesSection)?.KeyValues.Select(k => k.Value)
                               ?? Enumerable.Empty<string>())
-                .Union(RulesRootModel.DefaultFile.GetSection(rulesTypesSection)?.KeyValues.Select(k => k.Value)
+                .Union(RulesModel.DefaultFile.GetSection(rulesTypesSection)?.KeyValues.Select(k => k.Value)
                        ?? Enumerable.Empty<string>());
             return GetGameEntities(rulesTypesSection, entityKeys, unitValueList);
         }
@@ -145,7 +150,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                               ?? Enumerable.Empty<string>())
                 .Union(DefaultFile.GetSection(artTypesSection)?.KeyValues.Select(k => k.Value)
                        ?? Enumerable.Empty<string>());
-            return GetGameEntities(artTypesSection, entityKeys, unitValueList);
+            var artEntities = GetGameEntities(artTypesSection, entityKeys, unitValueList);
+            LookupItems.AddRange(artEntities.Select(e =>
+                new LookupItemModel(e.EntityType, e.EntityKey,
+                    e.FileSection?.GetValue("Name")?.Value
+                    ?? (e.DefaultSection ?? e.FileSection)?.HeaderComments.FirstOrDefault()?.Comment
+                    ?? "")));
+            return artEntities;
         }
 
         private List<GameEntityModel> GetGameEntitiesBySectionFilter(string entityType,
@@ -165,10 +176,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             {
                 var fileSection = File.GetSection(entityKey);
                 var defaultSection = DefaultFile.GetSection(entityKey);
-                var rulesSection = RulesRootModel.File.GetSection(entityKey);
+                var rulesSection = RulesModel.File.GetSection(entityKey);
                 if (fileSection != null)
                 {
-                    result.Add(new GameEntityModel(RulesRootModel, this,
+                    result.Add(new GameEntityModel(RulesModel, this,
                         entityType,
                         fileSection,
                         defaultSection,
@@ -177,19 +188,22 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 }
                 else if (defaultSection != null && _showMissingValues)
                 {
-                    result.Add(new GameEntityModel(RulesRootModel, this,
+                    result.Add(new GameEntityModel(RulesModel, this,
                         entityType,
                         File.AddSection(entityKey),
                         defaultSection,
                         unitValueList,
                         rulesSection));
                 }
-                //LookupItems.Add(new LookupItemModel(entityType, entityKey,
-                //    fileSection?.GetValue("Name")?.Value
-                //    ?? (defaultSection ?? fileSection)?.HeaderComments.FirstOrDefault()?.Comment
-                //    ?? ""));
             }
-            //LookupEntities.Add(entityType, result);
+            if (LookupEntities.TryGetValue(entityType, out var existingLookupEntities))
+            {
+                existingLookupEntities.AddRange(result);
+            }
+            else
+            {
+                LookupEntities.Add(entityType, result);
+            }
             return result;
         }
 

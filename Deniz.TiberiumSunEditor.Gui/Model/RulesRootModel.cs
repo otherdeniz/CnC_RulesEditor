@@ -1,4 +1,6 @@
-﻿using Deniz.TiberiumSunEditor.Gui.Model.Interface;
+﻿using System.Reflection.Metadata.Ecma335;
+using Deniz.TiberiumSunEditor.Gui.Model.Extensions;
+using Deniz.TiberiumSunEditor.Gui.Model.Interface;
 using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Deniz.TiberiumSunEditor.Gui.Utils.EqualityComparer;
@@ -69,6 +71,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         public IniFile? DescriptionFile { get; }
 
         public FileTypeModel FileType { get; }
+
+        public RulesRootModel RulesModel => this;
 
         public DatastructureFile Datastructure { get; }
 
@@ -214,8 +218,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 Datastructure.SuperWeapons.Select(u =>
                     new CategorizedValueDefinition(u, "1) Super Weapons"))
                     .ToList());
-            WeaponSounds = GetAllPossibleValues("Weapons", "Report");
-            WeaponProjectiles = GetAllPossibleValues("Weapons", "Projectile");
+            WeaponSounds = this.GetAllPossibleValues("Weapons", "Report");
+            WeaponProjectiles = this.GetAllPossibleValues("Weapons", "Projectile");
             ProjectileEntities = GetGameEntities("Projectiles",
                 s => WeaponProjectiles.Any(p => s.SectionName == p)
                      || (s.KeyValues.Any(k => k.Key == "AA")
@@ -233,18 +237,18 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             Houses = housesSection?.KeyValues.Select(k => k.Value).Distinct().ToList()
                      ?? new List<string>() { "GDI", "Nod" };
             Animations = DefaultFile.GetSection("Animations")?.KeyValues.Select(k => k.Value).ToList()
-                         ?? GetAllPossibleValues("Warheads", "AnimList", false);
+                         ?? this.GetAllPossibleValues("Warheads", "AnimList", false);
             Animations.ForEach(a => LookupItems.Add(new LookupItemModel("Animations", a, string.Empty)));
-            MovementZones = GetAllPossibleValues(
+            MovementZones = this.GetAllPossibleValues(
                 new List<string>()
                 {
                     "VehicleTypes",
                     "AircraftTypes",
                     "InfantryTypes"
                 }, "MovementZone");
-            VoxelDebrisEntities = GetGameEntities("VoxelAnims", new List<CategorizedValueDefinition>());
-            ParticleEntities = GetGameEntities("Particles", new List<CategorizedValueDefinition>());
-            ParticleSystemEntities = GetGameEntities("ParticleSystems", new List<CategorizedValueDefinition>());
+            VoxelDebrisEntities = GetGameEntities("VoxelAnims", CategorizedValueDefinition.EmptyList);
+            ParticleEntities = GetGameEntities("Particles", CategorizedValueDefinition.EmptyList);
+            ParticleSystemEntities = GetGameEntities("ParticleSystems", CategorizedValueDefinition.EmptyList);
             // additional entities
             AdditionalEntities = new List<AdditionalGameEntityModels>();
             foreach (var additionalType in Datastructure.AdditionalTypes)
@@ -519,34 +523,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             var sortedResult = result.OrderBy(e => e.EntityKey).ToList();
             LookupEntities.Add(entityType, sortedResult);
             return sortedResult;
-        }
-
-        public List<string> GetAllPossibleValues(string searchEntityType, string valueKey, bool orderByName = true)
-        {
-            return GetAllPossibleValues(new List<string> { searchEntityType }, valueKey, orderByName);
-        }
-
-        public List<string> GetAllPossibleValues(List<string> searchEntityTypes, string valueKey, bool orderByName = true)
-        {
-            var allSectionKeys = LookupItems
-                .Where(l => searchEntityTypes.Contains(l.EntityType, StringEqualityComparer.Instance))
-                .Select(l => l.Key)
-                .ToList();
-            var distinctValues =
-                allSectionKeys.Select(s =>
-                        File.GetSection(s)?.GetValue(valueKey)?.Value)
-                    .Where(v => !string.IsNullOrEmpty(v))
-                    .SelectMany(v => v!.Split(",", StringSplitOptions.RemoveEmptyEntries))
-                    .Union(
-                        allSectionKeys.Select(s =>
-                                DefaultFile.GetSection(s)?.GetValue(valueKey)?.Value)
-                            .Where(v => !string.IsNullOrEmpty(v))
-                            .SelectMany(v => v!.Split(",", StringSplitOptions.RemoveEmptyEntries))
-                    )
-                    .Distinct();
-            return orderByName
-                ? distinctValues.OrderBy(s => s).ToList()
-                : distinctValues.ToList();
         }
 
         private bool GameKeyFilter(UnitValueDefinition valueDefinition)

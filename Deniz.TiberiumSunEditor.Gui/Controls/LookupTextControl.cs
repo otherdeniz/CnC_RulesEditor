@@ -1,5 +1,7 @@
 ﻿using Deniz.CCAudioPlayerCore;
 using Deniz.TiberiumSunEditor.Gui.Model;
+using Deniz.TiberiumSunEditor.Gui.Model.Extensions;
+using Deniz.TiberiumSunEditor.Gui.Model.Interface;
 using Deniz.TiberiumSunEditor.Gui.Utils;
 using Infragistics.Win.UltraWinGrid;
 
@@ -10,7 +12,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private readonly string[] _allTechoTypes = new string[]
             { "BuildingTypes", "InantryTypes", "VehicleTypes", "AircraftTypes" };
         private IValueModel _valueModel = null!;
-        private RulesRootModel _rulesRootModel = null!;
+        private IRootModel _rootModel = null!;
         private List<LookupTextValueModel>? _textValuesModel;
         private List<LookupMultiTextValueModel>? _multiTextValuesModel;
         private List<LookupSingleValueModel>? _singleValuesModel;
@@ -29,10 +31,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         public event EventHandler<EventArgs>? RefreshEntityValue;
         public event EventHandler<EventArgs>? SelectedValueChanged;
 
-        public void LoadValues(RulesRootModel rulesRootModel, IValueModel valueModel, string? selfLookupType = null)
+        public void LoadValues(IRootModel rootModel,
+            IValueModel valueModel, 
+            string? selfLookupType = null)
         {
             ClosePopup();
-            _rulesRootModel = rulesRootModel;
+            _rootModel = rootModel;
             _valueModel = valueModel;
             valuesGrid.DataSource = null;
             _textValuesModel = null;
@@ -48,26 +52,26 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
             else if (valueModel.ValueDefinition.ValueType != null)
             {
-                valueList = _rulesRootModel.Datastructure.ValueTypes
+                valueList = _rootModel.RulesModel.Datastructure.ValueTypes
                     .FirstOrDefault(v => v.ValueType == valueModel.ValueDefinition.ValueType)
                     ?.Values.Split(",");
             }
             switch (valueModel.ValueDefinition.LookupType)
             {
                 case "Animations":
-                    valueList = rulesRootModel.Animations;
+                    valueList = _rootModel.RulesModel.Animations;
                     break;
                 case "MovementZones":
-                    valueList = rulesRootModel.MovementZones;
+                    valueList = _rootModel.RulesModel.MovementZones;
                     break;
                 case "WeaponSounds":
-                    valueList = rulesRootModel.WeaponSounds;
+                    valueList = _rootModel.RulesModel.WeaponSounds;
                     break;
                 case "WeaponProjectiles":
-                    valueList = rulesRootModel.WeaponProjectiles;
+                    valueList = _rootModel.RulesModel.WeaponProjectiles;
                     break;
                 case "Houses":
-                    valueList = rulesRootModel.Houses;
+                    valueList = _rootModel.RulesModel.Houses;
                     break;
             }
             _lookupType = valueModel.ValueDefinition.LookupType == "self"
@@ -84,13 +88,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
             if (_lookupType != null)
             {
-                if (_rulesRootModel.LookupEntities.TryGetValue(_lookupType, out var lookupEntityModels))
+                if (_rootModel.LookupEntities.TryGetValue(_lookupType, out var lookupEntityModels))
                 {
                     _lookupEntities = lookupEntityModels;
                 }
                 else if (_lookupType == "TechnoTypes")
                 {
-                    _lookupEntities = _rulesRootModel.LookupEntities
+                    _lookupEntities = _rootModel.LookupEntities
                         .Where(e => _allTechoTypes.Any(t => e.Key == t))
                         .SelectMany(e => e.Value)
                         .ToList();
@@ -116,7 +120,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
             else if (_lookupType != null)
             {
-                var lookupItems = rulesRootModel.LookupItems
+                var lookupItems = _rootModel.LookupItems
                     .Where(e => _lookupType == "TechnoTypes"
                         ? _allTechoTypes.Any(t => e.EntityType == t)
                         : e.EntityType == _lookupType)
@@ -135,7 +139,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     if (valueModel is EntityValueModel entityValueModel)
                     {
                         _multiValuesModel.InsertRange(0,
-                            _rulesRootModel.GetAllPossibleValues(entityValueModel.EntityModel.EntityType, valueModel.Key)
+                            _rootModel.GetAllPossibleValues(entityValueModel.EntityModel.EntityType, valueModel.Key)
                                 .Where(v => _multiValuesModel.All(l => !string.Equals(l.Key, v, StringComparison.CurrentCultureIgnoreCase)))
                                 .Select(v => new LookupMultiValueModel
                                 {
@@ -164,7 +168,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     if (valueModel is EntityValueModel entityValueModel)
                     {
                         _singleValuesModel.InsertRange(1,
-                            _rulesRootModel.GetAllPossibleValues(entityValueModel.EntityModel.EntityType, valueModel.Key)
+                            _rootModel.GetAllPossibleValues(entityValueModel.EntityModel.EntityType, valueModel.Key)
                                 .Where(v => _singleValuesModel.All(l => !string.Equals(l.Key, v, StringComparison.CurrentCultureIgnoreCase)))
                                 .Select(v => new LookupSingleValueModel
                                 {

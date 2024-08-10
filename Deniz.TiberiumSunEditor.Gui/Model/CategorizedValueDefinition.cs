@@ -4,6 +4,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 {
     public class CategorizedValueDefinition
     {
+        public static List<CategorizedValueDefinition> EmptyList;
+
         public CategorizedValueDefinition(UnitValueDefinition unitValueDefinition, string category)
         {
             UnitValueDefinition = unitValueDefinition;

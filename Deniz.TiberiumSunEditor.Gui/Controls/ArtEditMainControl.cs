@@ -133,7 +133,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     c.Dispose();
                 }
             });
-            if (Model.RulesRootModel.UsePhobos)
+            if (Model.RulesModel.UsePhobos)
             {
                 foreach (var additionalGameEntities in Model.AdditionalEntities.Where(a => a.Module == "PHOBOS"))
                 {

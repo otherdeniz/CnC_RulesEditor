@@ -146,7 +146,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             if (EntityModel == null) return;
             labelUsedBy.Visible = false;
             if (!ShowUsedBy) return;
-            _usedByEntityModels = EntityModel.RulesRootModel.LookupEntities.Values.SelectMany(l => l)
+            _usedByEntityModels = EntityModel.RootModel.LookupEntities.Values.SelectMany(l => l)
                 .Where(e => e.FileSection.KeyValues.Any(k =>
                     k.Value.Split(",").Any(v => v == EntityModel.EntityKey)))
                 .ToList();
@@ -264,7 +264,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
             else
             {
-                lookupValue.LoadValues(EntityModel!.RulesRootModel, valueModel, EntityModel.EntityType);
+                lookupValue.LoadValues(EntityModel!.RootModel, valueModel, EntityModel.EntityType);
             }
             lookupValue.Visible = !isColor;
             lookupColor.Visible = isColor;
@@ -310,9 +310,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                         LookupEntityValue(valueModel, e.Cell.Row, false);
                         if (_isRightClick
                             && valueModel.ValueDefinition.LookupType != null
-                            && EntityModel!.RulesRootModel.LookupEntities.ContainsKey(valueModel.ValueDefinition.LookupType))
+                            && EntityModel!.RootModel.LookupEntities.ContainsKey(valueModel.ValueDefinition.LookupType))
                         {
-                            QuickEditForm.ExecueShow(this.ParentForm!, EntityModel!.RulesRootModel, valueModel.Value);
+                            QuickEditForm.ExecueShow(this.ParentForm!, EntityModel!.RootModel, valueModel.Value);
                         }
                         _isRightClick = false;
                     }
