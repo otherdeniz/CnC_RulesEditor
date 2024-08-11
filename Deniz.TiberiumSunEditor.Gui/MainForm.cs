@@ -148,6 +148,19 @@ namespace Deniz.TiberiumSunEditor.Gui
             }
         }
 
+        private void ButtonBalancingTool()
+        {
+            if (_editRulesMainControl == null) return;
+            AnimationsAsyncLoader.Instance.Stop(true, false);
+            using (var balancingForm = new BalancingToolForm())
+            {
+                balancingForm.LoadModel(_editRulesMainControl.Model);
+                balancingForm.ShowDialog(this);
+                _editRulesMainControl.LoadModels();
+            }
+            AnimationsAsyncLoader.Instance.Start();
+        }
+
         private void ButtonGamesSettings()
         {
             using (var gamesForm = new SettingsForm())
@@ -296,6 +309,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["SaveAs"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["OnlyFavorites"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["ShowChanges"].SharedProps.Enabled = false;
+            mainToolbarsManager.Tools["BalancingTool"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["InsertSnippet"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["ExportChanges"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = false;
@@ -325,6 +339,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["SaveAs"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["OnlyFavorites"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["ShowChanges"].SharedProps.Enabled = true;
+            mainToolbarsManager.Tools["BalancingTool"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["InsertSnippet"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["ExportChanges"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = true;
@@ -341,6 +356,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["SaveAs"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["OnlyFavorites"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["ShowChanges"].SharedProps.Enabled = false;
+            mainToolbarsManager.Tools["BalancingTool"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["InsertSnippet"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["ExportChanges"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = false;
@@ -372,8 +388,6 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["SaveAs"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["OnlyFavorites"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["ShowChanges"].SharedProps.Enabled = true;
-            //mainToolbarsManager.Tools["InsertSnippet"].SharedProps.Enabled = true;
-            //mainToolbarsManager.Tools["ExportChanges"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = true;
             Cursor = Cursors.Default;
@@ -503,6 +517,9 @@ namespace Deniz.TiberiumSunEditor.Gui
                     break;
                 case "ShowChanges":
                     ButtonShowChanges();
+                    break;
+                case "BalancingTool":
+                    ButtonBalancingTool();
                     break;
                 case "InsertSnippet":
                     if (_editRulesMainControl != null)

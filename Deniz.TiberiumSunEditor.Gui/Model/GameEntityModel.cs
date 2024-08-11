@@ -66,6 +66,21 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                                     ?? (DefaultSection ?? FileSection).HeaderComments.FirstOrDefault()?.Comment
                                     ?? "";
 
+        public bool TechLevelBuildable
+        {
+            get
+            {
+                var techLevelValue =
+                    (FileSection.GetValue("TechLevel") ?? DefaultSection?.GetValue("TechLevel"))?.Value;
+                if (!string.IsNullOrEmpty(techLevelValue)
+                    && int.TryParse(techLevelValue, out var techLevelNumber))
+                {
+                    return techLevelNumber > 0;
+                }
+                return false;
+            }
+        }
+
         public List<string> Sides
         {
             get

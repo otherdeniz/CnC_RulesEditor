@@ -39,12 +39,13 @@
             panelLeft = new Panel();
             toolStripAdd = new ToolStrip();
             buttonAddUnit = new ToolStripButton();
+            buttonAddEmpty = new ToolStripButton();
             toolStripPaging = new ToolStrip();
             toolStripButtonPrev = new ToolStripButton();
             toolStripLabelItem = new ToolStripLabel();
             toolStripButtonNext = new ToolStripButton();
             toolStripLabelTotal = new ToolStripLabel();
-            buttonAddEmpty = new ToolStripButton();
+            checkBoxOnlyModified = new CheckBox();
             unitsLayoutPanel.SuspendLayout();
             panelLeft.SuspendLayout();
             toolStripAdd.SuspendLayout();
@@ -59,10 +60,10 @@
             unitsLayoutPanel.Controls.Add(unitPickerControl3);
             unitsLayoutPanel.Controls.Add(unitPickerControl4);
             unitsLayoutPanel.Dock = DockStyle.Fill;
-            unitsLayoutPanel.Location = new Point(0, 25);
+            unitsLayoutPanel.Location = new Point(0, 43);
             unitsLayoutPanel.Margin = new Padding(4, 3, 4, 3);
             unitsLayoutPanel.Name = "unitsLayoutPanel";
-            unitsLayoutPanel.Size = new Size(238, 394);
+            unitsLayoutPanel.Size = new Size(238, 376);
             unitsLayoutPanel.TabIndex = 1;
             // 
             // unitPickerControl1
@@ -132,6 +133,7 @@
             // panelLeft
             // 
             panelLeft.Controls.Add(unitsLayoutPanel);
+            panelLeft.Controls.Add(checkBoxOnlyModified);
             panelLeft.Controls.Add(toolStripAdd);
             panelLeft.Controls.Add(toolStripPaging);
             panelLeft.Dock = DockStyle.Left;
@@ -158,6 +160,15 @@
             buttonAddUnit.Size = new Size(118, 22);
             buttonAddUnit.Text = "Add unlisted unit";
             buttonAddUnit.Click += buttonAddUnit_Click;
+            // 
+            // buttonAddEmpty
+            // 
+            buttonAddEmpty.Image = (Image)resources.GetObject("buttonAddEmpty.Image");
+            buttonAddEmpty.ImageTransparentColor = Color.Magenta;
+            buttonAddEmpty.Name = "buttonAddEmpty";
+            buttonAddEmpty.Size = new Size(49, 22);
+            buttonAddEmpty.Text = "Add";
+            buttonAddEmpty.Click += buttonAddEmpty_Click;
             // 
             // toolStripPaging
             // 
@@ -202,14 +213,17 @@
             toolStripLabelTotal.Size = new Size(66, 22);
             toolStripLabelTotal.Text = "1'000 Items";
             // 
-            // buttonAddEmpty
+            // checkBoxOnlyModified
             // 
-            buttonAddEmpty.Image = (Image)resources.GetObject("buttonAddEmpty.Image");
-            buttonAddEmpty.ImageTransparentColor = Color.Magenta;
-            buttonAddEmpty.Name = "buttonAddEmpty";
-            buttonAddEmpty.Size = new Size(49, 22);
-            buttonAddEmpty.Text = "Add";
-            buttonAddEmpty.Click += buttonAddEmpty_Click;
+            checkBoxOnlyModified.Dock = DockStyle.Top;
+            checkBoxOnlyModified.Location = new Point(0, 25);
+            checkBoxOnlyModified.Name = "checkBoxOnlyModified";
+            checkBoxOnlyModified.Padding = new Padding(6, 0, 0, 0);
+            checkBoxOnlyModified.Size = new Size(238, 18);
+            checkBoxOnlyModified.TabIndex = 4;
+            checkBoxOnlyModified.Text = "Show only modified items";
+            checkBoxOnlyModified.UseVisualStyleBackColor = true;
+            checkBoxOnlyModified.CheckedChanged += checkBoxOnlyModified_CheckedChanged;
             // 
             // UnitsListControl
             // 
@@ -251,5 +265,6 @@
         private ToolStrip toolStripAdd;
         private ToolStripButton buttonAddUnit;
         private ToolStripButton buttonAddEmpty;
+        private CheckBox checkBoxOnlyModified;
     }
 }

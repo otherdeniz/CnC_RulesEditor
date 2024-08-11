@@ -13,6 +13,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private bool _readonlyMode;
         private bool _showOnlyFavoriteValues;
         private int _currentPage = 1;
+        private bool _showOnlyFavoriteUnits;
+        private bool _doEvents;
 
         public UnitsListControl()
         {
@@ -50,7 +52,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         [DefaultValue(true)]
         public bool ShowUsedBy
         {
-            get => unitEdit.ShowUsedBy; 
+            get => unitEdit.ShowUsedBy;
             set => unitEdit.ShowUsedBy = value;
         }
 
@@ -62,6 +64,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 _readonlyMode = value;
                 unitEdit.ReadonlyMode = _readonlyMode;
+                checkBoxOnlyModified.Visible = !_readonlyMode && !_showOnlyFavoriteUnits;
             }
         }
 
@@ -79,7 +82,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         [DefaultValue(false)]
         [Browsable(false)]
-        public bool ShowOnlyFavoriteUnits { get; set; }
+        public bool ShowOnlyFavoriteUnits
+        {
+            get => _showOnlyFavoriteUnits;
+            set
+            {
+                _showOnlyFavoriteUnits = value;
+                checkBoxOnlyModified.Visible = !_readonlyMode && !_showOnlyFavoriteUnits;
+            }
+        }
 
         [DefaultValue("")]
         [Browsable(false)]
@@ -88,6 +99,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         public bool LoadModel(List<GameEntityModel> entities)
         {
             _entities = entities;
+            _doEvents = false;
+            checkBoxOnlyModified.Checked = false;
+            _doEvents = true;
             return LoadUnits();
         }
 
@@ -167,7 +181,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         {
             if (SearchText == "")
             {
-                return !ShowOnlyFavoriteUnits || entityModel.Favorite || ReadonlyMode;
+                return checkBoxOnlyModified.Checked
+                    ? entityModel.ModificationCount > 0
+                    : !ShowOnlyFavoriteUnits || entityModel.Favorite || ReadonlyMode;
             }
 
             return entityModel.EntityKey.Contains(SearchText, StringComparison.InvariantCultureIgnoreCase)
@@ -266,5 +282,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                                    && CCGameRepository.Instance.IsLoaded;
         }
 
+        private void checkBoxOnlyModified_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!_doEvents) return;
+            LoadUnits();
+        }
     }
 }
