@@ -57,7 +57,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
                         var parsedLine = ParseLine(lineText, iniFile);
                         if (parsedLine is IniFileSection parsedSection)
                         {
-                            if (!currentSection.IsEmpty || currentSection.KeepWhenEmpty)
+                            if ((!currentSection.IsEmpty || currentSection.KeepWhenEmpty)
+                                && !iniFile.Sections.Any(s => 
+                                    s.SectionName?.Equals(currentSection.SectionName, StringComparison.InvariantCultureIgnoreCase) == true))
                             {
                                 iniFile.Sections.Add(currentSection);
                             }
@@ -214,8 +216,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
             if (categoryMatch.Success)
             {
                 var sectionName = categoryMatch.Groups[1].Value;
-                return currentFile.Sections.FirstOrDefault(s => s.SectionName == sectionName) // merge duplicate sections
-                       ?? new IniFileSection()
+                return new IniFileSection()
                        {
                            SectionName = sectionName,
                            KeepWhenEmpty = true
