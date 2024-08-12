@@ -85,7 +85,7 @@
             // ultraTabPageControl2
             // 
             ultraTabPageControl2.Controls.Add(unitsBuildings);
-            ultraTabPageControl2.Location = new Point(1, 29);
+            ultraTabPageControl2.Location = new Point(-10000, -10000);
             ultraTabPageControl2.Margin = new Padding(4, 3, 4, 3);
             ultraTabPageControl2.Name = "ultraTabPageControl2";
             ultraTabPageControl2.Size = new Size(907, 504);
@@ -206,7 +206,7 @@
             // 
             ultraTabPageControl12.Controls.Add(tabPhobos);
             ultraTabPageControl12.Controls.Add(panelPhobosShowEmpty);
-            ultraTabPageControl12.Location = new Point(-10000, -10000);
+            ultraTabPageControl12.Location = new Point(2, 30);
             ultraTabPageControl12.Name = "ultraTabPageControl12";
             ultraTabPageControl12.Size = new Size(907, 504);
             // 
@@ -221,10 +221,11 @@
             tabPhobos.SharedControlsPage = ultraTabSharedControlsPage2;
             tabPhobos.Size = new Size(907, 480);
             tabPhobos.TabIndex = 0;
+            tabPhobos.UseOsThemes = Infragistics.Win.DefaultableBoolean.False;
             // 
             // ultraTabSharedControlsPage2
             // 
-            ultraTabSharedControlsPage2.Location = new Point(1, 20);
+            ultraTabSharedControlsPage2.Location = new Point(2, 21);
             ultraTabSharedControlsPage2.Name = "ultraTabSharedControlsPage2";
             ultraTabSharedControlsPage2.Size = new Size(903, 457);
             // 
@@ -312,6 +313,7 @@
             ultraTab111.TabPage = ultraTabPageControl12;
             ultraTab111.Text = "PHOBOS Types";
             mainTab.Tabs.AddRange(new Infragistics.Win.UltraWinTabControl.UltraTab[] { ultraTab1, ultraTab12, ultraTab14, ultraTab15, ultraTab11, ultraTab13, ultraTab111 });
+            mainTab.UseOsThemes = Infragistics.Win.DefaultableBoolean.False;
             // 
             // panelTitle
             // 

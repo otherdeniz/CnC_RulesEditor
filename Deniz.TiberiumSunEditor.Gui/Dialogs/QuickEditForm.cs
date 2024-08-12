@@ -1,6 +1,6 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Controls;
-using Deniz.TiberiumSunEditor.Gui.Model;
 using Deniz.TiberiumSunEditor.Gui.Model.Interface;
+using Deniz.TiberiumSunEditor.Gui.Utils;
 using Infragistics.Win.UltraWinTabControl;
 
 namespace Deniz.TiberiumSunEditor.Gui.Dialogs
@@ -10,6 +10,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         public QuickEditForm()
         {
             InitializeComponent();
+            ThemeManager.Instance.UseTheme(this);
         }
 
         public static void ExecueShow(Form parentForm, IRootModel rootModel, string entityKeys)
@@ -40,6 +41,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                         Dock = DockStyle.Fill
                     };
                     unitEditControl.LoadModel(entityModel);
+                    ThemeManager.Instance.UseTheme(unitEditControl);
                     var tabPageControl = new UltraTabPageControl
                     {
                         Location = new Point(-10000, -10000),
@@ -63,6 +65,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         private void buttonClose_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void QuickEditForm_Load(object sender, EventArgs e)
+        {
+            DarkTitleBarHelper.UseImmersiveDarkMode(Handle, ThemeManager.Instance.CurrentTheme.WindowUseDarkHeader);
         }
     }
 }

@@ -281,6 +281,7 @@
             Padding = new Padding(8);
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Balancing Tool";
+            Load += BalancingToolForm_Load;
             panelBottom.ResumeLayout(false);
             splitContainerMain.Panel1.ResumeLayout(false);
             splitContainerMain.Panel2.ResumeLayout(false);

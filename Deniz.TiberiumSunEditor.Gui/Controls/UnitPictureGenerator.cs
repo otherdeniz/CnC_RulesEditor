@@ -44,10 +44,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private Bitmap GenerateUnitPicture(GameEntityModel entityModel, bool isSelected, Image thumbnailImage)
         {
             BackColor = isSelected
-                ? Color.LightSkyBlue
-                : Color.White;
+                ? ThemeManager.Instance.CurrentTheme.HotTrackBackColor
+                : ThemeManager.Instance.CurrentTheme.ControlsBackColor;
             pictureThumbnail.Image = thumbnailImage;
+            labelKey.BackColor = BackColor;
             labelKey.Text = entityModel.EntityKey;
+            labelName.BackColor = BackColor;
             labelName.Text = entityModel.EntityName;
             var bitmap = new Bitmap(ImageListComponent.Instance.Blank1.Images[0], Width, Height);
             this.DrawToBitmap(bitmap, new Rectangle(0, 0, Width, Height));
@@ -88,7 +90,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     }
                     if (isSelected)
                     {
-                        canvas.FillRectangle(new SolidBrush(Color.FromArgb(50, Color.LightSkyBlue)),
+                        canvas.FillRectangle(new SolidBrush(Color.FromArgb(50, ThemeManager.Instance.CurrentTheme.HotTrackBackColor)),
                             new Rectangle(0, 0, bitmap.Width, bitmap.Height));
                     }
                 }

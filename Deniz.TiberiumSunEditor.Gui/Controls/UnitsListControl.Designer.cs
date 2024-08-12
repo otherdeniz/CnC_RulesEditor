@@ -37,6 +37,7 @@
             splitterUnitPicker = new Splitter();
             unitEdit = new UnitEditControl();
             panelLeft = new Panel();
+            checkBoxOnlyModified = new CheckBox();
             toolStripAdd = new ToolStrip();
             buttonAddUnit = new ToolStripButton();
             buttonAddEmpty = new ToolStripButton();
@@ -45,7 +46,6 @@
             toolStripLabelItem = new ToolStripLabel();
             toolStripButtonNext = new ToolStripButton();
             toolStripLabelTotal = new ToolStripLabel();
-            checkBoxOnlyModified = new CheckBox();
             unitsLayoutPanel.SuspendLayout();
             panelLeft.SuspendLayout();
             toolStripAdd.SuspendLayout();
@@ -125,6 +125,7 @@
             unitEdit.Name = "unitEdit";
             unitEdit.Size = new Size(504, 444);
             unitEdit.TabIndex = 3;
+            unitEdit.Tag = "PLAIN";
             unitEdit.Visible = false;
             unitEdit.FavoriteClick += unitEdit_FavoriteClick;
             unitEdit.UnitModificationsChanged += unitEdit_UnitModificationsChanged;
@@ -142,6 +143,18 @@
             panelLeft.Name = "panelLeft";
             panelLeft.Size = new Size(238, 444);
             panelLeft.TabIndex = 4;
+            // 
+            // checkBoxOnlyModified
+            // 
+            checkBoxOnlyModified.Dock = DockStyle.Top;
+            checkBoxOnlyModified.Location = new Point(0, 25);
+            checkBoxOnlyModified.Name = "checkBoxOnlyModified";
+            checkBoxOnlyModified.Padding = new Padding(6, 0, 0, 0);
+            checkBoxOnlyModified.Size = new Size(238, 18);
+            checkBoxOnlyModified.TabIndex = 4;
+            checkBoxOnlyModified.Text = "Show only modified items";
+            checkBoxOnlyModified.UseVisualStyleBackColor = true;
+            checkBoxOnlyModified.CheckedChanged += checkBoxOnlyModified_CheckedChanged;
             // 
             // toolStripAdd
             // 
@@ -213,29 +226,17 @@
             toolStripLabelTotal.Size = new Size(66, 22);
             toolStripLabelTotal.Text = "1'000 Items";
             // 
-            // checkBoxOnlyModified
-            // 
-            checkBoxOnlyModified.Dock = DockStyle.Top;
-            checkBoxOnlyModified.Location = new Point(0, 25);
-            checkBoxOnlyModified.Name = "checkBoxOnlyModified";
-            checkBoxOnlyModified.Padding = new Padding(6, 0, 0, 0);
-            checkBoxOnlyModified.Size = new Size(238, 18);
-            checkBoxOnlyModified.TabIndex = 4;
-            checkBoxOnlyModified.Text = "Show only modified items";
-            checkBoxOnlyModified.UseVisualStyleBackColor = true;
-            checkBoxOnlyModified.CheckedChanged += checkBoxOnlyModified_CheckedChanged;
-            // 
             // UnitsListControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.White;
             Controls.Add(unitEdit);
             Controls.Add(splitterUnitPicker);
             Controls.Add(panelLeft);
             Margin = new Padding(4, 3, 4, 3);
             Name = "UnitsListControl";
             Size = new Size(748, 444);
+            Tag = "PLAIN";
             Load += UnitsListControl_Load;
             unitsLayoutPanel.ResumeLayout(false);
             panelLeft.ResumeLayout(false);

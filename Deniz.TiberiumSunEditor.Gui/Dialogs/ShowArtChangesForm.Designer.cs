@@ -80,6 +80,7 @@ partial class ShowArtChangesForm
         Name = "ShowArtChangesForm";
         StartPosition = FormStartPosition.CenterParent;
         Text = "All Changes";
+        Load += ShowArtChangesForm_Load;
         panelBottom.ResumeLayout(false);
         ResumeLayout(false);
     }

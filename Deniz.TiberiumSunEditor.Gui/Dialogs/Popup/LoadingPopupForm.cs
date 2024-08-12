@@ -2,7 +2,7 @@
 using Deniz.TiberiumSunEditor.Gui.Utils.CncParser;
 using Deniz.TiberiumSunEditor.Gui.Utils.Extensions;
 
-namespace Deniz.TiberiumSunEditor.Gui.Controls
+namespace Deniz.TiberiumSunEditor.Gui.Dialogs.Popup
 {
     public partial class LoadingPopupForm : PopupFormBase
     {

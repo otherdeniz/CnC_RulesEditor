@@ -124,7 +124,7 @@
             // ultraTabPageControl1
             // 
             ultraTabPageControl1.Controls.Add(valuesEditCommon);
-            ultraTabPageControl1.Location = new Point(1, 29);
+            ultraTabPageControl1.Location = new Point(-10000, -10000);
             ultraTabPageControl1.Margin = new Padding(4, 3, 4, 3);
             ultraTabPageControl1.Name = "ultraTabPageControl1";
             ultraTabPageControl1.Size = new Size(1169, 446);
@@ -410,7 +410,7 @@
             // 
             ultraTabPageControl12.Controls.Add(tabPhobos);
             ultraTabPageControl12.Controls.Add(panelPhobosShowEmpty);
-            ultraTabPageControl12.Location = new Point(-10000, -10000);
+            ultraTabPageControl12.Location = new Point(2, 30);
             ultraTabPageControl12.Name = "ultraTabPageControl12";
             ultraTabPageControl12.Size = new Size(1169, 446);
             // 
@@ -425,10 +425,11 @@
             tabPhobos.SharedControlsPage = ultraTabSharedControlsPage2;
             tabPhobos.Size = new Size(1169, 422);
             tabPhobos.TabIndex = 0;
+            tabPhobos.UseOsThemes = Infragistics.Win.DefaultableBoolean.False;
             // 
             // ultraTabSharedControlsPage2
             // 
-            ultraTabSharedControlsPage2.Location = new Point(1, 20);
+            ultraTabSharedControlsPage2.Location = new Point(2, 21);
             ultraTabSharedControlsPage2.Name = "ultraTabSharedControlsPage2";
             ultraTabSharedControlsPage2.Size = new Size(1165, 399);
             // 
@@ -543,6 +544,7 @@
             ultraTab111.TabPage = ultraTabPageControl12;
             ultraTab111.Text = "PHOBOS Types";
             mainTab.Tabs.AddRange(new Infragistics.Win.UltraWinTabControl.UltraTab[] { ultraTab11, ultraTab19, ultraTab17, ultraTab110, ultraTab112, ultraTab1, ultraTab12, ultraTab14, ultraTab15, ultraTab13, ultraTab113, ultraTab16, ultraTab18, ultraTab111 });
+            mainTab.UseOsThemes = Infragistics.Win.DefaultableBoolean.False;
             // 
             // ultraTabSharedControlsPage1
             // 

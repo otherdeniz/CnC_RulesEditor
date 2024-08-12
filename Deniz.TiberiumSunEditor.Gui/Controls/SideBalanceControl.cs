@@ -1,4 +1,5 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Model;
+using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Extensions;
 using Infragistics.Win.UltraWinGrid;
 
@@ -116,37 +117,37 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 valuesGrid.DisplayLayout.Bands[0].SortedColumns.Add("Category", false, true);
             }
-            valuesGrid.DisplayLayout.Bands[0].Columns["Key"].CellAppearance.BackColor = Color.FromArgb(230, 230, 230);
+            valuesGrid.DisplayLayout.Bands[0].Columns["Key"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridHeaderBackColor;
             valuesGrid.DisplayLayout.Bands[0].Columns["Cost"].Format = "0";
             valuesGrid.DisplayLayout.Bands[0].Columns["Strength"].Format = "0";
             valuesGrid.DisplayLayout.Bands[0].Columns["Strength"].Hidden = !_showStreangth;
             valuesGrid.DisplayLayout.Bands[0].Columns["StrengthOverCost"].Format = "0.00";
             valuesGrid.DisplayLayout.Bands[0].Columns["StrengthOverCost"].Hidden = !_showStreangth;
-            valuesGrid.DisplayLayout.Bands[0].Columns["StrengthOverCost"].CellAppearance.BackColor = Color.FromArgb(230, 230, 230);
+            valuesGrid.DisplayLayout.Bands[0].Columns["StrengthOverCost"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridHeaderBackColor;
             valuesGrid.DisplayLayout.Bands[0].Columns["Points"].Format = "0";
             valuesGrid.DisplayLayout.Bands[0].Columns["Points"].Hidden = !_showPoints;
             valuesGrid.DisplayLayout.Bands[0].Columns["Speed"].Format = "0";
             valuesGrid.DisplayLayout.Bands[0].Columns["Speed"].Hidden = !_showSpeed;
             valuesGrid.DisplayLayout.Bands[0].Columns["SpeedOverCost"].Format = "0.00";
             valuesGrid.DisplayLayout.Bands[0].Columns["SpeedOverCost"].Hidden = !_showSpeed;
-            valuesGrid.DisplayLayout.Bands[0].Columns["SpeedOverCost"].CellAppearance.BackColor = Color.FromArgb(230, 230, 230);
+            valuesGrid.DisplayLayout.Bands[0].Columns["SpeedOverCost"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridHeaderBackColor;
             valuesGrid.DisplayLayout.Bands[0].Columns["Power"].Format = "0";
             valuesGrid.DisplayLayout.Bands[0].Columns["Power"].Hidden = !_showPower;
             valuesGrid.DisplayLayout.Bands[0].Columns["PrimaryWeapon"].Hidden = !_showPrimaryDamage && !_showPrimaryRof;
-            valuesGrid.DisplayLayout.Bands[0].Columns["PrimaryWeapon"].CellAppearance.BackColor = Color.FromArgb(230, 230, 230);
+            valuesGrid.DisplayLayout.Bands[0].Columns["PrimaryWeapon"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridHeaderBackColor;
             valuesGrid.DisplayLayout.Bands[0].Columns["PrimaryDamage"].Format = "0";
             valuesGrid.DisplayLayout.Bands[0].Columns["PrimaryDamage"].Hidden = !_showPrimaryDamage;
             valuesGrid.DisplayLayout.Bands[0].Columns["DamageOverCost"].Format = "0.00";
             valuesGrid.DisplayLayout.Bands[0].Columns["DamageOverCost"].Hidden = !_showPrimaryDamage;
-            valuesGrid.DisplayLayout.Bands[0].Columns["DamageOverCost"].CellAppearance.BackColor = Color.FromArgb(230, 230, 230);
+            valuesGrid.DisplayLayout.Bands[0].Columns["DamageOverCost"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridHeaderBackColor;
             valuesGrid.DisplayLayout.Bands[0].Columns["PrimaryRof"].Format = "0";
             valuesGrid.DisplayLayout.Bands[0].Columns["PrimaryRof"].Hidden = !_showPrimaryRof;
             valuesGrid.DisplayLayout.Bands[0].Columns["DamageOverRof"].Format = "0.00";
             valuesGrid.DisplayLayout.Bands[0].Columns["DamageOverRof"].Hidden = !_showPrimaryRof;
-            valuesGrid.DisplayLayout.Bands[0].Columns["DamageOverRof"].CellAppearance.BackColor = Color.FromArgb(230, 230, 230);
+            valuesGrid.DisplayLayout.Bands[0].Columns["DamageOverRof"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridHeaderBackColor;
             valuesGrid.DisplayLayout.Bands[0].Columns["DamageOverRofOverCost"].Format = "0.00";
             valuesGrid.DisplayLayout.Bands[0].Columns["DamageOverRofOverCost"].Hidden = !_showPrimaryRof;
-            valuesGrid.DisplayLayout.Bands[0].Columns["DamageOverRofOverCost"].CellAppearance.BackColor = Color.FromArgb(230, 230, 230);
+            valuesGrid.DisplayLayout.Bands[0].Columns["DamageOverRofOverCost"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridHeaderBackColor;
             valuesGrid.DisplayLayout.Bands[0].PerformAutoResizeColumns(true, PerformAutoSizeType.AllRowsInBand);
             valuesGrid.DisplayLayout.Bands[0].Columns["PrimaryWeapon"].Width = 90;
         }

@@ -1,4 +1,5 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Model;
+using Deniz.TiberiumSunEditor.Gui.Utils;
 
 namespace Deniz.TiberiumSunEditor.Gui.Dialogs
 {
@@ -9,6 +10,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         public CreateCopyForm()
         {
             InitializeComponent();
+            ThemeManager.Instance.UseTheme(this);
         }
 
         public void LoadModel(RulesRootModel rulesRootModel)
@@ -43,6 +45,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         {
             buttonOk.Enabled = !string.IsNullOrWhiteSpace(TextNewKey.Text)
                                && !string.IsNullOrWhiteSpace(TextNewName.Text);
+        }
+
+        private void CreateCopyForm_Load(object sender, EventArgs e)
+        {
+            DarkTitleBarHelper.UseImmersiveDarkMode(Handle, ThemeManager.Instance.CurrentTheme.WindowUseDarkHeader);
         }
     }
 }

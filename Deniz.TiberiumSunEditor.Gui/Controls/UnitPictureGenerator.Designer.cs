@@ -80,6 +80,7 @@
             Controls.Add(pictureThumbnail);
             Name = "UnitPictureGenerator";
             Size = new Size(102, 90);
+            Tag = "PLAIN";
             ((System.ComponentModel.ISupportInitialize)pictureThumbnail).EndInit();
             ResumeLayout(false);
         }

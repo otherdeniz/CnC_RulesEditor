@@ -1,4 +1,4 @@
-﻿namespace Deniz.TiberiumSunEditor.Gui.Controls
+﻿namespace Deniz.TiberiumSunEditor.Gui.Dialogs.Popup
 {
     partial class PopupFormBase
     {

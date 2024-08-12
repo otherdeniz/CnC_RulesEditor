@@ -136,6 +136,7 @@
             Name = "CreateCopyForm";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Create copy";
+            Load += CreateCopyForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }

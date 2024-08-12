@@ -1,4 +1,5 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Model;
+using Deniz.TiberiumSunEditor.Gui.Utils;
 
 namespace Deniz.TiberiumSunEditor.Gui.Dialogs
 {
@@ -9,6 +10,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         public BalancingToolForm()
         {
             InitializeComponent();
+            ThemeManager.Instance.UseTheme(this);
         }
 
         public void LoadModel(RulesRootModel rulesRootModel)
@@ -73,6 +75,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         private void sideBalanceRight_AfterEntityValueChanged(object sender, EventArgs e)
         {
             sideBalanceLeft.RefreshGridCells();
+        }
+
+        private void BalancingToolForm_Load(object sender, EventArgs e)
+        {
+            DarkTitleBarHelper.UseImmersiveDarkMode(Handle, ThemeManager.Instance.CurrentTheme.WindowUseDarkHeader);
         }
     }
 }

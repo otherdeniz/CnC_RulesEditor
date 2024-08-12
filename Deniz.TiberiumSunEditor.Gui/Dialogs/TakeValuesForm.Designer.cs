@@ -111,6 +111,7 @@
             unitPickerControl1.Name = "unitPickerControl1";
             unitPickerControl1.Size = new Size(101, 90);
             unitPickerControl1.TabIndex = 0;
+            unitPickerControl1.Tag = "KEEP";
             // 
             // unitPickerControl2
             // 
@@ -121,6 +122,7 @@
             unitPickerControl2.Name = "unitPickerControl2";
             unitPickerControl2.Size = new Size(101, 90);
             unitPickerControl2.TabIndex = 1;
+            unitPickerControl2.Tag = "KEEP";
             // 
             // unitPickerControl3
             // 
@@ -131,6 +133,7 @@
             unitPickerControl3.Name = "unitPickerControl3";
             unitPickerControl3.Size = new Size(101, 90);
             unitPickerControl3.TabIndex = 2;
+            unitPickerControl3.Tag = "KEEP";
             // 
             // unitPickerControl4
             // 
@@ -141,6 +144,7 @@
             unitPickerControl4.Name = "unitPickerControl4";
             unitPickerControl4.Size = new Size(101, 90);
             unitPickerControl4.TabIndex = 3;
+            unitPickerControl4.Tag = "KEEP";
             // 
             // labelTypeHeader
             // 
@@ -358,6 +362,7 @@
             Name = "TakeValuesForm";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Take values form another unit";
+            Load += TakeValuesForm_Load;
             panelLeft.ResumeLayout(false);
             unitsLayoutPanel.ResumeLayout(false);
             groupBoxSource.ResumeLayout(false);

@@ -105,6 +105,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             }
         }
 
+        public void ClearAnimationsCache()
+        {
+            _infantryAnimationsCache.Clear();
+        }
+
         public bool TryPlayRaAudio(string soundKey)
         {
             if (_raAudioManager != null && _soundIniFile != null)

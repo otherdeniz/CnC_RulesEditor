@@ -1,4 +1,6 @@
-﻿namespace Deniz.TiberiumSunEditor.Gui.Controls
+﻿using Deniz.TiberiumSunEditor.Gui.Utils;
+
+namespace Deniz.TiberiumSunEditor.Gui.Dialogs.Popup
 {
     /// <summary>
     /// Basis Form für Popup's
@@ -9,6 +11,7 @@
         public PopupFormBase()
         {
             InitializeComponent();
+            ThemeManager.Instance.UseTheme(this);
         }
 
         public void MayClose()

@@ -383,7 +383,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 {
                     if (_hoverRow != null)
                     {
-                        _hoverRow.Appearance.BackColor = Color.White;
+                        _hoverRow.Appearance.BackColor = ThemeManager.Instance.CurrentTheme.GridEditableCellBackColor;
                         _hoverRow = null;
                         ClosePopup();
                     }
@@ -391,7 +391,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 }
                 if (_hoverRow == cellElement.Row) return;
                 _hoverRow = cellElement.Row;
-                _hoverRow.Appearance.BackColor = Color.DarkGray;
+                _hoverRow.Appearance.BackColor = ThemeManager.Instance.CurrentTheme.HotTrackBackColor;
                 if (_hoverRow.ListObject is ILookupValueModel lookupValueModel)
                 {
                     OpenPopup(lookupValueModel.Value, (RowUIElement)_hoverRow.GetUIElement());
@@ -406,7 +406,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 if (_hoverRow != null)
                 {
-                    _hoverRow.Appearance.BackColor = Color.White;
+                    _hoverRow.Appearance.BackColor = ThemeManager.Instance.CurrentTheme.GridEditableCellBackColor;
                     _hoverRow = null;
                     ClosePopup();
                 }

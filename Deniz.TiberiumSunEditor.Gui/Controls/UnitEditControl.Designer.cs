@@ -394,6 +394,7 @@
             Margin = new Padding(4, 3, 4, 3);
             Name = "UnitEditControl";
             Size = new Size(747, 646);
+            Tag = "PLAIN";
             ((System.ComponentModel.ISupportInitialize)pictureThumbnail).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxFavorite).EndInit();
             panelTop.ResumeLayout(false);

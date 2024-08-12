@@ -13,6 +13,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         public InsertSnippetForm()
         {
             InitializeComponent();
+            ThemeManager.Instance.UseTheme(this);
         }
 
         public static bool InsertSnippetToModel(Form mainForm, RulesRootModel rulesRootModel)
@@ -83,6 +84,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void InsertSnippetForm_Load(object sender, EventArgs e)
+        {
+            DarkTitleBarHelper.UseImmersiveDarkMode(Handle, ThemeManager.Instance.CurrentTheme.WindowUseDarkHeader);
         }
     }
 }

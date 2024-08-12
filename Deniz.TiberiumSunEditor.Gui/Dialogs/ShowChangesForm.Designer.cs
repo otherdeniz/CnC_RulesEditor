@@ -81,6 +81,7 @@
             Name = "ShowChangesForm";
             StartPosition = FormStartPosition.CenterParent;
             Text = "All Changes";
+            Load += ShowChangesForm_Load;
             panelBottom.ResumeLayout(false);
             ResumeLayout(false);
         }

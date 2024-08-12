@@ -4,6 +4,7 @@ using Deniz.TiberiumSunEditor.Gui.Model;
 using Deniz.TiberiumSunEditor.Gui.Utils.Extensions;
 using Deniz.TiberiumSunEditor.Gui.Dialogs;
 using Deniz.TiberiumSunEditor.Gui.Model.Interface;
+using Deniz.TiberiumSunEditor.Gui.Utils;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls
 {
@@ -46,9 +47,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 valuesGrid.DisplayLayout.Bands[0].SortedColumns.Add("Category", false, true);
             }
             valuesGrid.DisplayLayout.Bands[0].Columns["Value"].MinWidth = 120;
-            valuesGrid.DisplayLayout.Bands[0].Columns["Key"].CellAppearance.BackColor = Color.FromArgb(230, 230, 230);
-            valuesGrid.DisplayLayout.Bands[0].Columns["DefaultValue"].CellAppearance.BackColor = Color.FromArgb(230, 230, 230);
-            valuesGrid.DisplayLayout.Bands[0].Columns["Description"].CellAppearance.BackColor = Color.FromArgb(230, 230, 230);
+            valuesGrid.DisplayLayout.Bands[0].Columns["Key"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridHeaderBackColor;
+            valuesGrid.DisplayLayout.Bands[0].Columns["DefaultValue"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridHeaderBackColor;
+            valuesGrid.DisplayLayout.Bands[0].Columns["Description"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridHeaderBackColor;
             valuesGrid.DisplayLayout.Bands[0].PerformAutoResizeColumns(true, PerformAutoSizeType.AllRowsInBand);
             valuesGrid.DisplayLayout.Bands[0].Columns["Value"].Width = 120;
             valuesGrid.DisplayLayout.Bands[0].Columns["DefaultValue"].Width = 120;
@@ -115,7 +116,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                         || valueModel.ValueDefinition.LookupType != null)
                     {
                         e.Cell.CancelUpdate();
-                        e.Cell.Appearance.BackColor = Color.LightSkyBlue;
+                        e.Cell.Appearance.BackColor = ThemeManager.Instance.CurrentTheme.HotTrackBackColor;
                         LookupEntityValue(valueModel, e.Cell.Row, false);
                         if (_isRightClick
                             && valueModel.ValueDefinition.LookupType != null
@@ -128,7 +129,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     else if (valueModel.IsColorValue)
                     {
                         e.Cell.CancelUpdate();
-                        e.Cell.Appearance.BackColor = Color.LightSkyBlue;
+                        e.Cell.Appearance.BackColor = ThemeManager.Instance.CurrentTheme.HotTrackBackColor;
                         LookupEntityValue(valueModel, e.Cell.Row, true);
                     }
                     else if (valueModel.Value.IsYesNo() || valueModel.DefaultValue.IsYesNo())
@@ -180,8 +181,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             if (e.Row.ListObject is CommonValueModel valueModel)
             {
                 e.Row.Cells["Value"].Appearance.BackColor = valueModel.HasChanges
-                    ? Color.NavajoWhite
-                    : Color.White;
+                    ? ThemeManager.Instance.CurrentTheme.GridModifiedCellBackColor
+                    : ThemeManager.Instance.CurrentTheme.GridEditableCellBackColor;
                 if (ReadonlyMode)
                 {
                     e.Row.Activation = Activation.NoEdit;
@@ -206,8 +207,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 && e.Cell.Column.Key == "Value")
             {
                 e.Cell.Appearance.BackColor = valueModel.HasChanges
-                    ? Color.NavajoWhite
-                    : Color.White;
+                    ? ThemeManager.Instance.CurrentTheme.GridModifiedCellBackColor
+                    : ThemeManager.Instance.CurrentTheme.GridEditableCellBackColor;
                 e.Cell.Row.Cells["UseDefaultImage"].Refresh();
             }
         }
@@ -268,8 +269,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 valueCell.Appearance.BackColor = (valueCell.Row.ListObject is CommonValueModel valueModel)
                                                  && valueModel.HasChanges
-                    ? Color.NavajoWhite
-                    : Color.White;
+                    ? ThemeManager.Instance.CurrentTheme.GridModifiedCellBackColor
+                    : ThemeManager.Instance.CurrentTheme.GridEditableCellBackColor;
             }
             panelValueChooser.Visible = false;
             _lookupValue = null;

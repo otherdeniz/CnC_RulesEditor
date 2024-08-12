@@ -1,7 +1,4 @@
-﻿using Deniz.TiberiumSunEditor.Gui.Model;
-using Deniz.TiberiumSunEditor.Gui.Utils;
-
-namespace Deniz.TiberiumSunEditor.Gui.Controls
+﻿namespace Deniz.TiberiumSunEditor.Gui.Dialogs.Popup
 {
     public partial class UnitPopupForm : PopupFormBase
     {

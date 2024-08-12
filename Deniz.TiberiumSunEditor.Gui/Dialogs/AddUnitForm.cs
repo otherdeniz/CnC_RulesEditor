@@ -41,6 +41,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         public AddUnitForm()
         {
             InitializeComponent();
+            ThemeManager.Instance.UseTheme(this);
         }
 
         private List<IniFileSection> GetArtSections()
@@ -109,7 +110,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             pictureThumbnail.Image = entityModel.Thumbnail?.Image
                                      ?? BitmapRepository.Instance.BlankImage;
             valuesGrid.DataSource = entityModel.FileSection.KeyValues;
-            valuesGrid.DisplayLayout.Bands[0].Columns["Key"].CellAppearance.BackColor = Color.FromArgb(230, 230, 230);
+            valuesGrid.DisplayLayout.Bands[0].Columns["Key"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridReadonlyCellBackColor;
             valuesGrid.DisplayLayout.Bands[0].PerformAutoResizeColumns(true, PerformAutoSizeType.AllRowsInBand);
             panelUnit.Visible = true;
             buttonOk.Enabled = true;
@@ -134,9 +135,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             Close();
         }
 
-        private void valuesGrid_InitializeRow(object sender, Infragistics.Win.UltraWinGrid.InitializeRowEventArgs e)
+        private void AddUnitForm_Load(object sender, EventArgs e)
         {
-
+            DarkTitleBarHelper.UseImmersiveDarkMode(Handle, ThemeManager.Instance.CurrentTheme.WindowUseDarkHeader);
         }
     }
 }

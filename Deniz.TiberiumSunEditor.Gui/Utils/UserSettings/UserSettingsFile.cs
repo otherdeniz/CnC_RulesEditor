@@ -31,6 +31,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
 
         public List<CustomModSetting> CustomMods { get; set; } = new();
 
+        public string SelectedTheme { get; set; } = string.Empty;
+
         [JsonIgnore]
         public UserFavoriteSettings SectionsSettings => _sectionsSettings
             ??= new UserFavoriteSettings(FavoriteSections);

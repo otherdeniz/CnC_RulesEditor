@@ -48,6 +48,7 @@
             pictureFavorite.SizeMode = PictureBoxSizeMode.Zoom;
             pictureFavorite.TabIndex = 2;
             pictureFavorite.TabStop = false;
+            pictureFavorite.Tag = "";
             pictureFavorite.Click += pictureFavorite_Click;
             // 
             // labelModifications
@@ -90,6 +91,7 @@
             Margin = new Padding(4, 3, 4, 3);
             Name = "UnitPickerControl";
             Size = new Size(102, 90);
+            Tag = "KEEP";
             Click += UnitPickerControl_Click;
             ((System.ComponentModel.ISupportInitialize)pictureFavorite).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureThumbnail).EndInit();

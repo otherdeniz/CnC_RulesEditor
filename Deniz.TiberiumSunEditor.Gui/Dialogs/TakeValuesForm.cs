@@ -13,6 +13,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         public TakeValuesForm()
         {
             InitializeComponent();
+            ThemeManager.Instance.UseTheme(this);
         }
 
         public static void ExecuteShow(Form parentForm, GameEntityModel targetModel)
@@ -71,8 +72,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                     sourceModel.FileSection,
                     _targetModel.EntityValueList.FirstOrDefault(v => v.Key == k)?.Description ?? string.Empty))
                 .ToList();
-            valuesGrid.DisplayLayout.Bands[0].Columns["Key"].CellAppearance.BackColor = Color.FromArgb(230, 230, 230);
-            valuesGrid.DisplayLayout.Bands[0].Columns["Description"].CellAppearance.BackColor = Color.FromArgb(230, 230, 230);
+            valuesGrid.DisplayLayout.Bands[0].Columns["Key"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridReadonlyCellBackColor;
+            valuesGrid.DisplayLayout.Bands[0].Columns["Description"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridReadonlyCellBackColor;
             valuesGrid.DisplayLayout.Bands[0].PerformAutoResizeColumns(true, PerformAutoSizeType.AllRowsInBand);
             valuesGrid.DisplayLayout.Bands[0].Columns["TargetValue"].Width = 120;
             valuesGrid.DisplayLayout.Bands[0].Columns["SourceValue"].Width = 120;
@@ -117,5 +118,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             Close();
         }
 
+        private void TakeValuesForm_Load(object sender, EventArgs e)
+        {
+            DarkTitleBarHelper.UseImmersiveDarkMode(Handle, ThemeManager.Instance.CurrentTheme.WindowUseDarkHeader);
+        }
     }
 }

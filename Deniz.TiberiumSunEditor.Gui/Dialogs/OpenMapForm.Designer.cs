@@ -116,6 +116,7 @@
             Name = "OpenMapForm";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Open File";
+            Load += OpenMapForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }

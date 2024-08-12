@@ -142,6 +142,7 @@
     <None Remove="Bitmaps\VISC_LRG.bmp" />
     <None Remove="Bitmaps\WEED.bmp" />
     <None Remove="Bitmaps\WEEDGUY.bmp" />
+    <None Remove="Bitmaps\_BLANK-DARK.bmp" />
     <None Remove="Bitmaps\_BLANK.bmp" />
     <None Remove="CSPlugins\Credits.txt" />
     <None Remove="CSPlugins\CSCore.dll" />
@@ -212,6 +213,7 @@
     <None Remove="Resources\startup_awaiting_orders.wav" />
     <None Remove="Resources\startup_read_for_action.wav" />
     <None Remove="Resources\startup_sir-yes-sir.wav" />
+    <None Remove="Resources\Themes.json" />
     <None Remove="Resources\TSart.ini" />
     <None Remove="Resources\TSfirestrm.ini" />
     <None Remove="Resources\TSrules.ini" />
@@ -235,6 +237,7 @@
     <Content Include="..\LICENSE.txt" Link="LICENSE.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Bitmaps\_BLANK-DARK.bmp" />
     <Content Include="Bitmaps\_BLANK.bmp">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
@@ -380,6 +383,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\startup_sir-yes-sir.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Themes.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\TSart.ini">

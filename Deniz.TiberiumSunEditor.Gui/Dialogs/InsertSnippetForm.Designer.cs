@@ -196,6 +196,7 @@
             Name = "InsertSnippetForm";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Insert Snippet";
+            Load += InsertSnippetForm_Load;
             panelLeft.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)valuesGrid).EndInit();
             panelLeftBottom.ResumeLayout(false);

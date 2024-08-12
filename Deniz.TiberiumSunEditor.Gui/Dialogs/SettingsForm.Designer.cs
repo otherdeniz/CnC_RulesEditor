@@ -114,6 +114,7 @@
             Padding = new Padding(4);
             StartPosition = FormStartPosition.CenterParent;
             Text = "Games Settings";
+            Load += SettingsForm_Load;
             groupBoxGames.ResumeLayout(false);
             groupBoxGames.PerformLayout();
             toolStrip1.ResumeLayout(false);

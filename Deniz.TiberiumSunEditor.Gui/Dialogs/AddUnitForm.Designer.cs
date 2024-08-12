@@ -103,6 +103,7 @@
             unitPickerControl1.Name = "unitPickerControl1";
             unitPickerControl1.Size = new Size(101, 90);
             unitPickerControl1.TabIndex = 0;
+            unitPickerControl1.Tag = "KEEP";
             // 
             // unitPickerControl2
             // 
@@ -113,6 +114,7 @@
             unitPickerControl2.Name = "unitPickerControl2";
             unitPickerControl2.Size = new Size(101, 90);
             unitPickerControl2.TabIndex = 1;
+            unitPickerControl2.Tag = "KEEP";
             // 
             // unitPickerControl3
             // 
@@ -123,6 +125,7 @@
             unitPickerControl3.Name = "unitPickerControl3";
             unitPickerControl3.Size = new Size(101, 90);
             unitPickerControl3.TabIndex = 2;
+            unitPickerControl3.Tag = "KEEP";
             // 
             // unitPickerControl4
             // 
@@ -133,6 +136,7 @@
             unitPickerControl4.Name = "unitPickerControl4";
             unitPickerControl4.Size = new Size(101, 90);
             unitPickerControl4.TabIndex = 3;
+            unitPickerControl4.Tag = "KEEP";
             // 
             // labelTypeHeader
             // 
@@ -228,7 +232,6 @@
             valuesGrid.Name = "valuesGrid";
             valuesGrid.Size = new Size(388, 401);
             valuesGrid.TabIndex = 11;
-            valuesGrid.InitializeRow += valuesGrid_InitializeRow;
             // 
             // panelTop
             // 
@@ -303,6 +306,7 @@
             Name = "AddUnitForm";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Add Unit";
+            Load += AddUnitForm_Load;
             panelLeft.ResumeLayout(false);
             unitsLayoutPanel.ResumeLayout(false);
             panelBottom.ResumeLayout(false);

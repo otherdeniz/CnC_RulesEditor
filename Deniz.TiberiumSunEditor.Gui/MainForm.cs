@@ -7,6 +7,7 @@ using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
 using Infragistics.Win.UltraWinToolbars;
+using System.Runtime.InteropServices;
 
 namespace Deniz.TiberiumSunEditor.Gui
 {
@@ -20,6 +21,7 @@ namespace Deniz.TiberiumSunEditor.Gui
         {
             InitializeComponent();
             Text = $"{Text} v{typeof(MainForm).Assembly.GetName().Version?.ToString(3)}";
+            InitialiseThemes();
             InitializeNewMenu();
         }
 
@@ -158,7 +160,6 @@ namespace Deniz.TiberiumSunEditor.Gui
                 balancingForm.ShowDialog(this);
                 _editRulesMainControl.LoadModels();
             }
-            AnimationsAsyncLoader.Instance.Start();
         }
 
         private void ButtonGamesSettings()
@@ -169,6 +170,45 @@ namespace Deniz.TiberiumSunEditor.Gui
                 gamesForm.ShowDialog(this);
                 InitializeNewMenu();
             }
+        }
+
+        private void InitialiseThemes()
+        {
+            var themesMenuTool = (PopupMenuTool)mainToolbarsManager.Tools["ThemeMenu"];
+            foreach (var themeDefinition in ThemesFile.Instance.Themes)
+            {
+                var themesButton = new StateButtonTool($"UseTheme:{themeDefinition.Name}");
+                themesButton.SharedPropsInternal.Caption = themeDefinition.Name;
+                mainToolbarsManager.Tools.Add(themesButton);
+                var instancceButton = themesMenuTool.Tools.AddTool($"UseTheme:{themeDefinition.Name}");
+                if (ThemeManager.Instance.CurrentTheme.Name == themeDefinition.Name)
+                {
+                    ((StateButtonTool)instancceButton).Checked = true;
+                    ThemeManager.Instance.UseTheme(this);
+                    ThemeManager.Instance.UseTheme(UnitPictureGenerator.Instance);
+                    ThemeManager.Instance.UseTheme(mainToolbarsManager);
+                }
+            }
+        }
+
+        private void UseTheme(string themeName)
+        {
+            _doEvents = false;
+            var themesMenuTool = (PopupMenuTool)mainToolbarsManager.Tools["ThemeMenu"];
+            foreach (var stateButtonTool in themesMenuTool.Tools.OfType<StateButtonTool>())
+            {
+                stateButtonTool.Checked = stateButtonTool.SharedPropsInternal.Caption == themeName;
+            }
+            _doEvents = true;
+            ThemeManager.Instance.LoadSelectedTheme(themeName);
+            ThemeManager.Instance.UseTheme(this);
+            ThemeManager.Instance.UseTheme(UnitPictureGenerator.Instance);
+            ThemeManager.Instance.UseTheme(mainToolbarsManager);
+            DarkTitleBarHelper.UseImmersiveDarkMode(Handle, ThemeManager.Instance.CurrentTheme.WindowUseDarkHeader);
+            BitmapRepository.Instance.InitBlanks();
+            CCGameRepository.Instance.ClearAnimationsCache();
+            _editRulesMainControl?.LoadModels();
+            _editArtMainControl?.LoadModels();
         }
 
         private void InitializeNewMenu()
@@ -315,10 +355,10 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = false;
             Application.DoEvents();
-            foreach (var control in MainForm_Fill_Panel.ClientArea.Controls
+            foreach (var control in panelMain.Controls
                          .OfType<Control>().ToList())
             {
-                MainForm_Fill_Panel.ClientArea.Controls.Remove(control);
+                panelMain.Controls.Remove(control);
                 control.Dispose();
             }
             CCGameRepository.Instance.Initialise(fileType.GameDefinition,
@@ -335,7 +375,8 @@ namespace Deniz.TiberiumSunEditor.Gui
                 Dock = DockStyle.Fill
             };
             _editRulesMainControl.LoadModel(rootModel);
-            MainForm_Fill_Panel.ClientArea.Controls.Add(_editRulesMainControl);
+            ThemeManager.Instance.UseTheme(_editRulesMainControl);
+            panelMain.Controls.Add(_editRulesMainControl);
             mainToolbarsManager.Tools["SaveAs"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["OnlyFavorites"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["ShowChanges"].SharedProps.Enabled = true;
@@ -362,10 +403,10 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = false;
             Application.DoEvents();
-            foreach (var control in MainForm_Fill_Panel.ClientArea.Controls
+            foreach (var control in panelMain.Controls
                          .OfType<Control>().ToList())
             {
-                MainForm_Fill_Panel.ClientArea.Controls.Remove(control);
+                panelMain.Controls.Remove(control);
                 control.Dispose();
             }
             CCGameRepository.Instance.Initialise(fileType.GameDefinition,
@@ -384,7 +425,8 @@ namespace Deniz.TiberiumSunEditor.Gui
                 Dock = DockStyle.Fill
             };
             _editArtMainControl.LoadModel(artRootMdel);
-            MainForm_Fill_Panel.ClientArea.Controls.Add(_editArtMainControl);
+            ThemeManager.Instance.UseTheme(_editArtMainControl);
+            panelMain.Controls.Add(_editArtMainControl);
             mainToolbarsManager.Tools["SaveAs"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["OnlyFavorites"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["ShowChanges"].SharedProps.Enabled = true;
@@ -463,6 +505,10 @@ namespace Deniz.TiberiumSunEditor.Gui
                     LoadArtFile(artFile, ParseFileType(artFile, gameDefinition), rulesFile);
                 }
                 return;
+            }
+            if (e.Tool.Key.StartsWith("UseTheme:"))
+            {
+                UseTheme(e.Tool.Key.Substring(9));
             }
             switch (e.Tool.Key)
             {
@@ -574,6 +620,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                 ((StateButtonTool)mainToolbarsManager.Tools["SettingCheckUpdates"]).Checked = true;
                 AutoUpdateManager.CheckForUpdate(this);
             }
+            DarkTitleBarHelper.UseImmersiveDarkMode(Handle, ThemeManager.Instance.CurrentTheme.WindowUseDarkHeader);
             _doEvents = true;
         }
 

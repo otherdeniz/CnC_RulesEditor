@@ -16,11 +16,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private Bitmap? _unitPicture;
         private Bitmap? _selectedUnitPicture;
         private AnimationRequirementToken? _animationRequirementToken;
+        private Color _backColor;
 
         public UnitPickerControl()
         {
             InitializeComponent();
-            BackColor = Color.FromArgb(0, Color.White);
+            _backColor = Color.FromArgb(0, Color.White);
+            pictureFavorite.BackColor = Color.FromArgb(0, 0, 0, 0);
         }
 
         public event EventHandler<EventArgs>? FavoriteClick;
@@ -52,6 +54,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 BackgroundImage = _isSelected
                     ? (_selectedUnitPicture ??= UnitPictureGenerator.Instance.GetUnitPicture(_entityModel!, true, null, out _))
                     : _unitPicture;
+            }
+        }
+
+        public override Color BackColor
+        {
+            get => _backColor;
+            set
+            {
+                // KEEP
             }
         }
 
@@ -129,6 +140,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 {
                     labelModifications.Visible = true;
                     labelModifications.Text = _modificationCount.ToString();
+                    labelModifications.BackColor = Color.FromArgb(0, 0, 0, 0);
+                    labelModifications.ForeColor = ThemeManager.Instance.CurrentTheme.ModifiedTextColor;
                 }
             }
         }

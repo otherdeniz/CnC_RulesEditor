@@ -93,6 +93,7 @@
             Name = "AddEmptyForm";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Add new item";
+            Load += AddEmptyForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }

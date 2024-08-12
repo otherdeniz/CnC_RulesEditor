@@ -1,4 +1,5 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Controls;
+using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
 
@@ -9,6 +10,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         public SettingsForm()
         {
             InitializeComponent();
+            ThemeManager.Instance.UseTheme(this);
         }
 
         public void LoadGames()
@@ -30,6 +32,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                     UserSettingsFile.Instance.Save();
                     LoadGames();
                 };
+                ThemeManager.Instance.UseTheme(customModControl);
                 panelGames.Controls.Add(customModControl);
             }
             foreach (var gameDefinition in GamesFile.Instance.Games.AsEnumerable().Reverse())
@@ -37,6 +40,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                 var gameGontrol = new GameSettingIntegratedControl();
                 gameGontrol.Dock = DockStyle.Top;
                 gameGontrol.LoadGame(gameDefinition);
+                ThemeManager.Instance.UseTheme(gameGontrol);
                 panelGames.Controls.Add(gameGontrol);
             }
         }
@@ -57,5 +61,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             Close();
         }
 
+        private void SettingsForm_Load(object sender, EventArgs e)
+        {
+            DarkTitleBarHelper.UseImmersiveDarkMode(Handle, ThemeManager.Instance.CurrentTheme.WindowUseDarkHeader);
+        }
     }
 }

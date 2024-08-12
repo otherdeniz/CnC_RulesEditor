@@ -1,5 +1,6 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Controls;
 using Deniz.TiberiumSunEditor.Gui.Model;
+using Deniz.TiberiumSunEditor.Gui.Utils;
 
 namespace Deniz.TiberiumSunEditor.Gui.Dialogs.Popup
 {
@@ -31,6 +32,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs.Popup
                 groupBoxControl.AutoSizeMode = AutoSizeMode.GrowAndShrink;
                 groupBoxControl.Dock = DockStyle.Top;
                 groupBoxControl.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+                groupBoxControl.ForeColor = ThemeManager.Instance.CurrentTheme.ControlsTextColor;
                 groupBoxControl.Size = new Size(350, 50);
                 groupBoxControl.TabStop = false;
                 groupBoxControl.Text = entityGroup.Key;

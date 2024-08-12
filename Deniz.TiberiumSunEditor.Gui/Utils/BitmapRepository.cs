@@ -16,13 +16,24 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
         public BitmapRepository()
         {
             _bitmapPath = Path.Combine(Application.StartupPath, "Bitmaps");
-            BlankImage = Image.FromFile(Path.Combine(_bitmapPath, "_BLANK.bmp"));
-            WhiteImage = Image.FromFile(Path.Combine(_bitmapPath, "_WHITE.bmp"));
+            InitBlanks();
         }
 
-        public Image BlankImage { get; }
+        public void InitBlanks()
+        {
+            BlankImage = Image.FromFile(Path.Combine(_bitmapPath, ThemeManager.Instance.CurrentTheme.BlankTechnoBitmap));
+            var whiteBmp = new Bitmap(100, 80);
+            using (var gfx = Graphics.FromImage(whiteBmp))
+            using (var brush = new SolidBrush(ThemeManager.Instance.CurrentTheme.ControlsBackColor))
+            {
+                gfx.FillRectangle(brush, 0, 0, 100, 80);
+            }
+            WhiteImage = whiteBmp;
+        }
 
-        public Image WhiteImage { get; }
+        public Image BlankImage { get; private set; } = null!;
+
+        public Image WhiteImage { get; private set; } = null!;
 
         public void Initialise(IEnumerable<string> bitmapSubFolders)
         {

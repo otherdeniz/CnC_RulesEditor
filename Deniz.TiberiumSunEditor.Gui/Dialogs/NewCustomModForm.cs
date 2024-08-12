@@ -14,6 +14,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         public NewCustomModForm()
         {
             InitializeComponent();
+            ThemeManager.Instance.UseTheme(this);
             InitialiseGames();
         }
 
@@ -303,5 +304,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             Close();
         }
 
+        private void NewCustomModForm_Load(object sender, EventArgs e)
+        {
+            DarkTitleBarHelper.UseImmersiveDarkMode(Handle, ThemeManager.Instance.CurrentTheme.WindowUseDarkHeader);
+        }
     }
 }

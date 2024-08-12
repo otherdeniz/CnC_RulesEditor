@@ -23,6 +23,6 @@ using System.Runtime.InteropServices;
 [assembly: System.Runtime.Versioning.TargetPlatform("Windows7.0")]
 [assembly: System.Runtime.Versioning.SupportedOSPlatform("Windows7.0")]
 
-[assembly: AssemblyFileVersion("2.5.32.0")]
-[assembly: AssemblyVersion("2.5.32.0")]
-[assembly: AssemblyInformationalVersion("2.5.32")]
+[assembly: AssemblyFileVersion("2.5.33.0")]
+[assembly: AssemblyVersion("2.5.33.0")]
+[assembly: AssemblyInformationalVersion("2.5.33")]

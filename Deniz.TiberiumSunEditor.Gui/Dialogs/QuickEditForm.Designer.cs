@@ -82,6 +82,7 @@
             Padding = new Padding(4);
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Quick Edit";
+            Load += QuickEditForm_Load;
             ((System.ComponentModel.ISupportInitialize)ultraTabEntities).EndInit();
             ultraTabEntities.ResumeLayout(false);
             ResumeLayout(false);

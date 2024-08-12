@@ -295,6 +295,7 @@
             Name = "NewCustomModForm";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Custom Mod";
+            Load += NewCustomModForm_Load;
             panelBottom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBoxIcon).EndInit();
             ResumeLayout(false);

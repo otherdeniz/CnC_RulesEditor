@@ -1,4 +1,5 @@
-﻿using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
+﻿using Deniz.TiberiumSunEditor.Gui.Utils;
+using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
 
 namespace Deniz.TiberiumSunEditor.Gui.Dialogs
@@ -10,6 +11,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         public OpenMapForm()
         {
             InitializeComponent();
+            ThemeManager.Instance.UseTheme(this);
         }
 
         public GameDefinition? SelectedGameDefinition { get; private set; }
@@ -43,6 +45,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         {
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void OpenMapForm_Load(object sender, EventArgs e)
+        {
+            DarkTitleBarHelper.UseImmersiveDarkMode(Handle, ThemeManager.Instance.CurrentTheme.WindowUseDarkHeader);
         }
     }
 }
