@@ -57,11 +57,20 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
                         var parsedLine = ParseLine(lineText, iniFile);
                         if (parsedLine is IniFileSection parsedSection)
                         {
-                            if ((!currentSection.IsEmpty || currentSection.KeepWhenEmpty)
-                                && !iniFile.Sections.Any(s => 
-                                    s.SectionName?.Equals(currentSection.SectionName, StringComparison.InvariantCultureIgnoreCase) == true))
+                            if (!currentSection.IsEmpty || currentSection.KeepWhenEmpty)
                             {
-                                iniFile.Sections.Add(currentSection);
+                                if (iniFile.Sections.Any(s =>
+                                        s.SectionName?.Equals(currentSection.SectionName,
+                                            StringComparison.InvariantCultureIgnoreCase) == true))
+                                {
+                                    // duplicate section, keep as RAW
+                                    iniFile.Sections.LastOrDefault()?.Lines
+                                        .Add(new IniFileLineRaw(currentSection.ToString()));
+                                }
+                                else
+                                {
+                                    iniFile.Sections.Add(currentSection);
+                                }
                             }
                             currentSection = parsedSection;
                             parsedSection.HeaderComments = lastCommentLines;
