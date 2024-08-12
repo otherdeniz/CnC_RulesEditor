@@ -37,6 +37,7 @@
             splitterUnitPicker = new Splitter();
             unitEdit = new UnitEditControl();
             panelLeft = new Panel();
+            ultraPanelScroll = new Infragistics.Win.Misc.UltraPanel();
             checkBoxOnlyModified = new CheckBox();
             toolStripAdd = new ToolStrip();
             buttonAddUnit = new ToolStripButton();
@@ -48,68 +49,71 @@
             toolStripLabelTotal = new ToolStripLabel();
             unitsLayoutPanel.SuspendLayout();
             panelLeft.SuspendLayout();
+            ultraPanelScroll.ClientArea.SuspendLayout();
+            ultraPanelScroll.SuspendLayout();
             toolStripAdd.SuspendLayout();
             toolStripPaging.SuspendLayout();
             SuspendLayout();
             // 
             // unitsLayoutPanel
             // 
-            unitsLayoutPanel.AutoScroll = true;
+            unitsLayoutPanel.AutoSize = true;
+            unitsLayoutPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             unitsLayoutPanel.Controls.Add(unitPickerControl1);
             unitsLayoutPanel.Controls.Add(unitPickerControl2);
             unitsLayoutPanel.Controls.Add(unitPickerControl3);
             unitsLayoutPanel.Controls.Add(unitPickerControl4);
-            unitsLayoutPanel.Dock = DockStyle.Fill;
-            unitsLayoutPanel.Location = new Point(0, 43);
+            unitsLayoutPanel.Dock = DockStyle.Top;
+            unitsLayoutPanel.Location = new Point(0, 0);
             unitsLayoutPanel.Margin = new Padding(4, 3, 4, 3);
             unitsLayoutPanel.Name = "unitsLayoutPanel";
-            unitsLayoutPanel.Size = new Size(238, 376);
+            unitsLayoutPanel.Size = new Size(240, 192);
             unitsLayoutPanel.TabIndex = 1;
             // 
             // unitPickerControl1
             // 
-            unitPickerControl1.BackColor = Color.FromArgb(0, 255, 255, 255);
             unitPickerControl1.BorderStyle = BorderStyle.FixedSingle;
             unitPickerControl1.Location = new Point(5, 3);
             unitPickerControl1.Margin = new Padding(5, 3, 5, 3);
             unitPickerControl1.Name = "unitPickerControl1";
             unitPickerControl1.Size = new Size(101, 90);
             unitPickerControl1.TabIndex = 0;
+            unitPickerControl1.Tag = "KEEP";
             // 
             // unitPickerControl2
             // 
-            unitPickerControl2.BackColor = Color.FromArgb(0, 255, 255, 255);
             unitPickerControl2.BorderStyle = BorderStyle.FixedSingle;
             unitPickerControl2.Location = new Point(116, 3);
             unitPickerControl2.Margin = new Padding(5, 3, 5, 3);
             unitPickerControl2.Name = "unitPickerControl2";
             unitPickerControl2.Size = new Size(101, 90);
             unitPickerControl2.TabIndex = 1;
+            unitPickerControl2.Tag = "KEEP";
             // 
             // unitPickerControl3
             // 
-            unitPickerControl3.BackColor = Color.FromArgb(0, 255, 255, 255);
             unitPickerControl3.BorderStyle = BorderStyle.FixedSingle;
             unitPickerControl3.Location = new Point(5, 99);
             unitPickerControl3.Margin = new Padding(5, 3, 5, 3);
             unitPickerControl3.Name = "unitPickerControl3";
             unitPickerControl3.Size = new Size(101, 90);
             unitPickerControl3.TabIndex = 2;
+            unitPickerControl3.Tag = "KEEP";
             // 
             // unitPickerControl4
             // 
-            unitPickerControl4.BackColor = Color.FromArgb(0, 255, 255, 255);
             unitPickerControl4.BorderStyle = BorderStyle.FixedSingle;
             unitPickerControl4.Location = new Point(116, 99);
             unitPickerControl4.Margin = new Padding(5, 3, 5, 3);
             unitPickerControl4.Name = "unitPickerControl4";
             unitPickerControl4.Size = new Size(101, 90);
             unitPickerControl4.TabIndex = 3;
+            unitPickerControl4.Tag = "KEEP";
             // 
             // splitterUnitPicker
             // 
             splitterUnitPicker.BackColor = SystemColors.ActiveBorder;
-            splitterUnitPicker.Location = new Point(238, 0);
+            splitterUnitPicker.Location = new Point(240, 0);
             splitterUnitPicker.Margin = new Padding(4, 3, 4, 3);
             splitterUnitPicker.Name = "splitterUnitPicker";
             splitterUnitPicker.Size = new Size(6, 444);
@@ -120,10 +124,10 @@
             // 
             unitEdit.BackColor = Color.White;
             unitEdit.Dock = DockStyle.Fill;
-            unitEdit.Location = new Point(244, 0);
+            unitEdit.Location = new Point(246, 0);
             unitEdit.Margin = new Padding(5, 3, 5, 3);
             unitEdit.Name = "unitEdit";
-            unitEdit.Size = new Size(504, 444);
+            unitEdit.Size = new Size(502, 444);
             unitEdit.TabIndex = 3;
             unitEdit.Tag = "PLAIN";
             unitEdit.Visible = false;
@@ -133,7 +137,7 @@
             // 
             // panelLeft
             // 
-            panelLeft.Controls.Add(unitsLayoutPanel);
+            panelLeft.Controls.Add(ultraPanelScroll);
             panelLeft.Controls.Add(checkBoxOnlyModified);
             panelLeft.Controls.Add(toolStripAdd);
             panelLeft.Controls.Add(toolStripPaging);
@@ -141,8 +145,21 @@
             panelLeft.Location = new Point(0, 0);
             panelLeft.MinimumSize = new Size(128, 0);
             panelLeft.Name = "panelLeft";
-            panelLeft.Size = new Size(238, 444);
+            panelLeft.Size = new Size(240, 444);
             panelLeft.TabIndex = 4;
+            // 
+            // ultraPanelScroll
+            // 
+            ultraPanelScroll.AutoScroll = true;
+            // 
+            // ultraPanelScroll.ClientArea
+            // 
+            ultraPanelScroll.ClientArea.Controls.Add(unitsLayoutPanel);
+            ultraPanelScroll.Dock = DockStyle.Fill;
+            ultraPanelScroll.Location = new Point(0, 43);
+            ultraPanelScroll.Name = "ultraPanelScroll";
+            ultraPanelScroll.Size = new Size(240, 376);
+            ultraPanelScroll.TabIndex = 5;
             // 
             // checkBoxOnlyModified
             // 
@@ -150,7 +167,7 @@
             checkBoxOnlyModified.Location = new Point(0, 25);
             checkBoxOnlyModified.Name = "checkBoxOnlyModified";
             checkBoxOnlyModified.Padding = new Padding(6, 0, 0, 0);
-            checkBoxOnlyModified.Size = new Size(238, 18);
+            checkBoxOnlyModified.Size = new Size(240, 18);
             checkBoxOnlyModified.TabIndex = 4;
             checkBoxOnlyModified.Text = "Show only modified items";
             checkBoxOnlyModified.UseVisualStyleBackColor = true;
@@ -161,7 +178,7 @@
             toolStripAdd.Items.AddRange(new ToolStripItem[] { buttonAddUnit, buttonAddEmpty });
             toolStripAdd.Location = new Point(0, 0);
             toolStripAdd.Name = "toolStripAdd";
-            toolStripAdd.Size = new Size(238, 25);
+            toolStripAdd.Size = new Size(240, 25);
             toolStripAdd.TabIndex = 3;
             toolStripAdd.Text = "toolStrip1";
             // 
@@ -189,7 +206,7 @@
             toolStripPaging.Items.AddRange(new ToolStripItem[] { toolStripButtonPrev, toolStripLabelItem, toolStripButtonNext, toolStripLabelTotal });
             toolStripPaging.Location = new Point(0, 419);
             toolStripPaging.Name = "toolStripPaging";
-            toolStripPaging.Size = new Size(238, 25);
+            toolStripPaging.Size = new Size(240, 25);
             toolStripPaging.TabIndex = 2;
             // 
             // toolStripButtonPrev
@@ -241,6 +258,9 @@
             unitsLayoutPanel.ResumeLayout(false);
             panelLeft.ResumeLayout(false);
             panelLeft.PerformLayout();
+            ultraPanelScroll.ClientArea.ResumeLayout(false);
+            ultraPanelScroll.ClientArea.PerformLayout();
+            ultraPanelScroll.ResumeLayout(false);
             toolStripAdd.ResumeLayout(false);
             toolStripAdd.PerformLayout();
             toolStripPaging.ResumeLayout(false);
@@ -267,5 +287,6 @@
         private ToolStripButton buttonAddUnit;
         private ToolStripButton buttonAddEmpty;
         private CheckBox checkBoxOnlyModified;
+        private Infragistics.Win.Misc.UltraPanel ultraPanelScroll;
     }
 }

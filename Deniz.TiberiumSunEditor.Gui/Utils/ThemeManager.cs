@@ -1,6 +1,7 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
 using Infragistics.Win;
+using Infragistics.Win.Misc;
 using Infragistics.Win.UltraWinEditors;
 using Infragistics.Win.UltraWinGrid;
 using Infragistics.Win.UltraWinTabControl;
@@ -95,6 +96,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                         gridControl.DisplayLayout.Override.CellAppearance.ForeColor = CurrentTheme.ControlsTextColor;
                         gridControl.DisplayLayout.Override.GroupByRowAppearance.BackColor = CurrentTheme.GridHeaderBackColor;
                         gridControl.DisplayLayout.Override.GroupByRowAppearance.ForeColor = CurrentTheme.GridHeaderTextColor;
+                        gridControl.DisplayLayout.ScrollBarLook.Appearance.BackColor = CurrentTheme.ControlsBackColor;
+                        gridControl.DisplayLayout.ScrollBarLook.Appearance.ForeColor = CurrentTheme.ControlsTextColor;
                         gridControl.DisplayLayout.DefaultSelectedBackColor = CurrentTheme.GridHeaderBackColor;
                         gridControl.DisplayLayout.DefaultSelectedForeColor = CurrentTheme.GridHeaderTextColor;
                         break;
@@ -141,6 +144,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                     case SplitContainer splitterContainer:
                         splitterContainer.BackColor = CurrentTheme.SplitterColor;
                         UseThemeRecursive(splitterContainer.Controls.OfType<Control>());
+                        break;
+                    case UltraPanel ultraPanelControl:
+                        ultraPanelControl.UseOsThemes = CurrentTheme.GridUsesOsTheme
+                            ? DefaultableBoolean.True
+                            : DefaultableBoolean.False;
+                        ultraPanelControl.ScrollBarLook.Appearance.BackColor = CurrentTheme.ControlsBackColor;
+                        ultraPanelControl.ScrollBarLook.Appearance.ForeColor = CurrentTheme.ControlsTextColor;
+                        UseThemeRecursive(ultraPanelControl.ClientArea.Controls.OfType<Control>());
                         break;
                     case Panel or GroupBox or UserControl:
                         UseThemeRecursive(control.Controls.OfType<Control>());

@@ -16,9 +16,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         public void LoadGames()
         {
             // clear controls
-            var controlsToDispose = panelGames.Controls
+            var controlsToDispose = panelGames.ClientArea.Controls
                 .OfType<Control>().ToList();
-            panelGames.Controls.Clear();
+            panelGames.ClientArea.Controls.Clear();
             controlsToDispose.ForEach(c => c.Dispose());
             // add controls
             foreach (var customMod in UserSettingsFile.Instance.CustomMods.AsEnumerable().Reverse())
@@ -33,7 +33,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                     LoadGames();
                 };
                 ThemeManager.Instance.UseTheme(customModControl);
-                panelGames.Controls.Add(customModControl);
+                panelGames.ClientArea.Controls.Add(customModControl);
             }
             foreach (var gameDefinition in GamesFile.Instance.Games.AsEnumerable().Reverse())
             {
@@ -41,7 +41,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                 gameGontrol.Dock = DockStyle.Top;
                 gameGontrol.LoadGame(gameDefinition);
                 ThemeManager.Instance.UseTheme(gameGontrol);
-                panelGames.Controls.Add(gameGontrol);
+                panelGames.ClientArea.Controls.Add(gameGontrol);
             }
         }
 

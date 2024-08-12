@@ -30,14 +30,15 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
             groupBoxGames = new GroupBox();
-            panelGames = new Panel();
             toolStrip1 = new ToolStrip();
             buttonAddCustomMod = new ToolStripButton();
             panelBottom = new Panel();
             buttonClose = new Button();
+            panelGames = new Infragistics.Win.Misc.UltraPanel();
             groupBoxGames.SuspendLayout();
             toolStrip1.SuspendLayout();
             panelBottom.SuspendLayout();
+            panelGames.SuspendLayout();
             SuspendLayout();
             // 
             // groupBoxGames
@@ -51,15 +52,6 @@
             groupBoxGames.TabIndex = 1;
             groupBoxGames.TabStop = false;
             groupBoxGames.Text = "Games and Mods";
-            // 
-            // panelGames
-            // 
-            panelGames.AutoScroll = true;
-            panelGames.Dock = DockStyle.Fill;
-            panelGames.Location = new Point(3, 44);
-            panelGames.Name = "panelGames";
-            panelGames.Size = new Size(809, 457);
-            panelGames.TabIndex = 0;
             // 
             // toolStrip1
             // 
@@ -102,6 +94,15 @@
             buttonClose.UseVisualStyleBackColor = true;
             buttonClose.Click += buttonClose_Click;
             // 
+            // panelGames
+            // 
+            panelGames.AutoScroll = true;
+            panelGames.Dock = DockStyle.Fill;
+            panelGames.Location = new Point(3, 44);
+            panelGames.Name = "panelGames";
+            panelGames.Size = new Size(809, 457);
+            panelGames.TabIndex = 2;
+            // 
             // SettingsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -120,6 +121,7 @@
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
             panelBottom.ResumeLayout(false);
+            panelGames.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -128,8 +130,8 @@
         private GroupBox groupBoxGames;
         private Panel panelBottom;
         private Button buttonClose;
-        private Panel panelGames;
         private ToolStrip toolStrip1;
         private ToolStripButton buttonAddCustomMod;
+        private Infragistics.Win.Misc.UltraPanel panelGames;
     }
 }
