@@ -194,8 +194,26 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         {
             if (folderBrowserDialog.ShowDialog(this) == DialogResult.OK)
             {
+                var gameTypeDetector = new GameTypeDetector(folderBrowserDialog.SelectedPath);
+                var filesToMove = gameTypeDetector.CheckFilesToMoveToIniFolder(new[] { "rules*.ini", "art*.ini" });
+                if (filesToMove.Any())
+                {
+                    if (MessageBox.Show("The following files where found in the games root-folder:" + Environment.NewLine +
+                            string.Join(", ", filesToMove) + Environment.NewLine +
+                            "It is required for this editor that the default .ini files are located in the games sub-folder 'INI'" + Environment.NewLine +
+                            "the editor then saves the modified .ini files in the games root folder." + Environment.NewLine +
+                            "Press 'Yes' to copy these files now to the 'INI' subfolder.", 
+                            "Proceed?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        CopyFilesToIniFolder(folderBrowserDialog.SelectedPath, filesToMove);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
                 textGamePath.Text = folderBrowserDialog.SelectedPath;
-                _gameTypeDetector = new GameTypeDetector(folderBrowserDialog.SelectedPath);
+                _gameTypeDetector = gameTypeDetector;
                 if (_gameTypeDetector.BaseType != null)
                 {
                     comboBoxGameType.SelectedIndex =
@@ -213,6 +231,19 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
 
                 LoadRulesIniSources();
                 LoadArtIniSources();
+            }
+        }
+
+        private void CopyFilesToIniFolder(string gamePath, List<string> fileNames)
+        {
+            var iniPath = Path.Combine(gamePath, "INI");
+            if (!Directory.Exists(iniPath))
+            {
+                Directory.CreateDirectory(iniPath);
+            }
+            foreach (var fileName in fileNames)
+            {
+                File.Copy(Path.Combine(gamePath, fileName), Path.Combine(gamePath, fileName), false);
             }
         }
 

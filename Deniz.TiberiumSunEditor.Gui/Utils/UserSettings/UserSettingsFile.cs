@@ -1,4 +1,6 @@
-﻿using Deniz.TiberiumSunEditor.Gui.Utils.Files;
+﻿using Deniz.TiberiumSunEditor.Gui.Model;
+using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
+using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 using Newtonsoft.Json;
 
 namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
@@ -33,6 +35,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
 
         public string SelectedTheme { get; set; } = string.Empty;
 
+        public List<RecentFileSetting> RecentFiles { get; set; } = new();
+
         [JsonIgnore]
         public UserFavoriteSettings SectionsSettings => _sectionsSettings
             ??= new UserFavoriteSettings(FavoriteSections);
@@ -45,5 +49,37 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
         public UserFavoriteSettings UnitValuesSettings => _unitValuesSettings
             ??= new UserFavoriteSettings(FavoriteUnitValues);
 
+        public List<(RecentFileSetting Setting, GameDefinition Definition)> GetRecentFiles()
+        {
+            var recentFiles = new List<(RecentFileSetting Setting, GameDefinition Definition)>();
+            foreach (var fileSetting in RecentFiles)
+            {
+                var gameDefinition = GamesFile.Instance.Games.FirstOrDefault(g => g.GameKey == fileSetting.GameKey)
+                                     ?? CustomMods.FirstOrDefault(m => m.Key == fileSetting.GameKey)?.ToGameDefinition();
+                if (gameDefinition != null)
+                {
+                    recentFiles.Add(new ValueTuple<RecentFileSetting, GameDefinition>(fileSetting, gameDefinition));
+                }
+            }
+            return recentFiles;
+        }
+
+        public void AddRecentFile(string filePath, FileTypeModel fileType)
+        {
+            if (RecentFiles.All(f => f.FilePath != filePath))
+            {
+                RecentFiles.Insert(0, new RecentFileSetting
+                {
+                    GameKey = fileType.GameDefinition.GameKey,
+                    FileType = fileType.BaseType.ToString(),
+                    FilePath = filePath
+                });
+                while (RecentFiles.Count > 10)
+                {
+                    RecentFiles.RemoveAt(10);
+                }
+                Save();
+            }
+        }
     }
 }

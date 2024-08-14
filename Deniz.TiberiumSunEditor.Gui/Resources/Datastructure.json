@@ -215,7 +215,7 @@
 		{"Key":"Prerequisite","Description":"list of buildings needed before this can be manufactured","Default":"no requirement","LookupType":"BuildingTypes","MultipleValues":true},
 		{"Key":"Primary","Description":"primary weapon equipped with","Default":"none","LookupType":"Weapons"},
 		{"Key":"Secondary","Description":"secondary weapon equipped with","Default":"none","LookupType":"Weapons"},
-		{"Key":"Elite","Description":"new primary weapon when at elite veteran status","Default":"same as primary"},
+		{"Key":"Elite","Description":"new primary weapon when at elite veteran status","Default":"same as primary","LookupType":"Weapons"},
 		{"Key":"PipScale","Description":"what to base pip display on [Passengers,Tiberium,Ammo,Power]","Default":"none","ValueList":",Passengers,Tiberium,Ammo,Power"},
 		{"Key":"RadarVisible","Description":"Is visible on radar even when under shroud","Default":"yes, infantry=no"},
 		{"Key":"ROT","Description":"Rate Of Turn for body (if present) and turret (if present)","Default":"0"},

@@ -7,7 +7,6 @@ using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
 using Infragistics.Win.UltraWinToolbars;
-using System.Runtime.InteropServices;
 
 namespace Deniz.TiberiumSunEditor.Gui
 {
@@ -23,6 +22,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             Text = $"{Text} v{typeof(MainForm).Assembly.GetName().Version?.ToString(3)}";
             InitialiseThemes();
             InitializeNewMenu();
+            InitializeRecentFilesMenu();
         }
 
         public bool ShowOnlyFavoriteUnits { get; set; }
@@ -48,7 +48,75 @@ namespace Deniz.TiberiumSunEditor.Gui
                     {
                         LoadRulesFile(iniFile, fileType);
                     }
+                    mainToolbarsManager.Tools["SaveFile"].SharedProps.Caption = $"Save File ({openFileDialog.FileName})";
+                    mainToolbarsManager.Tools["SaveFile"].SharedProps.Enabled = true;
+                    UserSettingsFile.Instance.AddRecentFile(openFileDialog.FileName, fileType);
+                    InitializeRecentFilesMenu();
                 }
+            }
+        }
+
+        private void ButtonOpenRecent(string fileName)
+        {
+            var recentFile = UserSettingsFile.Instance.GetRecentFiles().First(f => f.Setting.FilePath == fileName);
+            var iniFile = IniFile.Load(recentFile.Setting.FilePath);
+            var fileType = ParseFileType(iniFile, recentFile.Definition);
+            if (fileType != null)
+            {
+                if (fileType.BaseType == FileBaseType.Art)
+                {
+                    var rulesFile = fileType.GameDefinition.LoadDefaultRulesFile();
+                    LoadArtFile(iniFile, fileType, rulesFile);
+                }
+                else
+                {
+                    LoadRulesFile(iniFile, fileType);
+                }
+                mainToolbarsManager.Tools["SaveFile"].SharedProps.Caption = $"Save File ({openFileDialog.FileName})";
+                mainToolbarsManager.Tools["SaveFile"].SharedProps.Enabled = true;
+            }
+        }
+
+        private void ButtonSaveInGame()
+        {
+            if (_editRulesMainControl != null)
+            {
+                var gamePath = _editRulesMainControl.Model.FileType.GameDefinition.GetUserGamePath();
+                if (gamePath != null)
+                {
+                    var saveFilePath = string.IsNullOrEmpty(_editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
+                        ? Path.Combine(gamePath, _editRulesMainControl.Model.FileType.GameDefinition.SaveAsFilename)
+                        : Path.Combine(gamePath, _editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder,
+                            _editRulesMainControl.Model.FileType.GameDefinition.SaveAsFilename);
+                    _editRulesMainControl.Model.File.SaveAs(saveFilePath);
+                }
+                return;
+            }
+
+            if (_editArtMainControl != null)
+            {
+                var gamePath = _editArtMainControl.Model.FileType.GameDefinition.GetUserGamePath();
+                if (gamePath != null)
+                {
+                    var saveFilePath = string.IsNullOrEmpty(_editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
+                        ? Path.Combine(gamePath, _editArtMainControl.Model.FileType.GameDefinition.SaveAsArtFilename)
+                        : Path.Combine(gamePath, _editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder,
+                            _editArtMainControl.Model.FileType.GameDefinition.SaveAsArtFilename);
+                    _editArtMainControl.Model.File.SaveAs(saveFilePath);
+                }
+            }
+        }
+
+        private void ButtonSaveFile()
+        {
+            if (_editRulesMainControl?.Model.File.OriginalFullPath != null)
+            {
+                _editRulesMainControl.Model.File.SaveAs(_editRulesMainControl.Model.File.OriginalFullPath);
+            }
+
+            if (_editArtMainControl?.Model.File.OriginalFullPath != null)
+            {
+                _editArtMainControl.Model.File.SaveAs(_editArtMainControl.Model.File.OriginalFullPath);
             }
         }
 
@@ -56,21 +124,13 @@ namespace Deniz.TiberiumSunEditor.Gui
         {
             if (_editRulesMainControl != null)
             {
-                if (_editRulesMainControl.Model.FileType.BaseType == FileBaseType.Rules)
+                var userGamePath = _editRulesMainControl.Model.FileType.GameDefinition.GetUserGamePath();
+                if (_editRulesMainControl.Model.FileType.BaseType == FileBaseType.Rules
+                    && (string.IsNullOrEmpty(userGamePath) || !Directory.Exists(userGamePath)))
                 {
                     var relativeFolder = string.IsNullOrEmpty(_editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
                         ? "root"
                         : _editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder;
-                    var userGamePath = _editRulesMainControl.Model.FileType.GameDefinition.GetUserGamePath();
-                    if (!string.IsNullOrEmpty(userGamePath) && Directory.Exists(userGamePath))
-                    {
-                        if (!string.IsNullOrEmpty(_editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder))
-                        {
-                            userGamePath = Path.Combine(userGamePath,
-                                _editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder);
-                        }
-                        saveFileDialog.InitialDirectory = userGamePath;
-                    }
                     saveFileDialog.Title = $"Save this file in games {relativeFolder} folder";
                     saveFileDialog.FileName = _editRulesMainControl.Model.FileType.GameDefinition.SaveAsFilename;
                 }
@@ -82,29 +142,37 @@ namespace Deniz.TiberiumSunEditor.Gui
                 if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
                 {
                     _editRulesMainControl.Model.File.SaveAs(saveFileDialog.FileName);
+                    mainToolbarsManager.Tools["SaveFile"].SharedProps.Caption = $"Save File ({saveFileDialog.FileName})";
+                    mainToolbarsManager.Tools["SaveFile"].SharedProps.Enabled = true;
+                    UserSettingsFile.Instance.AddRecentFile(saveFileDialog.FileName, _editRulesMainControl.Model.FileType);
+                    InitializeRecentFilesMenu();
                 }
             }
 
             if (_editArtMainControl != null)
             {
-                var relativeFolder = string.IsNullOrEmpty(_editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
-                    ? "root"
-                    : _editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder;
                 var userGamePath = _editArtMainControl.Model.FileType.GameDefinition.GetUserGamePath();
-                if (!string.IsNullOrEmpty(userGamePath) && Directory.Exists(userGamePath))
+                if (string.IsNullOrEmpty(userGamePath) || !Directory.Exists(userGamePath))
                 {
-                    if (!string.IsNullOrEmpty(_editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder))
-                    {
-                        userGamePath = Path.Combine(userGamePath,
-                            _editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder);
-                    }
-                    saveFileDialog.InitialDirectory = userGamePath;
+                    var relativeFolder = string.IsNullOrEmpty(_editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
+                        ? "root"
+                        : _editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder;
+                    saveFileDialog.Title = $"Save this file in games {relativeFolder} folder";
+                    saveFileDialog.FileName = _editArtMainControl.Model.FileType.GameDefinition.SaveAsArtFilename;
+
                 }
-                saveFileDialog.Title = $"Save this file in games {relativeFolder} folder";
-                saveFileDialog.FileName = _editArtMainControl.Model.FileType.GameDefinition.SaveAsArtFilename;
+                else
+                {
+                    saveFileDialog.Title = "Save as";
+                    saveFileDialog.FileName = _editArtMainControl.Model.File.OriginalFileName;
+                }
                 if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
                 {
                     _editArtMainControl.Model.File.SaveAs(saveFileDialog.FileName);
+                    mainToolbarsManager.Tools["SaveFile"].SharedProps.Caption = $"Save File ({saveFileDialog.FileName})";
+                    mainToolbarsManager.Tools["SaveFile"].SharedProps.Enabled = true;
+                    UserSettingsFile.Instance.AddRecentFile(saveFileDialog.FileName, _editArtMainControl.Model.FileType);
+                    InitializeRecentFilesMenu();
                 }
             }
         }
@@ -304,6 +372,31 @@ namespace Deniz.TiberiumSunEditor.Gui
             }
         }
 
+        private void InitializeRecentFilesMenu()
+        {
+            var recentMenuTool = (PopupMenuTool)mainToolbarsManager.Tools["RecentFilesMenu"];
+            var instanceToolsToRemove = recentMenuTool.Tools.OfType<ButtonTool>()
+                .Where(t => t.Key.StartsWith("OpenRecent:")).ToList();
+            instanceToolsToRemove.ForEach(recentMenuTool.Tools.Remove);
+            var sharedToolsToRemove = mainToolbarsManager.Tools.OfType<ButtonTool>()
+                .Where(t => t.Key.StartsWith("OpenRecent:")).ToList();
+            sharedToolsToRemove.ForEach(mainToolbarsManager.Tools.Remove);
+            foreach (var recentFile in UserSettingsFile.Instance.GetRecentFiles())
+            {
+                var recentButton = new ButtonTool($"OpenRecent:{recentFile.Setting.FilePath}");
+                recentButton.SharedPropsInternal.Caption = $"[{recentFile.Setting.FileType}] {recentFile.Setting.FilePath}";
+                recentButton.SharedPropsInternal.AppearancesSmall.Appearance = new Infragistics.Win.Appearance
+                {
+                    Image = LogoRepository.Instance.GetLogo(recentFile.Definition.CustomMod != null
+                        ? recentFile.Definition.CustomMod.LogoFile
+                        : recentFile.Definition.Logo)
+                };
+                mainToolbarsManager.Tools.Add(recentButton);
+                recentMenuTool.Tools.AddTool($"OpenRecent:{recentFile.Setting.FilePath}");
+            }
+
+        }
+
         private FileTypeModel? ParseFileType(IniFile iniFile, GameDefinition? overrideGameDefinition = null)
         {
             return FileTypeModel.ParseFile(iniFile, overrideGameDefinition, m =>
@@ -340,13 +433,13 @@ namespace Deniz.TiberiumSunEditor.Gui
             });
         }
 
-        private void LoadRulesFile(IniFile rulesFile, FileTypeModel? fileType)
+        private void CloseFile()
         {
-            if (fileType == null) return;
-            Cursor = Cursors.WaitCursor;
             _editRulesMainControl = null;
             _editArtMainControl = null;
-            mainToolbarsManager.Tools["SaveAs"].SharedProps.Enabled = false;
+            mainToolbarsManager.Tools["SaveMenu"].SharedProps.Enabled = false;
+            mainToolbarsManager.Tools["SaveFile"].SharedProps.Enabled = false;
+            mainToolbarsManager.Tools["SaveFile"].SharedProps.Caption = "Save File";
             mainToolbarsManager.Tools["OnlyFavorites"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["ShowChanges"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["BalancingTool"].SharedProps.Enabled = false;
@@ -361,6 +454,65 @@ namespace Deniz.TiberiumSunEditor.Gui
                 panelMain.Controls.Remove(control);
                 control.Dispose();
             }
+        }
+
+        private void ButtonOpenCompareFiles()
+        {
+            var compareModel = OpenCompareFilesForm.ExecuteOpen(this);
+            if (compareModel == null) return;
+            Cursor = Cursors.WaitCursor;
+            CloseFile();
+            CCGameRepository.Instance.Initialise(compareModel.FileType.GameDefinition,
+                compareModel.FileType.GameDefinition.IsCustomMod
+                    ? null
+                    : compareModel.FileType.GameDefinition.MixFiles);
+            BitmapRepository.Instance.Initialise(compareModel.FileType.GetBitmapSubFolders());
+            if (compareModel is RulesRootModel rulesRootModel)
+            {
+                _editRulesMainControl = new RulesEditMainControl()
+                {
+                    Dock = DockStyle.Fill
+                };
+                _editRulesMainControl.LoadModel(rulesRootModel);
+                ThemeManager.Instance.UseTheme(_editRulesMainControl);
+                panelMain.Controls.Add(_editRulesMainControl);
+                mainToolbarsManager.Tools["BalancingTool"].SharedProps.Enabled = true;
+                mainToolbarsManager.Tools["InsertSnippet"].SharedProps.Enabled = true;
+                mainToolbarsManager.Tools["ExportChanges"].SharedProps.Enabled = true;
+            }
+            else if (compareModel is ArtRootModel artRootModel)
+            {
+                _editArtMainControl = new ArtEditMainControl()
+                {
+                    Dock = DockStyle.Fill
+                };
+                _editArtMainControl.LoadModel(artRootModel);
+                ThemeManager.Instance.UseTheme(_editArtMainControl);
+                panelMain.Controls.Add(_editArtMainControl);
+            }
+            else
+            {
+                return;
+            }
+            mainToolbarsManager.Tools["SaveMenu"].SharedProps.Enabled = true;
+            mainToolbarsManager.Tools["OnlyFavorites"].SharedProps.Enabled = true;
+            mainToolbarsManager.Tools["ShowChanges"].SharedProps.Enabled = true;
+            mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = true;
+            mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = true;
+            var relativeFolder = string.IsNullOrEmpty(compareModel.FileType.GameDefinition.SaveAsRelativeToGameFolder)
+                ? "root"
+                : compareModel.FileType.GameDefinition.SaveAsRelativeToGameFolder;
+            mainToolbarsManager.Tools["SaveInGame"].SharedProps.Caption = $"Save in Game's {relativeFolder}";
+            mainToolbarsManager.Tools["SaveInGame"].SharedProps.Enabled =
+                compareModel.FileType.GameDefinition.GetUserGamePath() != null;
+            Cursor = Cursors.Default;
+        }
+
+        private void LoadRulesFile(IniFile rulesFile, FileTypeModel? fileType)
+        {
+            if (fileType == null) return;
+            Cursor = Cursors.WaitCursor;
+            CloseFile();
             CCGameRepository.Instance.Initialise(fileType.GameDefinition,
                 fileType.GameDefinition.IsCustomMod
                     ? null
@@ -377,7 +529,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             _editRulesMainControl.LoadModel(rootModel);
             ThemeManager.Instance.UseTheme(_editRulesMainControl);
             panelMain.Controls.Add(_editRulesMainControl);
-            mainToolbarsManager.Tools["SaveAs"].SharedProps.Enabled = true;
+            mainToolbarsManager.Tools["SaveMenu"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["OnlyFavorites"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["ShowChanges"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["BalancingTool"].SharedProps.Enabled = true;
@@ -385,6 +537,12 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["ExportChanges"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = true;
+            var relativeFolder = string.IsNullOrEmpty(_editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
+                ? "root"
+                : _editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder;
+            mainToolbarsManager.Tools["SaveInGame"].SharedProps.Caption = $"Save in Game's {relativeFolder}";
+            mainToolbarsManager.Tools["SaveInGame"].SharedProps.Enabled =
+                fileType.GameDefinition.GetUserGamePath() != null;
             Cursor = Cursors.Default;
         }
 
@@ -392,23 +550,7 @@ namespace Deniz.TiberiumSunEditor.Gui
         {
             if (fileType == null) return;
             Cursor = Cursors.WaitCursor;
-            _editRulesMainControl = null;
-            _editArtMainControl = null;
-            mainToolbarsManager.Tools["SaveAs"].SharedProps.Enabled = false;
-            mainToolbarsManager.Tools["OnlyFavorites"].SharedProps.Enabled = false;
-            mainToolbarsManager.Tools["ShowChanges"].SharedProps.Enabled = false;
-            mainToolbarsManager.Tools["BalancingTool"].SharedProps.Enabled = false;
-            mainToolbarsManager.Tools["InsertSnippet"].SharedProps.Enabled = false;
-            mainToolbarsManager.Tools["ExportChanges"].SharedProps.Enabled = false;
-            mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = false;
-            mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = false;
-            Application.DoEvents();
-            foreach (var control in panelMain.Controls
-                         .OfType<Control>().ToList())
-            {
-                panelMain.Controls.Remove(control);
-                control.Dispose();
-            }
+            CloseFile();
             CCGameRepository.Instance.Initialise(fileType.GameDefinition,
                 fileType.GameDefinition.IsCustomMod
                     ? null
@@ -418,20 +560,26 @@ namespace Deniz.TiberiumSunEditor.Gui
                 showMissingValues: true,
                 useAres: fileType.GameDefinition.UseAres,
                 usePhobos: fileType.GameDefinition.UsePhobos);
-            var artRootMdel = new ArtRootModel(rulesRootModel, artFile,
+            var artRootModel = new ArtRootModel(rulesRootModel, artFile,
                 showMissingValues: true);
             _editArtMainControl = new ArtEditMainControl()
             {
                 Dock = DockStyle.Fill
             };
-            _editArtMainControl.LoadModel(artRootMdel);
+            _editArtMainControl.LoadModel(artRootModel);
             ThemeManager.Instance.UseTheme(_editArtMainControl);
             panelMain.Controls.Add(_editArtMainControl);
-            mainToolbarsManager.Tools["SaveAs"].SharedProps.Enabled = true;
+            mainToolbarsManager.Tools["SaveMenu"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["OnlyFavorites"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["ShowChanges"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = true;
+            var relativeFolder = string.IsNullOrEmpty(_editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
+                ? "root"
+                : _editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder;
+            mainToolbarsManager.Tools["SaveInGame"].SharedProps.Caption = $"Save in Game's {relativeFolder}";
+            mainToolbarsManager.Tools["SaveInGame"].SharedProps.Enabled =
+                fileType.GameDefinition.GetUserGamePath() != null;
             Cursor = Cursors.Default;
         }
 
@@ -509,14 +657,29 @@ namespace Deniz.TiberiumSunEditor.Gui
             if (e.Tool.Key.StartsWith("UseTheme:"))
             {
                 UseTheme(e.Tool.Key.Substring(9));
+                return;
+            }
+            if (e.Tool.Key.StartsWith("OpenRecent:"))
+            {
+                ButtonOpenRecent(e.Tool.Key.Substring(11));
+                return;
             }
             switch (e.Tool.Key)
             {
                 case "Open":
                     ButtonOpen();
                     break;
+                case "CompareFiles":
+                    ButtonOpenCompareFiles();
+                    break;
                 case "SaveAs":
                     ButtonSaveAs();
+                    break;
+                case "SaveFile":
+                    ButtonSaveFile();
+                    break;
+                case "SaveInGame":
+                    ButtonSaveInGame();
                     break;
                 case "Games":
                     ButtonGamesSettings();
