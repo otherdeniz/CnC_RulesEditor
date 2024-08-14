@@ -49,7 +49,7 @@
 		{
 			"GameKey": "DTA",
 			"Logo": "dta-icon-24.png",
-			"NewMenuLabel": "Dawn of the Tiberium Age",
+			"NewMenuLabel": "Dawn of the Tiberium Age (v12.1)",
 			"ResourcesDefaultIniFile": "DTArules.ini",
 			"ResourcesDefaultArtIniFile": "DTAart.ini",
 			"IniNameMatchDetection": "Dawn of the Tiberium Age",
