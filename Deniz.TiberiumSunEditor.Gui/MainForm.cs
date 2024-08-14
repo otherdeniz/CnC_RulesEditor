@@ -72,7 +72,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                 {
                     LoadRulesFile(iniFile, fileType);
                 }
-                mainToolbarsManager.Tools["SaveFile"].SharedProps.Caption = $"Save File ({openFileDialog.FileName})";
+                mainToolbarsManager.Tools["SaveFile"].SharedProps.Caption = $"Save File ({fileName})";
                 mainToolbarsManager.Tools["SaveFile"].SharedProps.Enabled = true;
             }
         }
@@ -474,8 +474,8 @@ namespace Deniz.TiberiumSunEditor.Gui
                 {
                     Dock = DockStyle.Fill
                 };
-                _editRulesMainControl.LoadModel(rulesRootModel);
                 ThemeManager.Instance.UseTheme(_editRulesMainControl);
+                _editRulesMainControl.LoadModel(rulesRootModel);
                 panelMain.Controls.Add(_editRulesMainControl);
                 mainToolbarsManager.Tools["BalancingTool"].SharedProps.Enabled = true;
                 mainToolbarsManager.Tools["InsertSnippet"].SharedProps.Enabled = true;
@@ -487,8 +487,8 @@ namespace Deniz.TiberiumSunEditor.Gui
                 {
                     Dock = DockStyle.Fill
                 };
-                _editArtMainControl.LoadModel(artRootModel);
                 ThemeManager.Instance.UseTheme(_editArtMainControl);
+                _editArtMainControl.LoadModel(artRootModel);
                 panelMain.Controls.Add(_editArtMainControl);
             }
             else
@@ -527,8 +527,8 @@ namespace Deniz.TiberiumSunEditor.Gui
             {
                 Dock = DockStyle.Fill
             };
-            _editRulesMainControl.LoadModel(rootModel);
             ThemeManager.Instance.UseTheme(_editRulesMainControl);
+            _editRulesMainControl.LoadModel(rootModel);
             panelMain.Controls.Add(_editRulesMainControl);
             mainToolbarsManager.Tools["SaveMenu"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["OnlyFavorites"].SharedProps.Enabled = true;
@@ -567,8 +567,8 @@ namespace Deniz.TiberiumSunEditor.Gui
             {
                 Dock = DockStyle.Fill
             };
-            _editArtMainControl.LoadModel(artRootModel);
             ThemeManager.Instance.UseTheme(_editArtMainControl);
+            _editArtMainControl.LoadModel(artRootModel);
             panelMain.Controls.Add(_editArtMainControl);
             mainToolbarsManager.Tools["SaveMenu"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["OnlyFavorites"].SharedProps.Enabled = true;

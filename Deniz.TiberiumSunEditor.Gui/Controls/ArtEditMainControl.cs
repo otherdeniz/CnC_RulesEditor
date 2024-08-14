@@ -152,6 +152,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                         AddEmptyUnit(additionalGameEntities.EntityType);
                         Cursor = Cursors.Default;
                     };
+                    ThemeManager.Instance.UseTheme(unitListConrol);
                     var hasEntries = unitListConrol.LoadModel(additionalGameEntities.Entities);
                     var isFiltered = !string.IsNullOrEmpty(_searchText);
                     if (hasEntries || !(_readonlyMode || isFiltered))
