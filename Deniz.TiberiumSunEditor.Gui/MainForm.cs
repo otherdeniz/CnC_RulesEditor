@@ -447,6 +447,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["ExportChanges"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = false;
+            ((TextBoxTool)mainToolbarsManager.Tools["SearchText"]).Text = "";
             Application.DoEvents();
             foreach (var control in panelMain.Controls
                          .OfType<Control>().ToList())

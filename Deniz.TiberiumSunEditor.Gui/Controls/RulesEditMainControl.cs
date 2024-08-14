@@ -194,7 +194,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                         Cursor = Cursors.Default;
                     };
                     var hasEntries = unitListConrol.LoadModel(additionalGameEntities.Entities);
-                    if (hasEntries || !_readonlyMode)
+                    var isFiltered = !string.IsNullOrEmpty(_searchText);
+                    if (hasEntries || !(_readonlyMode || isFiltered))
                     {
                         var additionalTabControl = new UltraTabPageControl
                         {
