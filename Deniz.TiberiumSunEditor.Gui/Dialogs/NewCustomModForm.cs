@@ -243,7 +243,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             }
             foreach (var fileName in fileNames)
             {
-                File.Copy(Path.Combine(gamePath, fileName), Path.Combine(gamePath, fileName), false);
+                File.Copy(Path.Combine(gamePath, fileName), Path.Combine(iniPath, fileName), false);
             }
         }
 
