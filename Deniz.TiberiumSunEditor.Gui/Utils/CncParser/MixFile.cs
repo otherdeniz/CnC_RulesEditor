@@ -71,6 +71,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
         /// reside inside another MIX file.</param>
         public void Parse(Stream? stream = null)
         {
+            Entries = new List<MixFileEntry>();
             if (_masterMix != null)
             {
                 _masterMix.OpenFile();
@@ -83,8 +84,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
 
             if (stream == null || stream.Length < INDEX_POSITION)
                 return;
-
-            Entries = new List<MixFileEntry>();
 
             byte[] buffer = new byte[256];
             stream.Read(buffer, 0, 4);
