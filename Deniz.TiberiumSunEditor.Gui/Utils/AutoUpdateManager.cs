@@ -19,13 +19,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             _uiContext = SynchronizationContext.Current!;
         }
 
-        public static void CheckForUpdate(Form mainForm)
+        public static void CheckForUpdate(Form mainForm, bool autoUpdate)
         {
             var manager = new AutoUpdateManager(mainForm);
-            manager.RunCheck();
+            manager.RunCheck(autoUpdate);
         }
 
-        private void RunCheck()
+        public static GitHubReleaseInfo? LatestRelease { get; private set; }
+
+        private void RunCheck(bool autoUpdate)
         {
             var currentVeresion = GetType().Assembly.GetName().Version;
             if (currentVeresion != null)
@@ -34,10 +36,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                 {
                     try
                     {
-                        var latestRelease = GetLatestRelease();
-                        if (latestRelease != null)
+                        LatestRelease = GetLatestRelease();
+                        if (autoUpdate && LatestRelease != null)
                         {
-                            var buildNumber = int.Parse(VersionRegex.Match(latestRelease.Release.Name).Groups[1].Value);
+                            var buildNumber = int.Parse(VersionRegex.Match(LatestRelease.Release.Name).Groups[1].Value);
                             if (buildNumber > currentVeresion.Build)
                             {
                                 _uiContext.Send(args =>
@@ -45,7 +47,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                                     if (MessageBox.Show(
                                             "There is an update available on github releaes:\n" +
                                             $"Current version: v{currentVeresion.ToString(3)}\n" +
-                                            $"New Version: {latestRelease.Release.Name}\n\n" +
+                                            $"New Version: {LatestRelease.Release.Name}\n\n" +
                                             "Do you want to download and install this update?",
                                             "Update available",
                                             MessageBoxButtons.YesNo,
@@ -53,7 +55,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                                     {
                                         Process.Start(
                                             Path.Combine(Application.StartupPath, "Updater\\Deniz.Updater.exe"),
-                                            $"{latestRelease.Asset.BrowserDownloadUrl} Deniz.TiberiumSunEditor.Gui.exe");
+                                            $"{LatestRelease.Asset.BrowserDownloadUrl} Deniz.TiberiumSunEditor.Gui.exe");
                                         _mainForm.Close();
                                     }
                                 }, null);
@@ -68,7 +70,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             }
         }
 
-        private GitHubReleaseInfo? GetLatestRelease()
+        public GitHubReleaseInfo? GetLatestRelease()
         {
             var github = new GitHubClient(new ProductHeaderValue(GithubUserAgent));
 
@@ -87,7 +89,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             }).GetAwaiter().GetResult();
         }
 
-        private class GitHubReleaseInfo
+        public class GitHubReleaseInfo
         {
             public GitHubReleaseInfo(ReleaseAsset asset, Release release)
             {

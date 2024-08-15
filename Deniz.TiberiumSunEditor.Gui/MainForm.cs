@@ -748,6 +748,9 @@ namespace Deniz.TiberiumSunEditor.Gui
                 case "SearchClear":
                     ((TextBoxTool)mainToolbarsManager.Tools["SearchText"]).Text = "";
                     break;
+                case "About":
+                    AboutForm.ExecuteShow(this);
+                    break;
             }
         }
 
@@ -782,7 +785,11 @@ namespace Deniz.TiberiumSunEditor.Gui
             if (UserSettingsFile.Instance.SettingAutoUpdate)
             {
                 ((StateButtonTool)mainToolbarsManager.Tools["SettingCheckUpdates"]).Checked = true;
-                AutoUpdateManager.CheckForUpdate(this);
+                AutoUpdateManager.CheckForUpdate(this, true);
+            }
+            else
+            {
+                AutoUpdateManager.CheckForUpdate(this, false);
             }
             DarkTitleBarHelper.UseImmersiveDarkMode(Handle, ThemeManager.Instance.CurrentTheme.WindowUseDarkHeader);
             _doEvents = true;

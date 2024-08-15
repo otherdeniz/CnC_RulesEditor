@@ -119,6 +119,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                     case Splitter splitterControl:
                         splitterControl.BackColor = CurrentTheme.SplitterColor;
                         break;
+                    case LinkLabel linkLabelControl:
+                        linkLabelControl.ForeColor = CurrentTheme.LinkTextColor;
+                        linkLabelControl.LinkColor = CurrentTheme.LinkTextColor;
+                        linkLabelControl.ActiveLinkColor = CurrentTheme.LinkTextColor;
+                        linkLabelControl.VisitedLinkColor = CurrentTheme.LinkTextColor;
+                        break;
                     case Label labelControl:
                         if (labelControl.Font.Underline)
                         {
