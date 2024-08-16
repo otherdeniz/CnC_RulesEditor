@@ -216,6 +216,7 @@
             appearance123.Image = resources.GetObject("appearance123.Image");
             labelTool11.SharedPropsInternal.AppearancesSmall.Appearance = appearance123;
             labelTool11.SharedPropsInternal.Caption = "Search:";
+            labelTool11.SharedPropsInternal.DisplayStyle = Infragistics.Win.UltraWinToolbars.ToolDisplayStyle.TextOnlyAlways;
             labelTool11.SharedPropsInternal.Enabled = false;
             appearance125.BackColor = Color.White;
             textBoxTool11.SharedPropsInternal.AppearancesSmall.Appearance = appearance125;
