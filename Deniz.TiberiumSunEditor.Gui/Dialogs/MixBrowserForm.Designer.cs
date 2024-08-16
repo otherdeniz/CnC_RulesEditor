@@ -37,19 +37,25 @@
             groupBoxRight = new GroupBox();
             pictureBoxPreview = new PictureBox();
             panel1 = new Panel();
+            radioButtonOther = new RadioButton();
+            radioButtonAnimation = new RadioButton();
+            radioButtonCameo = new RadioButton();
             comboBoxZoom = new ComboBox();
             label3 = new Label();
-            comboBoxPalette = new ComboBox();
-            label1 = new Label();
+            comboBoxOther = new ComboBox();
+            comboBoxAnimation = new ComboBox();
+            comboBoxPaletteCameo = new ComboBox();
             groupBoxResult = new GroupBox();
             valuesGrid = new Infragistics.Win.UltraWinGrid.UltraGrid();
             panelTop = new Panel();
+            panelLeft = new Panel();
             groupBoxRight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPreview).BeginInit();
             panel1.SuspendLayout();
             groupBoxResult.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)valuesGrid).BeginInit();
             panelTop.SuspendLayout();
+            panelLeft.SuspendLayout();
             SuspendLayout();
             // 
             // buttonSearch
@@ -83,11 +89,11 @@
             // 
             groupBoxRight.Controls.Add(pictureBoxPreview);
             groupBoxRight.Controls.Add(panel1);
-            groupBoxRight.Dock = DockStyle.Right;
-            groupBoxRight.Location = new Point(466, 52);
+            groupBoxRight.Dock = DockStyle.Fill;
+            groupBoxRight.Location = new Point(427, 8);
             groupBoxRight.Name = "groupBoxRight";
             groupBoxRight.Padding = new Padding(8);
-            groupBoxRight.Size = new Size(364, 381);
+            groupBoxRight.Size = new Size(490, 493);
             groupBoxRight.TabIndex = 2;
             groupBoxRight.TabStop = false;
             groupBoxRight.Text = "Image / Animation Preview";
@@ -96,30 +102,70 @@
             // 
             pictureBoxPreview.BorderStyle = BorderStyle.FixedSingle;
             pictureBoxPreview.Dock = DockStyle.Fill;
-            pictureBoxPreview.Location = new Point(8, 84);
+            pictureBoxPreview.Location = new Point(8, 143);
             pictureBoxPreview.Name = "pictureBoxPreview";
-            pictureBoxPreview.Size = new Size(348, 289);
+            pictureBoxPreview.Size = new Size(474, 342);
             pictureBoxPreview.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBoxPreview.TabIndex = 1;
             pictureBoxPreview.TabStop = false;
             // 
             // panel1
             // 
+            panel1.Controls.Add(radioButtonOther);
+            panel1.Controls.Add(radioButtonAnimation);
+            panel1.Controls.Add(radioButtonCameo);
             panel1.Controls.Add(comboBoxZoom);
             panel1.Controls.Add(label3);
-            panel1.Controls.Add(comboBoxPalette);
-            panel1.Controls.Add(label1);
+            panel1.Controls.Add(comboBoxOther);
+            panel1.Controls.Add(comboBoxAnimation);
+            panel1.Controls.Add(comboBoxPaletteCameo);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(8, 24);
             panel1.Name = "panel1";
-            panel1.Size = new Size(348, 60);
+            panel1.Size = new Size(474, 119);
             panel1.TabIndex = 2;
+            // 
+            // radioButtonOther
+            // 
+            radioButtonOther.AutoSize = true;
+            radioButtonOther.Location = new Point(3, 59);
+            radioButtonOther.Name = "radioButtonOther";
+            radioButtonOther.Size = new Size(100, 19);
+            radioButtonOther.TabIndex = 2;
+            radioButtonOther.TabStop = true;
+            radioButtonOther.Text = "Other Palette: ";
+            radioButtonOther.UseVisualStyleBackColor = true;
+            radioButtonOther.CheckedChanged += radioButton_CheckedChanged;
+            // 
+            // radioButtonAnimation
+            // 
+            radioButtonAnimation.AutoSize = true;
+            radioButtonAnimation.Location = new Point(3, 30);
+            radioButtonAnimation.Name = "radioButtonAnimation";
+            radioButtonAnimation.Size = new Size(126, 19);
+            radioButtonAnimation.TabIndex = 2;
+            radioButtonAnimation.TabStop = true;
+            radioButtonAnimation.Text = "Animation Palette: ";
+            radioButtonAnimation.UseVisualStyleBackColor = true;
+            radioButtonAnimation.CheckedChanged += radioButton_CheckedChanged;
+            // 
+            // radioButtonCameo
+            // 
+            radioButtonCameo.AutoSize = true;
+            radioButtonCameo.Location = new Point(3, 1);
+            radioButtonCameo.Name = "radioButtonCameo";
+            radioButtonCameo.Size = new Size(108, 19);
+            radioButtonCameo.TabIndex = 2;
+            radioButtonCameo.TabStop = true;
+            radioButtonCameo.Text = "Cameo Palette: ";
+            radioButtonCameo.UseVisualStyleBackColor = true;
+            radioButtonCameo.CheckedChanged += radioButton_CheckedChanged;
             // 
             // comboBoxZoom
             // 
             comboBoxZoom.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxZoom.FormattingEnabled = true;
-            comboBoxZoom.Location = new Point(96, 29);
+            comboBoxZoom.Location = new Point(132, 87);
             comboBoxZoom.Name = "comboBoxZoom";
             comboBoxZoom.Size = new Size(98, 23);
             comboBoxZoom.TabIndex = 1;
@@ -128,39 +174,52 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(3, 32);
+            label3.Location = new Point(3, 90);
             label3.Name = "label3";
             label3.Size = new Size(42, 15);
             label3.TabIndex = 0;
             label3.Text = "Zoom:";
             // 
-            // comboBoxPalette
+            // comboBoxOther
             // 
-            comboBoxPalette.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            comboBoxPalette.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxPalette.FormattingEnabled = true;
-            comboBoxPalette.Location = new Point(96, 0);
-            comboBoxPalette.Name = "comboBoxPalette";
-            comboBoxPalette.Size = new Size(249, 23);
-            comboBoxPalette.TabIndex = 1;
-            comboBoxPalette.SelectedIndexChanged += comboBoxPalette_SelectedIndexChanged;
+            comboBoxOther.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            comboBoxOther.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxOther.FormattingEnabled = true;
+            comboBoxOther.Location = new Point(132, 58);
+            comboBoxOther.Name = "comboBoxOther";
+            comboBoxOther.Size = new Size(339, 23);
+            comboBoxOther.TabIndex = 1;
+            comboBoxOther.SelectedIndexChanged += comboBoxOther_SelectedIndexChanged;
             // 
-            // label1
+            // comboBoxAnimation
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(3, 3);
-            label1.Name = "label1";
-            label1.Size = new Size(78, 15);
-            label1.TabIndex = 0;
-            label1.Text = "Color Palette:";
+            comboBoxAnimation.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            comboBoxAnimation.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxAnimation.FormattingEnabled = true;
+            comboBoxAnimation.Location = new Point(132, 29);
+            comboBoxAnimation.Name = "comboBoxAnimation";
+            comboBoxAnimation.Size = new Size(339, 23);
+            comboBoxAnimation.TabIndex = 1;
+            comboBoxAnimation.SelectedIndexChanged += comboBoxAnimation_SelectedIndexChanged;
+            // 
+            // comboBoxPaletteCameo
+            // 
+            comboBoxPaletteCameo.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            comboBoxPaletteCameo.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxPaletteCameo.FormattingEnabled = true;
+            comboBoxPaletteCameo.Location = new Point(132, 0);
+            comboBoxPaletteCameo.Name = "comboBoxPaletteCameo";
+            comboBoxPaletteCameo.Size = new Size(339, 23);
+            comboBoxPaletteCameo.TabIndex = 1;
+            comboBoxPaletteCameo.SelectedIndexChanged += comboBoxCameo_SelectedIndexChanged;
             // 
             // groupBoxResult
             // 
             groupBoxResult.Controls.Add(valuesGrid);
             groupBoxResult.Dock = DockStyle.Fill;
-            groupBoxResult.Location = new Point(8, 52);
+            groupBoxResult.Location = new Point(0, 44);
             groupBoxResult.Name = "groupBoxResult";
-            groupBoxResult.Size = new Size(458, 381);
+            groupBoxResult.Size = new Size(419, 449);
             groupBoxResult.TabIndex = 1;
             groupBoxResult.TabStop = false;
             groupBoxResult.Text = "Result";
@@ -188,7 +247,7 @@
             valuesGrid.Location = new Point(3, 19);
             valuesGrid.Margin = new Padding(4, 3, 4, 3);
             valuesGrid.Name = "valuesGrid";
-            valuesGrid.Size = new Size(452, 359);
+            valuesGrid.Size = new Size(413, 427);
             valuesGrid.TabIndex = 8;
             valuesGrid.AfterSelectChange += valuesGrid_AfterSelectChange;
             // 
@@ -198,19 +257,28 @@
             panelTop.Controls.Add(label2);
             panelTop.Controls.Add(textBoxSearch);
             panelTop.Dock = DockStyle.Top;
-            panelTop.Location = new Point(8, 8);
+            panelTop.Location = new Point(0, 0);
             panelTop.Name = "panelTop";
-            panelTop.Size = new Size(822, 44);
+            panelTop.Size = new Size(419, 44);
             panelTop.TabIndex = 0;
+            // 
+            // panelLeft
+            // 
+            panelLeft.Controls.Add(groupBoxResult);
+            panelLeft.Controls.Add(panelTop);
+            panelLeft.Dock = DockStyle.Left;
+            panelLeft.Location = new Point(8, 8);
+            panelLeft.Name = "panelLeft";
+            panelLeft.Size = new Size(419, 493);
+            panelLeft.TabIndex = 3;
             // 
             // MixBrowserForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(838, 441);
-            Controls.Add(groupBoxResult);
+            ClientSize = new Size(925, 509);
             Controls.Add(groupBoxRight);
-            Controls.Add(panelTop);
+            Controls.Add(panelLeft);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MixBrowserForm";
             Padding = new Padding(8);
@@ -225,6 +293,7 @@
             ((System.ComponentModel.ISupportInitialize)valuesGrid).EndInit();
             panelTop.ResumeLayout(false);
             panelTop.PerformLayout();
+            panelLeft.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -235,12 +304,18 @@
         private PictureBox pictureBoxPreview;
         private Panel panel1;
         private Label label2;
-        private ComboBox comboBoxPalette;
+        private ComboBox comboBoxPaletteCameo;
         private Button buttonSearch;
         private TextBox textBoxSearch;
         private ComboBox comboBoxZoom;
         private Label label3;
         private Infragistics.Win.UltraWinGrid.UltraGrid valuesGrid;
         private Panel panelTop;
+        private Panel panelLeft;
+        private RadioButton radioButtonOther;
+        private RadioButton radioButtonAnimation;
+        private RadioButton radioButtonCameo;
+        private ComboBox comboBoxOther;
+        private ComboBox comboBoxAnimation;
     }
 }
