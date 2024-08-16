@@ -6,6 +6,8 @@ using System.Globalization;
 using Deniz.CCAudioPlayerCore;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using ImageMagick;
+using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Deniz.TiberiumSunEditor.Gui.Utils
 {
@@ -28,6 +30,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
         private List<Color>? _unitPaletteColors;
 
         public bool IsLoaded => _fileManager != null;
+
+        public CCFileManager? FileManager => _fileManager;
 
         public IniFile? ArtFile => _artIniFile;
 
@@ -67,11 +71,18 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                 }
                 _fileManager.LoadAllMixFilesInDirectory("MIX", true);
 
-                var artIniBytes = _fileManager.LoadFile("artmd.ini") 
-                                  ?? _fileManager.LoadFile("art.ini");
-                _artIniFile = artIniBytes != null
-                    ? IniFile.Load(artIniBytes)
-                    : null;
+                if (!string.IsNullOrEmpty(gameDefinition.ResourcesDefaultArtIniFile))
+                {
+                    _artIniFile = gameDefinition.LoadDefaultArtFile();
+                }
+                else
+                {
+                    var artIniBytes = _fileManager.LoadFile("artmd.ini")
+                                      ?? _fileManager.LoadFile("art.ini");
+                    _artIniFile = artIniBytes != null
+                        ? IniFile.Load(artIniBytes)
+                        : null;
+                }
 
                 var cameoPalBytes = _fileManager.LoadFile("cameo.pal");
                 _cameoPaletteColors = cameoPalBytes != null
@@ -176,6 +187,88 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             return null;
         }
 
+        public Image? GetCameoByShp(string shpName)
+        {
+            if (_fileManager == null || _cameoPaletteColors == null) return null;
+            if (_cameosCache.TryGetValue(shpName, out var bitmap))
+            {
+                return bitmap;
+            }
+
+            try
+            {
+                var shpData = _fileManager.LoadFile($"{shpName}.shp");
+                if (shpData != null)
+                {
+                    var shpFile = new ShpFile(shpName);
+                    shpFile.ParseFromBuffer(shpData);
+
+                    var frameImage = new ShpImageSingleFrame(_cameoPaletteColors, shpFile, shpData);
+                    if (frameImage.FrameInfo.Width > 0
+                        && frameImage.FrameInfo.Height > 0)
+                    {
+                        using var frameBitmap = frameImage.ToBitmap();
+                        using var bitmapStream = new MemoryStream();
+                        frameBitmap.Save(bitmapStream, ImageFormat.Bmp);
+                        bitmapStream.Seek(0, SeekOrigin.Begin);
+                        using var bmpImage = new MagickImage(bitmapStream, MagickFormat.Bmp);
+                        bmpImage.Modulate(new Percentage(_cameoBrightnesPercent));
+                        using var finalStream = new MemoryStream();
+                        bmpImage.Write(finalStream, MagickFormat.Bmp);
+                        finalStream.Seek(0, SeekOrigin.Begin);
+                        Image finalImage = new Bitmap(finalStream);
+                        if (finalImage.Height < 40)
+                        {
+                            var scale = 40d / Convert.ToDouble(finalImage.Height);
+                            if (Convert.ToDouble(finalImage.Width) * scale > 60)
+                            {
+                                scale = 60d / Convert.ToDouble(finalImage.Width);
+                            }
+                            finalImage = BitmapRepository.Instance.OverlayImage(finalImage, scale);
+                        }
+                        _cameosCache.Add(shpName, finalImage);
+                        return finalImage;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"Shp load failed: {shpName} - error: {e.Message}");
+            }
+
+            _cameosCache.Add(shpName, null);
+            return null;
+        }
+
+        public Image? GetCameoByPcx(string pcxName)
+        {
+            if (_fileManager == null || _cameoPaletteColors == null) return null;
+            if (_cameosCache.TryGetValue(pcxName, out var bitmap))
+            {
+                return bitmap;
+            }
+
+            try
+            {
+                var pcxData = _fileManager.LoadFile(pcxName);
+                if (pcxData != null)
+                {
+                    using var bitmapStream = new MemoryStream(pcxData);
+                    using var bmpImage = new MagickImage(bitmapStream, MagickFormat.Pcx);
+                    var pcxImage = bmpImage.ToImage();
+                    _cameosCache.Add(pcxName, pcxImage);
+                    return pcxImage;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"PCX load failed: {pcxName} - error: {e.Message}");
+            }
+
+            _cameosCache.Add(pcxName, null);
+            return null;
+        }
+
         public Image? GetCameo(string key)
         {
             if (_fileManager == null || _cameoPaletteColors == null) return null;
@@ -187,46 +280,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             var shpName = _artIniFile?.GetSection(key)?.GetValue("Cameo")?.Value.ToLowerInvariant();
             if (shpName != null)
             {
-                try
-                {
-                    var shpData = _fileManager.LoadFile($"{shpName}.shp");
-                    if (shpData != null)
-                    {
-                        var shpFile = new ShpFile(shpName);
-                        shpFile.ParseFromBuffer(shpData);
+                return GetCameoByShp(shpName);
+            }
 
-                        var frameImage = new ShpImageSingleFrame(_cameoPaletteColors, shpFile, shpData);
-                        if (frameImage.FrameInfo.Width > 0
-                            && frameImage.FrameInfo.Height > 0)
-                        {
-                            using var frameBitmap = frameImage.ToBitmap();
-                            using var bitmapStream = new MemoryStream();
-                            frameBitmap.Save(bitmapStream, ImageFormat.Bmp);
-                            bitmapStream.Seek(0, SeekOrigin.Begin);
-                            using var bmpImage = new MagickImage(bitmapStream, MagickFormat.Bmp);
-                            bmpImage.Modulate(new Percentage(_cameoBrightnesPercent));
-                            using var finalStream = new MemoryStream();
-                            bmpImage.Write(finalStream, MagickFormat.Bmp);
-                            finalStream.Seek(0, SeekOrigin.Begin);
-                            Image finalImage = new Bitmap(finalStream);
-                            if (finalImage.Height < 40)
-                            {
-                                var scale = 40d / Convert.ToDouble(finalImage.Height);
-                                if (Convert.ToDouble(finalImage.Width) * scale > 60)
-                                {
-                                    scale = 60d / Convert.ToDouble(finalImage.Width);
-                                }
-                                finalImage = BitmapRepository.Instance.OverlayImage(finalImage, scale);
-                            }
-                            _cameosCache.Add(key, finalImage);
-                            return finalImage;
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine($"Shp load failed: {shpName} - error: {e.Message}");
-                }
+            var pcxName = _artIniFile?.GetSection(key)?.GetValue("CameoPCX")?.Value.ToLowerInvariant();
+            if (pcxName != null)
+            {
+                return GetCameoByPcx(pcxName);
             }
 
             _cameosCache.Add(key, null);

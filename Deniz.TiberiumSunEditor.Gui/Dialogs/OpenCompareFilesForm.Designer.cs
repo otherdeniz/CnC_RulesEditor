@@ -258,6 +258,7 @@
             Padding = new Padding(8);
             StartPosition = FormStartPosition.CenterParent;
             Text = "Compare Files";
+            Load += OpenCompareFilesForm_Load;
             panelBottom.ResumeLayout(false);
             panelOkCancel.ResumeLayout(false);
             panel1.ResumeLayout(false);

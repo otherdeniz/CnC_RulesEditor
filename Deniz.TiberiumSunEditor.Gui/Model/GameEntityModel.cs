@@ -166,6 +166,24 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                     }
                     return null;
                 }
+                var sidebarImageShpName = GetRulesFileValue("SidebarImage")?.Value;
+                if (sidebarImageShpName != null)
+                {
+                    var shpImage = CCGameRepository.Instance.GetCameoByShp(sidebarImageShpName);
+                    if (shpImage != null)
+                    {
+                        return new ThumbnailModel(shpImage);
+                    }
+                }
+                var sidebarImagePcxName = GetRulesFileValue("SidebarPCX")?.Value;
+                if (sidebarImagePcxName != null)
+                {
+                    var pcxImage = CCGameRepository.Instance.GetCameoByPcx(sidebarImagePcxName);
+                    if (pcxImage != null)
+                    {
+                        return new ThumbnailModel(pcxImage);
+                    }
+                }
                 var imageKey = GetRulesFileValue("Image")?.Value;
                 if (string.IsNullOrEmpty(imageKey) || imageKey == "null")
                 {
@@ -175,7 +193,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 var image = CCGameRepository.Instance.GetCameo(imageKey)
                             ?? BitmapRepository.Instance.GetBitmap(imageKey);
                 return image != null 
-                    ? new ThumbnailModel(image) 
+                    ? new ThumbnailModel(image)
                     : null;
             }
         }

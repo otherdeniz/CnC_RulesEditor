@@ -48,7 +48,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             if (sender is LinkLabel linkLabel)
             {
                 var url = linkLabel.Tag is string tagText && tagText != string.Empty
-                    ? tagText 
+                    ? tagText
                     : linkLabel.Text;
                 var processInfo = new ProcessStartInfo($"https://{url}")
                 {
@@ -56,6 +56,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                 };
                 Process.Start(processInfo);
             }
+        }
+
+        private void AboutForm_Load(object sender, EventArgs e)
+        {
+            DarkTitleBarHelper.UseImmersiveDarkMode(Handle, ThemeManager.Instance.CurrentTheme.WindowUseDarkHeader);
         }
     }
 }

@@ -29,5 +29,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Extensions
             }
             return text;
         }
+        public static string TrimEnd(this string text, string trimText)
+        {
+            if (text.EndsWith(trimText, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return text.Substring(0, text.Length - trimText.Length);
+            }
+            return text;
+        }
     }
 }

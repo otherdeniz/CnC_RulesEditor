@@ -55,7 +55,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                 var fileTypeModel = FileTypeModel.ParseFile(compareFile, gameDefinition, m => gameDefinition)!;
                 return new RulesRootModel(compareFile, fileTypeModel, defaultFile,
                     showMissingValues: true,
-                    useAres: gameDefinition.UseAres, 
+                    useAres: gameDefinition.UseAres,
                     usePhobos: gameDefinition.UsePhobos);
             }
             else
@@ -121,5 +121,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             Close();
         }
 
+        private void OpenCompareFilesForm_Load(object sender, EventArgs e)
+        {
+            DarkTitleBarHelper.UseImmersiveDarkMode(Handle, ThemeManager.Instance.CurrentTheme.WindowUseDarkHeader);
+        }
     }
 }

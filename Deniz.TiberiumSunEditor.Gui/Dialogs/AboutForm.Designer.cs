@@ -303,6 +303,7 @@
             Padding = new Padding(8);
             StartPosition = FormStartPosition.CenterParent;
             Text = "About";
+            Load += AboutForm_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

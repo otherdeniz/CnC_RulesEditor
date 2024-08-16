@@ -47,6 +47,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
 
         public MixFile? MasterMix => _masterMix;
 
+        public override string ToString()
+        {
+            return MasterMix != null
+                ? $"{MasterMix.Name}:{Name}"
+                : Name;
+        }
+
         /// <summary>
         /// Reads MIX file information from a MIX file in the given file system path.
         /// </summary>

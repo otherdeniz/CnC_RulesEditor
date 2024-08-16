@@ -230,6 +230,13 @@ namespace Deniz.TiberiumSunEditor.Gui
             }
         }
 
+        private void ButtonMixBrowserTool()
+        {
+            var form = new MixBrowserForm();
+            form.InitDropDowns();
+            form.Show(this);
+        }
+
         private void ButtonGamesSettings()
         {
             using (var gamesForm = new SettingsForm())
@@ -442,7 +449,9 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["SaveFile"].SharedProps.Caption = "Save File";
             mainToolbarsManager.Tools["OnlyFavorites"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["ShowChanges"].SharedProps.Enabled = false;
+            mainToolbarsManager.Tools["ToolsMenu"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["BalancingTool"].SharedProps.Enabled = false;
+            mainToolbarsManager.Tools["MixBrowser"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["InsertSnippet"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["ExportChanges"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = false;
@@ -477,6 +486,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                 ThemeManager.Instance.UseTheme(_editRulesMainControl);
                 _editRulesMainControl.LoadModel(rulesRootModel);
                 panelMain.Controls.Add(_editRulesMainControl);
+                mainToolbarsManager.Tools["ToolsMenu"].SharedProps.Enabled = true;
                 mainToolbarsManager.Tools["BalancingTool"].SharedProps.Enabled = true;
                 mainToolbarsManager.Tools["InsertSnippet"].SharedProps.Enabled = true;
                 mainToolbarsManager.Tools["ExportChanges"].SharedProps.Enabled = true;
@@ -533,7 +543,9 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["SaveMenu"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["OnlyFavorites"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["ShowChanges"].SharedProps.Enabled = true;
+            mainToolbarsManager.Tools["ToolsMenu"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["BalancingTool"].SharedProps.Enabled = true;
+            mainToolbarsManager.Tools["MixBrowser"].SharedProps.Enabled = CCGameRepository.Instance.IsLoaded;
             mainToolbarsManager.Tools["InsertSnippet"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["ExportChanges"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = true;
@@ -573,6 +585,8 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["SaveMenu"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["OnlyFavorites"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["ShowChanges"].SharedProps.Enabled = true;
+            mainToolbarsManager.Tools["ToolsMenu"].SharedProps.Enabled = CCGameRepository.Instance.IsLoaded;
+            mainToolbarsManager.Tools["MixBrowser"].SharedProps.Enabled = CCGameRepository.Instance.IsLoaded;
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = true;
             var relativeFolder = string.IsNullOrEmpty(_editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
@@ -730,6 +744,9 @@ namespace Deniz.TiberiumSunEditor.Gui
                     break;
                 case "BalancingTool":
                     ButtonBalancingTool();
+                    break;
+                case "MixBrowser":
+                    ButtonMixBrowserTool();
                     break;
                 case "InsertSnippet":
                     if (_editRulesMainControl != null)
