@@ -51,6 +51,9 @@
             label6 = new Label();
             label7 = new Label();
             comboBoxArtIni = new ComboBox();
+            checkBoxVinifera = new CheckBox();
+            label8 = new Label();
+            checkBoxSectionInheritance = new CheckBox();
             panelBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxIcon).BeginInit();
             SuspendLayout();
@@ -60,17 +63,17 @@
             panelBottom.Controls.Add(buttonOk);
             panelBottom.Controls.Add(buttonCancel);
             panelBottom.Dock = DockStyle.Bottom;
-            panelBottom.Location = new Point(0, 270);
+            panelBottom.Location = new Point(0, 301);
             panelBottom.Name = "panelBottom";
-            panelBottom.Size = new Size(514, 43);
-            panelBottom.TabIndex = 2;
+            panelBottom.Size = new Size(527, 43);
+            panelBottom.TabIndex = 10;
             // 
             // buttonOk
             // 
             buttonOk.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonOk.Enabled = false;
             buttonOk.Image = (Image)resources.GetObject("buttonOk.Image");
-            buttonOk.Location = new Point(316, 8);
+            buttonOk.Location = new Point(329, 8);
             buttonOk.Name = "buttonOk";
             buttonOk.Size = new Size(90, 26);
             buttonOk.TabIndex = 0;
@@ -84,7 +87,7 @@
             // 
             buttonCancel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonCancel.Image = (Image)resources.GetObject("buttonCancel.Image");
-            buttonCancel.Location = new Point(412, 8);
+            buttonCancel.Location = new Point(425, 8);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(90, 26);
             buttonCancel.TabIndex = 1;
@@ -106,9 +109,9 @@
             // textName
             // 
             textName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textName.Location = new Point(109, 12);
+            textName.Location = new Point(121, 12);
             textName.Name = "textName";
-            textName.Size = new Size(393, 23);
+            textName.Size = new Size(394, 23);
             textName.TabIndex = 0;
             textName.TextChanged += textName_TextChanged;
             // 
@@ -117,10 +120,10 @@
             comboBoxGameType.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             comboBoxGameType.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxGameType.FormattingEnabled = true;
-            comboBoxGameType.Location = new Point(109, 71);
+            comboBoxGameType.Location = new Point(121, 71);
             comboBoxGameType.Name = "comboBoxGameType";
-            comboBoxGameType.Size = new Size(393, 23);
-            comboBoxGameType.TabIndex = 1;
+            comboBoxGameType.Size = new Size(394, 23);
+            comboBoxGameType.TabIndex = 2;
             comboBoxGameType.SelectedIndexChanged += comboBoxGameType_SelectedIndexChanged;
             // 
             // label2
@@ -144,10 +147,10 @@
             // textGamePath
             // 
             textGamePath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textGamePath.Location = new Point(109, 41);
+            textGamePath.Location = new Point(121, 41);
             textGamePath.Name = "textGamePath";
             textGamePath.ReadOnly = true;
-            textGamePath.Size = new Size(369, 23);
+            textGamePath.Size = new Size(370, 23);
             textGamePath.TabIndex = 0;
             textGamePath.TabStop = false;
             // 
@@ -155,7 +158,7 @@
             // 
             buttonPath.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonPath.Image = (Image)resources.GetObject("buttonPath.Image");
-            buttonPath.Location = new Point(478, 41);
+            buttonPath.Location = new Point(491, 41);
             buttonPath.Name = "buttonPath";
             buttonPath.Size = new Size(24, 24);
             buttonPath.TabIndex = 1;
@@ -175,7 +178,7 @@
             // pictureBoxIcon
             // 
             pictureBoxIcon.BorderStyle = BorderStyle.FixedSingle;
-            pictureBoxIcon.Location = new Point(109, 100);
+            pictureBoxIcon.Location = new Point(121, 100);
             pictureBoxIcon.Name = "pictureBoxIcon";
             pictureBoxIcon.Size = new Size(26, 26);
             pictureBoxIcon.SizeMode = PictureBoxSizeMode.Zoom;
@@ -185,10 +188,10 @@
             // buttonIcon
             // 
             buttonIcon.Image = (Image)resources.GetObject("buttonIcon.Image");
-            buttonIcon.Location = new Point(139, 101);
+            buttonIcon.Location = new Point(151, 101);
             buttonIcon.Name = "buttonIcon";
             buttonIcon.Size = new Size(24, 24);
-            buttonIcon.TabIndex = 4;
+            buttonIcon.TabIndex = 3;
             buttonIcon.TabStop = false;
             buttonIcon.UseVisualStyleBackColor = true;
             buttonIcon.Click += buttonIcon_Click;
@@ -211,29 +214,29 @@
             comboBoxRulesIni.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             comboBoxRulesIni.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxRulesIni.FormattingEnabled = true;
-            comboBoxRulesIni.Location = new Point(109, 132);
+            comboBoxRulesIni.Location = new Point(121, 132);
             comboBoxRulesIni.Name = "comboBoxRulesIni";
-            comboBoxRulesIni.Size = new Size(393, 23);
-            comboBoxRulesIni.TabIndex = 1;
+            comboBoxRulesIni.Size = new Size(394, 23);
+            comboBoxRulesIni.TabIndex = 4;
             comboBoxRulesIni.SelectedIndexChanged += comboBoxRulesIni_SelectedIndexChanged;
             // 
             // checkBoxAres
             // 
             checkBoxAres.AutoSize = true;
-            checkBoxAres.Location = new Point(109, 193);
+            checkBoxAres.Location = new Point(121, 193);
             checkBoxAres.Name = "checkBoxAres";
             checkBoxAres.Size = new Size(93, 19);
-            checkBoxAres.TabIndex = 15;
+            checkBoxAres.TabIndex = 6;
             checkBoxAres.Text = "Ares support";
             checkBoxAres.UseVisualStyleBackColor = true;
             // 
             // checkBoxPhobos
             // 
             checkBoxPhobos.AutoSize = true;
-            checkBoxPhobos.Location = new Point(109, 218);
+            checkBoxPhobos.Location = new Point(121, 218);
             checkBoxPhobos.Name = "checkBoxPhobos";
             checkBoxPhobos.Size = new Size(110, 19);
-            checkBoxPhobos.TabIndex = 15;
+            checkBoxPhobos.TabIndex = 7;
             checkBoxPhobos.Text = "Phobos support";
             checkBoxPhobos.UseVisualStyleBackColor = true;
             // 
@@ -260,11 +263,40 @@
             comboBoxArtIni.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             comboBoxArtIni.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxArtIni.FormattingEnabled = true;
-            comboBoxArtIni.Location = new Point(109, 161);
+            comboBoxArtIni.Location = new Point(121, 161);
             comboBoxArtIni.Name = "comboBoxArtIni";
-            comboBoxArtIni.Size = new Size(393, 23);
-            comboBoxArtIni.TabIndex = 1;
+            comboBoxArtIni.Size = new Size(394, 23);
+            comboBoxArtIni.TabIndex = 5;
             comboBoxArtIni.SelectedIndexChanged += comboBoxArtIni_SelectedIndexChanged;
+            // 
+            // checkBoxVinifera
+            // 
+            checkBoxVinifera.AutoSize = true;
+            checkBoxVinifera.Location = new Point(121, 243);
+            checkBoxVinifera.Name = "checkBoxVinifera";
+            checkBoxVinifera.Size = new Size(110, 19);
+            checkBoxVinifera.TabIndex = 8;
+            checkBoxVinifera.Text = "Vinifera support";
+            checkBoxVinifera.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(12, 269);
+            label8.Name = "label8";
+            label8.Size = new Size(93, 15);
+            label8.TabIndex = 13;
+            label8.Text = "Engine Features:";
+            // 
+            // checkBoxSectionInheritance
+            // 
+            checkBoxSectionInheritance.AutoSize = true;
+            checkBoxSectionInheritance.Location = new Point(121, 268);
+            checkBoxSectionInheritance.Name = "checkBoxSectionInheritance";
+            checkBoxSectionInheritance.Size = new Size(227, 19);
+            checkBoxSectionInheritance.TabIndex = 9;
+            checkBoxSectionInheritance.Text = "Section Inheritance ('BaseSection' tag)";
+            checkBoxSectionInheritance.UseVisualStyleBackColor = true;
             // 
             // NewCustomModForm
             // 
@@ -272,8 +304,10 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = buttonCancel;
-            ClientSize = new Size(514, 313);
+            ClientSize = new Size(527, 344);
+            Controls.Add(checkBoxVinifera);
             Controls.Add(checkBoxPhobos);
+            Controls.Add(checkBoxSectionInheritance);
             Controls.Add(checkBoxAres);
             Controls.Add(pictureBoxIcon);
             Controls.Add(buttonIcon);
@@ -281,6 +315,7 @@
             Controls.Add(comboBoxArtIni);
             Controls.Add(comboBoxRulesIni);
             Controls.Add(comboBoxGameType);
+            Controls.Add(label8);
             Controls.Add(label7);
             Controls.Add(label6);
             Controls.Add(label5);
@@ -326,5 +361,8 @@
         private Label label6;
         private Label label7;
         private ComboBox comboBoxArtIni;
+        private CheckBox checkBoxVinifera;
+        private Label label8;
+        private CheckBox checkBoxSectionInheritance;
     }
 }

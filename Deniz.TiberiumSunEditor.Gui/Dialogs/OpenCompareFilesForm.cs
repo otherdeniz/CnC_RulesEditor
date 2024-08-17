@@ -56,7 +56,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                 return new RulesRootModel(compareFile, fileTypeModel, defaultFile,
                     showMissingValues: true,
                     useAres: gameDefinition.UseAres,
-                    usePhobos: gameDefinition.UsePhobos);
+                    usePhobos: gameDefinition.UsePhobos,
+                    useVinifera: gameDefinition.UseVinifera);
             }
             else
             {
@@ -67,7 +68,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                 var rulesRootModel = new RulesRootModel(gameDefinition.LoadDefaultRulesFile(), fileTypeModel,
                     showMissingValues: true,
                     useAres: gameDefinition.UseAres,
-                    usePhobos: gameDefinition.UsePhobos);
+                    usePhobos: gameDefinition.UsePhobos,
+                    useVinifera: gameDefinition.UseVinifera);
                 return new ArtRootModel(rulesRootModel, compareFile, defaultFile, true);
             }
         }

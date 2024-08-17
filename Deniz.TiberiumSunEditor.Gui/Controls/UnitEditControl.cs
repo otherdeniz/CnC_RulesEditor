@@ -518,7 +518,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 EntityModel.EntityValueList.Add(new EntityValueModel(
                     EntityModel,
-                    "Other values",
+                    "9) Other values",
                     EntityModel.FileSection,
                     EntityModel.DefaultSection,
                     selectedKey.Key,

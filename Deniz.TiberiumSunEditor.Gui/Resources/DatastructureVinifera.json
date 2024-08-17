@@ -1,0 +1,62 @@
+{
+	"CommonGeneral": [
+		{"Key":"MaxFreeRefineryDistanceBias","Category":"Improved Harvester AI","Default":"16","Description":"When looking for refineries, harvesters will prefer a distant free refinery over a closer occupied refinery if the refineries' distance difference in cells is less than this."},
+		{"Key":"IceStrength","Section":"CombatDamage","Category":"'CombatDamage' Values","Default":"0","Description":"Defines the strength of ice. Higher values make ice less likely to break from a shot."},
+	],
+
+	"Sides": [
+	],
+	
+	"AllUnits": [
+		{"Key":"AILegalTarget","Description":"Can this object be the target of an attack or move command by the computer?","Default":"yes"},
+		{"Key":"ImmuneToEMP","Description":"Is this object immune to EMP (electromagnetic pulse) effects? Powered buildings, vehicles and cyborgs are typically disabled by EMP, unless this is set for them.","Default":"no"},
+		{"Key":"CanPassiveAcquire","Description":"Can this object acquire targets that are within its weapons range and attack them automatically?","Default":"yes"},
+		{"Key":"CanRetaliate","Description":"Can this object retaliate when hit by enemy fire?","Default":"yes"}
+	],
+	
+	"AllMovingUnits": [
+		{"Key":"CloakSound","Description":"This is the sound effect to play when the unit is cloaking.","LookupType":"Sounds"},
+		{"Key":"UncloakSound","Description":"This is the sound effect to play when the unit is decloaking.","LookupType":"Sounds"}
+	],
+	
+	"InfantryUnits": [
+	],
+
+	"DrivingVehicleUnits": [
+	],
+
+	"AircraftUnits": [
+	],
+
+	"BuildingUnits": [
+	],
+
+	"Weapons": [
+	],
+	
+	"Warheads": [
+	],
+	
+	"SuperWeaponsGeneral": [
+		{"Key":"ShowSuperWeaponTimers","Section":"AudioVisual","Category":"'AudioVisual' Values","Default":"false","Description":"Should active super weapons show their recharge timer display on the tactical view?"}
+	],
+	
+	"SuperWeapons": [
+	],
+	
+	"ValueTypes": [
+	],
+	
+	"NewBuilding": [
+	],
+	
+	"NewInfantry": [
+	],
+	
+	"NewVehicle": [
+	],
+	
+	"NewAircraft": [
+	]
+	
+}

@@ -56,6 +56,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
 
         public bool UsePhobos { get; set; }
 
+        public bool UseVinifera { get; set; }
+
+        public bool UseSectionInheritance { get; set; }
+
         public List<SideDefinition> Sides { get; set; } = new();
 
         public string? GetUserGamePath()

@@ -532,7 +532,9 @@ namespace Deniz.TiberiumSunEditor.Gui
             var rootModel = new RulesRootModel(rulesFile, fileType, 
                 showMissingValues: true, 
                 useAres: fileType.GameDefinition.UseAres,
-                usePhobos: fileType.GameDefinition.UsePhobos);
+                usePhobos: fileType.GameDefinition.UsePhobos,
+                useVinifera: fileType.GameDefinition.UseVinifera,
+                useSectionInheritance: fileType.GameDefinition.UseSectionInheritance);
             _editRulesMainControl = new RulesEditMainControl()
             {
                 Dock = DockStyle.Fill
@@ -572,7 +574,8 @@ namespace Deniz.TiberiumSunEditor.Gui
             var rulesRootModel = new RulesRootModel(rulesFile, fileType,
                 showMissingValues: true,
                 useAres: fileType.GameDefinition.UseAres,
-                usePhobos: fileType.GameDefinition.UsePhobos);
+                usePhobos: fileType.GameDefinition.UsePhobos,
+                useVinifera: fileType.GameDefinition.UseVinifera);
             var artRootModel = new ArtRootModel(rulesRootModel, artFile,
                 showMissingValues: true);
             _editArtMainControl = new ArtEditMainControl()

@@ -187,8 +187,6 @@
 	],
 	
 	"AllUnits": [
-		{"Key":"BaseSection","Description":"The base unit from which this unit inherits all properties (only 'Dawn of the Tiberium Age')","LookupType":"self","GameKeyFilter":"DTA"},
-		{"Key":"Image","Description":"The base unit from which this unit inherits the image","LookupType":"self","GameKeyFilter":"DTA"},
 		{"Key":"TechLevel","Description":"tech level required to build this [-1 means can't build]","Default":"-1"},
 		{"Key":"AllowedToStartInMultiplayer","Description":"Can the unit be allocated to a player when starting a multiplayer game","Default":"yes"},
 		{"Key":"Ammo","Description":"number of rounds carried between reloads [-1 means unlimited]","Default":"-1"},
@@ -237,7 +235,8 @@
 		{"Key":"VoiceMove","Description":"list of voices to use when giving object a movement order","Default":"none","LookupType":"Sounds","MultipleValues":true},
 		{"Key":"VoiceAttack","Description":"list of voices to use when giving object an attack order","Default":"none","LookupType":"Sounds","MultipleValues":true},
 		{"Key":"VoiceDie","Description":"list of voices to use when it dies","Default":"none","LookupType":"Sounds","MultipleValues":true},
-		{"Key":"VoiceFeedback","Description":"list of voices that may give when taking damage","Default":"none","LookupType":"Sounds","MultipleValues":true}
+		{"Key":"VoiceFeedback","Description":"list of voices that may give when taking damage","Default":"none","LookupType":"Sounds","MultipleValues":true},
+		{"Key":"Image","Description":"The base unit from which this unit inherits the image","LookupType":"self"}
 	],
 	
 	"AllMovingUnits": [

@@ -60,6 +60,7 @@
 			"SnippetsFolder": "DawnOfTheTiberiumAge",
 			"BitmapsFolders": "DTA",
 			"SoundIni": "Sound01.ini",
+			"UseVinifera": true,
 			"Sides": [
 				{
 					"Name": "GDI",

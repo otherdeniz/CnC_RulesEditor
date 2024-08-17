@@ -29,6 +29,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
 
         public bool HasPhobos { get; set; }
 
+        public bool HasVinifera { get; set; }
+
+        public bool HasSectionInheritance { get; set; }
+
         public string GetRulesIniFilePath()
         {
             return Path.Combine(GamePath, RulesIniPath);
@@ -73,7 +77,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
                     Sides = baseGameDefinition.Sides,
                     SaveAsFilename = Path.GetFileName(RulesIniPath),
                     UseAres = HasAres,
-                    UsePhobos = HasPhobos
+                    UsePhobos = HasPhobos,
+                    UseVinifera = HasVinifera,
+                    UseSectionInheritance = HasSectionInheritance
                 };
             }
             return null;

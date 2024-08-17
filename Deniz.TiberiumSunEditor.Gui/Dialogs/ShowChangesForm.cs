@@ -16,7 +16,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         {
             var changesModel = new RulesRootModel(changesFile, FileTypeModel.Empty, defaultFile,
                 useAres: rulesRootModel.UseAres,
-                usePhobos: rulesRootModel.UsePhobos);
+                usePhobos: rulesRootModel.UsePhobos,
+                useVinifera: rulesRootModel.UseVinifera);
             rulesEdit.LoadModel(changesModel, "", "");
         }
 

@@ -161,6 +161,7 @@
     <None Remove="Resources\Datastructure.json.documentation.txt" />
     <None Remove="Resources\DatastructureAres.json" />
     <None Remove="Resources\DatastructurePhobos.json" />
+    <None Remove="Resources\DatastructureVinifera.json" />
     <None Remove="Resources\DTAArt.ini" />
     <None Remove="Resources\DTArules.ini" />
     <None Remove="Resources\Games.json" />
@@ -284,6 +285,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\DatastructureAres.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\DatastructureVinifera.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\DTAArt.ini">

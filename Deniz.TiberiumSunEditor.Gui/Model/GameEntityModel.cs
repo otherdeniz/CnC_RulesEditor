@@ -35,15 +35,32 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                     u.UnitValueDefinition.Key,
                     u.UnitValueDefinition))
                 .Union(fileSection.KeyValues.Where(k =>
-                    !unitValueList.Any(v => k.Key == v.UnitValueDefinition.Key))
+                    !unitValueList.Any(v => k.Key == v.UnitValueDefinition.Key 
+                                            || k.Key == "BaseSection"))
                     .Select(k => new EntityValueModel(
                         this,
-                        "Other values",
+                        "9) Other values",
                         fileSection,
                         defaultSection,
                         k.Key,
                         new UnitValueDefinition {Key = k.Key, DetectTypeAtRuntime = true})))
                 .ToList();
+            if (rulesRootModel.UseSectionInheritance)
+            {
+                EntityValueList.Add(new EntityValueModel(
+                    this,
+                    "0) Section Inheritance",
+                    fileSection,
+                    defaultSection,
+                    "BaseSection",
+                    new UnitValueDefinition
+                    {
+                        Key = "BaseSection", 
+                        LookupType = "self",
+                        Description = "The base section from which this entity inherits all values"
+                    }
+                ));
+            }
         }
 
         public RulesRootModel RulesRootModel { get; }

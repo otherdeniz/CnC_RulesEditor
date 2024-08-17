@@ -40,9 +40,39 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             return moveFileNames;
         }
 
+        public List<string> CheckBaseFilesToCreateDefaultVersions(IEnumerable<string> searchPatterns)
+        {
+            var copyFileNames = new List<string>();
+            var iniBasePath = Path.Combine(GameDirectory, "INI", "Base");
+            if (Directory.Exists(iniBasePath))
+            {
+                foreach (var searchPattern in searchPatterns)
+                {
+                    var iniFiles = Directory.GetFiles(iniBasePath, searchPattern)
+                        .Select(p => Path.GetFileName(p));
+                    foreach (var iniFile in iniFiles)
+                    {
+                        if (!File.Exists(Path.Combine(iniBasePath, 
+                                Path.GetFileNameWithoutExtension(iniFile) + "-default.ini")))
+                        {
+                            copyFileNames.Add(iniFile);
+                        }
+                    }
+                }
+            }
+            return copyFileNames;
+        }
+
         public IEnumerable<string> IniFolderSearch(string searchPattern)
         {
             var iniPath = Path.Combine(GameDirectory, "INI");
+            var iniBasePath = Path.Combine(iniPath, "Base");
+            if (Directory.Exists(iniBasePath))
+            {
+                return Directory.GetFiles(iniBasePath, searchPattern)
+                    .OrderBy(f => f.EndsWith("-default.ini") ? 0 : 1)
+                    .Select(p => $"INI\\Base\\{Path.GetFileName(p)}");
+            }
             if (Directory.Exists(iniPath))
             {
                 return Directory.GetFiles(iniPath, searchPattern)
@@ -60,19 +90,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                 : null;
         }
 
-        public bool HasModuleAres()
+        public bool HasModule(string moduleFile)
         {
-            return File.Exists(Path.Combine(GameDirectory, "Ares.dll"));
-        }
-
-        public bool HasModulePhobos()
-        {
-            return File.Exists(Path.Combine(GameDirectory, "Phobos.dll"));
+            return File.Exists(Path.Combine(GameDirectory, moduleFile));
         }
 
         private GameDefinition? DetectedBaseType()
         {
-            if (File.Exists(Path.Combine(GameDirectory, "TIBSUN.MIX")))
+            if (File.Exists(Path.Combine(GameDirectory, "TIBSUN.MIX"))
+                || File.Exists(Path.Combine(GameDirectory, "MIX", "TIBSUN.MIX")))
             {
                 return GamesFile.Instance.Games.FirstOrDefault(g => g.GameKey == "TiberianSun");
             }

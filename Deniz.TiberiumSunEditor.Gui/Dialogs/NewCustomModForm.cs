@@ -1,6 +1,7 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
+using ImageMagick;
 
 namespace Deniz.TiberiumSunEditor.Gui.Dialogs
 {
@@ -77,6 +78,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             IconImagePath = customModSetting.LogoFile;
             checkBoxAres.Checked = customModSetting.HasAres;
             checkBoxPhobos.Checked = customModSetting.HasPhobos;
+            checkBoxVinifera.Checked = customModSetting.HasVinifera;
+            checkBoxSectionInheritance.Checked = customModSetting.HasSectionInheritance;
             SelectedImage = LogoRepository.Instance.GetLogo(IconImagePath);
             _gameTypeDetector = new GameTypeDetector(customModSetting.GamePath);
             LoadRulesIniSources();
@@ -195,21 +198,42 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             if (folderBrowserDialog.ShowDialog(this) == DialogResult.OK)
             {
                 var gameTypeDetector = new GameTypeDetector(folderBrowserDialog.SelectedPath);
-                var filesToMove = gameTypeDetector.CheckFilesToMoveToIniFolder(new[] { "rules*.ini", "art*.ini" });
-                if (filesToMove.Any())
+                var filesToCopyAsDefault = gameTypeDetector.CheckBaseFilesToCreateDefaultVersions(new[] { "rules*.ini", "art*.ini" });
+                if (filesToCopyAsDefault.Any())
                 {
-                    if (MessageBox.Show("The following files where found in the games root-folder:" + Environment.NewLine +
-                            string.Join(", ", filesToMove) + Environment.NewLine +
-                            "It is required for this editor that the default .ini files are located in the games sub-folder 'INI'" + Environment.NewLine +
-                            "the editor then saves the modified .ini files in the games root folder." + Environment.NewLine +
-                            "Press 'Yes' to copy these files now to the 'INI' subfolder.", 
+                    if (MessageBox.Show("The following files where found in the games 'INI\\Base'-folder:" + Environment.NewLine +
+                                        string.Join(", ", filesToCopyAsDefault) + Environment.NewLine + Environment.NewLine +
+                                        "It is required for this editor to have dedicated default-files," + Environment.NewLine +
+                                        "the editor then saves the modified .ini files in the same location." + Environment.NewLine +
+                                        "Press 'Yes' to copy these files now to a default-version in the same folder" + Environment.NewLine +
+                                        "(adds the '-default' sufix to the default filename).",
                             "Proceed?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        CopyFilesToIniFolder(folderBrowserDialog.SelectedPath, filesToMove);
+                        CopyBaseFilesToDefaultFile(folderBrowserDialog.SelectedPath, filesToCopyAsDefault);
                     }
                     else
                     {
                         return;
+                    }
+                }
+                else
+                {
+                    var filesToMove = gameTypeDetector.CheckFilesToMoveToIniFolder(new[] { "rules*.ini", "art*.ini" });
+                    if (filesToMove.Any())
+                    {
+                        if (MessageBox.Show("The following files where found in the games root-folder:" + Environment.NewLine +
+                                            string.Join(", ", filesToMove) + Environment.NewLine + Environment.NewLine +
+                                            "It is required for this editor that the default .ini files are located in the games sub-folder 'INI'" + Environment.NewLine +
+                                            "the editor then saves the modified .ini files in the games root folder." + Environment.NewLine +
+                                            "Press 'Yes' to copy these files now to the 'INI' subfolder.",
+                                "Proceed?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            CopyFilesToIniFolder(folderBrowserDialog.SelectedPath, filesToMove);
+                        }
+                        else
+                        {
+                            return;
+                        }
                     }
                 }
                 textGamePath.Text = folderBrowserDialog.SelectedPath;
@@ -226,9 +250,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                     IconImagePath = clientLogoPath;
                 }
 
-                checkBoxAres.Checked = _gameTypeDetector.HasModuleAres();
-                checkBoxPhobos.Checked = _gameTypeDetector.HasModulePhobos();
-
+                checkBoxAres.Checked = _gameTypeDetector.HasModule("Ares.dll");
+                checkBoxPhobos.Checked = _gameTypeDetector.HasModule("Phobos.dll");
+                checkBoxVinifera.Checked = _gameTypeDetector.HasModule("Vinifera.dll");
+                checkBoxSectionInheritance.Checked =
+                    Directory.Exists(Path.Combine(folderBrowserDialog.SelectedPath, "INI", "Base"));
                 LoadRulesIniSources();
                 LoadArtIniSources();
             }
@@ -244,6 +270,19 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             foreach (var fileName in fileNames)
             {
                 File.Copy(Path.Combine(gamePath, fileName), Path.Combine(iniPath, fileName), false);
+            }
+        }
+
+        private void CopyBaseFilesToDefaultFile(string gamePath, List<string> fileNames)
+        {
+            var iniBasePath = Path.Combine(gamePath, "INI", "Base");
+            if (Directory.Exists(iniBasePath))
+            {
+                foreach (var fileName in fileNames)
+                {
+                    File.Copy(Path.Combine(iniBasePath, fileName), 
+                        Path.Combine(iniBasePath, Path.GetFileNameWithoutExtension(fileName) + "-default.ini"), false);
+                }
             }
         }
 
@@ -278,6 +317,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             CurrentModSetting.GamePath = textGamePath.Text;
             CurrentModSetting.HasAres = checkBoxAres.Checked;
             CurrentModSetting.HasPhobos = checkBoxPhobos.Checked;
+            CurrentModSetting.HasVinifera = checkBoxVinifera.Checked;
+            CurrentModSetting.HasSectionInheritance = checkBoxSectionInheritance.Checked;
             // Rules.ini
             var selectedRulesIni = (string)comboBoxRulesIni.SelectedItem;
             if (selectedRulesIni.Contains(":"))

@@ -20,13 +20,17 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             bool showMissingValues = false,
             DatastructureFile? datastructureOverwrite = null,
             bool useAres = false,
-            bool usePhobos = false)
+            bool usePhobos = false,
+            bool useVinifera = false,
+            bool useSectionInheritance = false)
         {
             _showMissingValues = showMissingValues;
             File = iniFile;
             FileType = fileType;
             UseAres = useAres;
             UsePhobos = usePhobos;
+            UseVinifera = useVinifera;
+            UseSectionInheritance = useSectionInheritance;
             if (datastructureOverwrite == null)
             {
                 Datastructure = DatastructureFile.Instance;
@@ -37,6 +41,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 if (usePhobos)
                 {
                     Datastructure = Datastructure.MergeWith(DatastructurePhobosFile.InstancePhobos);
+                }
+                if (useVinifera)
+                {
+                    Datastructure = Datastructure.MergeWith(DatastructureFile.InstanceVinifera);
                 }
             }
             else
@@ -79,6 +87,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         public bool UseAres { get; }
 
         public bool UsePhobos { get; }
+
+        public bool UseVinifera { get; }
+
+        public bool UseSectionInheritance { get; }
 
         public List<KeyValuePair<string, List<string>>> Sides => _sides
             ??= DefaultFile.GetSection("Sides")?.KeyValues
