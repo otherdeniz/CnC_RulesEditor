@@ -21,6 +21,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private bool _showModifications = true;
         private List<GameEntityModel>? _usedByEntityModels;
         private UsedByPopupForm? _usedByPopupForm;
+        private string _valueColumn = "value";
 
         public UnitEditControl()
         {
@@ -189,6 +190,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void LoadValueGrid()
         {
+            _valueColumn = EntityModel!.RulesRootModel.UseSectionInheritance
+                ? "ValueResolved"
+                : "Value";
             valuesGrid.DataSource = null;
             valuesGrid.DataSource = EntityModel!.EntityValueList
                 .Where(FilterValue)
@@ -198,12 +202,23 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 valuesGrid.DisplayLayout.Bands[0].SortedColumns.Add("Category", false, true);
             }
+
+            if (EntityModel!.RulesRootModel.UseSectionInheritance)
+            {
+                valuesGrid.DisplayLayout.Bands[0].Columns["Value"].Hidden = true;
+                valuesGrid.DisplayLayout.Bands[0].Columns["ValueResolved"].Hidden = false;
+            }
+            else
+            {
+                valuesGrid.DisplayLayout.Bands[0].Columns["Value"].Hidden = false;
+                valuesGrid.DisplayLayout.Bands[0].Columns["ValueResolved"].Hidden = true;
+            }
             valuesGrid.DisplayLayout.Bands[0].Columns["Key"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridReadonlyCellBackColor;
             valuesGrid.DisplayLayout.Bands[0].Columns["NormalValue"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridReadonlyCellBackColor;
             valuesGrid.DisplayLayout.Bands[0].Columns["DefaultValue"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridReadonlyCellBackColor;
             valuesGrid.DisplayLayout.Bands[0].Columns["Description"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridReadonlyCellBackColor;
             valuesGrid.DisplayLayout.Bands[0].PerformAutoResizeColumns(true, PerformAutoSizeType.AllRowsInBand);
-            valuesGrid.DisplayLayout.Bands[0].Columns["Value"].Width = 120;
+            valuesGrid.DisplayLayout.Bands[0].Columns[_valueColumn].Width = 120;
             valuesGrid.DisplayLayout.Bands[0].Columns["NormalValue"].Width = 120;
             if (ReadonlyMode)
             {
@@ -297,11 +312,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 {
                     valueModel.Value = valueModel.NormalValue;
                     e.Cell.Refresh();
-                    var valueCell = e.Cell.Row.Cells["Value"];
+                    var valueCell = e.Cell.Row.Cells[_valueColumn];
                     valueCell.Refresh();
                     valuesGrid_AfterCellUpdate(this, new CellEventArgs(valueCell));
                 }
-                else if (e.Cell.Column.Key == "Value")
+                else if (e.Cell.Column.Key == _valueColumn)
                 {
                     if (valueModel.ValueDefinition.ValueList != null
                         || valueModel.ValueDefinition.ValueType != null
@@ -372,9 +387,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         {
             if (e.Row.ListObject is EntityValueModel valueModel)
             {
-                e.Row.Cells["Value"].Appearance.BackColor = valueModel.IsModified
-                    ? ThemeManager.Instance.CurrentTheme.GridModifiedCellBackColor
-                    : ThemeManager.Instance.CurrentTheme.GridEditableCellBackColor;
+                RefreshValueAppearance(e.Row.Cells[_valueColumn], valueModel);
                 if (ReadonlyMode)
                 {
                     e.Row.Activation = Activation.NoEdit;
@@ -405,7 +418,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     if (valueModel.ValueDefinition.LookupType != null
                         && EntityModel!.RulesRootModel.LookupEntities.ContainsKey(ResolveSelf(valueModel.ValueDefinition.LookupType)!))
                     {
-                        e.Row.Cells["Value"].ToolTipText = "Right-click to open Quick-Edit";
+                        e.Row.Cells[_valueColumn].ToolTipText = "Right-click to open Quick-Edit";
                     }
                     e.Row.Cells["Key"].Activation = Activation.NoEdit;
                     e.Row.Cells["NormalValue"].Activation = Activation.NoEdit;
@@ -424,15 +437,45 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             return entityType;
         }
 
+        private void RefreshValueAppearance(UltraGridCell valueCell, EntityValueModel valueModel)
+        {
+            valueCell.Appearance.BackColor = valueModel.IsModified
+                ? ThemeManager.Instance.CurrentTheme.GridModifiedCellBackColor
+                : ThemeManager.Instance.CurrentTheme.GridEditableCellBackColor;
+            if (EntityModel!.RulesRootModel.UseSectionInheritance)
+            {
+                valueCell.Appearance.ForeColor = valueModel.IsValueResolved
+                    ? ThemeManager.Instance.CurrentTheme.HintTextColor
+                    : ThemeManager.Instance.CurrentTheme.ControlsTextColor;
+            }
+            else
+            {
+                valueCell.Appearance.ForeColor = ThemeManager.Instance.CurrentTheme.ControlsTextColor;
+            }
+        }
+
         private void valuesGrid_AfterCellUpdate(object sender, CellEventArgs e)
         {
             if (e.Cell.Row.ListObject is EntityValueModel valueModel
-                && e.Cell.Column.Key == "Value")
+                && e.Cell.Column.Key == _valueColumn)
             {
-                e.Cell.Appearance.BackColor = valueModel.IsModified
-                    ? ThemeManager.Instance.CurrentTheme.GridModifiedCellBackColor
-                    : ThemeManager.Instance.CurrentTheme.GridEditableCellBackColor;
-                e.Cell.Row.Cells["UseNormalImage"].Refresh();
+                RefreshValueAppearance(e.Cell, valueModel);
+                if (valueModel.Key == "BaseSection")
+                {
+                    // refresh all rows values
+                    valuesGrid.Rows.Refresh(RefreshRow.RefreshDisplay);
+                    foreach (var row in valuesGrid.Rows.OfType<UltraGridGroupByRow>().SelectMany(g => g.Rows))
+                    {
+                        if (row.ListObject is EntityValueModel rowValueModel)
+                        {
+                            RefreshValueAppearance(row.Cells[_valueColumn], rowValueModel);
+                        }
+                    }
+                }
+                else
+                {
+                    e.Cell.Row.Cells["UseNormalImage"].Refresh();
+                }
                 RefreshModifications();
                 UnitModificationsChanged?.Invoke(this, EventArgs.Empty);
             }
@@ -440,7 +483,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void lookupValue_RefreshEntityValue(object sender, EventArgs e)
         {
-            var valueCell = _lookupEntityRow?.Cells["Value"];
+            var valueCell = _lookupEntityRow?.Cells[_valueColumn];
             if (valueCell != null)
             {
                 valueCell.Refresh();
@@ -455,7 +498,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void lookupValue_SelectedValueChanged(object sender, EventArgs e)
         {
-            var valueCell = _lookupEntityRow?.Cells["Value"];
+            var valueCell = _lookupEntityRow?.Cells[_valueColumn];
             if (valueCell != null)
             {
                 valueCell.Refresh();
@@ -466,13 +509,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void ButtonCloseValue_Click(object sender, EventArgs e)
         {
-            var valueCell = _lookupEntityRow?.Cells["Value"];
-            if (valueCell != null)
+            var valueCell = _lookupEntityRow?.Cells[_valueColumn];
+            if (valueCell != null
+                && valueCell.Row.ListObject is EntityValueModel valueModel)
             {
-                valueCell.Appearance.BackColor = (valueCell.Row.ListObject is EntityValueModel valueModel)
-                                                 && valueModel.IsModified
-                    ? ThemeManager.Instance.CurrentTheme.GridModifiedCellBackColor
-                    : ThemeManager.Instance.CurrentTheme.GridEditableCellBackColor;
+                RefreshValueAppearance(valueCell, valueModel);
             }
             panelValueChooser.Visible = false;
             _lookupEntityValue = null;

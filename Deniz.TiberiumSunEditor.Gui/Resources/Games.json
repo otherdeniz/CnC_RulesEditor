@@ -61,6 +61,7 @@
 			"BitmapsFolders": "DTA",
 			"SoundIni": "Sound01.ini",
 			"UseVinifera": true,
+			"UseSectionInheritance": true,
 			"Sides": [
 				{
 					"Name": "GDI",

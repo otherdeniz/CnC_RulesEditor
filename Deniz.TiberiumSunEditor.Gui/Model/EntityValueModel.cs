@@ -11,6 +11,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
     {
         private readonly IniFileSection _fileSection;
         private readonly IniFileSection? _defaultSection;
+        private string? _resolvedValue;
 
         public EntityValueModel(GameEntityModel entityModel,
             string category,
@@ -46,6 +47,24 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         public string Category { get; }
 
         public string Key { get; }
+
+        [DisplayName("Value")]
+        public string ValueResolved
+        {
+            get
+            {
+                var valueResolved = Value;
+                if (string.IsNullOrEmpty(valueResolved))
+                {
+                    valueResolved = ResolveBaseValue(_fileSection);
+                }
+                return valueResolved;
+            }
+            set => Value = value;
+        }
+
+        [Browsable(false)]
+        public bool IsValueResolved => ValueResolved != Value;
 
         public string Value
         {
@@ -93,5 +112,41 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         [Browsable(false)]
         public bool IsModified => _fileSection.GetValue(Key) != null
                                   && !string.Equals(Value, NormalValue, StringComparison.InvariantCultureIgnoreCase);
+
+        private string ResolveBaseValue(IniFileSection thisFileSection)
+        {
+            if (_resolvedValue != null)
+            {
+                return _resolvedValue;
+            }
+            var baseSectionValue = thisFileSection.GetValue("BaseSection")
+                ?? EntityModel.RootModel.DefaultFile.GetSection(thisFileSection.SectionName)?.GetValue("BaseSection");
+            if (!string.IsNullOrEmpty(baseSectionValue?.Value))
+            {
+                baseSectionValue.ValueChanged += (sender, args) => _resolvedValue = null;
+                var baseSection = EntityModel.RootModel.File.GetSection(baseSectionValue.Value)
+                                  ?? EntityModel.RootModel.DefaultFile.GetSection(baseSectionValue.Value);
+                if (baseSection != null)
+                {
+                    var baseValue = baseSection.GetValue(Key);
+                    if (baseValue != null)
+                    {
+                        _resolvedValue = baseValue.Value;
+                        baseValue.ValueChanged += (sender, args) => _resolvedValue = null;
+                    }
+                    else
+                    {
+                        return ResolveBaseValue(baseSection);
+                    }
+                }
+                else
+                {
+                    _resolvedValue = string.Empty;
+                }
+            }
+
+            return _resolvedValue ?? string.Empty;
+        }
+
     }
 }
