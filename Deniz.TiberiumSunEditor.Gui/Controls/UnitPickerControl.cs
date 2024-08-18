@@ -3,12 +3,14 @@ using System.ComponentModel;
 using System.Drawing.Imaging;
 using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
+using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
+using Infragistics.Win;
+using Infragistics.Win.UltraWinToolTip;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls
 {
     public partial class UnitPickerControl : UserControl
     {
-        private GameEntityModel? _entityModel;
         private bool _isFavorte;
         private int _modificationCount;
         private bool _readonlyMode;
@@ -16,12 +18,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private Bitmap? _unitPicture;
         private Bitmap? _selectedUnitPicture;
         private AnimationRequirementToken? _animationRequirementToken;
-        private Color _backColor;
+        private List<EntityGroupSetting>? _entityGroups;
+        private EntityGroupSetting? _assignedToGroup;
 
         public UnitPickerControl()
         {
             InitializeComponent();
-            _backColor = Color.FromArgb(0, Color.White);
             pictureFavorite.BackColor = Color.FromArgb(0, 0, 0, 0);
         }
 
@@ -29,8 +31,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         public event EventHandler<EventArgs>? UnitClick;
 
+        public event EventHandler<EventArgs>? GroupChanged;
+
         [Browsable(false)]
-        public GameEntityModel? EntityModel => _entityModel;
+        public GameEntityModel? EntityModel { get; private set; }
 
         [DefaultValue(false)]
         public bool ReadonlyMode
@@ -52,63 +56,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 _isSelected = value;
                 BackgroundImage = _isSelected
-                    ? (_selectedUnitPicture ??= UnitPictureGenerator.Instance.GetUnitPicture(_entityModel!, true, null, out _))
+                    ? (_selectedUnitPicture ??= UnitPictureGenerator.Instance.GetUnitPicture(EntityModel!, true, null, out _))
                     : _unitPicture;
             }
-        }
-
-        public override Color BackColor
-        {
-            get => _backColor;
-            set
-            {
-                // KEEP
-            }
-        }
-
-        public void LoadModel(GameEntityModel entityModel)
-        {
-            _entityModel = entityModel;
-            _entityModel.FileSection.ValueChanged += FileSectionOnValueChanged;
-            _unitPicture = UnitPictureGenerator.Instance.GetUnitPicture(entityModel, false, LoadAnimatedThumbnail, out var requirementToken);
-            _animationRequirementToken = requirementToken;
-            BackgroundImage = _unitPicture;
-            RefreshModifications();
-            RefreshIsFavorite();
-        }
-
-        private void FileSectionOnValueChanged(object? sender, IniFileSectionChangedEventArgs e)
-        {
-            if (e.Key == "Owner"
-                || e.Key == "AnimList"
-                || e.Key == "Name")
-            {
-                _selectedUnitPicture = null;
-                if (_animationRequirementToken != null)
-                {
-                    _animationRequirementToken.StillNeeded = false;
-                }
-                _unitPicture = UnitPictureGenerator.Instance.GetUnitPicture(_entityModel!, false, LoadAnimatedThumbnail, out var requirementToken);
-                _animationRequirementToken = requirementToken;
-                BackgroundImage = _isSelected
-                    ? (_selectedUnitPicture = UnitPictureGenerator.Instance.GetUnitPicture(_entityModel!, true, null, out _))
-                    : _unitPicture;
-            }
-        }
-
-        public void RefreshIsFavorite()
-        {
-            IsFavorite = _entityModel!.Favorite;
-        }
-
-        public void RefreshModifications()
-        {
-            ModificationCount = _entityModel!.ModificationCount;
         }
 
         [Browsable(false)]
         [DefaultValue("")]
-        public string UnitKey => _entityModel?.EntityKey ?? "";
+        public string UnitKey => EntityModel?.EntityKey ?? "";
 
         [Browsable(false)]
         [DefaultValue(false)]
@@ -146,6 +101,59 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
         }
 
+        public void LoadModel(GameEntityModel entityModel)
+        {
+            EntityModel = entityModel;
+            EntityModel.FileSection.ValueChanged += FileSectionOnValueChanged;
+            _unitPicture = UnitPictureGenerator.Instance.GetUnitPicture(entityModel, false, LoadAnimatedThumbnail, out var requirementToken);
+            _animationRequirementToken = requirementToken;
+            BackgroundImage = _unitPicture;
+            RefreshModifications();
+            RefreshIsFavorite();
+        }
+
+        public void InitGroups(List<EntityGroupSetting> entityGroups, EntityGroupSetting? assignedToGroup)
+        {
+            _entityGroups = entityGroups;
+            _assignedToGroup = assignedToGroup;
+            var toolTipInfo = new UltraToolTipInfo
+            {
+                ToolTipText = "right click to open group-by menu",
+                Enabled = DefaultableBoolean.True
+            };
+            ultraToolTips.SetUltraToolTip(this, toolTipInfo);
+            ultraToolTips.SetUltraToolTip(pictureThumbnail, toolTipInfo);
+        }
+
+        private void FileSectionOnValueChanged(object? sender, IniFileSectionChangedEventArgs e)
+        {
+            if (e.Key == "Owner"
+                || e.Key == "AnimList"
+                || e.Key == "Name")
+            {
+                _selectedUnitPicture = null;
+                if (_animationRequirementToken != null)
+                {
+                    _animationRequirementToken.StillNeeded = false;
+                }
+                _unitPicture = UnitPictureGenerator.Instance.GetUnitPicture(EntityModel!, false, LoadAnimatedThumbnail, out var requirementToken);
+                _animationRequirementToken = requirementToken;
+                BackgroundImage = _isSelected
+                    ? (_selectedUnitPicture = UnitPictureGenerator.Instance.GetUnitPicture(EntityModel!, true, null, out _))
+                    : _unitPicture;
+            }
+        }
+
+        public void RefreshIsFavorite()
+        {
+            IsFavorite = EntityModel!.Favorite;
+        }
+
+        public void RefreshModifications()
+        {
+            ModificationCount = EntityModel!.ModificationCount;
+        }
+
         private void LoadAnimatedThumbnail(Image animatedImage)
         {
             if (animatedImage.RawFormat.Guid == ImageFormat.Gif.Guid)
@@ -162,9 +170,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private void DisposeManaged()
         {
             BackgroundImage = null;
-            if (_entityModel != null)
+            if (EntityModel != null)
             {
-                _entityModel.FileSection.ValueChanged -= FileSectionOnValueChanged;
+                EntityModel.FileSection.ValueChanged -= FileSectionOnValueChanged;
             }
             _unitPicture?.Dispose();
             _unitPicture = null;
@@ -179,7 +187,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private void pictureFavorite_Click(object sender, EventArgs e)
         {
             IsFavorite = !_isFavorte;
-            _entityModel!.Favorite = IsFavorite;
+            EntityModel!.Favorite = IsFavorite;
             FavoriteClick?.Invoke(this, EventArgs.Empty);
         }
 
@@ -196,6 +204,54 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private void pictureThumbnail_Click(object sender, EventArgs e)
         {
             UnitClick?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void AddToGroup(string groupName)
+        {
+            UserSettingsFile.Instance.AddEntityToGroup(EntityModel!.EntityType, UnitKey, groupName);
+            GroupChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void popupButtonNewGroup_Click(object sender, EventArgs e)
+        {
+            AddToGroup(EntityGroupSetting.NewGroupName);
+        }
+
+        private void popupButtonRemoveFromGroup_Click(object sender, EventArgs e)
+        {
+            UserSettingsFile.Instance.RemoveEntityFromGroups(EntityModel!.EntityType, UnitKey);
+            GroupChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void InitContextMenu()
+        {
+            popupButtonRemoveFromGroup.Enabled = _assignedToGroup != null;
+            var contextItemsToRemove = contextMenu.Items.OfType<ToolStripMenuItem>().Skip(2).ToList();
+            contextItemsToRemove.ForEach(contextMenu.Items.Remove);
+            if (_entityGroups != null)
+            {
+                foreach (var entityGroup in _entityGroups)
+                {
+                    var toolStripitem = new ToolStripMenuItem($"add to group '{entityGroup.GroupName}'");
+                    toolStripitem.Click += (sender, e) => AddToGroup(entityGroup.GroupName);
+                    contextMenu.Items.Add(toolStripitem);
+                }
+            }
+        }
+
+        private void UnitPickerControl_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right
+                && _entityGroups != null)
+            {
+                InitContextMenu();
+                contextMenu.Show(this, PointToClient(MousePosition));
+            }
+        }
+
+        private void pictureThumbnail_MouseDown(object sender, MouseEventArgs e)
+        {
+            UnitPickerControl_MouseDown(sender, e);
         }
     }
 }

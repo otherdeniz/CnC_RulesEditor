@@ -10,7 +10,7 @@ All Values
 (string) ValueList : (optional) comma seperated list of possible values
 (string) ValueType : (optional) lookup the possible values in the 'ValueTypes' section of this json file or if overriden by Ares or Phobos, look there
 (string) LookupType : Type of the entitites to lookup, must be the name of the section where the units are listed (example: 'BuildingTypes' or 'InfantryTypes')
-(bool) MultipleValues : (optional) specify "true" if thsi value is a list of possible values (default is "false")
+(bool) MultipleValues : (optional) specify "true" if this value is a list of possible values (default is "false")
 (string) GameKeyFilter : (optional) specify a list of GameKeys where this value is valid (comma-separated)
 
 =====================================
@@ -36,6 +36,7 @@ Common values:  CommonGeneral
 Common values:  AIGeneral
 Common values:  TiberiumGeneral
 Common values:  TiberiumValues
+Unit values:  Sides
 Unit values:  AllUnits
 Unit values:  AllMovingUnits
 Unit values:  InfantryUnits

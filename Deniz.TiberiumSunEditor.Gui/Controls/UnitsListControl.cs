@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using Deniz.TiberiumSunEditor.Gui.Model;
 using Deniz.TiberiumSunEditor.Gui.Utils;
+using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls
 {
@@ -9,12 +10,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private const int PageSize = 250;
         private List<GameEntityModel> _entities = null!;
         private List<GameEntityModel> _orderedEntities = null!;
+        private readonly List<UnitPickerControl> _unitPickerControls = new();
         private UnitPickerControl? _selectedUnitPickerControl;
         private bool _readonlyMode;
         private bool _showOnlyFavoriteValues;
         private int _currentPage = 1;
         private bool _showOnlyFavoriteUnits;
         private bool _doEvents;
+        private List<EntityGroupSetting> _entityGroups = new();
+        private Dictionary<string, EntityGroupSetting> _keyEntityGroups = new();
+        private readonly Dictionary<string, UnitPickerGroupControl> _groupControls = new();
 
         public UnitsListControl()
         {
@@ -107,8 +112,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         public void SelectKey(string key)
         {
-            var unitPicker = unitsLayoutPanel.Controls.OfType<UnitPickerControl>()
-                .FirstOrDefault(c => c.EntityModel?.EntityKey == key);
+            var unitPicker = _unitPickerControls.FirstOrDefault(c => c.EntityModel?.EntityKey == key);
             if (unitPicker != null)
             {
                 OnUnitClick(unitPicker, unitPicker.EntityModel!);
@@ -117,14 +121,28 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private bool LoadUnits()
         {
+            if (_entities.Any())
+            {
+                var entityType = _entities[0].EntityType;
+                _entityGroups = UserSettingsFile.Instance.EntityGroups.Where(g => g.EntityType == entityType).ToList();
+                _keyEntityGroups = _entityGroups.SelectMany(g => g.Keys.Select(k => new { Key = k, Group = g }))
+                    .ToDictionary(k => k.Key, v => v.Group);
+            }
+            else
+            {
+                _entityGroups = new List<EntityGroupSetting>();
+                _keyEntityGroups = new Dictionary<string, EntityGroupSetting>();
+            }
             var filteredList = _entities.Where(FilterValue).ToList();
             var orderedList = OrderByThumbnail
                 ? filteredList
-                    .OrderBy(OrderByOwner)
+                    .OrderBy(OrderByGroup)
+                    .ThenBy(OrderByOwner)
                     .ThenBy(e => e.Thumbnail == null ? 1 : 0)
                     .ThenBy(e => e.EntityKey)
                 : filteredList
-                    .OrderBy(e => e.EntityKey);
+                    .OrderBy(OrderByGroup)
+                    .ThenBy(e => e.EntityKey);
             _orderedEntities = orderedList.ToList();
             LoadPage(1);
             return filteredList.Any();
@@ -134,14 +152,23 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         {
             _currentPage = pageNumber;
             _selectedUnitPickerControl = null;
+            _unitPickerControls.Clear();
             unitEdit.ClearModel();
             unitEdit.Visible = false;
-            unitsLayoutPanel.Visible = false;
+            ultraPanelScroll.Visible = false;
+            _groupControls.Clear();
             // clear controls
             var controlsToDispose = unitsLayoutPanel.Controls
                 .OfType<Control>().ToList();
             unitsLayoutPanel.Controls.Clear();
             controlsToDispose.ForEach(c => c.Dispose());
+            var groupsToDispose = ultraPanelScroll.ClientArea.Controls
+                .OfType<UnitPickerGroupControl>().ToList();
+            groupsToDispose.ForEach(c =>
+            {
+                ultraPanelScroll.ClientArea.Controls.Remove(c);
+                c.Dispose();
+            });
             // add controls
             foreach (var entityModel in _orderedEntities.Skip(PageSize * (pageNumber - 1)).Take(PageSize))
             {
@@ -151,8 +178,28 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 };
                 unitPicker.FavoriteClick += (sender, args) => OnFavoriteClick(unitPicker, entityModel);
                 unitPicker.UnitClick += (sender, args) => OnUnitClick(unitPicker, entityModel);
+                unitPicker.GroupChanged += (sender, args) => LoadUnits();
                 unitPicker.LoadModel(entityModel);
-                unitsLayoutPanel.Controls.Add(unitPicker);
+                if (_keyEntityGroups.TryGetValue(entityModel.EntityKey, out var entityGroupSetting))
+                {
+                    if (!_groupControls.TryGetValue(entityGroupSetting.GroupName, out var groupControl))
+                    {
+                        groupControl = new UnitPickerGroupControl
+                        {
+                            Dock = DockStyle.Top
+                        };
+                        groupControl.InitGroup(entityGroupSetting);
+                        _groupControls.Add(entityGroupSetting.GroupName, groupControl);
+                        ultraPanelScroll.ClientArea.Controls.Add(groupControl);
+                    }
+                    groupControl.AddPickerControl(unitPicker);
+                }
+                else
+                {
+                    unitsLayoutPanel.Controls.Add(unitPicker);
+                }
+                unitPicker.InitGroups(_entityGroups, entityGroupSetting);
+                _unitPickerControls.Add(unitPicker);
             }
             toolStripLabelTotal.Text = $"{_orderedEntities.Count:#,##0} Items";
             if (_orderedEntities.Count > PageSize)
@@ -174,7 +221,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 toolStripButtonPrev.Visible = false;
                 toolStripButtonNext.Visible = false;
             }
-            unitsLayoutPanel.Visible = true;
+            ultraPanelScroll.Visible = true;
         }
 
         private bool FilterValue(GameEntityModel entityModel)
@@ -205,6 +252,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 }
             }
             return 9;
+        }
+
+        private string OrderByGroup(GameEntityModel entityModel)
+        {
+            return _keyEntityGroups.TryGetValue(entityModel.EntityKey, out var entityGroup) 
+                ? entityGroup.GroupName 
+                : "ZZ";
         }
 
         private void OnFavoriteClick(UnitPickerControl pickerControl, GameEntityModel entityModel)
@@ -240,17 +294,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void unitEdit_FavoriteClick(object sender, EventArgs e)
         {
-            unitsLayoutPanel.Controls
-                .OfType<UnitPickerControl>()
-                .FirstOrDefault(c => c.UnitKey == unitEdit.EntityModel!.EntityKey)
+            _unitPickerControls.FirstOrDefault(c => c.UnitKey == unitEdit.EntityModel!.EntityKey)
                 ?.RefreshIsFavorite();
         }
 
         private void unitEdit_UnitModificationsChanged(object sender, EventArgs e)
         {
-            unitsLayoutPanel.Controls
-                .OfType<UnitPickerControl>()
-                .FirstOrDefault(c => c.UnitKey == unitEdit.EntityModel!.EntityKey)
+            _unitPickerControls.FirstOrDefault(c => c.UnitKey == unitEdit.EntityModel!.EntityKey)
                 ?.RefreshModifications();
         }
 

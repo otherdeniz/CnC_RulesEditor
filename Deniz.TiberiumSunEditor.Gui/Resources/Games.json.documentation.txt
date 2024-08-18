@@ -14,6 +14,9 @@ Each game can have the following values:
 (string) GameExecutable	: currently needed only for path-validation when choosing another game-path in the "Games" menu
 (string) SnippetsFolder	: Folder name in the "Snippets" folder of the game, this folder must EXIST even if it's empty, you can use a folder of an existing base game
 (string) BitmapsFolders : Folder name in the "Bitmaps" folder of the game where Cameos are getting loaded, this folder must EXIST even if it's empty, you can use a folder of an existing base game
+(string) SoundIni	: (optional) the name of the sound.ini file to search (default=sound.ini)
 (string) MixFiles	: (optional) load only specified mix-files, comma-seperated list. if not specified, all mix files are getting loaded. The order is relevant for search, first file that contains a searched entry is taken
 (bool) UseAres		: (optional) enable Ares (default=false)
 (bool) UsePhobos	: (optional) enable Phobos (default=false)
+(bool) UseVinifera	: (optional) enable Vinifera (default=false)
+(bool) UseSectionInheritance	: (optional) enable section inheritance (default=false)

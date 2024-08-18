@@ -31,9 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UnitsListControl));
             unitsLayoutPanel = new FlowLayoutPanel();
             unitPickerControl1 = new UnitPickerControl();
-            unitPickerControl2 = new UnitPickerControl();
-            unitPickerControl3 = new UnitPickerControl();
-            unitPickerControl4 = new UnitPickerControl();
             splitterUnitPicker = new Splitter();
             unitEdit = new UnitEditControl();
             panelLeft = new Panel();
@@ -60,18 +57,16 @@
             unitsLayoutPanel.AutoSize = true;
             unitsLayoutPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             unitsLayoutPanel.Controls.Add(unitPickerControl1);
-            unitsLayoutPanel.Controls.Add(unitPickerControl2);
-            unitsLayoutPanel.Controls.Add(unitPickerControl3);
-            unitsLayoutPanel.Controls.Add(unitPickerControl4);
             unitsLayoutPanel.Dock = DockStyle.Top;
             unitsLayoutPanel.Location = new Point(0, 0);
             unitsLayoutPanel.Margin = new Padding(4, 3, 4, 3);
             unitsLayoutPanel.Name = "unitsLayoutPanel";
-            unitsLayoutPanel.Size = new Size(240, 192);
+            unitsLayoutPanel.Size = new Size(240, 96);
             unitsLayoutPanel.TabIndex = 1;
             // 
             // unitPickerControl1
             // 
+            unitPickerControl1.BackColor = Color.White;
             unitPickerControl1.BorderStyle = BorderStyle.FixedSingle;
             unitPickerControl1.Location = new Point(5, 3);
             unitPickerControl1.Margin = new Padding(5, 3, 5, 3);
@@ -79,36 +74,6 @@
             unitPickerControl1.Size = new Size(101, 90);
             unitPickerControl1.TabIndex = 0;
             unitPickerControl1.Tag = "KEEP";
-            // 
-            // unitPickerControl2
-            // 
-            unitPickerControl2.BorderStyle = BorderStyle.FixedSingle;
-            unitPickerControl2.Location = new Point(116, 3);
-            unitPickerControl2.Margin = new Padding(5, 3, 5, 3);
-            unitPickerControl2.Name = "unitPickerControl2";
-            unitPickerControl2.Size = new Size(101, 90);
-            unitPickerControl2.TabIndex = 1;
-            unitPickerControl2.Tag = "KEEP";
-            // 
-            // unitPickerControl3
-            // 
-            unitPickerControl3.BorderStyle = BorderStyle.FixedSingle;
-            unitPickerControl3.Location = new Point(5, 99);
-            unitPickerControl3.Margin = new Padding(5, 3, 5, 3);
-            unitPickerControl3.Name = "unitPickerControl3";
-            unitPickerControl3.Size = new Size(101, 90);
-            unitPickerControl3.TabIndex = 2;
-            unitPickerControl3.Tag = "KEEP";
-            // 
-            // unitPickerControl4
-            // 
-            unitPickerControl4.BorderStyle = BorderStyle.FixedSingle;
-            unitPickerControl4.Location = new Point(116, 99);
-            unitPickerControl4.Margin = new Padding(5, 3, 5, 3);
-            unitPickerControl4.Name = "unitPickerControl4";
-            unitPickerControl4.Size = new Size(101, 90);
-            unitPickerControl4.TabIndex = 3;
-            unitPickerControl4.Tag = "KEEP";
             // 
             // splitterUnitPicker
             // 
@@ -272,9 +237,6 @@
 
         private FlowLayoutPanel unitsLayoutPanel;
         private UnitPickerControl unitPickerControl1;
-        private UnitPickerControl unitPickerControl2;
-        private UnitPickerControl unitPickerControl3;
-        private UnitPickerControl unitPickerControl4;
         private Splitter splitterUnitPicker;
         private UnitEditControl unitEdit;
         private Panel panelLeft;

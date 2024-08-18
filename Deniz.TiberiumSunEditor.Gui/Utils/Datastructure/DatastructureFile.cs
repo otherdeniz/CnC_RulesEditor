@@ -162,6 +162,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
             TiberiumGeneral.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
             TiberiumValues.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
             AudioVisualValues.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
+            Sides.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
             AllUnits.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
             AllMovingUnits.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));
             InfantryUnits.ForEach(v => v.ModuleCategory = string.Format(moduleCategory, v.ModuleCategory));

@@ -218,8 +218,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             valuesGrid.DisplayLayout.Bands[0].Columns["DefaultValue"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridReadonlyCellBackColor;
             valuesGrid.DisplayLayout.Bands[0].Columns["Description"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridReadonlyCellBackColor;
             valuesGrid.DisplayLayout.Bands[0].PerformAutoResizeColumns(true, PerformAutoSizeType.AllRowsInBand);
-            valuesGrid.DisplayLayout.Bands[0].Columns[_valueColumn].Width = 120;
-            valuesGrid.DisplayLayout.Bands[0].Columns["NormalValue"].Width = 120;
+            valuesGrid.DisplayLayout.Bands[0].Columns[_valueColumn].Width = 130;
+            valuesGrid.DisplayLayout.Bands[0].Columns["NormalValue"].Width = 130;
             if (ReadonlyMode)
             {
                 valuesGrid.DisplayLayout.Bands[0].Columns["FavoriteImage"].Hidden = true;

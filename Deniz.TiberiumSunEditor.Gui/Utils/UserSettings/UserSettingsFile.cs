@@ -25,6 +25,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
 
         public List<string> FavoriteUnitValues { get; set; } = new();
 
+        public List<EntityGroupSetting> EntityGroups { get; set; } = new();
+
         public bool SettingPlayOpeningSound { get; set; } = true;
 
         public bool SettingAutoUpdate { get; set; } = true;
@@ -77,6 +79,36 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
                 while (RecentFiles.Count > 10)
                 {
                     RecentFiles.RemoveAt(10);
+                }
+                Save();
+            }
+        }
+
+        public void AddEntityToGroup(string entityType, string entityKey, string groupName)
+        {
+            var addToGroup = EntityGroups.FirstOrDefault(g => g.EntityType == entityType && g.GroupName == groupName);
+            if (addToGroup == null)
+            {
+                addToGroup = new EntityGroupSetting
+                {
+                    EntityType = entityType,
+                    GroupName = groupName
+                };
+                EntityGroups.Add(addToGroup);
+            }
+            addToGroup.Keys.Add(entityKey);
+            Save();
+        }
+
+        public void RemoveEntityFromGroups(string entityType, string entityKey)
+        {
+            var removeFromGroup = EntityGroups.FirstOrDefault(g => g.EntityType == entityType && g.Keys.Any(k => k == entityKey));
+            if (removeFromGroup != null)
+            {
+                removeFromGroup.Keys.Remove(entityKey);
+                if (!removeFromGroup.Keys.Any())
+                {
+                    EntityGroups.Remove(removeFromGroup);
                 }
                 Save();
             }

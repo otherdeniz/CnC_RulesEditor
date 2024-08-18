@@ -29,12 +29,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UnitPickerControl));
             pictureFavorite = new PictureBox();
             labelModifications = new Label();
             pictureThumbnail = new PictureBox();
+            contextMenu = new ContextMenuStrip(components);
+            popupButtonNewGroup = new ToolStripMenuItem();
+            popupButtonRemoveFromGroup = new ToolStripMenuItem();
+            ultraToolTips = new Infragistics.Win.UltraWinToolTip.UltraToolTipManager(components);
             ((System.ComponentModel.ISupportInitialize)pictureFavorite).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureThumbnail).BeginInit();
+            contextMenu.SuspendLayout();
             SuspendLayout();
             // 
             // pictureFavorite
@@ -78,6 +84,31 @@
             pictureThumbnail.TabStop = false;
             pictureThumbnail.Visible = false;
             pictureThumbnail.Click += pictureThumbnail_Click;
+            pictureThumbnail.MouseDown += pictureThumbnail_MouseDown;
+            // 
+            // contextMenu
+            // 
+            contextMenu.Items.AddRange(new ToolStripItem[] { popupButtonNewGroup, popupButtonRemoveFromGroup });
+            contextMenu.Name = "contextMenu";
+            contextMenu.Size = new Size(182, 48);
+            // 
+            // popupButtonNewGroup
+            // 
+            popupButtonNewGroup.Name = "popupButtonNewGroup";
+            popupButtonNewGroup.Size = new Size(181, 22);
+            popupButtonNewGroup.Text = "Add to new group";
+            popupButtonNewGroup.Click += popupButtonNewGroup_Click;
+            // 
+            // popupButtonRemoveFromGroup
+            // 
+            popupButtonRemoveFromGroup.Name = "popupButtonRemoveFromGroup";
+            popupButtonRemoveFromGroup.Size = new Size(181, 22);
+            popupButtonRemoveFromGroup.Text = "Remove from group";
+            popupButtonRemoveFromGroup.Click += popupButtonRemoveFromGroup_Click;
+            // 
+            // ultraToolTips
+            // 
+            ultraToolTips.ContainingControl = this;
             // 
             // UnitPickerControl
             // 
@@ -93,8 +124,10 @@
             Size = new Size(102, 90);
             Tag = "KEEP";
             Click += UnitPickerControl_Click;
+            MouseDown += UnitPickerControl_MouseDown;
             ((System.ComponentModel.ISupportInitialize)pictureFavorite).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureThumbnail).EndInit();
+            contextMenu.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -102,5 +135,9 @@
         private PictureBox pictureFavorite;
         private Label labelModifications;
         private PictureBox pictureThumbnail;
+        private ContextMenuStrip contextMenu;
+        private ToolStripMenuItem popupButtonNewGroup;
+        private ToolStripMenuItem popupButtonRemoveFromGroup;
+        private Infragistics.Win.UltraWinToolTip.UltraToolTipManager ultraToolTips;
     }
 }
