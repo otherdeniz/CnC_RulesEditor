@@ -51,11 +51,19 @@
             label1 = new Label();
             groupBox3 = new GroupBox();
             textBoxLicense = new TextBox();
+            groupBoxCredits = new GroupBox();
+            label10 = new Label();
+            label11 = new Label();
+            label12 = new Label();
+            label13 = new Label();
+            label14 = new Label();
+            label15 = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
+            groupBoxCredits.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
@@ -272,9 +280,9 @@
             // 
             groupBox3.Controls.Add(textBoxLicense);
             groupBox3.Dock = DockStyle.Fill;
-            groupBox3.Location = new Point(8, 153);
+            groupBox3.Location = new Point(8, 233);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(655, 241);
+            groupBox3.Size = new Size(655, 261);
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             groupBox3.Text = "License";
@@ -288,15 +296,86 @@
             textBoxLicense.Name = "textBoxLicense";
             textBoxLicense.ReadOnly = true;
             textBoxLicense.ScrollBars = ScrollBars.Both;
-            textBoxLicense.Size = new Size(649, 219);
+            textBoxLicense.Size = new Size(649, 239);
             textBoxLicense.TabIndex = 0;
+            // 
+            // groupBoxCredits
+            // 
+            groupBoxCredits.Controls.Add(label15);
+            groupBoxCredits.Controls.Add(label14);
+            groupBoxCredits.Controls.Add(label13);
+            groupBoxCredits.Controls.Add(label12);
+            groupBoxCredits.Controls.Add(label10);
+            groupBoxCredits.Controls.Add(label11);
+            groupBoxCredits.Dock = DockStyle.Top;
+            groupBoxCredits.Location = new Point(8, 153);
+            groupBoxCredits.Name = "groupBoxCredits";
+            groupBoxCredits.Size = new Size(655, 80);
+            groupBoxCredits.TabIndex = 3;
+            groupBoxCredits.TabStop = false;
+            groupBoxCredits.Text = "Credits";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(9, 19);
+            label10.Name = "label10";
+            label10.Size = new Size(85, 15);
+            label10.TabIndex = 0;
+            label10.Text = "Special thanks:";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(113, 19);
+            label11.Name = "label11";
+            label11.Size = new Size(172, 15);
+            label11.TabIndex = 0;
+            label11.Text = "[WH]ela, RAmpastring, Kerbiter";
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(113, 38);
+            label12.Name = "label12";
+            label12.Size = new Size(169, 15);
+            label12.TabIndex = 0;
+            label12.Text = "GOD-EMPEROR, E1 Elite, Wirus";
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new Point(9, 38);
+            label13.Name = "label13";
+            label13.Size = new Size(79, 15);
+            label13.TabIndex = 0;
+            label13.Text = "Feature ideas:";
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new Point(113, 57);
+            label14.Name = "label14";
+            label14.Size = new Size(42, 15);
+            label14.TabIndex = 0;
+            label14.Text = "vakant";
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Location = new Point(9, 57);
+            label15.Name = "label15";
+            label15.Size = new Size(73, 15);
+            label15.TabIndex = 0;
+            label15.Text = "Co-Workers:";
             // 
             // AboutForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(671, 402);
+            ClientSize = new Size(671, 502);
             Controls.Add(groupBox3);
+            Controls.Add(groupBoxCredits);
             Controls.Add(panel1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "AboutForm";
@@ -312,6 +391,8 @@
             groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
+            groupBoxCredits.ResumeLayout(false);
+            groupBoxCredits.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -339,5 +420,12 @@
         private Label labelReleaseDate;
         private Label label8;
         private TextBox textBoxLicense;
+        private GroupBox groupBoxCredits;
+        private Label label15;
+        private Label label14;
+        private Label label13;
+        private Label label12;
+        private Label label10;
+        private Label label11;
     }
 }
