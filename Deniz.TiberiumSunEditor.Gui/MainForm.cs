@@ -557,7 +557,8 @@ namespace Deniz.TiberiumSunEditor.Gui
                 : _editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder;
             mainToolbarsManager.Tools["SaveInGame"].SharedProps.Caption = $"Save in Game's {relativeFolder}";
             mainToolbarsManager.Tools["SaveInGame"].SharedProps.Enabled =
-                fileType.GameDefinition.GetUserGamePath() != null;
+                fileType.GameDefinition.GetUserGamePath() != null
+                && fileType.BaseType == FileBaseType.Rules;
             Cursor = Cursors.Default;
         }
 
