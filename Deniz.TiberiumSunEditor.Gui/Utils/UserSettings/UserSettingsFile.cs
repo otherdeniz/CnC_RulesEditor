@@ -86,6 +86,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
 
         public void AddEntityToGroup(string entityType, string entityKey, string groupName)
         {
+            RemoveEntityFromGroups(entityType, entityKey);
             var addToGroup = EntityGroups.FirstOrDefault(g => g.EntityType == entityType && g.GroupName == groupName);
             if (addToGroup == null)
             {
