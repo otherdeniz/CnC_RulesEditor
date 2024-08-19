@@ -435,7 +435,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                 && !CheckClientCommandLineArgument(textGamePath.Text, CommandLineArgumentInheritance))
             {
                 MessageBox.Show("The selected Phobos feature 'Section inheritance' is not activated in the current mod." + Environment.NewLine +
-                                @"You must edit the file '[ModRoot]\Resources\ClientDefinitions.ini and add the command line argument" + Environment.NewLine +
+                                @"You must edit the file '[ModRoot]\Resources\ClientDefinitions.ini and add the command line argument " +
                                 $"'-{CommandLineArgumentInheritance}' to the value of 'ExtraCommandLineParams' in the section [Settings]" + Environment.NewLine +
                                 "Please add this argument now, before you procceed here...",
                     "Phobos Feature not activated", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);

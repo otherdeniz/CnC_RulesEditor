@@ -3,7 +3,6 @@ using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Deniz.TiberiumSunEditor.Gui.Utils.EqualityComparer;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
-using System.Windows.Forms;
 using Deniz.TiberiumSunEditor.Gui.Model.Interface;
 
 namespace Deniz.TiberiumSunEditor.Gui.Model
