@@ -140,7 +140,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                 foreach (var iniFolderRule in _gameTypeDetector.IniFolderSearch("art*.ini"))
                 {
                     comboBoxArtIni.Items.Add(iniFolderRule);
-                    if (CurrentModSetting?.RulesIniPath == iniFolderRule)
+                    if (CurrentModSetting?.ArtIniPath == iniFolderRule)
                     {
                         comboBoxArtIni.SelectedIndex = comboBoxArtIni.Items.Count - 1;
                     }
@@ -154,7 +154,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                 {
                     var mixContentPath = mixFileContent.ToString();
                     comboBoxArtIni.Items.Add(mixContentPath);
-                    if (CurrentModSetting?.RulesIniMixSource == mixContentPath)
+                    if (CurrentModSetting?.ArtIniMixSource == mixContentPath)
                     {
                         comboBoxArtIni.SelectedIndex = comboBoxArtIni.Items.Count - 1;
                     }

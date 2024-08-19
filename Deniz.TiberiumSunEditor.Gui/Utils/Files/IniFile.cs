@@ -9,7 +9,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
     {
         private static readonly Regex CategoryLineRegEx = new Regex(@"^\[([\w\d\s]+)\]", RegexOptions.Compiled);
         private static readonly Regex CommentLineRegEx = new Regex(@"^\s*;+(.*)", RegexOptions.Compiled);
-        private static readonly Regex KeyValueLineRegEx = new Regex(@"^([\w\d\.]+)\s*=?\s*([^;]+)?(?:;(.*))?", RegexOptions.Compiled);
+        private static readonly Regex KeyValueLineRegEx = new Regex(@"^([\w\d\.\$]+)\s*=?\s*([^;]+)?(?:;(.*))?", RegexOptions.Compiled);
 
         private Dictionary<string, IniFileSection>? _sectionsDictionary;
 
