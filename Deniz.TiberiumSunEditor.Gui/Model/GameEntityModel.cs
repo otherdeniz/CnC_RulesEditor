@@ -61,6 +61,23 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                     }
                 ));
             }
+            else if (rulesRootModel.UsePhobosSectionInheritance)
+            {
+                EntityValueList.Add(new EntityValueModel(
+                    this,
+                    "0) Section Inheritance",
+                    fileSection,
+                    defaultSection,
+                    "$Inherits",
+                    new UnitValueDefinition
+                    {
+                        Key = "$Inherits",
+                        LookupType = "self",
+                        MultipleValues = true,
+                        Description = "List of base sections from which this entity inherits all values (logic: first wins, depth-first)"
+                    }
+                ));
+            }
         }
 
         public RulesRootModel RulesRootModel { get; }

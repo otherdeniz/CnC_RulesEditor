@@ -53,7 +53,8 @@
             comboBoxArtIni = new ComboBox();
             checkBoxVinifera = new CheckBox();
             label8 = new Label();
-            checkBoxSectionInheritance = new CheckBox();
+            checkBoxXnaSectionInheritance = new CheckBox();
+            checkBoxPhobosSectionInheritance = new CheckBox();
             panelBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxIcon).BeginInit();
             SuspendLayout();
@@ -288,15 +289,25 @@
             label8.TabIndex = 13;
             label8.Text = "Engine Features:";
             // 
-            // checkBoxSectionInheritance
+            // checkBoxXnaSectionInheritance
             // 
-            checkBoxSectionInheritance.AutoSize = true;
-            checkBoxSectionInheritance.Location = new Point(121, 268);
-            checkBoxSectionInheritance.Name = "checkBoxSectionInheritance";
-            checkBoxSectionInheritance.Size = new Size(227, 19);
-            checkBoxSectionInheritance.TabIndex = 9;
-            checkBoxSectionInheritance.Text = "Section Inheritance ('BaseSection' tag)";
-            checkBoxSectionInheritance.UseVisualStyleBackColor = true;
+            checkBoxXnaSectionInheritance.AutoSize = true;
+            checkBoxXnaSectionInheritance.Location = new Point(121, 268);
+            checkBoxXnaSectionInheritance.Name = "checkBoxXnaSectionInheritance";
+            checkBoxXnaSectionInheritance.Size = new Size(285, 19);
+            checkBoxXnaSectionInheritance.TabIndex = 9;
+            checkBoxXnaSectionInheritance.Text = "XNAClient Section Inheritance ('BaseSection' tag)";
+            checkBoxXnaSectionInheritance.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxPhobosSectionInheritance
+            // 
+            checkBoxPhobosSectionInheritance.AutoSize = true;
+            checkBoxPhobosSectionInheritance.Location = new Point(237, 218);
+            checkBoxPhobosSectionInheritance.Name = "checkBoxPhobosSectionInheritance";
+            checkBoxPhobosSectionInheritance.Size = new Size(252, 19);
+            checkBoxPhobosSectionInheritance.TabIndex = 7;
+            checkBoxPhobosSectionInheritance.Text = "Phobos Section inheritance ('$Inherits' tag)";
+            checkBoxPhobosSectionInheritance.UseVisualStyleBackColor = true;
             // 
             // NewCustomModForm
             // 
@@ -306,8 +317,9 @@
             CancelButton = buttonCancel;
             ClientSize = new Size(527, 344);
             Controls.Add(checkBoxVinifera);
+            Controls.Add(checkBoxPhobosSectionInheritance);
             Controls.Add(checkBoxPhobos);
-            Controls.Add(checkBoxSectionInheritance);
+            Controls.Add(checkBoxXnaSectionInheritance);
             Controls.Add(checkBoxAres);
             Controls.Add(pictureBoxIcon);
             Controls.Add(buttonIcon);
@@ -363,6 +375,7 @@
         private ComboBox comboBoxArtIni;
         private CheckBox checkBoxVinifera;
         private Label label8;
-        private CheckBox checkBoxSectionInheritance;
+        private CheckBox checkBoxXnaSectionInheritance;
+        private CheckBox checkBoxPhobosSectionInheritance;
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Model.Interface;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
-using Deniz.TiberiumSunEditor.Gui.Utils.EqualityComparer;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 
 namespace Deniz.TiberiumSunEditor.Gui.Model

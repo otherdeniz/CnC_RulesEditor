@@ -191,6 +191,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private void LoadValueGrid()
         {
             _valueColumn = EntityModel!.RulesRootModel.UseSectionInheritance
+                           || EntityModel!.RulesRootModel.UsePhobosSectionInheritance
                 ? "ValueResolved"
                 : "Value";
             valuesGrid.DataSource = null;
@@ -203,7 +204,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 valuesGrid.DisplayLayout.Bands[0].SortedColumns.Add("Category", false, true);
             }
 
-            if (EntityModel!.RulesRootModel.UseSectionInheritance)
+            if (EntityModel!.RulesRootModel.UseSectionInheritance
+                || EntityModel!.RulesRootModel.UsePhobosSectionInheritance)
             {
                 valuesGrid.DisplayLayout.Bands[0].Columns["Value"].Hidden = true;
                 valuesGrid.DisplayLayout.Bands[0].Columns["ValueResolved"].Hidden = false;
@@ -442,7 +444,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             valueCell.Appearance.BackColor = valueModel.IsModified
                 ? ThemeManager.Instance.CurrentTheme.GridModifiedCellBackColor
                 : ThemeManager.Instance.CurrentTheme.GridEditableCellBackColor;
-            if (EntityModel!.RulesRootModel.UseSectionInheritance)
+            if (EntityModel!.RulesRootModel.UseSectionInheritance
+                || EntityModel!.RulesRootModel.UsePhobosSectionInheritance)
             {
                 valueCell.Appearance.ForeColor = valueModel.IsValueResolved
                     ? ThemeManager.Instance.CurrentTheme.HintTextColor

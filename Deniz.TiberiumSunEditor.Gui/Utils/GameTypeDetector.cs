@@ -69,9 +69,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             var iniBasePath = Path.Combine(iniPath, "Base");
             if (Directory.Exists(iniBasePath))
             {
-                return Directory.GetFiles(iniBasePath, searchPattern)
+                var baseIniFiles = Directory.GetFiles(iniBasePath, searchPattern)
                     .OrderBy(f => f.EndsWith("-default.ini") ? 0 : 1)
-                    .Select(p => $"INI\\Base\\{Path.GetFileName(p)}");
+                    .Select(p => $"INI\\Base\\{Path.GetFileName(p)}")
+                    .ToList();
+                if (baseIniFiles.Any())
+                {
+                    return baseIniFiles;
+                }
             }
             if (Directory.Exists(iniPath))
             {

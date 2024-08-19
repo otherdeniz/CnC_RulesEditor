@@ -56,6 +56,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
 
         public bool UsePhobos { get; set; }
 
+        public bool UsePhobosSectionInheritance { get; set; }
+
         public bool UseVinifera { get; set; }
 
         public bool UseSectionInheritance { get; set; }

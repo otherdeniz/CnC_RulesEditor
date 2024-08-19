@@ -4,6 +4,7 @@ using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
 using System.ComponentModel;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Deniz.TiberiumSunEditor.Gui.Utils.Extensions;
+using Infragistics.Win.Printing;
 
 namespace Deniz.TiberiumSunEditor.Gui.Model
 {
@@ -119,29 +120,77 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             {
                 return _resolvedValue;
             }
-            var baseSectionValue = thisFileSection.GetValue("BaseSection")
-                ?? EntityModel.RootModel.DefaultFile.GetSection(thisFileSection.SectionName)?.GetValue("BaseSection");
-            if (!string.IsNullOrEmpty(baseSectionValue?.Value))
+
+            if (EntityModel.RulesRootModel.UseSectionInheritance)
             {
-                baseSectionValue.ValueChanged += (sender, args) => _resolvedValue = null;
-                var baseSection = EntityModel.RootModel.File.GetSection(baseSectionValue.Value)
-                                  ?? EntityModel.RootModel.DefaultFile.GetSection(baseSectionValue.Value);
-                if (baseSection != null)
+                var baseSectionValue = thisFileSection.GetValue("BaseSection")
+                                       ?? EntityModel.RootModel.DefaultFile.GetSection(thisFileSection.SectionName)?.GetValue("BaseSection");
+                if (!string.IsNullOrEmpty(baseSectionValue?.Value))
                 {
-                    var baseValue = baseSection.GetValue(Key);
-                    if (baseValue != null)
+                    baseSectionValue.ValueChanged += (sender, args) => _resolvedValue = null;
+                    var baseSection = EntityModel.RootModel.File.GetSection(baseSectionValue.Value)
+                                      ?? EntityModel.RootModel.DefaultFile.GetSection(baseSectionValue.Value);
+                    if (baseSection != null)
                     {
-                        _resolvedValue = baseValue.Value;
-                        baseValue.ValueChanged += (sender, args) => _resolvedValue = null;
+                        var baseValue = baseSection.GetValue(Key);
+                        if (baseValue != null)
+                        {
+                            _resolvedValue = baseValue.Value;
+                            baseValue.ValueChanged += (sender, args) => _resolvedValue = null;
+                        }
+                        else
+                        {
+                            return ResolveBaseValue(baseSection);
+                        }
                     }
                     else
                     {
-                        return ResolveBaseValue(baseSection);
+                        _resolvedValue = string.Empty;
                     }
                 }
-                else
+            }
+            else if (EntityModel.RulesRootModel.UsePhobosSectionInheritance)
+            {
+                var inheritsValue = thisFileSection.GetValue("$Inherits")
+                                       ?? EntityModel.RootModel.DefaultFile.GetSection(thisFileSection.SectionName)?.GetValue("$Inherits");
+                if (!string.IsNullOrEmpty(inheritsValue?.Value))
                 {
-                    _resolvedValue = string.Empty;
+                    inheritsValue.ValueChanged += (sender, args) => _resolvedValue = null;
+                    var inheritsFromList = inheritsValue.Value.Split(",", StringSplitOptions.RemoveEmptyEntries)
+                        .Select(s => s.Trim())
+                        .ToList();
+                    //depth-first
+                    var digDeeper = new List<IniFileSection>();
+                    foreach (var inheritsFrom in inheritsFromList)
+                    {
+                        var baseSection = EntityModel.RootModel.File.GetSection(inheritsFrom)
+                                          ?? EntityModel.RootModel.DefaultFile.GetSection(inheritsFrom);
+                        if (baseSection != null)
+                        {
+                            var baseValue = baseSection.GetValue(Key);
+                            if (baseValue != null)
+                            {
+                                _resolvedValue = baseValue.Value;
+                                baseValue.ValueChanged += (sender, args) => _resolvedValue = null;
+                                return _resolvedValue;
+                            }
+                            digDeeper.Add(baseSection);
+                        }
+                        else
+                        {
+                            // base section could not be resolved, inheritance resolving canceled
+                            _resolvedValue = string.Empty;
+                            return string.Empty;
+                        }
+                    }
+                    foreach (var deeperSection in digDeeper)
+                    {
+                        var deeperResolvedValue = ResolveBaseValue(deeperSection);
+                        if (!string.IsNullOrEmpty(deeperResolvedValue))
+                        {
+                            return deeperResolvedValue;
+                        }
+                    }
                 }
             }
 

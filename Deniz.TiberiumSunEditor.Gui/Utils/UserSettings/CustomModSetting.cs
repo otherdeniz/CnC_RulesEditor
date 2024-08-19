@@ -29,6 +29,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
 
         public bool HasPhobos { get; set; }
 
+        public bool HasPhobosSectionInheritance { get; set; }
+
         public bool HasVinifera { get; set; }
 
         public bool HasSectionInheritance { get; set; }
@@ -78,6 +80,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
                     SaveAsFilename = Path.GetFileName(RulesIniPath),
                     UseAres = HasAres,
                     UsePhobos = HasPhobos,
+                    UsePhobosSectionInheritance = HasPhobosSectionInheritance,
                     UseVinifera = HasVinifera,
                     UseSectionInheritance = HasSectionInheritance
                 };

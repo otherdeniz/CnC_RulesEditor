@@ -21,6 +21,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             DatastructureFile? datastructureOverwrite = null,
             bool useAres = false,
             bool usePhobos = false,
+            bool usePhobosSectionInheritance = false,
             bool useVinifera = false,
             bool useSectionInheritance = false)
         {
@@ -29,6 +30,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             FileType = fileType;
             UseAres = useAres;
             UsePhobos = usePhobos;
+            UsePhobosSectionInheritance = usePhobosSectionInheritance;
             UseVinifera = useVinifera;
             UseSectionInheritance = useSectionInheritance;
             if (datastructureOverwrite == null)
@@ -87,6 +89,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         public bool UseAres { get; }
 
         public bool UsePhobos { get; }
+
+        public bool UsePhobosSectionInheritance { get; }
 
         public bool UseVinifera { get; }
 

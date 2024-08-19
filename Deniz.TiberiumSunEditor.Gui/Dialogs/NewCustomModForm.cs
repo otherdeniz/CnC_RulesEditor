@@ -1,12 +1,13 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
+using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
-using ImageMagick;
 
 namespace Deniz.TiberiumSunEditor.Gui.Dialogs
 {
     public partial class NewCustomModForm : Form
     {
+        private const string CommandLineArgumentInheritance = "Inheritance";
         private List<GameDefinition> _gameDefinitions = null!;
         private Image? _selectedImage;
         private bool _doEvents = true;
@@ -78,8 +79,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             IconImagePath = customModSetting.LogoFile;
             checkBoxAres.Checked = customModSetting.HasAres;
             checkBoxPhobos.Checked = customModSetting.HasPhobos;
+            checkBoxPhobosSectionInheritance.Checked = customModSetting.HasPhobosSectionInheritance;
             checkBoxVinifera.Checked = customModSetting.HasVinifera;
-            checkBoxSectionInheritance.Checked = customModSetting.HasSectionInheritance;
+            checkBoxXnaSectionInheritance.Checked = customModSetting.HasSectionInheritance;
             SelectedImage = LogoRepository.Instance.GetLogo(IconImagePath);
             _gameTypeDetector = new GameTypeDetector(customModSetting.GamePath);
             LoadRulesIniSources();
@@ -125,7 +127,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                     }
                 }
             }
-            if (comboBoxRulesIni.SelectedIndex == -1)
+            if (comboBoxRulesIni.SelectedIndex == -1 
+                && comboBoxRulesIni.Items.Count > 0)
             {
                 comboBoxRulesIni.SelectedIndex = 0;
             }
@@ -160,10 +163,26 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                     }
                 }
             }
-            if (comboBoxArtIni.SelectedIndex == -1)
+            if (comboBoxArtIni.SelectedIndex == -1
+                && comboBoxArtIni.Items.Count > 0)
             {
                 comboBoxArtIni.SelectedIndex = 0;
             }
+        }
+
+        private bool CheckClientCommandLineArgument(string gamePath, string argument)
+        {
+            var clientDefinitionIniPath = Path.Combine(gamePath, @"Resources\ClientDefinitions.ini");
+            if (File.Exists(clientDefinitionIniPath))
+            {
+                var clientDefinitionsIniFile = IniFile.Load(clientDefinitionIniPath);
+                return clientDefinitionsIniFile.GetSection("Settings")?
+                           .GetValue("ExtraCommandLineParams")?.Value
+                           .Contains($" -{argument}", StringComparison.InvariantCultureIgnoreCase)
+                       ?? false;
+            }
+
+            return false;
         }
 
         private void textName_TextChanged(object sender, EventArgs e)
@@ -173,12 +192,38 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
 
         private void comboBoxGameType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxGameType.SelectedIndex > -1
-                && _doEvents)
+            if (comboBoxGameType.SelectedIndex > -1)
             {
-                SelectedGameDefinition = _gameDefinitions[comboBoxGameType.SelectedIndex];
-                SelectedImage = LogoRepository.Instance.GetLogo(SelectedGameDefinition.Logo);
-                IconImagePath = SelectedGameDefinition.Logo;
+                var gameDefinition = _gameDefinitions[comboBoxGameType.SelectedIndex];
+                if (gameDefinition.GameKey == "TiberianSun" 
+                    || gameDefinition.GameKey == "Firestorm"
+                    || gameDefinition.GameKey == "DTA")
+                {
+                    checkBoxAres.Checked = false;
+                    checkBoxAres.Enabled = false;
+                    checkBoxPhobos.Checked = false;
+                    checkBoxPhobos.Enabled = false;
+                    checkBoxVinifera.Enabled = true;
+                    checkBoxPhobosSectionInheritance.Checked = false;
+                    checkBoxPhobosSectionInheritance.Enabled = false;
+                    checkBoxXnaSectionInheritance.Enabled = true;
+                }
+                else if (gameDefinition.GameKey.StartsWith("RA2"))
+                {
+                    checkBoxAres.Enabled = true;
+                    checkBoxPhobos.Enabled = true;
+                    checkBoxVinifera.Checked = false;
+                    checkBoxVinifera.Enabled = false;
+                    checkBoxPhobosSectionInheritance.Enabled = true;
+                    checkBoxXnaSectionInheritance.Checked = false;
+                    checkBoxXnaSectionInheritance.Enabled = false;
+                }
+                if (_doEvents)
+                {
+                    SelectedGameDefinition = gameDefinition;
+                    SelectedImage = LogoRepository.Instance.GetLogo(gameDefinition.Logo);
+                    IconImagePath = gameDefinition.Logo;
+                }
             }
             SetButtonOkEnabled();
         }
@@ -250,11 +295,28 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                     IconImagePath = clientLogoPath;
                 }
 
-                checkBoxAres.Checked = _gameTypeDetector.HasModule("Ares.dll");
-                checkBoxPhobos.Checked = _gameTypeDetector.HasModule("Phobos.dll");
-                checkBoxVinifera.Checked = _gameTypeDetector.HasModule("Vinifera.dll");
-                checkBoxSectionInheritance.Checked =
-                    Directory.Exists(Path.Combine(folderBrowserDialog.SelectedPath, "INI", "Base"));
+                if (checkBoxAres.Enabled)
+                {
+                    checkBoxAres.Checked = _gameTypeDetector.HasModule("Ares.dll");
+                }
+                if (checkBoxPhobos.Enabled)
+                {
+                    checkBoxPhobos.Checked = _gameTypeDetector.HasModule("Phobos.dll");
+                }
+                if (checkBoxPhobosSectionInheritance.Enabled)
+                {
+                    checkBoxPhobosSectionInheritance.Checked =
+                        CheckClientCommandLineArgument(textGamePath.Text, CommandLineArgumentInheritance);
+                }
+                if (checkBoxVinifera.Enabled)
+                {
+                    checkBoxVinifera.Checked = _gameTypeDetector.HasModule("Vinifera.dll");
+                }
+                if (checkBoxXnaSectionInheritance.Enabled)
+                {
+                    checkBoxXnaSectionInheritance.Checked =
+                        Directory.Exists(Path.Combine(folderBrowserDialog.SelectedPath, "INI", "Base"));
+                }
                 LoadRulesIniSources();
                 LoadArtIniSources();
             }
@@ -317,8 +379,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             CurrentModSetting.GamePath = textGamePath.Text;
             CurrentModSetting.HasAres = checkBoxAres.Checked;
             CurrentModSetting.HasPhobos = checkBoxPhobos.Checked;
+            CurrentModSetting.HasPhobosSectionInheritance = checkBoxPhobosSectionInheritance.Checked;
             CurrentModSetting.HasVinifera = checkBoxVinifera.Checked;
-            CurrentModSetting.HasSectionInheritance = checkBoxSectionInheritance.Checked;
+            CurrentModSetting.HasSectionInheritance = checkBoxXnaSectionInheritance.Checked;
             // Rules.ini
             var selectedRulesIni = (string)comboBoxRulesIni.SelectedItem;
             if (selectedRulesIni.Contains(":"))
@@ -358,14 +421,26 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             {
                 CurrentModSetting.LogoFile = IconImagePath;
             }
+            // ini name match detection
             var nameValue = CurrentModSetting.LoadRulesIniFile().GetSection("General")?.GetValue("Name")?.Value;
             if (nameValue == null)
             {
-                MessageBox.Show(@"The selected mod rules.ini file does not have a 'name' value in the 'General' section",
-                    "Not supported mod", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("The selected mod rules.ini file does not have a 'name' value in the 'General' section",
+                    "Not supported mod", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
             CurrentModSetting.IniNameMatchDetection = nameValue;
+            // specific features check
+            if (checkBoxPhobosSectionInheritance.Checked
+                && !CheckClientCommandLineArgument(textGamePath.Text, CommandLineArgumentInheritance))
+            {
+                MessageBox.Show("The selected Phobos feature 'Section inheritance' is not activated in the current mod." + Environment.NewLine +
+                                @"You must edit the file '[ModRoot]\Resources\ClientDefinitions.ini and add the command line argument" + Environment.NewLine +
+                                $"'-{CommandLineArgumentInheritance}' to the value of 'ExtraCommandLineParams' in the section [Settings]" + Environment.NewLine +
+                                "Please add this argument now, before you procceed here...",
+                    "Phobos Feature not activated", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
             DialogResult = DialogResult.OK;
             Close();
         }

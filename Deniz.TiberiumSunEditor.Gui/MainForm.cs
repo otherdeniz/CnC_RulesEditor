@@ -533,6 +533,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                 showMissingValues: true, 
                 useAres: fileType.GameDefinition.UseAres,
                 usePhobos: fileType.GameDefinition.UsePhobos,
+                usePhobosSectionInheritance: fileType.GameDefinition.UsePhobosSectionInheritance,
                 useVinifera: fileType.GameDefinition.UseVinifera,
                 useSectionInheritance: fileType.GameDefinition.UseSectionInheritance);
             _editRulesMainControl = new RulesEditMainControl()
