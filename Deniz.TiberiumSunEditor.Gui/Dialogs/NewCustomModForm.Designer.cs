@@ -206,9 +206,9 @@
             label5.AutoSize = true;
             label5.Location = new Point(12, 135);
             label5.Name = "label5";
-            label5.Size = new Size(92, 15);
+            label5.Size = new Size(83, 15);
             label5.TabIndex = 13;
-            label5.Text = "Default rules.ini:";
+            label5.Text = "Initial rules.ini:";
             // 
             // comboBoxRulesIni
             // 
@@ -255,9 +255,9 @@
             label7.AutoSize = true;
             label7.Location = new Point(12, 164);
             label7.Name = "label7";
-            label7.Size = new Size(81, 15);
+            label7.Size = new Size(72, 15);
             label7.TabIndex = 13;
-            label7.Text = "Default art.ini:";
+            label7.Text = "Initial art.ini:";
             // 
             // comboBoxArtIni
             // 
