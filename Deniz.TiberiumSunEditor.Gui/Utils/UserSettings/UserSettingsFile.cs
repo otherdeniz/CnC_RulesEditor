@@ -72,7 +72,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
             {
                 RecentFiles.Insert(0, new RecentFileSetting
                 {
-                    GameKey = fileType.GameDefinition.GameKey,
+                    GameKey = fileType.GameDefinition.IsCustomMod 
+                        ? fileType.GameDefinition.CustomMod!.Key 
+                        : fileType.GameDefinition.GameKey,
                     FileType = fileType.BaseType.ToString(),
                     FilePath = filePath
                 });

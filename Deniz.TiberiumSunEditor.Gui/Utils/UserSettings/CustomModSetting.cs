@@ -70,6 +70,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
                     NewMenuLabel = $"{BaseGameKey} - {Name}",
                     BitmapsFolders = baseGameDefinition.BitmapsFolders,
                     SnippetsFolder = baseGameDefinition.SnippetsFolder,
+                    Logo = LogoFile,
                     GameKey = baseGameDefinition.GameKey,
                     MixFiles = baseGameDefinition.MixFiles,
                     ResourcesDefaultIniFile = GetRulesIniFilePath(),
