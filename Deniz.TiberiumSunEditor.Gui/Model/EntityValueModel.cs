@@ -127,7 +127,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                                        ?? EntityModel.RootModel.DefaultFile.GetSection(thisFileSection.SectionName)?.GetValue("BaseSection");
                 if (!string.IsNullOrEmpty(baseSectionValue?.Value))
                 {
-                    baseSectionValue.ValueChanged += (sender, args) => _resolvedValue = null;
+                    thisFileSection.ValueChanged += (sender, args) =>
+                    {
+                        if (args.Key == "BaseSection") _resolvedValue = null;
+                    };
                     var baseSection = EntityModel.RootModel.File.GetSection(baseSectionValue.Value)
                                       ?? EntityModel.RootModel.DefaultFile.GetSection(baseSectionValue.Value);
                     if (baseSection != null)
@@ -155,7 +158,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                                        ?? EntityModel.RootModel.DefaultFile.GetSection(thisFileSection.SectionName)?.GetValue("$Inherits");
                 if (!string.IsNullOrEmpty(inheritsValue?.Value))
                 {
-                    inheritsValue.ValueChanged += (sender, args) => _resolvedValue = null;
+                    thisFileSection.ValueChanged += (sender, args) =>
+                    {
+                        if (args.Key == "$Inherits") _resolvedValue = null;
+                    };
                     var inheritsFromList = inheritsValue.Value.Split(",", StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => s.Trim())
                         .ToList();

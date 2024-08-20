@@ -463,7 +463,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 && e.Cell.Column.Key == _valueColumn)
             {
                 RefreshValueAppearance(e.Cell, valueModel);
-                if (valueModel.Key == "BaseSection")
+                if (valueModel.Key == "BaseSection" || valueModel.Key == "$Inherits")
                 {
                     // refresh all rows values
                     valuesGrid.Rows.Refresh(RefreshRow.RefreshDisplay);
