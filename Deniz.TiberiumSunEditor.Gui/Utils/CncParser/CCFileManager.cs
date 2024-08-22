@@ -221,23 +221,19 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
 
         public byte[]? LoadFile(string name)
         {
-            foreach (string searchDirectory in _searchDirectories)
+            foreach (var searchDirectory in new[] {GameDirectory}.Union(_searchDirectories))
             {
-                string looseFilePath = Path.Combine(searchDirectory, name);
+                var looseFilePath = Path.Combine(searchDirectory, name);
                 if (File.Exists(looseFilePath))
                 {
                     return File.ReadAllBytes(looseFilePath);
                 }
             }
 
-            uint id = MixFile.GetFileID(name);
-
-            if (FileLocationInfos.TryGetValue(id, out FileLocationInfo value))
-            {
-                return value.MixFile.GetSingleFileData(value.Offset, value.Size);
-            }
-
-            return null;
+            var id = MixFile.GetFileID(name);
+            return FileLocationInfos.TryGetValue(id, out FileLocationInfo value) 
+                ? value.MixFile.GetSingleFileData(value.Offset, value.Size) 
+                : null;
         }
 
         private bool IsSpecialMixName(string name)

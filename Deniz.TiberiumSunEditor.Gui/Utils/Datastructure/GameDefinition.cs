@@ -84,6 +84,25 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
                 : new IniFile();
         }
 
+        public IniFile LoadCurrentArtFile()
+        {
+            var currentIniPath = GetUserGamePath();
+            if (!string.IsNullOrEmpty(currentIniPath)
+                && Directory.Exists(currentIniPath))
+            {
+                if (!string.IsNullOrEmpty(SaveAsRelativeToGameFolder))
+                {
+                    currentIniPath = Path.Combine(currentIniPath, SaveAsRelativeToGameFolder);
+                    var currentIniFilePath = Path.Combine(currentIniPath, SaveAsArtFilename);
+                    if (File.Exists(currentIniFilePath))
+                    {
+                        return IniFile.Load(currentIniFilePath);
+                    }
+                }
+            }
+            return LoadDefaultArtFile();
+        }
+
         public IniFile? LoadDescriptionRulesFile()
         {
             return !string.IsNullOrEmpty(ResourcesDescriptionIniFile)

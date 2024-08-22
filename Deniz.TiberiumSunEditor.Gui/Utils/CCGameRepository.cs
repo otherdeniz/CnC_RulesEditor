@@ -73,7 +73,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
 
                 if (!string.IsNullOrEmpty(gameDefinition.ResourcesDefaultArtIniFile))
                 {
-                    _artIniFile = gameDefinition.LoadDefaultArtFile();
+                    _artIniFile = gameDefinition.LoadCurrentArtFile();
                 }
                 else
                 {
