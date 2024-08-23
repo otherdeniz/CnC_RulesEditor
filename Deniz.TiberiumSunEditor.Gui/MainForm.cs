@@ -4,6 +4,7 @@ using Deniz.TiberiumSunEditor.Gui.Dialogs;
 using Deniz.TiberiumSunEditor.Gui.Model;
 using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
+using Deniz.TiberiumSunEditor.Gui.Utils.Exceptions;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
 using Infragistics.Win.UltraWinToolbars;
@@ -12,6 +13,7 @@ namespace Deniz.TiberiumSunEditor.Gui
 {
     public partial class MainForm : Form
     {
+        private SynchronizationContext _uiSyncContext = null!;
         private RulesEditMainControl? _editRulesMainControl;
         private ArtEditMainControl? _editArtMainControl;
         private bool _doEvents;
@@ -626,6 +628,37 @@ namespace Deniz.TiberiumSunEditor.Gui
             }
         }
 
+        private void InitUserSettings()
+        {
+            _uiSyncContext = SynchronizationContext.Current
+                             ?? throw new RuntimeException("Fatal: no Current SynchronizationContext");
+            UserSettingsFile.ExternalChanged += (sender, args) =>
+            {
+                _uiSyncContext.Send(state =>
+                {
+                    _doEvents = false;
+                    InitializeNewMenu();
+                    InitializeRecentFilesMenu();
+                    LoadUserSettings();
+                    if (ThemeManager.Instance.CurrentTheme.Name != UserSettingsFile.Instance.SelectedTheme)
+                    {
+                        UseTheme(UserSettingsFile.Instance.SelectedTheme);
+                    }
+                    _doEvents = true;
+                }, null);
+            };
+            LoadUserSettings();
+        }
+
+        private void LoadUserSettings()
+        {
+            ((StateButtonTool)mainToolbarsManager.Tools["SettingOpeningSound"]).Checked = 
+                UserSettingsFile.Instance.SettingPlayOpeningSound;
+
+            ((StateButtonTool)mainToolbarsManager.Tools["SettingCheckUpdates"]).Checked =
+                UserSettingsFile.Instance.SettingAutoUpdate;
+        }
+
         private void mainToolbarsManager_ToolClick(object sender, ToolClickEventArgs e)
         {
             if (!_doEvents) return;
@@ -797,7 +830,6 @@ namespace Deniz.TiberiumSunEditor.Gui
             AnimationsAsyncLoader.Instance.InitialiseUiSyncContext();
             if (UserSettingsFile.Instance.SettingPlayOpeningSound)
             {
-                ((StateButtonTool)mainToolbarsManager.Tools["SettingOpeningSound"]).Checked = true;
                 var wavStream = ResourcesRepository.Instance.ReadRandomResourcesFileStream("startup_*.wav");
                 if (wavStream != null)
                 {
@@ -806,7 +838,6 @@ namespace Deniz.TiberiumSunEditor.Gui
             }
             if (UserSettingsFile.Instance.SettingAutoUpdate)
             {
-                ((StateButtonTool)mainToolbarsManager.Tools["SettingCheckUpdates"]).Checked = true;
                 AutoUpdateManager.CheckForUpdate(this, true);
             }
             else
@@ -814,6 +845,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                 AutoUpdateManager.CheckForUpdate(this, false);
             }
             DarkTitleBarHelper.UseImmersiveDarkMode(Handle, ThemeManager.Instance.CurrentTheme.WindowUseDarkHeader);
+            InitUserSettings();
             _doEvents = true;
         }
 

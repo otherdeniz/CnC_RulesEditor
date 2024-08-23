@@ -21,6 +21,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
 
         protected virtual string? FilePath { get; set; }
 
+        protected FileChangeWatcher? ChangeWatcher { get; set; }
+
         //protected static TDatType Load<TDatType>(string dataRoot, bool saveOnCreate = true) where TDatType : DatFileBase, new()
         //{
         //    var datFilePath = GetDatFilePath(dataRoot, typeof(TDatType));
@@ -93,6 +95,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
             {
                 lock (_saveLock)
                 {
+                    ChangeWatcher?.StopWatching();
                     var directory = new FileInfo(FilePath).Directory;
                     if (directory?.Exists == false)
                     {
@@ -109,6 +112,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
 
                         fileStream.SetLength(fileStream.Position);
                     }
+                    ChangeWatcher?.StartWatching();
                 }
             });
         }

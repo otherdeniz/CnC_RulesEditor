@@ -8,16 +8,29 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
     public class UserSettingsFile : JsonFileBase
     {
         private static UserSettingsFile? _instance;
+        private static FileChangeWatcher? _watcher;
         public static UserSettingsFile Instance => _instance ??= LoadFile();
         private static UserSettingsFile LoadFile()
         {
             var settingsFilePath = Path.Combine(UserSettingsFolder.Instance.AppDataFolder, "UserSettings.json");
-            return Load<UserSettingsFile>(settingsFilePath);
+            _watcher = new FileChangeWatcher(UserSettingsFolder.Instance.AppDataFolder, "UserSettings.json");
+            _watcher.Changed += (sender, args) =>
+            {
+                var changedFile = Load<UserSettingsFile>(settingsFilePath);
+                changedFile.ChangeWatcher = _watcher;
+                _instance = changedFile;
+                ExternalChanged?.Invoke(changedFile, EventArgs.Empty);
+            };
+            var file = Load<UserSettingsFile>(settingsFilePath);
+            file.ChangeWatcher = _watcher;
+            return file;
         }
 
         private UserFavoriteSettings? _sectionsSettings;
         private UserFavoriteSettings? _commonValuesSettings;
         private UserFavoriteSettings? _unitValuesSettings;
+
+        public static event EventHandler? ExternalChanged;
 
         public List<string> FavoriteSections { get; set; } = new();
 
