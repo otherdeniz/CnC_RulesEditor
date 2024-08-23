@@ -307,7 +307,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
             }
             else
             {
-                Lines.Add(new IniFileLineKeyValue(key, value, runtimeAdded:true));
+                var lastKeyValueLineIndex = Lines.FindLastIndex(l => l is IniFileLineKeyValue);
+                if (lastKeyValueLineIndex > -1 && lastKeyValueLineIndex < Lines.Count - 1)
+                {
+                    Lines.Insert(lastKeyValueLineIndex + 1, new IniFileLineKeyValue(key, value, runtimeAdded: true));
+                }
+                else
+                {
+                    Lines.Add(new IniFileLineKeyValue(key, value, runtimeAdded: true));
+                }
                 _keyValuesList = null;
                 _keyValuesDictionary = null;
             }
