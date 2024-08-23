@@ -216,6 +216,7 @@
     <None Remove="Resources\startup_sir-yes-sir.wav" />
     <None Remove="Resources\Themes.json" />
     <None Remove="Resources\TSart.ini" />
+    <None Remove="Resources\TSartfs.ini" />
     <None Remove="Resources\TSfirestrm.ini" />
     <None Remove="Resources\TSrules.ini" />
     <None Remove="Snippets\2 new Aircrafts %28GDI%29.ini" />
@@ -393,6 +394,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\TSart.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\TSartfs.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="__ReadMe__.txt">
