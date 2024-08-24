@@ -41,8 +41,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             get => _filterVisible;
             set
             {
+                if (_filterVisible == value) return;
                 _filterVisible = value;
                 filterControl.Visible = value;
+                if (!value)
+                {
+                    filterControl.ClearFilter();
+                }
             }
         }
 

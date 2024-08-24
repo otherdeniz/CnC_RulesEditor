@@ -44,7 +44,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                 {
                     if (fileType.BaseType == FileBaseType.Art)
                     {
-                        var rulesFile = fileType.GameDefinition.LoadDefaultRulesFile();
+                        var rulesFile = fileType.GameDefinition.LoadCurrentRulesFile();
                         LoadArtFile(iniFile, fileType, rulesFile);
                     }
                     else
@@ -68,7 +68,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             {
                 if (fileType.BaseType == FileBaseType.Art)
                 {
-                    var rulesFile = fileType.GameDefinition.LoadDefaultRulesFile();
+                    var rulesFile = fileType.GameDefinition.LoadCurrentRulesFile();
                     LoadArtFile(iniFile, fileType, rulesFile);
                 }
                 else
@@ -718,8 +718,10 @@ namespace Deniz.TiberiumSunEditor.Gui
                         var artFile = customMod.LoadArtIniFile();
                         if (artFile != null)
                         {
-                            var rulesFile = customMod.LoadRulesIniFile();
-                            LoadArtFile(artFile, ParseFileType(artFile, customMod.ToGameDefinition()), rulesFile);
+                            var customGameDefinition = customMod.ToGameDefinition();
+                            var rulesFile = customGameDefinition?.LoadCurrentRulesFile()
+                                            ?? customMod.LoadRulesIniFile();
+                            LoadArtFile(artFile, ParseFileType(artFile, customGameDefinition), rulesFile);
                         }
                     }
                     return;
@@ -728,7 +730,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                 if (gameDefinition != null)
                 {
                     var artFile = gameDefinition.LoadDefaultArtFile();
-                    var rulesFile = gameDefinition.LoadDefaultRulesFile();
+                    var rulesFile = gameDefinition.LoadCurrentRulesFile();
                     LoadArtFile(artFile, ParseFileType(artFile, gameDefinition), rulesFile);
                 }
                 return;

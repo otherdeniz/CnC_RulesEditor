@@ -6,7 +6,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 {
     public partial class FilterControl : UserControl
     {
-        private IRootModel _rootModel = null!;
+        private IRootModel? _rootModel;
 
         public FilterControl()
         {
@@ -16,6 +16,20 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         public event EventHandler? FilterChanged;
 
         public FilterModel? CurrentFilter { get; private set; }
+
+        public void ClearFilter()
+        {
+            if (_rootModel == null) return;
+            ultraComboSide.SelectedIndex = 0;
+            comboField.SelectedIndex = 0;
+            comboComparison.SelectedIndex = 0;
+            textValue.Text = string.Empty;
+            if (CurrentFilter != null)
+            {
+                CurrentFilter = null;
+                FilterChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
 
         public void LoadModel(IRootModel rootModel)
         {
@@ -30,7 +44,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         {
             ultraComboSide.Items.Clear();
             ultraComboSide.Items.Add("", "all");
-            foreach (var side in _rootModel.RulesModel.SideEntities
+            foreach (var side in _rootModel!.RulesModel.SideEntities
                          .OrderBy(s => s.Thumbnail != null ? 0 : 1))
             {
                 var valueListItem = ultraComboSide.Items.Add(side.EntityKey);
@@ -51,7 +65,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         {
             comboField.Items.Clear();
             comboField.Items.Add("");
-            foreach (var fieldKey in _rootModel.LookupEntities.Values.SelectMany(v => v)
+            foreach (var fieldKey in _rootModel!.LookupEntities.Values.SelectMany(v => v)
                          .SelectMany(e => e.FileSection.KeyValues)
                          .Select(k => k.Key)
                          .Distinct(StringEqualityComparer.Instance)
@@ -72,7 +86,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 "smaller than",
                 "is yes",
                 "is no",
-                "is empty"
+                "is empty",
+                "is not empty"
             });
             comboComparison.SelectedIndex = 0;
         }
@@ -91,12 +106,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void buttonReset_Click(object sender, EventArgs e)
         {
-            ultraComboSide.SelectedIndex = 0;
-            comboField.SelectedIndex = 0;
-            comboComparison.SelectedIndex = 0;
-            textValue.Text = string.Empty;
-            CurrentFilter = null;
-            FilterChanged?.Invoke(this, EventArgs.Empty);
+            ClearFilter();
         }
 
         private void comboComparison_SelectedIndexChanged(object sender, EventArgs e)

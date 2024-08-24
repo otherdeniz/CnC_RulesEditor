@@ -104,7 +104,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             get
             {
                 var techLevelValue =
-                    (FileSection.GetValue("TechLevel") ?? DefaultSection?.GetValue("TechLevel"))?.Value;
+                    (RulesFileSection.GetValue("TechLevel") ?? DefaultSection?.GetValue("TechLevel"))?.Value;
                 if (!string.IsNullOrEmpty(techLevelValue)
                     && int.TryParse(techLevelValue, out var techLevelNumber))
                 {
@@ -250,25 +250,25 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         public bool IsBuildableByHouse(string houseKey)
         {
             var allowedByOwner = TechLevelBuildable
-                                 && (FileSection.GetValue("Owner") ?? DefaultSection?.GetValue("Owner"))?
+                                 && (RulesFileSection.GetValue("Owner") ?? DefaultSection?.GetValue("Owner"))?
                                  .Value.Split(",")
                                  .Any(v => v.Equals(houseKey, StringComparison.InvariantCultureIgnoreCase)) == true;
             if (allowedByOwner)
             {
-                var requiredByHousesValue = FileSection.GetValue("RequiredHouses")?.Value;
+                var requiredByHousesValue = RulesFileSection.GetValue("RequiredHouses")?.Value;
                 if (requiredByHousesValue != null)
                 {
                     return requiredByHousesValue.Split(",")
                         .Any(v => v.Equals(houseKey, StringComparison.InvariantCultureIgnoreCase));
                 }
-                var forbiddenByHousesValue = FileSection.GetValue("ForbiddenHouses")?.Value;
+                var forbiddenByHousesValue = RulesFileSection.GetValue("ForbiddenHouses")?.Value;
                 if (forbiddenByHousesValue != null)
                 {
                     return !forbiddenByHousesValue.Split(",")
                         .Any(v => v.Equals(houseKey, StringComparison.InvariantCultureIgnoreCase));
                 }
                 // check if has prerequisite that is not owned
-                if ((FileSection.GetValue("Prerequisite") ?? DefaultSection?.GetValue("Prerequisite"))?
+                if ((RulesFileSection.GetValue("Prerequisite") ?? DefaultSection?.GetValue("Prerequisite"))?
                         .Value.Split(",")
                         .Select(p =>
                             RootModel.File.GetSection(p) ??

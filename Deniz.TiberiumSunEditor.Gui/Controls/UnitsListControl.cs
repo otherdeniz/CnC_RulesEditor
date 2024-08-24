@@ -278,6 +278,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                                        || entityValue.Value.Equals("false", StringComparison.InvariantCultureIgnoreCase));
                         case FilterComparison.IsEmpty:
                             return string.IsNullOrEmpty(entityValue?.Value);
+                        case FilterComparison.IsNotEmpty:
+                            return !string.IsNullOrEmpty(entityValue?.Value);
                     }
                 }
             }

@@ -18,6 +18,7 @@
         LesserThan = 2,
         IsYes = 3,
         IsNo = 4,
-        IsEmpty = 5
+        IsEmpty = 5,
+        IsNotEmpty = 6
     }
 }
