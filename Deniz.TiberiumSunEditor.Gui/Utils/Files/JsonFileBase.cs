@@ -112,6 +112,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
 
                         fileStream.SetLength(fileStream.Position);
                     }
+                    Thread.Sleep(500);
                     ChangeWatcher?.StartWatching();
                 }
             });
