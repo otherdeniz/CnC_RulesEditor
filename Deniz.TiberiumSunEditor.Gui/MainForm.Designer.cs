@@ -44,6 +44,7 @@
             Infragistics.Win.UltraWinToolbars.LabelTool labelTool12 = new Infragistics.Win.UltraWinToolbars.LabelTool("SearchLabel");
             Infragistics.Win.UltraWinToolbars.TextBoxTool textBoxTool12 = new Infragistics.Win.UltraWinToolbars.TextBoxTool("SearchText");
             Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool120 = new Infragistics.Win.UltraWinToolbars.ButtonTool("SearchClear");
+            Infragistics.Win.UltraWinToolbars.StateButtonTool stateButtonTool114 = new Infragistics.Win.UltraWinToolbars.StateButtonTool("Filter", "");
             Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool139 = new Infragistics.Win.UltraWinToolbars.ButtonTool("About");
             Infragistics.Win.UltraWinToolbars.PopupMenuTool popupMenuTool11 = new Infragistics.Win.UltraWinToolbars.PopupMenuTool("New");
             Infragistics.Win.Appearance appearance115 = new Infragistics.Win.Appearance();
@@ -146,6 +147,8 @@
             Infragistics.Win.UltraWinToolbars.StateButtonTool stateButtonTool112 = new Infragistics.Win.UltraWinToolbars.StateButtonTool("AutoLoad", "");
             Infragistics.Win.UltraWinToolbars.StateButtonTool stateButtonTool19 = new Infragistics.Win.UltraWinToolbars.StateButtonTool("AutoSave", "");
             Infragistics.Win.UltraWinToolbars.StateButtonTool stateButtonTool111 = new Infragistics.Win.UltraWinToolbars.StateButtonTool("AutoLoad", "");
+            Infragistics.Win.UltraWinToolbars.StateButtonTool stateButtonTool113 = new Infragistics.Win.UltraWinToolbars.StateButtonTool("Filter", "");
+            Infragistics.Win.Appearance appearance149 = new Infragistics.Win.Appearance();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             mainToolbarsManager = new Infragistics.Win.UltraWinToolbars.UltraToolbarsManager(components);
             _MainForm_Toolbars_Dock_Area_Left = new Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea();
@@ -176,7 +179,7 @@
             buttonTool12.InstanceProps.IsFirstInGroup = true;
             labelTool12.InstanceProps.IsFirstInGroup = true;
             buttonTool139.InstanceProps.IsFirstInGroup = true;
-            ultraToolbar1.NonInheritedTools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] { popupMenuTool12, popupMenuTool115, popupMenuTool113, buttonTool122, popupMenuTool18, popupMenuTool14, popupMenuTool16, popupMenuTool119, buttonTool118, buttonTool12, buttonTool116, labelTool12, textBoxTool12, buttonTool120, buttonTool139 });
+            ultraToolbar1.NonInheritedTools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] { popupMenuTool12, popupMenuTool115, popupMenuTool113, buttonTool122, popupMenuTool18, popupMenuTool14, popupMenuTool16, popupMenuTool119, buttonTool118, buttonTool12, buttonTool116, labelTool12, textBoxTool12, buttonTool120, stateButtonTool114, buttonTool139 });
             ultraToolbar1.Text = "Main";
             mainToolbarsManager.Toolbars.AddRange(new Infragistics.Win.UltraWinToolbars.UltraToolbar[] { ultraToolbar1 });
             mainToolbarsManager.ToolbarSettings.AllowCustomize = Infragistics.Win.DefaultableBoolean.False;
@@ -333,7 +336,12 @@
             popupMenuTool120.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] { stateButtonTool110, stateButtonTool112 });
             stateButtonTool19.SharedPropsInternal.Caption = "Auto Save (on every change)";
             stateButtonTool111.SharedPropsInternal.Caption = "Auto Load (external file changes detection)";
-            mainToolbarsManager.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] { popupMenuTool11, buttonTool17, buttonTool19, buttonTool11, popupMenuTool13, buttonTool111, buttonTool113, buttonTool115, buttonTool117, labelTool11, textBoxTool11, buttonTool119, buttonTool121, buttonTool123, buttonTool125, buttonTool127, popupMenuTool15, stateButtonTool11, stateButtonTool13, buttonTool18, buttonTool110, popupMenuTool17, stateButtonTool15, stateButtonTool17, popupMenuTool19, buttonTool124, buttonTool128, buttonTool130, popupMenuTool110, popupMenuTool112, popupMenuTool114, buttonTool132, labelTool13, popupMenuTool116, buttonTool13, buttonTool15, buttonTool134, buttonTool136, buttonTool138, popupMenuTool118, buttonTool141, popupMenuTool120, stateButtonTool19, stateButtonTool111 });
+            appearance149.Image = resources.GetObject("appearance149.Image");
+            stateButtonTool113.SharedPropsInternal.AppearancesSmall.Appearance = appearance149;
+            stateButtonTool113.SharedPropsInternal.Caption = "Filter";
+            stateButtonTool113.SharedPropsInternal.DisplayStyle = Infragistics.Win.UltraWinToolbars.ToolDisplayStyle.DefaultForToolType;
+            stateButtonTool113.SharedPropsInternal.Enabled = false;
+            mainToolbarsManager.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] { popupMenuTool11, buttonTool17, buttonTool19, buttonTool11, popupMenuTool13, buttonTool111, buttonTool113, buttonTool115, buttonTool117, labelTool11, textBoxTool11, buttonTool119, buttonTool121, buttonTool123, buttonTool125, buttonTool127, popupMenuTool15, stateButtonTool11, stateButtonTool13, buttonTool18, buttonTool110, popupMenuTool17, stateButtonTool15, stateButtonTool17, popupMenuTool19, buttonTool124, buttonTool128, buttonTool130, popupMenuTool110, popupMenuTool112, popupMenuTool114, buttonTool132, labelTool13, popupMenuTool116, buttonTool13, buttonTool15, buttonTool134, buttonTool136, buttonTool138, popupMenuTool118, buttonTool141, popupMenuTool120, stateButtonTool19, stateButtonTool111, stateButtonTool113 });
             mainToolbarsManager.ToolClick += mainToolbarsManager_ToolClick;
             mainToolbarsManager.ToolValueChanged += mainToolbarsManager_ToolValueChanged;
             // 
@@ -343,9 +351,9 @@
             _MainForm_Toolbars_Dock_Area_Left.BackColor = SystemColors.Control;
             _MainForm_Toolbars_Dock_Area_Left.DockedPosition = Infragistics.Win.UltraWinToolbars.DockedPosition.Left;
             _MainForm_Toolbars_Dock_Area_Left.ForeColor = SystemColors.ControlText;
-            _MainForm_Toolbars_Dock_Area_Left.Location = new Point(0, 35);
+            _MainForm_Toolbars_Dock_Area_Left.Location = new Point(0, 94);
             _MainForm_Toolbars_Dock_Area_Left.Name = "_MainForm_Toolbars_Dock_Area_Left";
-            _MainForm_Toolbars_Dock_Area_Left.Size = new Size(0, 579);
+            _MainForm_Toolbars_Dock_Area_Left.Size = new Size(0, 520);
             _MainForm_Toolbars_Dock_Area_Left.ToolbarsManager = mainToolbarsManager;
             // 
             // _MainForm_Toolbars_Dock_Area_Right
@@ -354,9 +362,9 @@
             _MainForm_Toolbars_Dock_Area_Right.BackColor = SystemColors.Control;
             _MainForm_Toolbars_Dock_Area_Right.DockedPosition = Infragistics.Win.UltraWinToolbars.DockedPosition.Right;
             _MainForm_Toolbars_Dock_Area_Right.ForeColor = SystemColors.ControlText;
-            _MainForm_Toolbars_Dock_Area_Right.Location = new Point(1224, 35);
+            _MainForm_Toolbars_Dock_Area_Right.Location = new Point(1224, 94);
             _MainForm_Toolbars_Dock_Area_Right.Name = "_MainForm_Toolbars_Dock_Area_Right";
-            _MainForm_Toolbars_Dock_Area_Right.Size = new Size(0, 579);
+            _MainForm_Toolbars_Dock_Area_Right.Size = new Size(0, 520);
             _MainForm_Toolbars_Dock_Area_Right.ToolbarsManager = mainToolbarsManager;
             // 
             // _MainForm_Toolbars_Dock_Area_Top
@@ -367,7 +375,7 @@
             _MainForm_Toolbars_Dock_Area_Top.ForeColor = SystemColors.ControlText;
             _MainForm_Toolbars_Dock_Area_Top.Location = new Point(0, 0);
             _MainForm_Toolbars_Dock_Area_Top.Name = "_MainForm_Toolbars_Dock_Area_Top";
-            _MainForm_Toolbars_Dock_Area_Top.Size = new Size(1224, 35);
+            _MainForm_Toolbars_Dock_Area_Top.Size = new Size(1224, 94);
             _MainForm_Toolbars_Dock_Area_Top.ToolbarsManager = mainToolbarsManager;
             // 
             // _MainForm_Toolbars_Dock_Area_Bottom
@@ -392,9 +400,9 @@
             // panelMain
             // 
             panelMain.Dock = DockStyle.Fill;
-            panelMain.Location = new Point(0, 35);
+            panelMain.Location = new Point(0, 94);
             panelMain.Name = "panelMain";
-            panelMain.Size = new Size(1224, 579);
+            panelMain.Size = new Size(1224, 520);
             panelMain.TabIndex = 9;
             // 
             // MainForm

@@ -9,6 +9,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
     public partial class ArtEditMainControl : UserControl
     {
         private bool _readonlyMode;
+        private bool _filterVisible;
         private bool _showOnlyFavoriteValues;
         private bool _showOnlyFavoriteUnits;
         private bool _titleVisible = true;
@@ -29,6 +30,17 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 _titleVisible = value;
                 panelTitle.Visible = value;
+            }
+        }
+
+        [DefaultValue(false)]
+        public bool FilterVisible
+        {
+            get => _filterVisible;
+            set
+            {
+                _filterVisible = value;
+                filterControl.Visible = value;
             }
         }
 
@@ -105,6 +117,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             Model = model;
             labelType.Text = model.FileType.TypeLabel;
             labelName.Text = model.FileType.Title;
+            filterControl.LoadModel(model);
             LoadModels();
             var firstVisibleTab = mainTab.Tabs.OfType<UltraTab>().FirstOrDefault(t => t.Visible);
             if (firstVisibleTab != null)
@@ -117,12 +130,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         public void LoadModels()
         {
             AnimationsAsyncLoader.Instance.Stop(true, false);
-            mainTab.Tabs["Buildings"].Visible = unitsBuildings.LoadModel(Model.BuildingEntities);
-            mainTab.Tabs["Infantry"].Visible = unitsInfantry.LoadModel(Model.InfantryEntities);
-            mainTab.Tabs["Vehicles"].Visible = unitsVehicles.LoadModel(Model.VehicleEntities);
-            mainTab.Tabs["Aircrafts"].Visible = unitsAircrafts.LoadModel(Model.AircraftEntities);
-            mainTab.Tabs["Projectiles"].Visible = unitsProjectiles.LoadModel(Model.ProjectileEntities);
-            mainTab.Tabs["Animations"].Visible = unitsAnimations.LoadModel(Model.AnimationEntities);
+            mainTab.Tabs["Buildings"].Visible = unitsBuildings.LoadModel(Model.BuildingEntities, filterControl.CurrentFilter);
+            mainTab.Tabs["Infantry"].Visible = unitsInfantry.LoadModel(Model.InfantryEntities, filterControl.CurrentFilter);
+            mainTab.Tabs["Vehicles"].Visible = unitsVehicles.LoadModel(Model.VehicleEntities, filterControl.CurrentFilter);
+            mainTab.Tabs["Aircrafts"].Visible = unitsAircrafts.LoadModel(Model.AircraftEntities, filterControl.CurrentFilter);
+            mainTab.Tabs["Projectiles"].Visible = unitsProjectiles.LoadModel(Model.ProjectileEntities, filterControl.CurrentFilter);
+            mainTab.Tabs["Animations"].Visible = unitsAnimations.LoadModel(Model.AnimationEntities, filterControl.CurrentFilter);
             var hasPhobos = false;
             tabPhobos.Tabs.Clear();
             tabPhobos.Controls.OfType<UltraTabPageControl>().ToList().ForEach(c =>
@@ -214,6 +227,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 phobosTab.Visible = checkBoxPhobosShowEmpty.Checked || (bool)phobosTab.Tag;
             }
+        }
+
+        private void filterControl_FilterChanged(object sender, EventArgs e)
+        {
+            LoadModels();
         }
     }
 }

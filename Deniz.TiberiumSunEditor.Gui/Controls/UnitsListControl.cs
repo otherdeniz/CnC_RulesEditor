@@ -10,6 +10,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private const int PageSize = 250;
         private List<GameEntityModel> _entities = null!;
         private List<GameEntityModel> _orderedEntities = null!;
+        private FilterModel? _filter;
         private readonly List<UnitPickerControl> _unitPickerControls = new();
         private UnitPickerControl? _selectedUnitPickerControl;
         private bool _readonlyMode;
@@ -101,9 +102,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         [Browsable(false)]
         public string SearchText { get; set; } = "";
 
-        public bool LoadModel(List<GameEntityModel> entities)
+        public bool LoadModel(List<GameEntityModel> entities, FilterModel? filter = null)
         {
             _entities = entities;
+            _filter = filter;
             _doEvents = false;
             checkBoxOnlyModified.Checked = false;
             _doEvents = true;
@@ -137,11 +139,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             var orderedList = OrderByThumbnail
                 ? filteredList
                     .OrderBy(OrderByGroup)
+                    .ThenBy(e => e.Favorite ? 0 : 1)
                     .ThenBy(OrderByOwner)
                     .ThenBy(e => e.Thumbnail == null ? 1 : 0)
                     .ThenBy(e => e.EntityKey)
                 : filteredList
                     .OrderBy(OrderByGroup)
+                    .ThenBy(e => e.Favorite ? 0 : 1)
                     .ThenBy(e => e.EntityKey);
             _orderedEntities = orderedList.ToList();
             LoadPage(1);
@@ -226,15 +230,67 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private bool FilterValue(GameEntityModel entityModel)
         {
-            if (SearchText == "")
+            if (_filter != null)
             {
-                return checkBoxOnlyModified.Checked
-                    ? entityModel.ModificationCount > 0
-                    : !ShowOnlyFavoriteUnits || entityModel.Favorite || ReadonlyMode;
+                if (!string.IsNullOrEmpty(_filter.FilterByHouse) &&
+                    !entityModel.IsBuildableByHouse(_filter.FilterByHouse))
+                {
+                    return false;
+                }
+                if (!string.IsNullOrEmpty(_filter.FieldKey))
+                {
+                    var entityValue = entityModel.FileSection.GetValue(_filter.FieldKey);
+                    switch (_filter.Comparison)
+                    {
+                        case FilterComparison.Contains:
+                            if (_filter.Value != string.Empty
+                                && entityValue?.Value.Contains(_filter.Value,
+                                    StringComparison.InvariantCultureIgnoreCase) != true)
+                            {
+                                return false;
+                            }
+                            break;
+                        case FilterComparison.GreaterThan:
+                            if (decimal.TryParse(_filter.Value, out var filterGreater)
+                                && (entityValue != null 
+                                    && decimal.TryParse(entityValue.Value, out var valueGreater)
+                                    && valueGreater > filterGreater) != true)
+                            {
+                                return false;
+                            }
+                            break;
+                        case FilterComparison.LesserThan:
+                            if (decimal.TryParse(_filter.Value, out var filterLesser)
+                                && (entityValue != null
+                                    && decimal.TryParse(entityValue.Value, out var valueLesser)
+                                    && valueLesser < filterLesser) != true)
+                            {
+                                return false;
+                            }
+                            break;
+                        case FilterComparison.IsYes:
+                            return entityValue != null
+                                && (entityValue.Value.Equals("yes", StringComparison.InvariantCultureIgnoreCase)
+                                    || entityValue.Value.Equals("true", StringComparison.InvariantCultureIgnoreCase));
+                        case FilterComparison.IsNo:
+                            return entityValue != null
+                                   && (entityValue.Value.Equals("no", StringComparison.InvariantCultureIgnoreCase)
+                                       || entityValue.Value.Equals("false", StringComparison.InvariantCultureIgnoreCase));
+                        case FilterComparison.IsEmpty:
+                            return string.IsNullOrEmpty(entityValue?.Value);
+                    }
+                }
             }
 
-            return entityModel.EntityKey.Contains(SearchText, StringComparison.InvariantCultureIgnoreCase)
-                   || entityModel.EntityName.Contains(SearchText, StringComparison.InvariantCultureIgnoreCase);
+            if (SearchText != "")
+            {
+                return entityModel.EntityKey.Contains(SearchText, StringComparison.InvariantCultureIgnoreCase)
+                       || entityModel.EntityName.Contains(SearchText, StringComparison.InvariantCultureIgnoreCase);
+            }
+
+            return checkBoxOnlyModified.Checked
+                ? entityModel.ModificationCount > 0
+                : !ShowOnlyFavoriteUnits || entityModel.Favorite || ReadonlyMode;
         }
 
         private int OrderByOwner(GameEntityModel entityModel)

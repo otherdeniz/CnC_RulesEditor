@@ -11,6 +11,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
     public partial class RulesEditMainControl : UserControl
     {
         private bool _readonlyMode;
+        private bool _filterVisible;
         private bool _showOnlyFavoriteValues;
         private bool _showOnlyFavoriteUnits;
         private bool _titleVisible = true;
@@ -31,6 +32,17 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 _titleVisible = value;
                 panelTitle.Visible = value;
+            }
+        }
+
+        [DefaultValue(false)]
+        public bool FilterVisible
+        {
+            get => _filterVisible;
+            set
+            {
+                _filterVisible = value;
+                filterControl.Visible = value;
             }
         }
 
@@ -134,6 +146,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             Model = model;
             labelType.Text = fileTypeOverride ?? model.FileType.TypeLabel;
             labelName.Text = nameOverride ?? model.FileType.Title;
+            filterControl.LoadModel(model);
             LoadModels();
             var firstVisibleTab = mainTab.Tabs.OfType<UltraTab>().FirstOrDefault(t => t.Visible);
             if (firstVisibleTab != null)
@@ -146,24 +159,36 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         public void LoadModels()
         {
             AnimationsAsyncLoader.Instance.Stop(true, false);
-            mainTab.Tabs["Sides"].Visible = unitsSides.LoadModel(Model.SideEntities);
-            mainTab.Tabs["Buildings"].Visible = unitsBuildings.LoadModel(Model.BuildingEntities);
-            mainTab.Tabs["Infantry"].Visible = unitsInfantry.LoadModel(Model.InfantryEntities);
-            mainTab.Tabs["Vehicles"].Visible = unitsVehicles.LoadModel(Model.VehicleEntities);
-            mainTab.Tabs["Aircrafts"].Visible = unitsAircrafts.LoadModel(Model.AircraftEntities);
-            mainTab.Tabs["Weapons"].Visible = unitsWeapons.LoadModel(Model.WeaponEntities);
-            mainTab.Tabs["Projectiles"].Visible = unitsProjectiles.LoadModel(Model.ProjectileEntities);
-            mainTab.Tabs["Warheads"].Visible = unitsWarheads.LoadModel(Model.WarheadEntities);
-            var hasSuperWeapons = unitsSuperWeapons.LoadModel(Model.SuperWeaponEntities);
-            if (valuesEditSuperWeapons.LoadValuesGrid(Model, Model.SuperWeaponValues))
+            mainTab.Tabs["Sides"].Visible = unitsSides.LoadModel(Model.SideEntities, filterControl.CurrentFilter);
+            mainTab.Tabs["Buildings"].Visible = unitsBuildings.LoadModel(Model.BuildingEntities, filterControl.CurrentFilter);
+            mainTab.Tabs["Infantry"].Visible = unitsInfantry.LoadModel(Model.InfantryEntities, filterControl.CurrentFilter);
+            mainTab.Tabs["Vehicles"].Visible = unitsVehicles.LoadModel(Model.VehicleEntities, filterControl.CurrentFilter);
+            mainTab.Tabs["Aircrafts"].Visible = unitsAircrafts.LoadModel(Model.AircraftEntities, filterControl.CurrentFilter);
+            mainTab.Tabs["Weapons"].Visible = unitsWeapons.LoadModel(Model.WeaponEntities, filterControl.CurrentFilter);
+            mainTab.Tabs["Projectiles"].Visible = unitsProjectiles.LoadModel(Model.ProjectileEntities, filterControl.CurrentFilter);
+            mainTab.Tabs["Warheads"].Visible = unitsWarheads.LoadModel(Model.WarheadEntities, filterControl.CurrentFilter);
+            var hasSuperWeapons = unitsSuperWeapons.LoadModel(Model.SuperWeaponEntities, filterControl.CurrentFilter);
+            if (filterControl.CurrentFilter == null)
             {
-                hasSuperWeapons = true;
+                mainTab.Tabs["Common"].Visible = valuesEditCommon.LoadValuesGrid(Model, Model.CommonValues);
+                mainTab.Tabs["Tiberium"].Visible = valuesEditTiberium.LoadValuesGrid(Model, Model.TiberiumValues);
+                mainTab.Tabs["AI"].Visible = valuesEditAi.LoadValuesGrid(Model, Model.AiValues);
+                mainTab.Tabs["AudioVisual"].Visible = valuesEditAudioVisual.LoadValuesGrid(Model, Model.AudioVisualValues);
+                if (valuesEditSuperWeapons.LoadValuesGrid(Model, Model.SuperWeaponValues))
+                {
+                    hasSuperWeapons = true;
+                }
+                splitContainerSuperWeapons.Panel2Collapsed = false;
+            }
+            else
+            {
+                mainTab.Tabs["Common"].Visible = false;
+                mainTab.Tabs["Tiberium"].Visible = false;
+                mainTab.Tabs["AI"].Visible = false;
+                mainTab.Tabs["AudioVisual"].Visible = false;
+                splitContainerSuperWeapons.Panel2Collapsed = true;
             }
             mainTab.Tabs["SuperWeapons"].Visible = hasSuperWeapons;
-            mainTab.Tabs["Common"].Visible = valuesEditCommon.LoadValuesGrid(Model, Model.CommonValues);
-            mainTab.Tabs["Tiberium"].Visible = valuesEditTiberium.LoadValuesGrid(Model, Model.TiberiumValues);
-            mainTab.Tabs["AI"].Visible = valuesEditAi.LoadValuesGrid(Model, Model.AiValues);
-            mainTab.Tabs["AudioVisual"].Visible = valuesEditAudioVisual.LoadValuesGrid(Model, Model.AudioVisualValues);
             var hasPhobos = false;
             tabPhobos.Tabs.Clear();
             tabPhobos.Controls.OfType<UltraTabPageControl>().ToList().ForEach(c =>
@@ -241,7 +266,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 var entitiesTypesSection = Model.File.GetSection(entityTypes)
                                            ?? Model.File.AddSection(entityTypes);
                 var typeKey = entitiesTypesSection.KeyValues.Any()
-                    ? entitiesTypesSection.KeyValues.Max(k => int.Parse(k.Key)) + 1
+                    ? entitiesTypesSection.KeyValues.Max(k => int.TryParse(k.Key, out var number) ? number : 0) + 1
                     : 900;
                 entitiesTypesSection.SetValue(typeKey.ToString(), e.NewKey);
             }
@@ -374,5 +399,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
         }
 
+        private void filterControl_FilterChanged(object sender, EventArgs e)
+        {
+            LoadModels();
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace Deniz.TiberiumSunEditor.Gui
         private SynchronizationContext _uiSyncContext = null!;
         private RulesEditMainControl? _editRulesMainControl;
         private ArtEditMainControl? _editArtMainControl;
+        private bool _filterEnabled;
         private bool _doEvents;
 
         public MainForm()
@@ -458,6 +459,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["ExportChanges"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = false;
+            mainToolbarsManager.Tools["Filter"].SharedProps.Enabled = false;
             ((TextBoxTool)mainToolbarsManager.Tools["SearchText"]).Text = "";
             Application.DoEvents();
             foreach (var control in panelMain.Controls
@@ -483,7 +485,8 @@ namespace Deniz.TiberiumSunEditor.Gui
             {
                 _editRulesMainControl = new RulesEditMainControl()
                 {
-                    Dock = DockStyle.Fill
+                    Dock = DockStyle.Fill,
+                    FilterVisible = _filterEnabled
                 };
                 ThemeManager.Instance.UseTheme(_editRulesMainControl);
                 _editRulesMainControl.LoadModel(rulesRootModel);
@@ -497,7 +500,8 @@ namespace Deniz.TiberiumSunEditor.Gui
             {
                 _editArtMainControl = new ArtEditMainControl()
                 {
-                    Dock = DockStyle.Fill
+                    Dock = DockStyle.Fill,
+                    FilterVisible = _filterEnabled
                 };
                 ThemeManager.Instance.UseTheme(_editArtMainControl);
                 _editArtMainControl.LoadModel(artRootModel);
@@ -512,6 +516,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["ShowChanges"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = true;
+            mainToolbarsManager.Tools["Filter"].SharedProps.Enabled = true;
             var relativeFolder = string.IsNullOrEmpty(compareModel.FileType.GameDefinition.SaveAsRelativeToGameFolder)
                 ? "root"
                 : compareModel.FileType.GameDefinition.SaveAsRelativeToGameFolder;
@@ -540,7 +545,8 @@ namespace Deniz.TiberiumSunEditor.Gui
                 useSectionInheritance: fileType.GameDefinition.UseSectionInheritance);
             _editRulesMainControl = new RulesEditMainControl()
             {
-                Dock = DockStyle.Fill
+                Dock = DockStyle.Fill,
+                FilterVisible = _filterEnabled
             };
             ThemeManager.Instance.UseTheme(_editRulesMainControl);
             _editRulesMainControl.LoadModel(rootModel);
@@ -555,6 +561,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["ExportChanges"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = true;
+            mainToolbarsManager.Tools["Filter"].SharedProps.Enabled = true;
             var relativeFolder = string.IsNullOrEmpty(_editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
                 ? "root"
                 : _editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder;
@@ -584,7 +591,8 @@ namespace Deniz.TiberiumSunEditor.Gui
                 showMissingValues: true);
             _editArtMainControl = new ArtEditMainControl()
             {
-                Dock = DockStyle.Fill
+                Dock = DockStyle.Fill,
+                FilterVisible = _filterEnabled
             };
             ThemeManager.Instance.UseTheme(_editArtMainControl);
             _editArtMainControl.LoadModel(artRootModel);
@@ -596,6 +604,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["MixBrowser"].SharedProps.Enabled = CCGameRepository.Instance.IsLoaded;
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = true;
+            mainToolbarsManager.Tools["Filter"].SharedProps.Enabled = true;
             var relativeFolder = string.IsNullOrEmpty(_editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
                 ? "root"
                 : _editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder;
@@ -648,6 +657,23 @@ namespace Deniz.TiberiumSunEditor.Gui
                 }, null);
             };
             LoadUserSettings();
+        }
+
+        private void ButtonShowFilter()
+        {
+            _filterEnabled = !_filterEnabled;
+            if (_editRulesMainControl != null)
+            {
+                _editRulesMainControl.FilterVisible = _filterEnabled;
+            }
+            else if (_editArtMainControl != null)
+            {
+                _editArtMainControl.FilterVisible = _filterEnabled;
+            }
+
+            _doEvents = false;
+            ((StateButtonTool)mainToolbarsManager.Tools["Filter"]).Checked = _filterEnabled;
+            _doEvents = true;
         }
 
         private void LoadUserSettings()
@@ -802,6 +828,9 @@ namespace Deniz.TiberiumSunEditor.Gui
                     break;
                 case "SearchClear":
                     ((TextBoxTool)mainToolbarsManager.Tools["SearchText"]).Text = "";
+                    break;
+                case "Filter":
+                    ButtonShowFilter();
                     break;
                 case "About":
                     AboutForm.ExecuteShow(this);

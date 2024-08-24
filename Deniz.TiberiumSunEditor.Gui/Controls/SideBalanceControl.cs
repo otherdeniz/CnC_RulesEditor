@@ -87,7 +87,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             };
             return _rulesRootModel.LookupEntities.Any(l =>
                 entitiesTypeList.Any(t => l.Key == t)
-                && l.Value.Any(e => EntityModelIsOwnedBySide(e, sideEntityModel)));
+                && l.Value.Any(e => e.IsBuildableByHouse(sideEntityModel.EntityKey)));
         }
 
         private void LoadSide(GameEntityModel sideEntityModel)
@@ -160,7 +160,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             if (_rulesRootModel.LookupEntities.TryGetValue(entityType, out var lookupEntities))
             {
                 var valuesList = new List<BalanceTechnoValueModel>();
-                foreach (var entityModel in lookupEntities.Where(e => EntityModelIsOwnedBySide(e, sideEntityModel)))
+                foreach (var entityModel in lookupEntities.Where(e => e.IsBuildableByHouse(sideEntityModel.EntityKey)))
                 {
                     var valueModel = new BalanceTechnoValueModel(entityModel, category);
                     valuesList.Add(valueModel);
@@ -171,44 +171,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     rows.Add(new BalanceSummaryValueModel(valuesList, category));
                 }
             }
-        }
-
-        private bool EntityModelIsOwnedBySide(GameEntityModel entityModel, GameEntityModel sideEntityModel)
-        {
-            var allowedByOwner = entityModel.TechLevelBuildable
-                                 && (entityModel.FileSection.GetValue("Owner") ?? entityModel.DefaultSection?.GetValue("Owner"))?
-                                 .Value.Split(",")
-                                 .Any(v => v.Equals(sideEntityModel.EntityKey, StringComparison.InvariantCultureIgnoreCase)) == true;
-            if (allowedByOwner)
-            {
-                var requiredByHousesValue = entityModel.FileSection.GetValue("RequiredHouses")?.Value;
-                if (requiredByHousesValue != null)
-                {
-                    return requiredByHousesValue.Split(",")
-                        .Any(v => v.Equals(sideEntityModel.EntityKey, StringComparison.InvariantCultureIgnoreCase));
-                }
-                var forbiddenByHousesValue = entityModel.FileSection.GetValue("ForbiddenHouses")?.Value;
-                if (forbiddenByHousesValue != null)
-                {
-                    return !forbiddenByHousesValue.Split(",")
-                        .Any(v => v.Equals(sideEntityModel.EntityKey, StringComparison.InvariantCultureIgnoreCase));
-                }
-                // check if has prerequisite that is not owned
-                if ((entityModel.FileSection.GetValue("Prerequisite") ?? entityModel.DefaultSection?.GetValue("Prerequisite"))?
-                        .Value.Split(",")
-                        .Select(p =>
-                            entityModel.RootModel.File.GetSection(p) ??
-                            entityModel.RootModel.DefaultFile.GetSection(p))
-                        .Where(s => s != null)
-                        .Any(s => s!.GetValue("Owner")?.Value.Split(",")
-                            .Any(v => v.Equals(sideEntityModel.EntityKey, StringComparison.InvariantCultureIgnoreCase)) == false
-                            ) == true)
-                {
-                    return false;
-                }
-                return true;
-            }
-            return false;
         }
 
         private void OpenPopup(GameEntityModel entityModel, RowUIElement hoverRow)

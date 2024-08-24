@@ -247,6 +247,44 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             }
         }
 
+        public bool IsBuildableByHouse(string houseKey)
+        {
+            var allowedByOwner = TechLevelBuildable
+                                 && (FileSection.GetValue("Owner") ?? DefaultSection?.GetValue("Owner"))?
+                                 .Value.Split(",")
+                                 .Any(v => v.Equals(houseKey, StringComparison.InvariantCultureIgnoreCase)) == true;
+            if (allowedByOwner)
+            {
+                var requiredByHousesValue = FileSection.GetValue("RequiredHouses")?.Value;
+                if (requiredByHousesValue != null)
+                {
+                    return requiredByHousesValue.Split(",")
+                        .Any(v => v.Equals(houseKey, StringComparison.InvariantCultureIgnoreCase));
+                }
+                var forbiddenByHousesValue = FileSection.GetValue("ForbiddenHouses")?.Value;
+                if (forbiddenByHousesValue != null)
+                {
+                    return !forbiddenByHousesValue.Split(",")
+                        .Any(v => v.Equals(houseKey, StringComparison.InvariantCultureIgnoreCase));
+                }
+                // check if has prerequisite that is not owned
+                if ((FileSection.GetValue("Prerequisite") ?? DefaultSection?.GetValue("Prerequisite"))?
+                        .Value.Split(",")
+                        .Select(p =>
+                            RootModel.File.GetSection(p) ??
+                            RootModel.DefaultFile.GetSection(p))
+                        .Where(s => s != null)
+                        .Any(s => s!.GetValue("Owner")?.Value.Split(",")
+                            .Any(v => v.Equals(houseKey, StringComparison.InvariantCultureIgnoreCase)) == false
+                            ) == true)
+                {
+                    return false;
+                }
+                return true;
+            }
+            return false;
+        }
+
         private IniFileLineKeyValue? GetRulesFileValue(string key)
         {
             return FileSection != RulesFileSection 
