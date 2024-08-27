@@ -52,6 +52,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             toolbarsManager.ToolbarSettings.HotTrackAppearance.BackColor = CurrentTheme.HotTrackBackColor;
             toolbarsManager.ToolbarSettings.HotTrackAppearance.BorderColor = CurrentTheme.HotTrackBorderColor;
             toolbarsManager.ToolbarSettings.HotTrackAppearance.ForeColor = CurrentTheme.HotTrackTextColor;
+            toolbarsManager.ToolbarSettings.PressedAppearance.BackColor = CurrentTheme.TextBoxBackColor;
             toolbarsManager.MenuSettings.Appearance.BackColor = CurrentTheme.ControlsBackColor;
             toolbarsManager.MenuSettings.IconAreaAppearance.BackColor = CurrentTheme.PlainBackColor;
             toolbarsManager.MenuSettings.HotTrackAppearance.BackColor = CurrentTheme.HotTrackBackColor;
