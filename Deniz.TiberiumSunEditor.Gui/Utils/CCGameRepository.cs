@@ -6,8 +6,6 @@ using System.Globalization;
 using Deniz.CCAudioPlayerCore;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using ImageMagick;
-using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace Deniz.TiberiumSunEditor.Gui.Utils
 {
@@ -118,7 +116,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
 
         public void ClearAnimationsCache()
         {
+            _animationsCache.Clear();
             _infantryAnimationsCache.Clear();
+        }
+
+        public void RemoveAnimationsCache(string animationKeys)
+        {
+            if (_animationsCache.ContainsKey(animationKeys))
+            {
+                _animationsCache.Remove(animationKeys);
+            }
         }
 
         public bool TryPlayRaAudio(string soundKey)
@@ -293,7 +300,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             return null;
         }
 
-        public Image? GetAnimationsImage(string animationKeys, double autoStretchToFactor = 0.2d)
+        public Image? GetAnimationsImage(string animationKeys, double autoStretchToFactor = 0.2d, float opacity = 1)
         {
             if (_fileManager == null || _animPaletteColors == null) return null;
             if (_animationsCache.TryGetValue(animationKeys, out var animatedGifImage))
@@ -313,15 +320,18 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                     if (shpFile.FrameCount > 1 && shpFile.Width <= _animationMaxWidth)
                     {
                         var blankImage = BitmapRepository.Instance.BlankImage;
-                        animationFrames.Add(new Bitmap(blankImage, new Size(blankImage.Width, blankImage.Height)));
-
                         var shpImage = new ShpImageMultiFrame(_animPaletteColors, shpFile, shpData);
                         foreach (var frameBitmap in shpImage.ToBitmapList())
                         {
                             frameBitmap.MakeTransparent(_animPaletteColors[0]);
                             var brigthBitmap = frameBitmap.BrigthenUp(_cameoBrightnesPercent, true);
                             brigthBitmap.MakeTransparent(Color.Black);
-                            animationFrames.Add(blankImage.OverlayImage(brigthBitmap, autoStretchToFactor));
+                            var animationFrame = blankImage.OverlayImage(brigthBitmap, autoStretchToFactor);
+                            if (opacity != 1)
+                            {
+                                animationFrame = animationFrame.SetBitmapOpacity(opacity);
+                            }
+                            animationFrames.Add(animationFrame);
                             brigthBitmap.Dispose();
                         }
                     }
@@ -357,8 +367,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                 if (shpFile.FrameCount > 1 && shpFile.Width <= _animationMaxWidth)
                 {
                     var blankImage = BitmapRepository.Instance.WhiteImage;
-                    animationFrames.Add(new Bitmap(blankImage, new Size(blankImage.Width, blankImage.Height)));
-
                     var shpImage = new ShpImageMultiFrame(_unitPaletteColors, shpFile, shpData);
                     foreach (var frameBitmap in shpImage.ToBitmapList(200))
                     {

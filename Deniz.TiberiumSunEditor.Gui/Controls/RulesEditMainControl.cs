@@ -252,18 +252,18 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             AnimationsAsyncLoader.Instance.Start();
         }
 
-        private void CreateCopy(EntityCopyEventArgs e,
+        private void CreateCopy(EntityCopyEventArgs copy,
             string? entityTypes,
             bool addImage,
             UnitsListControl unitsListControl,
             Action<IniFileSection>? afterCreatedAction = null)
         {
-            var newSection = Model.File.AddSection(e.NewKey);
-            e.SourceEntityModel.FileSection.KeyValues.ForEach(k => newSection.SetValue(k.Key, k.Value));
-            newSection.SetValue("Name", e.NewName);
+            var newSection = Model.File.AddSection(copy.NewKey);
+            copy.SourceEntityModel.FileSection.KeyValues.ForEach(k => newSection.SetValue(k.Key, k.Value));
+            newSection.SetValue("Name", copy.NewName);
             if (addImage && newSection.GetValue("Image") == null)
             {
-                newSection.SetValue("Image", e.SourceEntityModel.EntityKey);
+                newSection.SetValue("Image", copy.SourceEntityModel.EntityKey);
             }
             afterCreatedAction?.Invoke(newSection);
             if (entityTypes != null)
@@ -273,10 +273,49 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 var typeKey = entitiesTypesSection.KeyValues.Any()
                     ? entitiesTypesSection.KeyValues.Max(k => int.TryParse(k.Key, out var number) ? number : 0) + 1
                     : 900;
-                entitiesTypesSection.SetValue(typeKey.ToString(), e.NewKey);
+                entitiesTypesSection.SetValue(typeKey.ToString(), copy.NewKey);
             }
             Model.ReloadGameEntites();
-            unitsListControl.SelectKey(e.NewKey);
+            unitsListControl.SelectKey(copy.NewKey);
+        }
+
+        private void DeleteEntity(EntityDeleteEventArgs delete, 
+            string? entityTypes)
+        {
+            var usedByEntityModels = Model.LookupEntities.Values.SelectMany(l => l)
+                .Where(e => e.EntityKey != delete.EntityModel.EntityKey 
+                            && e.FileSection.KeyValues.Any(k =>
+                    k.Value.Split(",").Any(v => v == delete.EntityModel.EntityKey)))
+                .ToList();
+            if (usedByEntityModels.Any())
+            {
+                if (MessageBox.Show(
+                        $"The Entity '{delete.EntityModel.EntityKey}' has {usedByEntityModels.Count:#} usages. " +
+                        "They will all be set to [empty] if you continue." + Environment.NewLine +
+                        "Do you want to continue?", "Reset usages?", 
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                {
+                    return;
+                }
+                foreach (var keyValue in usedByEntityModels.SelectMany(e => e.FileSection.KeyValues))
+                {
+                    var valueList = keyValue.Value.Split(",").ToList();
+                    if (valueList.Contains(delete.EntityModel.EntityKey))
+                    {
+                        valueList.Remove(delete.EntityModel.EntityKey);
+                        keyValue.Value = valueList.Count > 0
+                            ? string.Join(",", valueList)
+                            : string.Empty;
+                    }
+                }
+            }
+            if (entityTypes != null)
+            {
+                var entitiesTypesSection = Model.File.GetSection(entityTypes);
+                entitiesTypesSection?.RemoveValues(k => k.Value == delete.EntityModel.EntityKey);
+            }
+            Model.File.RemoveSection(delete.EntityModel.FileSection.SectionName);
+            Model.ReloadGameEntites();
         }
 
         private void AddEmptyUnit(string? entityTypes)
@@ -359,7 +398,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void unitsProjectiles_UnitCreateCopy(object sender, EntityCopyEventArgs e)
         {
-            CreateCopy(e, "Projectiles", false, unitsProjectiles, newSection =>
+            CreateCopy(e, null, false, unitsProjectiles, newSection =>
             {
                 foreach (var entityValueModel in e.SourceEntityModel.EntityValueList.Where(v => v.DefaultValue != ""))
                 {
@@ -370,6 +409,41 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     }
                 }
             });
+        }
+
+        private void unitsBuildings_UnitDelete(object sender, EntityDeleteEventArgs e)
+        {
+            DeleteEntity(e, "BuildingTypes");
+        }
+
+        private void unitsInfantry_UnitDelete(object sender, EntityDeleteEventArgs e)
+        {
+            DeleteEntity(e, "InfantryTypes");
+        }
+
+        private void unitsVehicles_UnitDelete(object sender, EntityDeleteEventArgs e)
+        {
+            DeleteEntity(e, "VehicleTypes");
+        }
+
+        private void unitsAircrafts_UnitDelete(object sender, EntityDeleteEventArgs e)
+        {
+            DeleteEntity(e, "AircraftTypes");
+        }
+
+        private void unitsWeapons_UnitDelete(object sender, EntityDeleteEventArgs e)
+        {
+            DeleteEntity(e, null);
+        }
+
+        private void unitsProjectiles_UnitDelete(object sender, EntityDeleteEventArgs e)
+        {
+            DeleteEntity(e, null);
+        }
+
+        private void unitsWarheads_UnitDelete(object sender, EntityDeleteEventArgs e)
+        {
+            DeleteEntity(e, "Warheads");
         }
 
         private void unitsBuildings_UnitAdd(object sender, EventArgs e)
@@ -408,5 +482,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         {
             LoadModels();
         }
+
     }
 }

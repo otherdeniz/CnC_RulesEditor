@@ -31,11 +31,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 
         public Image Image { get; }
 
-        public AnimationRequirementToken LoadAnimationAsync(Action<Image> afterLoad)
+        public AnimationRequirementToken LoadAnimationAsync(Action<Image> afterLoad, float opacity = 1)
         {
             if (AnimationKeys == null)
                 throw new RuntimeException("The Thumbnail is not an animation");
-            return AnimationsAsyncLoader.Instance.LoadAnimation(AnimationKeys, afterLoad);
+            return AnimationsAsyncLoader.Instance.LoadAnimation(AnimationKeys, afterLoad, opacity);
         }
 
         public Image? LoadAnimation()

@@ -247,6 +247,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             }
         }
 
+        public void ResetThumbnail()
+        {
+            //TODO: cache result in Thumbnail property, reset cache here and reset animation cache here also
+        }
+
         public bool IsBuildableByHouse(string houseKey)
         {
             var allowedByOwner = TechLevelBuildable

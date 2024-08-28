@@ -20,6 +20,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private AnimationRequirementToken? _animationRequirementToken;
         private List<EntityGroupSetting>? _entityGroups;
         private EntityGroupSetting? _assignedToGroup;
+        private bool _wasEmpty = false;
 
         public UnitPickerControl()
         {
@@ -105,6 +106,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         {
             EntityModel = entityModel;
             EntityModel.FileSection.ValueChanged += FileSectionOnValueChanged;
+            _wasEmpty = entityModel.FileSection.IsEmpty;
             _unitPicture = UnitPictureGenerator.Instance.GetUnitPicture(entityModel, false, LoadAnimatedThumbnail, out var requirementToken);
             _animationRequirementToken = requirementToken;
             BackgroundImage = _unitPicture;
@@ -129,8 +131,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         {
             if (e.Key == "Owner"
                 || e.Key == "AnimList"
-                || e.Key == "Name")
+                || e.Key == "Name"
+                || _wasEmpty
+                || EntityModel!.FileSection.IsEmpty)
             {
+                _wasEmpty = EntityModel!.FileSection.IsEmpty;
                 _selectedUnitPicture = null;
                 if (_animationRequirementToken != null)
                 {

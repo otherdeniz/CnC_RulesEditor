@@ -1,6 +1,6 @@
-﻿using System.Drawing.Drawing2D;
+﻿using System.Diagnostics;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Numerics;
 using AnimatedGif;
 using ImageMagick;
 
@@ -118,6 +118,52 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                     finalStream.Seek(0, SeekOrigin.Begin);
                     return new Bitmap(finalStream);
                 }
+            }
+        }
+
+        /// <summary>
+        /// method for changing the opacity of an image
+        /// https://stackoverflow.com/questions/4779027/changing-the-opacity-of-a-bitmap-image
+        /// </summary>
+        /// <param name="bitmap">image to set opacity on</param>
+        /// <param name="opacity">percentage of opacity</param>
+        /// <returns></returns>
+        public static Bitmap SetBitmapOpacity(this Bitmap bitmap, float opacity)
+        {
+            try
+            {
+                //create a Bitmap the size of the image provided
+                var bmp = new Bitmap(bitmap.Width, bitmap.Height);
+
+                //create a graphics object from the image
+                using (var gfx = Graphics.FromImage(bmp))
+                {
+                    // set background
+                    gfx.FillRectangle(new SolidBrush(ThemeManager.Instance.CurrentTheme.ControlsBackColor), 
+                        0, 0, bitmap.Width, bitmap.Height);
+
+                    //create a color matrix object
+                    var matrix = new ColorMatrix();
+
+                    //set the opacity
+                    matrix.Matrix33 = opacity;
+
+                    //create image attributes
+                    var attributes = new ImageAttributes();
+
+                    //set the color(opacity) of the image
+                    attributes.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+
+                    //now draw the image
+                    gfx.DrawImage(bitmap, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, bitmap.Width, bitmap.Height, GraphicsUnit.Pixel, attributes);
+                }
+                bitmap.Dispose();
+                return bmp;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return bitmap;
             }
         }
 

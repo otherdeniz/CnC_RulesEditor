@@ -222,6 +222,7 @@
             unitsBuildings.TabIndex = 0;
             unitsBuildings.Tag = "PLAIN";
             unitsBuildings.UnitCreateCopy += unitsBuildings_UnitCreateCopy;
+            unitsBuildings.UnitDelete += unitsBuildings_UnitDelete;
             unitsBuildings.UnitAddUnlisted += unitsBuildings_UnitAdd;
             // 
             // ultraTabPageControl3
@@ -245,6 +246,7 @@
             unitsInfantry.TabIndex = 1;
             unitsInfantry.Tag = "PLAIN";
             unitsInfantry.UnitCreateCopy += unitsInfantry_UnitCreateCopy;
+            unitsInfantry.UnitDelete += unitsInfantry_UnitDelete;
             unitsInfantry.UnitAddUnlisted += unitsInfantry_UnitAdd;
             // 
             // ultraTabPageControl5
@@ -268,6 +270,7 @@
             unitsVehicles.TabIndex = 1;
             unitsVehicles.Tag = "PLAIN";
             unitsVehicles.UnitCreateCopy += unitsVehicles_UnitCreateCopy;
+            unitsVehicles.UnitDelete += unitsVehicles_UnitDelete;
             unitsVehicles.UnitAddUnlisted += unitsVehicles_UnitAdd;
             // 
             // ultraTabPageControl6
@@ -291,6 +294,7 @@
             unitsAircrafts.TabIndex = 2;
             unitsAircrafts.Tag = "PLAIN";
             unitsAircrafts.UnitCreateCopy += unitsAircrafts_UnitCreateCopy;
+            unitsAircrafts.UnitDelete += unitsAircrafts_UnitDelete;
             unitsAircrafts.UnitAddUnlisted += unitsAircrafts_UnitAdd;
             // 
             // ultraTabPageControl4
@@ -314,6 +318,7 @@
             unitsWeapons.TabIndex = 3;
             unitsWeapons.Tag = "PLAIN";
             unitsWeapons.UnitCreateCopy += unitsWeapons_UnitCreateCopy;
+            unitsWeapons.UnitDelete += unitsWeapons_UnitDelete;
             // 
             // ultraTabPageControl14
             // 
@@ -335,6 +340,7 @@
             unitsProjectiles.TabIndex = 0;
             unitsProjectiles.Tag = "PLAIN";
             unitsProjectiles.UnitCreateCopy += unitsProjectiles_UnitCreateCopy;
+            unitsProjectiles.UnitDelete += unitsProjectiles_UnitDelete;
             // 
             // ultraTabPageControl7
             // 
@@ -356,6 +362,7 @@
             unitsWarheads.TabIndex = 4;
             unitsWarheads.Tag = "PLAIN";
             unitsWarheads.UnitCreateCopy += unitsWarheads_UnitCreateCopy;
+            unitsWarheads.UnitDelete += unitsWarheads_UnitDelete;
             // 
             // ultraTabPageControl9
             // 
@@ -611,8 +618,7 @@
             // 
             // RulesEditMainControl
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.Inherit;
             Controls.Add(mainTab);
             Controls.Add(filterControl);
             Controls.Add(panelTitle);

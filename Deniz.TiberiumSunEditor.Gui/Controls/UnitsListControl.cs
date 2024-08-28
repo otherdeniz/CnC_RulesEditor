@@ -29,6 +29,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         }
 
         public event EventHandler<EntityCopyEventArgs>? UnitCreateCopy;
+        public event EventHandler<EntityDeleteEventArgs>? UnitDelete;
         public event EventHandler<EventArgs>? UnitAddUnlisted;
         public event EventHandler<EventArgs>? UnitAddEmpty;
 
@@ -252,7 +253,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                             break;
                         case FilterComparison.GreaterThan:
                             if (decimal.TryParse(_filter.Value, out var filterGreater)
-                                && (entityValue != null 
+                                && (entityValue != null
                                     && decimal.TryParse(entityValue.Value, out var valueGreater)
                                     && valueGreater > filterGreater) != true)
                             {
@@ -314,8 +315,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private string OrderByGroup(GameEntityModel entityModel)
         {
-            return _keyEntityGroups.TryGetValue(entityModel.EntityKey, out var entityGroup) 
-                ? entityGroup.GroupName 
+            return _keyEntityGroups.TryGetValue(entityModel.EntityKey, out var entityGroup)
+                ? entityGroup.GroupName
                 : "ZZ";
         }
 
@@ -367,6 +368,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             UnitCreateCopy?.Invoke(this, e);
         }
 
+        private void unitEdit_UnitDelete(object sender, EntityDeleteEventArgs e)
+        {
+            UnitDelete?.Invoke(this, e);
+        }
+
         private void toolStripButtonPrev_Click(object sender, EventArgs e)
         {
             AnimationsAsyncLoader.Instance.Stop(true, false);
@@ -395,5 +401,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             if (!_doEvents) return;
             LoadUnits();
         }
+
     }
 }

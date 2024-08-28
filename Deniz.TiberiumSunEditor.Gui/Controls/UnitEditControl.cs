@@ -33,6 +33,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         public event EventHandler<EventArgs>? FavoriteClick;
         public event EventHandler<EventArgs>? UnitModificationsChanged;
         public event EventHandler<EntityCopyEventArgs>? UnitCreateCopy;
+        public event EventHandler<EntityDeleteEventArgs>? UnitDelete;
 
         public GameEntityModel? EntityModel { get; private set; }
 
@@ -44,6 +45,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 _canCopy = value;
                 ButtonCopy.Visible = _canCopy;
+                ButtonDelete.Visible = _canCopy;
             }
         }
 
@@ -82,7 +84,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
         }
 
-        [DefaultValue(true)] 
+        [DefaultValue(true)]
         public bool ShowUsedBy { get; set; } = true;
 
         [DefaultValue(false)]
@@ -116,6 +118,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 pictureThumbnail.Image = EntityModel!.Thumbnail?.Image
                                          ?? BitmapRepository.Instance.BlankImage;
             }
+            ButtonDelete.Enabled = !entityModel.FileSection.IsEmpty;
             ButtonCloseValue_Click(this, EventArgs.Empty);
             RefreshModifications();
             RefreshUsedByLabel();
@@ -545,6 +548,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
         }
 
+        private void ButtonDelete_Click(object sender, EventArgs e)
+        {
+            if (EntityModel == null) return;
+            if (MessageBox.Show("Do you want to remove this Entity and its EntityTypes record?", "Delete?",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                UnitDelete?.Invoke(this, new EntityDeleteEventArgs(EntityModel!));
+            }
+        }
+
         private void ButtonTakeValues_Click(object sender, EventArgs e)
         {
             if (EntityModel == null) return;
@@ -609,5 +622,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         public string NewKey { get; }
 
         public string NewName { get; }
+    }
+
+    public class EntityDeleteEventArgs : EventArgs
+    {
+        public EntityDeleteEventArgs(GameEntityModel entityModel)
+        {
+            EntityModel = entityModel;
+        }
+
+        public GameEntityModel EntityModel { get; }
+
     }
 }

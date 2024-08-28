@@ -41,6 +41,7 @@
             labelUsedBy = new Label();
             panelTopRight = new Panel();
             ButtonTakeValues = new Button();
+            ButtonDelete = new Button();
             ButtonCopy = new Button();
             pictureBoxUnitPreview = new PictureBox();
             valuesGrid = new Infragistics.Win.UltraWinGrid.UltraGrid();
@@ -165,6 +166,7 @@
             // panelTopRight
             // 
             panelTopRight.Controls.Add(ButtonTakeValues);
+            panelTopRight.Controls.Add(ButtonDelete);
             panelTopRight.Controls.Add(ButtonCopy);
             panelTopRight.Controls.Add(pictureBoxFavorite);
             panelTopRight.Dock = DockStyle.Right;
@@ -179,22 +181,36 @@
             ButtonTakeValues.Image = (Image)resources.GetObject("ButtonTakeValues.Image");
             ButtonTakeValues.Location = new Point(3, 34);
             ButtonTakeValues.Name = "ButtonTakeValues";
-            ButtonTakeValues.Size = new Size(142, 27);
+            ButtonTakeValues.Size = new Size(152, 27);
             ButtonTakeValues.TabIndex = 6;
-            ButtonTakeValues.Text = "Take values from";
+            ButtonTakeValues.Text = "Take values from...";
             ButtonTakeValues.TextAlign = ContentAlignment.MiddleRight;
             ButtonTakeValues.TextImageRelation = TextImageRelation.ImageBeforeText;
             ButtonTakeValues.UseVisualStyleBackColor = true;
             ButtonTakeValues.Click += ButtonTakeValues_Click;
+            // 
+            // ButtonDelete
+            // 
+            ButtonDelete.Image = (Image)resources.GetObject("ButtonDelete.Image");
+            ButtonDelete.Location = new Point(79, 6);
+            ButtonDelete.Name = "ButtonDelete";
+            ButtonDelete.Size = new Size(76, 27);
+            ButtonDelete.TabIndex = 5;
+            ButtonDelete.Text = "Delete";
+            ButtonDelete.TextAlign = ContentAlignment.MiddleRight;
+            ButtonDelete.TextImageRelation = TextImageRelation.ImageBeforeText;
+            ButtonDelete.UseVisualStyleBackColor = true;
+            ButtonDelete.Visible = false;
+            ButtonDelete.Click += ButtonDelete_Click;
             // 
             // ButtonCopy
             // 
             ButtonCopy.Image = (Image)resources.GetObject("ButtonCopy.Image");
             ButtonCopy.Location = new Point(3, 6);
             ButtonCopy.Name = "ButtonCopy";
-            ButtonCopy.Size = new Size(142, 27);
+            ButtonCopy.Size = new Size(76, 27);
             ButtonCopy.TabIndex = 5;
-            ButtonCopy.Text = "Create copy";
+            ButtonCopy.Text = "Copy";
             ButtonCopy.TextAlign = ContentAlignment.MiddleRight;
             ButtonCopy.TextImageRelation = TextImageRelation.ImageBeforeText;
             ButtonCopy.UseVisualStyleBackColor = true;
@@ -439,5 +455,6 @@
         private PictureBox pictureBoxUnitPreview;
         private Label labelUsedBy;
         private LookupColorControl lookupColor;
+        private Button ButtonDelete;
     }
 }

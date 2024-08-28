@@ -195,6 +195,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
             return newSection;
         }
 
+        public void RemoveSection(string? name)
+        {
+            var removeIndex = Sections.FindIndex(s => s.SectionName == name);
+            if (removeIndex > -1)
+            {
+                Sections.RemoveAt(removeIndex);
+                _sectionsDictionary = null;
+            }
+        }
+
         public IniFileSection? GetSection(string? name)
         {
             if (_sectionsDictionary == null)
@@ -320,6 +330,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
                 _keyValuesDictionary = null;
             }
             ValueChanged?.Invoke(this, new IniFileSectionChangedEventArgs(key, value));
+        }
+
+        public void RemoveValues(Func<IniFileLineKeyValue, bool> removeMatch)
+        {
+            var removeLines = Lines.Where(l =>
+                l is IniFileLineKeyValue keyValue
+                && removeMatch(keyValue)).ToList();
+            removeLines.ForEach(l => Lines.Remove(l));
+            _keyValuesList = null;
+            _keyValuesDictionary = null;
         }
 
         public override string ToString()

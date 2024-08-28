@@ -15,33 +15,34 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         }
 
         public Bitmap GetUnitPicture(GameEntityModel entityModel, 
-            bool isSelected, 
+            bool isSelected,
             Action<Image>? afterAnimationLoad, 
             out AnimationRequirementToken? animationRequirementToken)
         {
+            var opacity = entityModel.FileSection.IsEmpty ? 0.5f : 1f;
             var entityThumbnail = entityModel.Thumbnail;
             if (entityThumbnail == null)
             {
                 animationRequirementToken = null;
-                return GenerateUnitPicture(entityModel, isSelected, BitmapRepository.Instance.BlankImage);
+                return GenerateUnitPicture(entityModel, isSelected, opacity, BitmapRepository.Instance.BlankImage);
             }
             if (entityThumbnail.Kind == ThumbnailKind.Image)
             {
                 animationRequirementToken = null;
-                return GenerateUnitPicture(entityModel, isSelected, entityThumbnail.Image);
+                return GenerateUnitPicture(entityModel, isSelected, opacity, entityThumbnail.Image);
             }
             if (afterAnimationLoad != null)
             {
-                animationRequirementToken = entityThumbnail.LoadAnimationAsync(afterAnimationLoad);
+                animationRequirementToken = entityThumbnail.LoadAnimationAsync(afterAnimationLoad, opacity);
             }
             else
             {
                 animationRequirementToken = null;
             }
-            return GenerateUnitPicture(entityModel, isSelected, entityThumbnail.Image);
+            return GenerateUnitPicture(entityModel, isSelected, opacity, entityThumbnail.Image);
         }
 
-        private Bitmap GenerateUnitPicture(GameEntityModel entityModel, bool isSelected, Image thumbnailImage)
+        private Bitmap GenerateUnitPicture(GameEntityModel entityModel, bool isSelected, float opacity, Image thumbnailImage)
         {
             BackColor = isSelected
                 ? ThemeManager.Instance.CurrentTheme.HotTrackBackColor
@@ -54,6 +55,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             var bitmap = new Bitmap(ImageListComponent.Instance.Blank1.Images[0], Width, Height);
             this.DrawToBitmap(bitmap, new Rectangle(0, 0, Width, Height));
             var sideLogos = GetUnitSideImages(entityModel);
+            if (opacity != 1)
+            {
+                bitmap = bitmap.SetBitmapOpacity(opacity);
+            }
             if (isSelected || sideLogos.Any())
             {
                 using (var canvas = Graphics.FromImage(bitmap))

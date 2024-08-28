@@ -10,8 +10,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
         private Task? _loadTask;
         private SynchronizationContext _uiSyncContext = null!;
         private bool _isRunning;
-
-        public Queue<(string Keys, Action<Image> AfterLoad, AnimationRequirementToken Requirement)> LoadingQueue { get; } = new();
+        private readonly Queue<LoadingQueueItem> _loadingQueue = new();
 
         public void InitialiseUiSyncContext()
         {
@@ -31,7 +30,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             }
             if (clearQueue)
             {
-                LoadingQueue.Clear();
+                _loadingQueue.Clear();
             }
         }
 
@@ -39,16 +38,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
         {
             Stop(true, false);
             _isRunning = true;
-            if (LoadingQueue.Any())
+            if (_loadingQueue.Any())
             {
                 _loadTask = Task.Run(LoadTaskEntry);
             }
         }
 
-        public AnimationRequirementToken LoadAnimation(string keys, Action<Image> afterLoad)
+        public AnimationRequirementToken LoadAnimation(string keys, Action<Image> afterLoad, float opacity = 1)
         {
             var requirementToken = new AnimationRequirementToken();
-            LoadingQueue.Enqueue((keys, afterLoad, requirementToken));
+            _loadingQueue.Enqueue(new LoadingQueueItem(keys, afterLoad, requirementToken, opacity));
             if (_loadTask?.Status != TaskStatus.Running 
                 && _isRunning)
             {
@@ -59,12 +58,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
 
         private void LoadTaskEntry()
         {
-            while (LoadingQueue.TryDequeue(out var loadAnimation))
+            while (_loadingQueue.TryDequeue(out var loadAnimation))
             {
                 if (loadAnimation.Requirement.StillNeeded)
                 {
                     var keys = loadAnimation.Keys.Split(",").Distinct();
-                    var animationImage = CCGameRepository.Instance.GetAnimationsImage(string.Join(",", keys));
+                    var animationImage = CCGameRepository.Instance.GetAnimationsImage(string.Join(",", keys), opacity:loadAnimation.Opacity);
                     if (animationImage != null)
                     {
                         _uiSyncContext.Post(img =>
@@ -87,6 +86,24 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                 }
             }
             _loadTask = null;
+        }
+
+        private class LoadingQueueItem
+        {
+            public LoadingQueueItem(string keys, 
+                Action<Image> afterLoad, 
+                AnimationRequirementToken requirement,
+                float opacity)
+            {
+                Keys = keys;
+                AfterLoad = afterLoad;
+                Requirement = requirement;
+                Opacity = opacity;
+            }
+            public string Keys { get; }
+            public Action<Image> AfterLoad { get; }
+            public AnimationRequirementToken Requirement { get; }
+            public float Opacity { get; }
         }
     }
 

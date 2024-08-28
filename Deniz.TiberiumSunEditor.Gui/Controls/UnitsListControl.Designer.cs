@@ -99,6 +99,7 @@
             unitEdit.FavoriteClick += unitEdit_FavoriteClick;
             unitEdit.UnitModificationsChanged += unitEdit_UnitModificationsChanged;
             unitEdit.UnitCreateCopy += unitEdit_UnitCreateCopy;
+            unitEdit.UnitDelete += unitEdit_UnitDelete;
             // 
             // panelLeft
             // 
