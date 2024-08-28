@@ -120,14 +120,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             _infantryAnimationsCache.Clear();
         }
 
-        public void RemoveAnimationsCache(string animationKeys)
-        {
-            if (_animationsCache.ContainsKey(animationKeys))
-            {
-                _animationsCache.Remove(animationKeys);
-            }
-        }
-
         public bool TryPlayRaAudio(string soundKey)
         {
             if (_raAudioManager != null && _soundIniFile != null)
@@ -303,7 +295,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
         public Image? GetAnimationsImage(string animationKeys, double autoStretchToFactor = 0.2d, float opacity = 1)
         {
             if (_fileManager == null || _animPaletteColors == null) return null;
-            if (_animationsCache.TryGetValue(animationKeys, out var animatedGifImage))
+            var cacheKey = $"{animationKeys}:{opacity:0.0}";
+            if (_animationsCache.TryGetValue(cacheKey, out var animatedGifImage))
             {
                 return animatedGifImage?.Image;
             }
@@ -341,11 +334,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             if (animationFrames.Count > 0)
             {
                 var result = animationFrames.ToAnimatedGif(50);
-                _animationsCache.Add(animationKeys, result);
+                _animationsCache.Add(cacheKey, result);
                 return result?.Image;
             }
 
-            _animationsCache.Add(animationKeys, null);
+            _animationsCache.Add(cacheKey, null);
             return null;
         }
 
