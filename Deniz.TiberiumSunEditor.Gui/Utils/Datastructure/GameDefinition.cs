@@ -1,4 +1,5 @@
-﻿using Deniz.TiberiumSunEditor.Gui.Utils.Files;
+﻿using Deniz.TiberiumSunEditor.Gui.Model;
+using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
 
 namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
@@ -32,6 +33,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
 
         public string ResourcesDefaultArtIniFile { get; set; } = "";
 
+        public string ResourcesDefaultAiIniFile { get; set; } = "";
+
         public string? ResourcesDescriptionIniFile { get; set; }
 
         public string IniNameMatchDetection { get; set; } = "";
@@ -39,6 +42,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
         public string SaveAsFilename { get; set; } = "";
 
         public string SaveAsArtFilename { get; set; } = "";
+
+        public string SaveAsAiFilename { get; set; } = "";
 
         public string SaveAsRelativeToGameFolder { get; set; } = "";
 
@@ -120,6 +125,32 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
                 }
             }
             return LoadDefaultArtFile();
+        }
+
+        public IniFile LoadDefaultAiFile()
+        {
+            return !string.IsNullOrEmpty(ResourcesDefaultAiIniFile)
+                ? IniFile.Load(ResourcesRepository.Instance.ReadResourcesFile(ResourcesDefaultAiIniFile), SaveAsAiFilename)
+                : new IniFile();
+        }
+
+        public IniFile LoadCurrentAiFile()
+        {
+            var currentIniPath = GetUserGamePath();
+            if (!string.IsNullOrEmpty(currentIniPath)
+                && Directory.Exists(currentIniPath))
+            {
+                if (!string.IsNullOrEmpty(SaveAsRelativeToGameFolder))
+                {
+                    currentIniPath = Path.Combine(currentIniPath, SaveAsRelativeToGameFolder);
+                    var currentIniFilePath = Path.Combine(currentIniPath, SaveAsAiFilename);
+                    if (File.Exists(currentIniFilePath))
+                    {
+                        return IniFile.Load(currentIniFilePath);
+                    }
+                }
+            }
+            return LoadDefaultAiFile();
         }
 
         public IniFile? LoadDescriptionRulesFile()

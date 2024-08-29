@@ -16,7 +16,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             string entityType,
             IniFileSection fileSection,
             IniFileSection? defaultSection,
-            List<CategorizedValueDefinition> unitValueList,
+            List<CategorizedValueDefinition>? unitValueList,
             IniFileSection? rulesFileSection = null)
         {
             _rulesFileSection = rulesFileSection;
@@ -25,6 +25,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             EntityType = entityType;
             FileSection = fileSection;
             DefaultSection = defaultSection;
+            if (unitValueList == null)
+            {
+                EntityValueList = new List<EntityValueModel>();
+                return;
+            }
             EntityValueList = unitValueList.Select(u =>
                 new EntityValueModel(
                     this,

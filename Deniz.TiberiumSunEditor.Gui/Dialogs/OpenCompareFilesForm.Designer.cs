@@ -60,7 +60,7 @@
             panelBottom.Dock = DockStyle.Bottom;
             panelBottom.Location = new Point(8, 200);
             panelBottom.Name = "panelBottom";
-            panelBottom.Size = new Size(466, 35);
+            panelBottom.Size = new Size(472, 35);
             panelBottom.TabIndex = 3;
             // 
             // panelOkCancel
@@ -68,7 +68,7 @@
             panelOkCancel.Controls.Add(buttonOk);
             panelOkCancel.Controls.Add(buttonCancel);
             panelOkCancel.Dock = DockStyle.Right;
-            panelOkCancel.Location = new Point(258, 0);
+            panelOkCancel.Location = new Point(264, 0);
             panelOkCancel.Name = "panelOkCancel";
             panelOkCancel.Size = new Size(208, 35);
             panelOkCancel.TabIndex = 2;
@@ -109,7 +109,7 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(8, 8);
             panel1.Name = "panel1";
-            panel1.Size = new Size(466, 63);
+            panel1.Size = new Size(472, 63);
             panel1.TabIndex = 0;
             // 
             // label2
@@ -132,11 +132,12 @@
             // 
             // comboBoxBaseGame
             // 
+            comboBoxBaseGame.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             comboBoxBaseGame.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxBaseGame.FormattingEnabled = true;
             comboBoxBaseGame.Location = new Point(89, 32);
             comboBoxBaseGame.Name = "comboBoxBaseGame";
-            comboBoxBaseGame.Size = new Size(226, 23);
+            comboBoxBaseGame.Size = new Size(372, 23);
             comboBoxBaseGame.TabIndex = 1;
             comboBoxBaseGame.SelectedIndexChanged += comboBoxBaseGame_SelectedIndexChanged;
             // 
@@ -146,7 +147,7 @@
             comboBoxFileType.FormattingEnabled = true;
             comboBoxFileType.Location = new Point(89, 3);
             comboBoxFileType.Name = "comboBoxFileType";
-            comboBoxFileType.Size = new Size(226, 23);
+            comboBoxFileType.Size = new Size(163, 23);
             comboBoxFileType.TabIndex = 0;
             comboBoxFileType.SelectedIndexChanged += comboBoxFileType_SelectedIndexChanged;
             // 
@@ -158,7 +159,7 @@
             groupBox1.Dock = DockStyle.Top;
             groupBox1.Location = new Point(8, 71);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(466, 60);
+            groupBox1.Size = new Size(472, 60);
             groupBox1.TabIndex = 1;
             groupBox1.TabStop = false;
             groupBox1.Text = "Base File (used as default values)";
@@ -167,7 +168,7 @@
             // 
             buttonFile1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonFile1.Image = (Image)resources.GetObject("buttonFile1.Image");
-            buttonFile1.Location = new Point(431, 22);
+            buttonFile1.Location = new Point(437, 22);
             buttonFile1.Name = "buttonFile1";
             buttonFile1.Size = new Size(24, 24);
             buttonFile1.TabIndex = 5;
@@ -181,7 +182,7 @@
             textFile1Path.Location = new Point(89, 22);
             textFile1Path.Name = "textFile1Path";
             textFile1Path.ReadOnly = true;
-            textFile1Path.Size = new Size(342, 23);
+            textFile1Path.Size = new Size(348, 23);
             textFile1Path.TabIndex = 4;
             textFile1Path.TabStop = false;
             // 
@@ -202,7 +203,7 @@
             groupBox2.Dock = DockStyle.Top;
             groupBox2.Location = new Point(8, 131);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(466, 60);
+            groupBox2.Size = new Size(472, 60);
             groupBox2.TabIndex = 2;
             groupBox2.TabStop = false;
             groupBox2.Text = "Compare with (show changes to base file)";
@@ -211,7 +212,7 @@
             // 
             buttonFile2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonFile2.Image = (Image)resources.GetObject("buttonFile2.Image");
-            buttonFile2.Location = new Point(431, 21);
+            buttonFile2.Location = new Point(437, 21);
             buttonFile2.Name = "buttonFile2";
             buttonFile2.Size = new Size(24, 24);
             buttonFile2.TabIndex = 5;
@@ -225,7 +226,7 @@
             textFile2Path.Location = new Point(89, 22);
             textFile2Path.Name = "textFile2Path";
             textFile2Path.ReadOnly = true;
-            textFile2Path.Size = new Size(342, 23);
+            textFile2Path.Size = new Size(348, 23);
             textFile2Path.TabIndex = 4;
             textFile2Path.TabStop = false;
             // 
@@ -248,7 +249,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = buttonCancel;
-            ClientSize = new Size(482, 243);
+            ClientSize = new Size(488, 243);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(panel1);

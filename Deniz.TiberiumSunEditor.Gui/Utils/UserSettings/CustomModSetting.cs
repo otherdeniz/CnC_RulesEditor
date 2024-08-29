@@ -25,6 +25,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
 
         public string ArtIniPath { get; set; } = "";
 
+        public string? AiIniMixSource { get; set; }
+
+        public string AiIniPath { get; set; } = "";
+
         public bool HasAres { get; set; }
 
         public bool HasPhobos { get; set; }
@@ -57,6 +61,20 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
             return string.IsNullOrEmpty(ArtIniPath)
                 ? null
                 : IniFile.Load(GetArtIniFilePath());
+        }
+
+        public string GetAiIniFilePath()
+        {
+            return string.IsNullOrEmpty(AiIniPath)
+                ? ""
+                : Path.Combine(GamePath, AiIniPath);
+        }
+
+        public IniFile? LoadAiIniFile()
+        {
+            return string.IsNullOrEmpty(AiIniPath)
+                ? null
+                : IniFile.Load(GetAiIniFilePath());
         }
 
         public GameDefinition? ToGameDefinition()

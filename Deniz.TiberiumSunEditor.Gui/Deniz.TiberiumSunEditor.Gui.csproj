@@ -162,6 +162,7 @@
     <None Remove="Resources\DatastructureAres.json" />
     <None Remove="Resources\DatastructurePhobos.json" />
     <None Remove="Resources\DatastructureVinifera.json" />
+    <None Remove="Resources\DTAAI.ini" />
     <None Remove="Resources\DTAArt.ini" />
     <None Remove="Resources\DTArules.ini" />
     <None Remove="Resources\Games.json" />
@@ -206,7 +207,9 @@
     <None Remove="Resources\Phobos\Rules.Super Weapons Limbo Delivery.ini" />
     <None Remove="Resources\Phobos\Rules.Super Weapons Next.ini" />
     <None Remove="Resources\Phobos\Rules.Super Weapons Warhead or Weapon detonation at target cell.ini" />
+    <None Remove="Resources\RA2ai.ini" />
     <None Remove="Resources\RA2art.ini" />
+    <None Remove="Resources\RA2MDaimd.ini" />
     <None Remove="Resources\RA2MDartmd.ini" />
     <None Remove="Resources\RA2MDrulesmd.ini" />
     <None Remove="Resources\RA2rules.ini" />
@@ -215,6 +218,8 @@
     <None Remove="Resources\startup_read_for_action.wav" />
     <None Remove="Resources\startup_sir-yes-sir.wav" />
     <None Remove="Resources\Themes.json" />
+    <None Remove="Resources\TSai.ini" />
+    <None Remove="Resources\TSaifs.ini" />
     <None Remove="Resources\TSart.ini" />
     <None Remove="Resources\TSartfs.ini" />
     <None Remove="Resources\TSfirestrm.ini" />
@@ -289,6 +294,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\DatastructureVinifera.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\DTAAI.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\DTAArt.ini">
@@ -375,7 +383,13 @@
     <Content Include="Resources\Phobos\Rules.Super Weapons Warhead or Weapon detonation at target cell.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\RA2ai.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\RA2art.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\RA2MDaimd.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\RA2MDartmd.ini">
@@ -391,6 +405,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Themes.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\TSai.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\TSaifs.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\TSart.ini">

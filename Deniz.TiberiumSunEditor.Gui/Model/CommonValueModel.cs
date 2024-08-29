@@ -125,7 +125,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 ? null
                 : ImageListComponent.Instance.Arrows24.Images[0];
 
-        [DisplayName("Initial (absolute)")]
+        [DisplayName("Original")]
         public string DefaultValue { get; }
 
         public string Description { get; }

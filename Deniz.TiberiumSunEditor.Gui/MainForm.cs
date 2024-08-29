@@ -2,6 +2,7 @@ using Deniz.CCAudioPlayerCore;
 using Deniz.TiberiumSunEditor.Gui.Controls;
 using Deniz.TiberiumSunEditor.Gui.Dialogs;
 using Deniz.TiberiumSunEditor.Gui.Model;
+using Deniz.TiberiumSunEditor.Gui.Model.Interface;
 using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Deniz.TiberiumSunEditor.Gui.Utils.Exceptions;
@@ -16,6 +17,7 @@ namespace Deniz.TiberiumSunEditor.Gui
         private SynchronizationContext _uiSyncContext = null!;
         private RulesEditMainControl? _editRulesMainControl;
         private ArtEditMainControl? _editArtMainControl;
+        private AiEditMainControl? _editAiMainControl;
         private bool _filterEnabled;
         private bool _doEvents;
 
@@ -47,6 +49,11 @@ namespace Deniz.TiberiumSunEditor.Gui
                         var rulesFile = fileType.GameDefinition.LoadCurrentRulesFile();
                         LoadArtFile(iniFile, fileType, rulesFile);
                     }
+                    else if(fileType.BaseType == FileBaseType.Ai)
+                    {
+                        var rulesFile = fileType.GameDefinition.LoadCurrentRulesFile();
+                        LoadAiFile(iniFile, fileType, rulesFile);
+                    }
                     else
                     {
                         LoadRulesFile(iniFile, fileType);
@@ -70,6 +77,11 @@ namespace Deniz.TiberiumSunEditor.Gui
                 {
                     var rulesFile = fileType.GameDefinition.LoadCurrentRulesFile();
                     LoadArtFile(iniFile, fileType, rulesFile);
+                }
+                else if (fileType.BaseType == FileBaseType.Ai)
+                {
+                    var rulesFile = fileType.GameDefinition.LoadCurrentRulesFile();
+                    LoadAiFile(iniFile, fileType, rulesFile);
                 }
                 else
                 {
@@ -108,6 +120,19 @@ namespace Deniz.TiberiumSunEditor.Gui
                     _editArtMainControl.Model.File.SaveAs(saveFilePath);
                 }
             }
+
+            if (_editAiMainControl != null)
+            {
+                var gamePath = _editAiMainControl.Model.FileType.GameDefinition.GetUserGamePath();
+                if (gamePath != null)
+                {
+                    var saveFilePath = string.IsNullOrEmpty(_editAiMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
+                        ? Path.Combine(gamePath, _editAiMainControl.Model.FileType.GameDefinition.SaveAsAiFilename)
+                        : Path.Combine(gamePath, _editAiMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder,
+                            _editAiMainControl.Model.FileType.GameDefinition.SaveAsAiFilename);
+                    _editAiMainControl.Model.File.SaveAs(saveFilePath);
+                }
+            }
         }
 
         private void ButtonSaveFile()
@@ -121,62 +146,53 @@ namespace Deniz.TiberiumSunEditor.Gui
             {
                 _editArtMainControl.Model.File.SaveAs(_editArtMainControl.Model.File.OriginalFullPath);
             }
+
+            if (_editAiMainControl?.Model.File.OriginalFullPath != null)
+            {
+                _editAiMainControl.Model.File.SaveAs(_editAiMainControl.Model.File.OriginalFullPath);
+            }
         }
 
         private void ButtonSaveAs()
         {
             if (_editRulesMainControl != null)
             {
-                var userGamePath = _editRulesMainControl.Model.FileType.GameDefinition.GetUserGamePath();
-                if (_editRulesMainControl.Model.FileType.BaseType == FileBaseType.Rules
-                    && (string.IsNullOrEmpty(userGamePath) || !Directory.Exists(userGamePath)))
-                {
-                    var relativeFolder = string.IsNullOrEmpty(_editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
-                        ? "root"
-                        : _editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder;
-                    saveFileDialog.Title = $"Save this file in games {relativeFolder} folder";
-                    saveFileDialog.FileName = _editRulesMainControl.Model.FileType.GameDefinition.SaveAsFilename;
-                }
-                else
-                {
-                    saveFileDialog.Title = "Save as";
-                    saveFileDialog.FileName = _editRulesMainControl.Model.File.OriginalFileName;
-                }
-                if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
-                {
-                    _editRulesMainControl.Model.File.SaveAs(saveFileDialog.FileName);
-                    mainToolbarsManager.Tools["SaveFile"].SharedProps.Caption = $"Save File ({saveFileDialog.FileName})";
-                    mainToolbarsManager.Tools["SaveFile"].SharedProps.Enabled = true;
-                    UserSettingsFile.Instance.AddRecentFile(saveFileDialog.FileName, _editRulesMainControl.Model.FileType);
-                    InitializeRecentFilesMenu();
-                }
+                SaveAs(_editRulesMainControl.Model, _editRulesMainControl.Model.FileType.GameDefinition.SaveAsFilename);
             }
-
-            if (_editArtMainControl != null)
+            else if (_editArtMainControl != null)
             {
-                var userGamePath = _editArtMainControl.Model.FileType.GameDefinition.GetUserGamePath();
-                if (string.IsNullOrEmpty(userGamePath) || !Directory.Exists(userGamePath))
-                {
-                    var relativeFolder = string.IsNullOrEmpty(_editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
-                        ? "root"
-                        : _editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder;
-                    saveFileDialog.Title = $"Save this file in games {relativeFolder} folder";
-                    saveFileDialog.FileName = _editArtMainControl.Model.FileType.GameDefinition.SaveAsArtFilename;
+                SaveAs(_editArtMainControl.Model, _editArtMainControl.Model.FileType.GameDefinition.SaveAsArtFilename);
+            }
+            else if (_editAiMainControl != null)
+            {
+                SaveAs(_editAiMainControl.Model, _editAiMainControl.Model.FileType.GameDefinition.SaveAsAiFilename);
+            }
+        }
 
-                }
-                else
-                {
-                    saveFileDialog.Title = "Save as";
-                    saveFileDialog.FileName = _editArtMainControl.Model.File.OriginalFileName;
-                }
-                if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
-                {
-                    _editArtMainControl.Model.File.SaveAs(saveFileDialog.FileName);
-                    mainToolbarsManager.Tools["SaveFile"].SharedProps.Caption = $"Save File ({saveFileDialog.FileName})";
-                    mainToolbarsManager.Tools["SaveFile"].SharedProps.Enabled = true;
-                    UserSettingsFile.Instance.AddRecentFile(saveFileDialog.FileName, _editArtMainControl.Model.FileType);
-                    InitializeRecentFilesMenu();
-                }
+        private void SaveAs(IRootModel model, string saveAsFilename)
+        {
+            var userGamePath = model.FileType.GameDefinition.GetUserGamePath();
+            if (string.IsNullOrEmpty(userGamePath) || !Directory.Exists(userGamePath))
+            {
+                var relativeFolder = string.IsNullOrEmpty(model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
+                    ? "root"
+                    : model.FileType.GameDefinition.SaveAsRelativeToGameFolder;
+                saveFileDialog.Title = $"Save this file in games {relativeFolder} folder";
+                saveFileDialog.FileName = saveAsFilename;
+
+            }
+            else
+            {
+                saveFileDialog.Title = "Save as";
+                saveFileDialog.FileName = model.File.OriginalFileName;
+            }
+            if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                model.File.SaveAs(saveFileDialog.FileName);
+                mainToolbarsManager.Tools["SaveFile"].SharedProps.Caption = $"Save File ({saveFileDialog.FileName})";
+                mainToolbarsManager.Tools["SaveFile"].SharedProps.Enabled = true;
+                UserSettingsFile.Instance.AddRecentFile(saveFileDialog.FileName, model.FileType);
+                InitializeRecentFilesMenu();
             }
         }
 
@@ -209,7 +225,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                     changesForm.ShowDialog(this);
                 }
             }
-            if (_editArtMainControl != null)
+            else if (_editArtMainControl != null)
             {
                 using (var changesForm = new ShowArtChangesForm())
                 {
@@ -299,7 +315,9 @@ namespace Deniz.TiberiumSunEditor.Gui
                 .Where(t => t.Key.StartsWith("NewMenu:")).ToList();
             sharedMenusToRemove.ForEach(mainToolbarsManager.Tools.Remove);
             var sharedToolsToRemove = mainToolbarsManager.Tools.OfType<ButtonTool>()
-                .Where(t => t.Key.StartsWith("NewRules:") || t.Key.StartsWith("NewArt:")).ToList();
+                .Where(t => t.Key.StartsWith("NewRules:") 
+                            || t.Key.StartsWith("NewArt:") 
+                            || t.Key.StartsWith("NewAi:")).ToList();
             sharedToolsToRemove.ForEach(mainToolbarsManager.Tools.Remove);
             foreach (var gameDefinition in GamesFile.Instance.Games)
             {
@@ -328,6 +346,16 @@ namespace Deniz.TiberiumSunEditor.Gui
                     newMenuArtButton.SharedPropsInternal.Caption = gameDefinition.SaveAsArtFilename;
                     mainToolbarsManager.Tools.Add(newMenuArtButton);
                 }
+                if (!string.IsNullOrEmpty(gameDefinition.SaveAsAiFilename))
+                {
+                    var newMenuAiButton = new ButtonTool($"NewAi:{gameDefinition.GameKey}");
+                    newMenuAiButton.SharedPropsInternal.AppearancesSmall.Appearance = new Infragistics.Win.Appearance
+                    {
+                        Image = LogoRepository.Instance.GetLogo(gameDefinition.Logo)
+                    };
+                    newMenuAiButton.SharedPropsInternal.Caption = gameDefinition.SaveAsAiFilename;
+                    mainToolbarsManager.Tools.Add(newMenuAiButton);
+                }
                 //instance tools
                 var newMenuButtonInstance = (PopupMenuTool)newMenuTool.Tools.AddTool($"NewMenu:{gameDefinition.GameKey}");
                 newMenuButtonInstance.InstanceProps.IsFirstInGroup = gameDefinition.NewMenuSeparator;
@@ -335,6 +363,10 @@ namespace Deniz.TiberiumSunEditor.Gui
                 if (!string.IsNullOrEmpty(gameDefinition.SaveAsArtFilename))
                 {
                     newMenuButtonInstance.Tools.AddTool($"NewArt:{gameDefinition.GameKey}");
+                }
+                if (!string.IsNullOrEmpty(gameDefinition.SaveAsAiFilename))
+                {
+                    newMenuButtonInstance.Tools.AddTool($"NewAi:{gameDefinition.GameKey}");
                 }
             }
 
@@ -369,6 +401,17 @@ namespace Deniz.TiberiumSunEditor.Gui
                     newMenuArtButton.SharedPropsInternal.Caption = baseGame.SaveAsArtFilename;
                     mainToolbarsManager.Tools.Add(newMenuArtButton);
                 }
+                if (!string.IsNullOrEmpty(baseGame.SaveAsAiFilename)
+                    && !string.IsNullOrEmpty(customMod.AiIniPath))
+                {
+                    var newMenuAiButton = new ButtonTool($"NewAi:Mod:{customMod.Key}");
+                    newMenuAiButton.SharedPropsInternal.AppearancesSmall.Appearance = new Infragistics.Win.Appearance
+                    {
+                        Image = LogoRepository.Instance.GetLogo(customMod.LogoFile)
+                    };
+                    newMenuAiButton.SharedPropsInternal.Caption = baseGame.SaveAsAiFilename;
+                    mainToolbarsManager.Tools.Add(newMenuAiButton);
+                }
                 //instance tools
                 var newMenuButtonInstance = (PopupMenuTool)newMenuTool.Tools.AddTool($"NewMenu:{customMod.Key}");
                 newMenuButtonInstance.InstanceProps.IsFirstInGroup = isFirst;
@@ -377,6 +420,11 @@ namespace Deniz.TiberiumSunEditor.Gui
                     && !string.IsNullOrEmpty(customMod.ArtIniPath))
                 {
                     newMenuButtonInstance.Tools.AddTool($"NewArt:Mod:{customMod.Key}");
+                }
+                if (!string.IsNullOrEmpty(baseGame.SaveAsAiFilename)
+                    && !string.IsNullOrEmpty(customMod.AiIniPath))
+                {
+                    newMenuButtonInstance.Tools.AddTool($"NewAi:Mod:{customMod.Key}");
                 }
                 isFirst = false;
             }
@@ -409,9 +457,10 @@ namespace Deniz.TiberiumSunEditor.Gui
 
         private FileTypeModel? ParseFileType(IniFile iniFile, GameDefinition? overrideGameDefinition = null)
         {
-            return FileTypeModel.ParseFile(iniFile, overrideGameDefinition, m =>
+            return FileTypeModel.ParseFile(iniFile, overrideGameDefinition, (s, t) =>
             {
-                // detect game of the map 
+                // detect game of the file
+                GameDefinition? gameDefinition = null;
                 if (iniFile.OriginalFullPath != null)
                 {
                     var integratedGame = GamesFile.Instance.Games.FirstOrDefault(g =>
@@ -421,22 +470,31 @@ namespace Deniz.TiberiumSunEditor.Gui
                     });
                     if (integratedGame != null)
                     {
-                        return integratedGame;
+                        gameDefinition = integratedGame;
                     }
-                    var customMod = UserSettingsFile.Instance.CustomMods.FirstOrDefault(m =>
-                        iniFile.OriginalFullPath.StartsWith(m.GamePath));
-                    if (customMod != null)
+                    else
                     {
-                        return customMod.ToGameDefinition();
+                        var customMod = UserSettingsFile.Instance.CustomMods.FirstOrDefault(m =>
+                            iniFile.OriginalFullPath.StartsWith(m.GamePath));
+                        gameDefinition = customMod?.ToGameDefinition();
                     }
                 }
-                // let the user choose the game of the map
-                using (var openMapForm = new OpenMapForm())
+
+                if (gameDefinition != null && t != FileBaseType.Unknown)
                 {
-                    openMapForm.LoadFile(m);
+                    return (gameDefinition, t);
+                }
+
+                // let the user choose the game and type of the file
+                using (var openMapForm = new OpenUnknownFileForm())
+                {
+                    openMapForm.LoadFile(s, t, gameDefinition);
                     if (openMapForm.ShowDialog(this) == DialogResult.OK)
                     {
-                        return openMapForm.SelectedGameDefinition;
+                        if (openMapForm.SelectedGameDefinition != null)
+                        {
+                            return (openMapForm.SelectedGameDefinition, openMapForm.SelectedFileType);
+                        }
                     }
                 }
                 return null;
@@ -447,6 +505,7 @@ namespace Deniz.TiberiumSunEditor.Gui
         {
             _editRulesMainControl = null;
             _editArtMainControl = null;
+            _editAiMainControl = null;
             mainToolbarsManager.Tools["SaveMenu"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["SaveFile"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["SaveFile"].SharedProps.Caption = "Save File";
@@ -614,6 +673,48 @@ namespace Deniz.TiberiumSunEditor.Gui
             Cursor = Cursors.Default;
         }
 
+        private void LoadAiFile(IniFile aiFile, FileTypeModel? fileType, IniFile rulesFile)
+        {
+            if (fileType == null) return;
+            Cursor = Cursors.WaitCursor;
+            CloseFile();
+            CCGameRepository.Instance.Initialise(fileType.GameDefinition,
+                fileType.GameDefinition.IsCustomMod
+                    ? null
+                    : fileType.GameDefinition.MixFiles);
+            BitmapRepository.Instance.Initialise(fileType.GetBitmapSubFolders());
+            var rulesRootModel = new RulesRootModel(rulesFile, fileType,
+                showMissingValues: true,
+                useAres: fileType.GameDefinition.UseAres,
+                usePhobos: fileType.GameDefinition.UsePhobos,
+                useVinifera: fileType.GameDefinition.UseVinifera);
+            var aiRootModel = new AiRootModel(rulesRootModel, aiFile,
+                showMissingValues: true);
+            _editAiMainControl = new AiEditMainControl()
+            {
+                Dock = DockStyle.Fill
+                //FilterVisible = _filterEnabled
+            };
+            ThemeManager.Instance.UseTheme(_editAiMainControl);
+            _editAiMainControl.LoadModel(aiRootModel);
+            panelMain.Controls.Add(_editAiMainControl);
+            mainToolbarsManager.Tools["SaveMenu"].SharedProps.Enabled = true;
+            mainToolbarsManager.Tools["OnlyFavorites"].SharedProps.Enabled = false;
+            mainToolbarsManager.Tools["ShowChanges"].SharedProps.Enabled = false;
+            mainToolbarsManager.Tools["ToolsMenu"].SharedProps.Enabled = CCGameRepository.Instance.IsLoaded;
+            mainToolbarsManager.Tools["MixBrowser"].SharedProps.Enabled = CCGameRepository.Instance.IsLoaded;
+            mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = true;
+            mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = true;
+            mainToolbarsManager.Tools["Filter"].SharedProps.Enabled = false;
+            var relativeFolder = string.IsNullOrEmpty(_editAiMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
+                ? "root"
+                : _editAiMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder;
+            mainToolbarsManager.Tools["SaveInGame"].SharedProps.Caption = $"Save in Game's {relativeFolder}";
+            mainToolbarsManager.Tools["SaveInGame"].SharedProps.Enabled =
+                fileType.GameDefinition.GetUserGamePath() != null;
+            Cursor = Cursors.Default;
+        }
+
         private void SearchValues(string searchText)
         {
             if (SearchText == searchText) return;
@@ -633,6 +734,14 @@ namespace Deniz.TiberiumSunEditor.Gui
                 if (searchText.Length > 2 || searchText == "")
                 {
                     _editArtMainControl.LoadModels();
+                }
+            }
+            else if (_editAiMainControl != null)
+            {
+                _editAiMainControl.SearchText = searchText.Length > 2 ? searchText : "";
+                if (searchText.Length > 2 || searchText == "")
+                {
+                    _editAiMainControl.LoadModels();
                 }
             }
         }
@@ -732,6 +841,33 @@ namespace Deniz.TiberiumSunEditor.Gui
                     var artFile = gameDefinition.LoadDefaultArtFile();
                     var rulesFile = gameDefinition.LoadCurrentRulesFile();
                     LoadArtFile(artFile, ParseFileType(artFile, gameDefinition), rulesFile);
+                }
+                return;
+            }
+            if (e.Tool.Key.StartsWith("NewAi:"))
+            {
+                if (e.Tool.Key.StartsWith("NewAi:Mod:"))
+                {
+                    var customMod = UserSettingsFile.Instance.CustomMods.FirstOrDefault(m => m.Key == e.Tool.Key.Substring(10));
+                    if (customMod != null)
+                    {
+                        var aiFile = customMod.LoadAiIniFile();
+                        if (aiFile != null)
+                        {
+                            var customGameDefinition = customMod.ToGameDefinition();
+                            var rulesFile = customGameDefinition?.LoadCurrentRulesFile()
+                                            ?? customMod.LoadRulesIniFile();
+                            LoadAiFile(aiFile, ParseFileType(aiFile, customGameDefinition), rulesFile);
+                        }
+                    }
+                    return;
+                }
+                var gameDefinition = GamesFile.Instance.Games.FirstOrDefault(g => g.GameKey == e.Tool.Key.Substring(6));
+                if (gameDefinition != null)
+                {
+                    var aiFile = gameDefinition.LoadDefaultAiFile();
+                    var rulesFile = gameDefinition.LoadCurrentRulesFile();
+                    LoadAiFile(aiFile, ParseFileType(aiFile, gameDefinition), rulesFile);
                 }
                 return;
             }
@@ -840,6 +976,14 @@ namespace Deniz.TiberiumSunEditor.Gui
             }
         }
 
+        private void mainToolbarsManager_ToolValueChanged(object sender, ToolEventArgs e)
+        {
+            if (e.Tool.Key == "SearchText")
+            {
+                SearchValues(((TextBoxTool)e.Tool).Text);
+            }
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             var screen = Screen.FromControl(this);
@@ -883,14 +1027,6 @@ namespace Deniz.TiberiumSunEditor.Gui
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             AnimationsAsyncLoader.Instance.Stop(false, true);
-        }
-
-        private void mainToolbarsManager_ToolValueChanged(object sender, ToolEventArgs e)
-        {
-            if (e.Tool.Key == "SearchText")
-            {
-                SearchValues(((TextBoxTool)e.Tool).Text);
-            }
         }
 
     }

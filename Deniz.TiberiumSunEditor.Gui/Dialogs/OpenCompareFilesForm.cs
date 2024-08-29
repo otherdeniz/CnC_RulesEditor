@@ -52,7 +52,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                 // Rules or Map
                 var defaultFile = IniFile.Load(textFile1Path.Text);
                 var compareFile = IniFile.Load(textFile2Path.Text);
-                var fileTypeModel = FileTypeModel.ParseFile(compareFile, gameDefinition, m => gameDefinition)!;
+                var fileTypeModel = FileTypeModel.ParseFile(compareFile, gameDefinition, (s, t) => (gameDefinition, t))!;
                 return new RulesRootModel(compareFile, fileTypeModel, defaultFile,
                     showMissingValues: true,
                     useAres: gameDefinition.UseAres,
