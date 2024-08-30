@@ -118,7 +118,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 pictureThumbnail.Image = EntityModel!.Thumbnail?.Image
                                          ?? BitmapRepository.Instance.BlankImage;
             }
-            ButtonDelete.Enabled = !entityModel.FileSection.IsEmpty;
+            // original technos in rules.ini must not be deleted because it would change the Types-index of any other techno
+            // ai.ini and maps uses the Types-index in script-triggers
+            ButtonDelete.Enabled = !entityModel.FileSection.IsEmpty
+                                   && (entityModel.RootModel.FileType.BaseType != FileBaseType.Rules
+                                       || entityModel.DefaultSection == null);
             ButtonCloseValue_Click(this, EventArgs.Empty);
             RefreshModifications();
             RefreshUsedByLabel();

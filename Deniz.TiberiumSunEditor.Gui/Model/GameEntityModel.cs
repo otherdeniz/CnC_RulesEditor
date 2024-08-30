@@ -10,6 +10,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
     public class GameEntityModel
     {
         private readonly IniFileSection? _rulesFileSection;
+        private int? _typesIndex;
 
         public GameEntityModel(RulesRootModel rulesRootModel,
             IRootModel rootModel,
@@ -90,6 +91,22 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 
         public string EntityType { get; }
 
+        public int? TypesIndex
+        {
+            get
+            {
+                if (_typesIndex == null)
+                {
+                    _typesIndex = RulesRootModel.DefaultFile.GetSection(EntityType)?.KeyValues.FindIndex(k =>
+                                      k.Value.Equals(EntityKey, StringComparison.InvariantCultureIgnoreCase))
+                                  ?? -1;
+                }
+                return _typesIndex == -1
+                    ? null
+                    : _typesIndex;
+            }
+        }
+
         public string EntityKey => FileSection.SectionName ?? "_";
 
         public IniFileSection FileSection { get; }
@@ -103,6 +120,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         public string EntityName => GetRulesFileValue("Name")?.Value
                                     ?? (DefaultSection ?? FileSection).HeaderComments.FirstOrDefault()?.Comment
                                     ?? "";
+
+        public string GetNameOrKey()
+        {
+            var name = EntityName;
+            return string.IsNullOrEmpty(name) 
+                ? EntityKey 
+                : name;
+        }
 
         public bool TechLevelBuildable
         {

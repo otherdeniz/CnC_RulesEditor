@@ -280,6 +280,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                     ((StateButtonTool)instancceButton).Checked = true;
                     ThemeManager.Instance.UseTheme(this);
                     ThemeManager.Instance.UseTheme(UnitPictureGenerator.Instance);
+                    ThemeManager.Instance.UseTheme(SmallUnitPictureGenerator.Instance);
                     ThemeManager.Instance.UseTheme(mainToolbarsManager);
                 }
             }
@@ -297,6 +298,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             ThemeManager.Instance.LoadSelectedTheme(themeName);
             ThemeManager.Instance.UseTheme(this);
             ThemeManager.Instance.UseTheme(UnitPictureGenerator.Instance);
+            ThemeManager.Instance.UseTheme(SmallUnitPictureGenerator.Instance);
             ThemeManager.Instance.UseTheme(mainToolbarsManager);
             DarkTitleBarHelper.UseImmersiveDarkMode(Handle, ThemeManager.Instance.CurrentTheme.WindowUseDarkHeader);
             BitmapRepository.Instance.InitBlanks();

@@ -28,17 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntitiesListControl));
-            Infragistics.Win.UltraWinGrid.UltraGridBand ultraGridBand2 = new Infragistics.Win.UltraWinGrid.UltraGridBand("", -1);
+            Infragistics.Win.UltraWinGrid.UltraGridBand ultraGridBand1 = new Infragistics.Win.UltraWinGrid.UltraGridBand("", -1);
             Infragistics.Win.Appearance appearance12 = new Infragistics.Win.Appearance();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntitiesListControl));
             panelLeft = new Panel();
+            entitiesGrid = new Infragistics.Win.UltraWinGrid.UltraGrid();
             toolStripAdd = new ToolStrip();
             buttonAddEmpty = new ToolStripButton();
-            entitiesGrid = new Infragistics.Win.UltraWinGrid.UltraGrid();
             splitterUnitPicker = new Splitter();
+            panelContent = new Panel();
             panelLeft.SuspendLayout();
-            toolStripAdd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)entitiesGrid).BeginInit();
+            toolStripAdd.SuspendLayout();
             SuspendLayout();
             // 
             // panelLeft
@@ -51,29 +52,12 @@
             panelLeft.Size = new Size(299, 558);
             panelLeft.TabIndex = 0;
             // 
-            // toolStripAdd
-            // 
-            toolStripAdd.Items.AddRange(new ToolStripItem[] { buttonAddEmpty });
-            toolStripAdd.Location = new Point(0, 0);
-            toolStripAdd.Name = "toolStripAdd";
-            toolStripAdd.Size = new Size(299, 25);
-            toolStripAdd.TabIndex = 4;
-            toolStripAdd.Text = "toolStrip1";
-            // 
-            // buttonAddEmpty
-            // 
-            buttonAddEmpty.Image = (Image)resources.GetObject("buttonAddEmpty.Image");
-            buttonAddEmpty.ImageTransparentColor = Color.Magenta;
-            buttonAddEmpty.Name = "buttonAddEmpty";
-            buttonAddEmpty.Size = new Size(49, 22);
-            buttonAddEmpty.Text = "Add";
-            // 
             // entitiesGrid
             // 
             entitiesGrid.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ExtendLastColumn;
-            ultraGridBand2.Override.AllowGroupBy = Infragistics.Win.DefaultableBoolean.True;
-            ultraGridBand2.Override.AllowGroupCollapsing = Infragistics.Win.DefaultableBoolean.True;
-            entitiesGrid.DisplayLayout.BandsSerializer.Add(ultraGridBand2);
+            ultraGridBand1.Override.AllowGroupBy = Infragistics.Win.DefaultableBoolean.True;
+            ultraGridBand1.Override.AllowGroupCollapsing = Infragistics.Win.DefaultableBoolean.True;
+            entitiesGrid.DisplayLayout.BandsSerializer.Add(ultraGridBand1);
             entitiesGrid.DisplayLayout.GroupByBox.Hidden = true;
             entitiesGrid.DisplayLayout.Override.AllowColMoving = Infragistics.Win.UltraWinGrid.AllowColMoving.NotAllowed;
             entitiesGrid.DisplayLayout.Override.AllowDelete = Infragistics.Win.DefaultableBoolean.False;
@@ -93,6 +77,24 @@
             entitiesGrid.Name = "entitiesGrid";
             entitiesGrid.Size = new Size(299, 533);
             entitiesGrid.TabIndex = 8;
+            entitiesGrid.AfterSelectChange += entitiesGrid_AfterSelectChange;
+            // 
+            // toolStripAdd
+            // 
+            toolStripAdd.Items.AddRange(new ToolStripItem[] { buttonAddEmpty });
+            toolStripAdd.Location = new Point(0, 0);
+            toolStripAdd.Name = "toolStripAdd";
+            toolStripAdd.Size = new Size(299, 25);
+            toolStripAdd.TabIndex = 4;
+            toolStripAdd.Text = "toolStrip1";
+            // 
+            // buttonAddEmpty
+            // 
+            buttonAddEmpty.Image = (Image)resources.GetObject("buttonAddEmpty.Image");
+            buttonAddEmpty.ImageTransparentColor = Color.Magenta;
+            buttonAddEmpty.Name = "buttonAddEmpty";
+            buttonAddEmpty.Size = new Size(49, 22);
+            buttonAddEmpty.Text = "Add";
             // 
             // splitterUnitPicker
             // 
@@ -104,19 +106,28 @@
             splitterUnitPicker.TabIndex = 3;
             splitterUnitPicker.TabStop = false;
             // 
-            // AiEntitiesListControl
+            // panelContent
+            // 
+            panelContent.Dock = DockStyle.Fill;
+            panelContent.Location = new Point(305, 0);
+            panelContent.Name = "panelContent";
+            panelContent.Size = new Size(540, 558);
+            panelContent.TabIndex = 4;
+            // 
+            // EntitiesListControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(panelContent);
             Controls.Add(splitterUnitPicker);
             Controls.Add(panelLeft);
-            Name = "AiEntitiesListControl";
+            Name = "EntitiesListControl";
             Size = new Size(845, 558);
             panelLeft.ResumeLayout(false);
             panelLeft.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)entitiesGrid).EndInit();
             toolStripAdd.ResumeLayout(false);
             toolStripAdd.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)entitiesGrid).EndInit();
             ResumeLayout(false);
         }
 
@@ -127,5 +138,6 @@
         private ToolStripButton buttonAddEmpty;
         private Infragistics.Win.UltraWinGrid.UltraGrid entitiesGrid;
         private Splitter splitterUnitPicker;
+        private Panel panelContent;
     }
 }

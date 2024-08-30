@@ -287,7 +287,7 @@
             // 
             // lookupColor
             // 
-            lookupColor.Location = new Point(49, 115);
+            lookupColor.Location = new Point(29, 238);
             lookupColor.Name = "lookupColor";
             lookupColor.Size = new Size(225, 211);
             lookupColor.TabIndex = 5;

@@ -118,13 +118,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         {
             _entityGroups = entityGroups;
             _assignedToGroup = assignedToGroup;
-            var toolTipInfo = new UltraToolTipInfo
+            if (!ReadonlyMode)
             {
-                ToolTipText = "right click to open group-by menu",
-                Enabled = DefaultableBoolean.True
-            };
-            ultraToolTips.SetUltraToolTip(this, toolTipInfo);
-            ultraToolTips.SetUltraToolTip(pictureThumbnail, toolTipInfo);
+                var toolTipInfo = new UltraToolTipInfo
+                {
+                    ToolTipText = "right click to open group-by menu",
+                    Enabled = DefaultableBoolean.True
+                };
+                ultraToolTips.SetUltraToolTip(this, toolTipInfo);
+                ultraToolTips.SetUltraToolTip(pictureThumbnail, toolTipInfo);
+            }
         }
 
         private void FileSectionOnValueChanged(object? sender, IniFileSectionChangedEventArgs e)
@@ -247,7 +250,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private void UnitPickerControl_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right
-                && _entityGroups != null)
+                && _entityGroups != null
+                && !ReadonlyMode)
             {
                 InitContextMenu();
                 contextMenu.Show(this, PointToClient(MousePosition));

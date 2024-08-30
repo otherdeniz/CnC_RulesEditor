@@ -1,4 +1,5 @@
-﻿using Deniz.TiberiumSunEditor.Gui.Model;
+﻿using System.ComponentModel;
+using Deniz.TiberiumSunEditor.Gui.Model;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
 {
@@ -9,9 +10,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
             InitializeComponent();
         }
 
+        [Browsable(false)]
+        [DefaultValue(null)]
+        public GameEntityModel? EditEntity { get; protected set; }
+
         public virtual void LoadEntity(GameEntityModel entity)
         {
-
+            EditEntity = entity;
         }
     }
 }
