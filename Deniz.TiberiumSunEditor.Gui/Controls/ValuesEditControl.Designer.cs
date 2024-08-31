@@ -74,6 +74,7 @@
             valuesGrid.TabIndex = 1;
             valuesGrid.AfterCellUpdate += valuesGrid_AfterCellUpdate;
             valuesGrid.InitializeRow += valuesGrid_InitializeRow;
+            valuesGrid.AfterSelectChange += valuesGrid_AfterSelectChange;
             valuesGrid.ClickCell += valuesGrid_ClickCell;
             valuesGrid.MouseDown += valuesGrid_MouseDown;
             // 

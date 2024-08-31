@@ -457,6 +457,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
         }
 
+        private void valuesGrid_AfterSelectChange(object sender, AfterSelectChangeEventArgs e)
+        {
+            if (valuesGrid.Selected.Rows.Count == 0) return;
+            if (valuesGrid.Selected.Rows[0] is UltraGridGroupByRow groupByRow
+                && groupByRow.Selected)
+            {
+                groupByRow.Selected = false;
+            }
+        }
+
         private string? ResolveSelf(string? entityType)
         {
             if (entityType == "self")

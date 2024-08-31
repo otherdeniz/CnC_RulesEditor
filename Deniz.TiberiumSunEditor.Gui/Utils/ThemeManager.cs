@@ -99,8 +99,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                         gridControl.DisplayLayout.Override.GroupByRowAppearance.ForeColor = CurrentTheme.GridHeaderTextColor;
                         gridControl.DisplayLayout.ScrollBarLook.Appearance.BackColor = CurrentTheme.ControlsBackColor;
                         gridControl.DisplayLayout.ScrollBarLook.Appearance.ForeColor = CurrentTheme.ControlsTextColor;
-                        gridControl.DisplayLayout.DefaultSelectedBackColor = CurrentTheme.GridHeaderBackColor;
-                        gridControl.DisplayLayout.DefaultSelectedForeColor = CurrentTheme.GridHeaderTextColor;
+                        gridControl.DisplayLayout.DefaultSelectedBackColor = CurrentTheme.HotTrackBackColor;
+                        gridControl.DisplayLayout.DefaultSelectedForeColor = CurrentTheme.HotTrackTextColor;
                         break;
                     case Button button:
                         if (CurrentTheme.ButtonUsesOsTheme)
