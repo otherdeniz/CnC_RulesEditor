@@ -39,9 +39,12 @@
             textName = new TextBox();
             labelKey = new Label();
             groupBoxTeams = new GroupBox();
+            entitiesListTeams = new EntitiesListControl();
             valuesGrid = new Infragistics.Win.UltraWinGrid.UltraGrid();
+            splitterUnitPicker = new Splitter();
             panelTop.SuspendLayout();
             panelButtons.SuspendLayout();
+            groupBoxTeams.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)valuesGrid).BeginInit();
             SuspendLayout();
             // 
@@ -126,13 +129,22 @@
             // 
             // groupBoxTeams
             // 
+            groupBoxTeams.Controls.Add(entitiesListTeams);
             groupBoxTeams.Dock = DockStyle.Fill;
-            groupBoxTeams.Location = new Point(0, 277);
+            groupBoxTeams.Location = new Point(0, 275);
             groupBoxTeams.Name = "groupBoxTeams";
-            groupBoxTeams.Size = new Size(640, 236);
+            groupBoxTeams.Size = new Size(640, 238);
             groupBoxTeams.TabIndex = 2;
             groupBoxTeams.TabStop = false;
             groupBoxTeams.Text = "Teams";
+            // 
+            // entitiesListTeams
+            // 
+            entitiesListTeams.Dock = DockStyle.Fill;
+            entitiesListTeams.Location = new Point(3, 19);
+            entitiesListTeams.Name = "entitiesListTeams";
+            entitiesListTeams.Size = new Size(634, 216);
+            entitiesListTeams.TabIndex = 0;
             // 
             // valuesGrid
             // 
@@ -158,16 +170,28 @@
             valuesGrid.Location = new Point(0, 39);
             valuesGrid.Margin = new Padding(4, 3, 4, 3);
             valuesGrid.Name = "valuesGrid";
-            valuesGrid.Size = new Size(640, 238);
+            valuesGrid.Size = new Size(640, 230);
             valuesGrid.TabIndex = 9;
             valuesGrid.InitializeRow += valuesGrid_InitializeRow;
             valuesGrid.ClickCell += valuesGrid_ClickCell;
+            // 
+            // splitterUnitPicker
+            // 
+            splitterUnitPicker.BackColor = SystemColors.ActiveBorder;
+            splitterUnitPicker.Dock = DockStyle.Top;
+            splitterUnitPicker.Location = new Point(0, 269);
+            splitterUnitPicker.Margin = new Padding(4, 3, 4, 3);
+            splitterUnitPicker.Name = "splitterUnitPicker";
+            splitterUnitPicker.Size = new Size(640, 6);
+            splitterUnitPicker.TabIndex = 10;
+            splitterUnitPicker.TabStop = false;
             // 
             // AiTaskForceEditControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(groupBoxTeams);
+            Controls.Add(splitterUnitPicker);
             Controls.Add(valuesGrid);
             Controls.Add(panelTop);
             Name = "AiTaskForceEditControl";
@@ -175,6 +199,7 @@
             panelTop.ResumeLayout(false);
             panelTop.PerformLayout();
             panelButtons.ResumeLayout(false);
+            groupBoxTeams.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)valuesGrid).EndInit();
             ResumeLayout(false);
         }
@@ -190,5 +215,7 @@
         private GroupBox groupBoxTeams;
         private Infragistics.Win.UltraWinGrid.UltraGrid valuesGrid;
         private Button buttonCreateName;
+        private EntitiesListControl entitiesListTeams;
+        private Splitter splitterUnitPicker;
     }
 }

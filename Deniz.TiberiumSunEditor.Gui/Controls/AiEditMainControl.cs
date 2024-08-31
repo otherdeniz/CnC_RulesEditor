@@ -37,13 +37,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             set
             {
                 _readonlyMode = value;
-                //unitsBuildings.ReadonlyMode = _readonlyMode;
-                //unitsInfantry.ReadonlyMode = _readonlyMode;
-                //unitsVehicles.ReadonlyMode = _readonlyMode;
-                //unitsAircrafts.ReadonlyMode = _readonlyMode;
-                //unitsProjectiles.ReadonlyMode = _readonlyMode;
-                //unitsAnimations.ReadonlyMode = _readonlyMode;
-                //panelPhobosShowEmpty.Visible = !_readonlyMode;
+                unitsListInfantry.ReadonlyMode = _readonlyMode;
+                unitsListVehicles.ReadonlyMode = _readonlyMode;
+                unitsListAircrafts.ReadonlyMode = _readonlyMode;
             }
         }
 
@@ -55,12 +51,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             set
             {
                 _searchText = value;
-                //unitsBuildings.SearchText = _searchText;
-                //unitsInfantry.SearchText = _searchText;
-                //unitsVehicles.SearchText = _searchText;
-                //unitsAircrafts.SearchText = _searchText;
-                //unitsProjectiles.SearchText = _searchText;
-                //unitsAnimations.SearchText = _searchText;
+                unitsListInfantry.SearchText = _searchText;
+                unitsListVehicles.SearchText = _searchText;
+                unitsListAircrafts.SearchText = _searchText;
             }
         }
 
@@ -83,6 +76,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         {
             mainTab.Tabs["TaskForces"].Visible =
                 entitiesListTaskForces.LoadModel(Model.TaskForceEntities, typeof(AiTaskForceEditControl));
+            mainTab.Tabs["Infantry"].Visible =
+                unitsListInfantry.LoadModel(Model.RulesModel.InfantryEntities, null, typeof(AiUnitEditControl));
+            mainTab.Tabs["Vehicles"].Visible =
+                unitsListVehicles.LoadModel(Model.RulesModel.VehicleEntities, null, typeof(AiUnitEditControl));
+            mainTab.Tabs["Aircrafts"].Visible =
+                unitsListAircrafts.LoadModel(Model.RulesModel.AircraftEntities, null, typeof(AiUnitEditControl));
         }
     }
 }

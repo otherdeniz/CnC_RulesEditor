@@ -34,7 +34,7 @@
             panelLeft = new Panel();
             entitiesGrid = new Infragistics.Win.UltraWinGrid.UltraGrid();
             toolStripAdd = new ToolStrip();
-            buttonAddEmpty = new ToolStripButton();
+            buttonAddNew = new ToolStripButton();
             splitterUnitPicker = new Splitter();
             panelContent = new Panel();
             panelLeft.SuspendLayout();
@@ -81,20 +81,21 @@
             // 
             // toolStripAdd
             // 
-            toolStripAdd.Items.AddRange(new ToolStripItem[] { buttonAddEmpty });
+            toolStripAdd.Items.AddRange(new ToolStripItem[] { buttonAddNew });
             toolStripAdd.Location = new Point(0, 0);
             toolStripAdd.Name = "toolStripAdd";
             toolStripAdd.Size = new Size(299, 25);
             toolStripAdd.TabIndex = 4;
             toolStripAdd.Text = "toolStrip1";
             // 
-            // buttonAddEmpty
+            // buttonAddNew
             // 
-            buttonAddEmpty.Image = (Image)resources.GetObject("buttonAddEmpty.Image");
-            buttonAddEmpty.ImageTransparentColor = Color.Magenta;
-            buttonAddEmpty.Name = "buttonAddEmpty";
-            buttonAddEmpty.Size = new Size(49, 22);
-            buttonAddEmpty.Text = "Add";
+            buttonAddNew.Image = (Image)resources.GetObject("buttonAddNew.Image");
+            buttonAddNew.ImageTransparentColor = Color.Magenta;
+            buttonAddNew.Name = "buttonAddNew";
+            buttonAddNew.Size = new Size(49, 22);
+            buttonAddNew.Text = "Add";
+            buttonAddNew.Click += buttonAddNew_Click;
             // 
             // splitterUnitPicker
             // 
@@ -135,7 +136,7 @@
 
         private Panel panelLeft;
         private ToolStrip toolStripAdd;
-        private ToolStripButton buttonAddEmpty;
+        private ToolStripButton buttonAddNew;
         private Infragistics.Win.UltraWinGrid.UltraGrid entitiesGrid;
         private Splitter splitterUnitPicker;
         private Panel panelContent;

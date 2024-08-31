@@ -87,7 +87,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 
         public RulesRootModel RulesRootModel { get; }
 
-        public IRootModel RootModel { get; }
+        public IRootModel RootModel { get; set; }
 
         public string EntityType { get; }
 
@@ -267,6 +267,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                     DefaultSection?.GetValue(v.Key)?.Value ?? "", 
                     StringComparison.InvariantCultureIgnoreCase));
 
+        public Func<int>? InfoNumberFunction { get; set; }
+
         public bool Favorite
         {
             get => UserSettingsFile.Instance.SectionsSettings.IsFavorite(FileSection.SectionName ?? "_");
@@ -275,6 +277,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 UserSettingsFile.Instance.SectionsSettings.SetFavorite(FileSection.SectionName ?? "_", value);
                 UserSettingsFile.Instance.Save();
             }
+        }
+
+        public int GetInfoNumber()
+        {
+            return InfoNumberFunction?.Invoke() 
+                   ?? ModificationCount;
         }
 
         public bool IsBuildableByHouse(string houseKey)
@@ -301,8 +309,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 if ((RulesFileSection.GetValue("Prerequisite") ?? DefaultSection?.GetValue("Prerequisite"))?
                         .Value.Split(",")
                         .Select(p =>
-                            RootModel.File.GetSection(p) ??
-                            RootModel.DefaultFile.GetSection(p))
+                            RulesRootModel.File.GetSection(p) ??
+                            RulesRootModel.DefaultFile.GetSection(p))
                         .Where(s => s != null)
                         .Any(s => s!.GetValue("Owner")?.Value.Split(",")
                             .Any(v => v.Equals(houseKey, StringComparison.InvariantCultureIgnoreCase)) == false

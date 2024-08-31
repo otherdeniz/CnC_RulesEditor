@@ -113,7 +113,18 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 else
                 {
                     _textValuesModel = valueList
-                        .Select(v => new LookupTextValueModel { Value = v })
+                        .Select(v =>
+                        {
+                            var value = v;
+                            var label = string.Empty;
+                            var equalsIndex = v.IndexOf("=", StringComparison.InvariantCultureIgnoreCase);
+                            if (equalsIndex > -1)
+                            {
+                                value = v.Substring(0, equalsIndex);
+                                label = v.Substring(equalsIndex + 1);
+                            }
+                            return new LookupTextValueModel { Value = value, Label = label };
+                        })
                         .ToList();
                     LoadTextValuesGrid();
                 }
@@ -188,6 +199,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             valuesGrid.DisplayLayout.Override.CellClickAction = CellClickAction.RowSelect;
             valuesGrid.DataSource = valuesList;
             valuesGrid.DisplayLayout.Bands[0].ScrollTipField = "Value";
+            valuesGrid.DisplayLayout.Bands[0].Columns["Label"].Hidden =
+                string.IsNullOrEmpty(_textValuesModel!.FirstOrDefault()?.Label);
             var selectedIndex = valuesList.Select(v => v.Value).ToList()
                 .IndexOf(_valueModel.Value);
             if (selectedIndex > -1)

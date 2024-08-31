@@ -1,0 +1,39 @@
+{
+	"Teams": [
+		{"Key":"Script","Category":"1) Essential","Description":"The associated ScritpType from the ScriptTypes list which gives the script actions to perform for this team.","LookupType":"ScriptTypes"},
+		{"Key":"TaskForce","Category":"1) Essential","Description":"The associated TaskForce from the TaskForces list to create this team.","LookupType":"TaskForces"},
+		
+		{"Key":"VeteranLevel","Category":"2) Generic","Description":"Specifies the rank that all units in this team should have when the team is created. Only works for reinforcement-type teams (created by map trigger action #7 or #80). Accepted values are 1 for Rookie, 2 for Veteran and 3 for Elite."},
+		{"Key":"TechLevel","Category":"2) Generic","Description":"Minimum TechLevel needed for this team to be built. 0 is used to make it available for all tech levels."},
+		{"Key":"House","Category":"2) Generic","Description":"The House this team belongs to. <none> is used to make it available to all.","Default":"<none>","LookupType":"Houses"},
+		{"Key":"Max","Category":"2) Generic","Description":"Maximum count of teams of a TeamType produced through AITriggers. -1 is unlimited. Max count is subject to TotalAITeamCap restrictions. When teams are created through Create Team map action, Max count is not considered."},
+		{"Key":"Prebuild","Category":"2) Generic","Description":"Set with yes/no. If a copy of a taskforce be created before it is actually requested. (need testing)","Default":"no"},
+		{"Key":"Reinforce","Category":"2) Generic","Description":"Set with yes/no. For if this team type is formed as reinforcement. Used in single player maps. The team is created and given to the house free of cost.","Default":"no"},
+		{"Key":"GuardSlower","Category":"2) Generic","Description":"With yes, it increases the value of BaseDefenseDelay= (in the rules(md).ini) for this team. The team will respond slower to attacks in its base. (need testing)","Default":"no"},
+		{"Key":"Annoyance","Category":"2) Generic","Description":"Set with yes/no. AI will replace any destroyed team members. (need testing)","Default":"no"},
+		{"Key":"IsBaseDefense","Category":"2) Generic","Description":"set to yes makes it a base defense team which responds to attacks on its base. Total of such teams is subject to the limits set by MinimumAIDefensiveTeams and MaximumAIDefensiveTeams in rules.ini","Default":"no"},
+		{"Key":"Whiner","Category":"2) Generic","Description":"Used on base defense teams, to replace any destroyed team members. If Whiner=yes is set, members of the team taking any damage are treated as an attack on the AI's base and base defense operations kick in.","Default":"no"},
+		{"Key":"MindControlDecision","Category":"2) Generic","Description":"Specifies what this team should do with mind-controlled enemy units. The team must have at least one unit capable of mind-controlling for this to have any effect.","Default":"0","ValueList":"0=Don't use this logic,1=Recruit,2=Send to Grinder,3=Send to Bio Reactor,4=Assign to hunt,5=Do nothing"},
+		{"Key":"IonImmune","Category":"2) Generic","Description":"On yes, team is immune to Ion Storm.","Default":"no"},
+		
+		{"Key":"AreTeamMembersRecruitable","Category":"3) Recruitment related","Description":"yes means that the units in this team can be recruited into other teams. When set to no the team members are not available for recruitment. When the team members finish their script actions they loose their AreTeamMembersRecruitable value and become available for recruitment into other teams.","Default":"no"},
+		{"Key":"Priority","Category":"3) Recruitment related","Description":"A TeamType with higher Priority value can recruit team members from a TeamType with lower Priority value even if the lower Priority value team hasn't yet completed its script actions. When the team members finish their script actions they loose their Priority value and can be recruited into teams with any Priority value.","Default":"0"},
+		{"Key":"Recruiter","Category":"3) Recruitment related","Description":"yes disregards the unit's Group value when recruiting which makes inter-Group recruitment possible. When set to no the TeamType cannot recruit units that have different group value than itself (Group=-2 teamtypes are exception).","Default":"no"},
+		{"Key":"Group","Category":"3) Recruitment related","Description":"A unit always has a Group value whether it is in a team or not. Produced units are assigned to the group defined in its TeamType/TaskForce. Group=-1 is No Group case (Default group). Group=-2 is Any Group case. Units get their Group value from its TeamType except when it has Group=-1 where they get their Group value from its task force's group.","Default":"-1"},
+		{"Key":"Autocreate","Category":"3) Recruitment related","Description":"Autocreate in TeamTypes is used to check whether a unit should be recruited from the pre-placed unit on the map or it should be produced from a factory. This has less relevance on multiplayer/skirmish maps as it is not expected to have pre-placed units in the maps belonging to the playing house.","Default":"no"},
+		{"Key":"LooseRecruits","Category":"3) Recruitment related","Description":"It doesn't seem to have any effect so don't know what it does. When the team members finish their script actions those units could be recruited immediately into other teams regardless of LooseRecruits being yes or no.","Default":"no"},
+
+		{"Key":"Loadable","Category":"4) Enroute/Engagement related","Description":"Typically set to no. Used if the team members need to reload by docking when units run out of Ammo=. (need testing)","Default":"no"},
+		{"Key":"Full","Category":"4) Enroute/Engagement related","Description":"For use in map files with yes/no. Should any units with PipScale in the team initially be full. Applies to harvesters/weed eaters/ore miners/transport units. If the teams contains a transport and other units, the other units are placed in the transport for reinforcement purposes. (need testing)","Default":"no"},
+		{"Key":"Droppod","Category":"4) Enroute/Engagement related","Description":" Typically set to no. Whether the team arrives in droppod. (need testing).","Default":"no"},
+		{"Key":"TransportWaypoint","Category":"4) Enroute/Engagement related","Description":"Specifies the waypoint where a team type with transport and UseTransportOrigin=yes will spawn at. This tag expects a waypoint in the notation known from map actions: A = 0, B = 1, .. AA = 26. The maximum value is ZZ = 701.","Default":""},
+		{"Key":"UseTransportOrigin","Category":"4) Enroute/Engagement related","Description":"Specifies whether a team type with transport will spawn at the waypoint specified by TransportWaypoint. Otherwise the transport will spawn on a random cell on the owning player's edge of the map.","Default":"no"},
+		{"Key":"TransportsReturnOnUnload","Category":"4) Enroute/Engagement related","Description":"When set to yes, after the first unload script action is completed, it will send away units in the team with Passengers= value.","Default":"no"},
+		{"Key":"OnTransOnly","Category":"4) Enroute/Engagement related","Description":"Check when executing its script if it has transport load/unload script actions, otherwise end the script. When OnTransOnly=yes is used, the units won't get associated with the Tag attributes of this TeamType. (need testing)","Default":"no"},
+		
+		{"Key":"Tag","Category":"5) Map related","Description":"Tags can be attached to many objects in maps including TeamType. Here each team member gets tagged with the associated Tag value, unless team is set with OnTransOnly=yes.","Default":""},
+		{"Key":"Waypoint","Category":"5) Map related","Description":"This associates the team with the given waypoint. Used in creating team at waypoint location, also used in other flags like TransportWaypoint and UseTransportOrigin. It is also considered as home cell when looking for units to recruit.","Default":""}
+		
+	]
+	
+}

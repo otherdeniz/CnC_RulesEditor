@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
+using Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit;
 using Deniz.TiberiumSunEditor.Gui.Model;
 using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
+using ImageMagick;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls
 {
@@ -21,11 +23,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private List<EntityGroupSetting> _entityGroups = new();
         private Dictionary<string, EntityGroupSetting> _keyEntityGroups = new();
         private readonly Dictionary<string, UnitPickerGroupControl> _groupControls = new();
+        private Type? _entityEditControlType;
 
         public UnitsListControl()
         {
             InitializeComponent();
             toolStripAdd.Visible = false;
+            unitEdit.Dock = DockStyle.Fill;
+            panelContent.Dock = DockStyle.Fill;
         }
 
         public event EventHandler<EntityCopyEventArgs>? UnitCreateCopy;
@@ -103,10 +108,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         [Browsable(false)]
         public string SearchText { get; set; } = "";
 
-        public bool LoadModel(List<GameEntityModel> entities, FilterModel? filter = null)
+        public bool LoadModel(List<GameEntityModel> entities, 
+            FilterModel? filter = null,
+            Type? entityEditControlType = null)
         {
             _entities = entities;
             _filter = filter;
+            _entityEditControlType = entityEditControlType;
             _doEvents = false;
             checkBoxOnlyModified.Checked = false;
             _doEvents = true;
@@ -160,6 +168,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             _unitPickerControls.Clear();
             unitEdit.ClearModel();
             unitEdit.Visible = false;
+            panelContent.Visible = false;
             ultraPanelScroll.Visible = false;
             _groupControls.Clear();
             // clear controls
@@ -337,8 +346,23 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
             _selectedUnitPickerControl = pickerControl;
             pickerControl.IsSelected = true;
-            unitEdit.LoadModel(entityModel);
-            unitEdit.Visible = true;
+            if (_entityEditControlType != null)
+            {
+                var controlsToDispose = panelContent.Controls.OfType<Control>().ToList();
+                panelContent.Controls.Clear();
+                controlsToDispose.ForEach(c => c.Dispose());
+                var contentControl = (EntityEditBaseControl)Activator.CreateInstance(_entityEditControlType)!;
+                ThemeManager.Instance.UseTheme(contentControl);
+                contentControl.Dock = DockStyle.Fill;
+                contentControl.LoadEntity(entityModel);
+                panelContent.Controls.Add(contentControl);
+                panelContent.Visible = true;
+            }
+            else
+            {
+                unitEdit.LoadModel(entityModel);
+                unitEdit.Visible = true;
+            }
         }
 
         private void buttonAddUnit_Click(object sender, EventArgs e)
@@ -360,7 +384,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private void unitEdit_UnitModificationsChanged(object sender, EventArgs e)
         {
             _unitPickerControls.FirstOrDefault(c => c.UnitKey == unitEdit.EntityModel!.EntityKey)
-                ?.RefreshModifications();
+                ?.RefreshInfoNumber();
         }
 
         private void unitEdit_UnitCreateCopy(object sender, EntityCopyEventArgs e)

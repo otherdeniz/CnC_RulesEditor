@@ -14,9 +14,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
             InitializeComponent();
         }
 
-        public override void LoadEntity(GameEntityModel entity)
+        public override void LoadEntity(GameEntityModel entity, FilterByParentModel? filterKeyValue = null)
         {
-            base.LoadEntity(entity);
+            base.LoadEntity(entity, filterKeyValue);
             labelKey.Text = entity.EntityKey;
             textName.Text = entity.EntityName;
             _keyValueModelList = new string[]
@@ -24,6 +24,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
                 "0", "1", "2", "3", "4"
             }.Select(k => new AiTaskForceKeyValueModel(entity, k, RefreshName)).ToList();
             LoadValuesGrid();
+            LoadTeamsList();
         }
 
         private void LoadValuesGrid()
@@ -31,6 +32,19 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
             valuesGrid.DataSource = _keyValueModelList;
             valuesGrid.DisplayLayout.Bands[0].PerformAutoResizeColumns(true, PerformAutoSizeType.AllRowsInBand);
             valuesGrid.DisplayLayout.Bands[0].Columns["Key"].Width = 30;
+        }
+
+        private void LoadTeamsList()
+        {
+            if (EntityModel == null) return;
+            if (EntityModel.RootModel is AiRootModel aiRootModel)
+            {
+                var childFilter = new FilterByParentModel("TaskForce", EntityModel.EntityKey);
+                var childEntities = aiRootModel.TeamEntities
+                    .Where(e => e.EntityModel.FileSection.GetValue(childFilter.Key)?.Value == EntityModel.EntityKey)
+                    .ToList();
+                entitiesListTeams.LoadModel(childEntities, typeof(AiTeamEditControl), childFilter);
+            }
         }
 
         private void RefreshName()
@@ -42,7 +56,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
 
         private void textName_TextChanged(object sender, EventArgs e)
         {
-            EditEntity?.FileSection.SetValue("Name", textName.Text);
+            EntityModel?.FileSection.SetValue("Name", textName.Text);
+            RaiseNameChanged();
         }
 
         private void valuesGrid_InitializeRow(object sender, InitializeRowEventArgs e)
@@ -55,8 +70,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
 
         private void LookupEntityValue(AiTaskForceKeyValueModel valueModel, UltraGridRow row)
         {
-            if (EditEntity == null) return;
-            var newUnit = SelectUnitForm.ExecuteSelect(ParentForm!, EditEntity.RulesRootModel,
+            if (EntityModel == null) return;
+            var newUnit = SelectUnitForm.ExecuteSelect(ParentForm!, EntityModel.RulesRootModel,
                 SelectTechnoTypes.Vehicles | SelectTechnoTypes.Infantry | SelectTechnoTypes.Aircrafts);
             if (newUnit != null)
             {

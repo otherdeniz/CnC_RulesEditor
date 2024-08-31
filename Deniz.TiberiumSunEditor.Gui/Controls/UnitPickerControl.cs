@@ -12,7 +12,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
     public partial class UnitPickerControl : UserControl
     {
         private bool _isFavorte;
-        private int _modificationCount;
+        private int _infoNumber;
         private bool _readonlyMode;
         private bool _isSelected;
         private Bitmap? _unitPicture;
@@ -82,20 +82,20 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         [Browsable(false)]
         [DefaultValue(0)]
-        public int ModificationCount
+        public int InfoNumber
         {
-            get => _modificationCount;
+            get => _infoNumber;
             set
             {
-                _modificationCount = value;
-                if (_modificationCount == 0)
+                _infoNumber = value;
+                if (_infoNumber == 0)
                 {
                     labelModifications.Visible = false;
                 }
                 else
                 {
                     labelModifications.Visible = true;
-                    labelModifications.Text = _modificationCount.ToString();
+                    labelModifications.Text = _infoNumber.ToString();
                     labelModifications.BackColor = Color.FromArgb(0, 0, 0, 0);
                     labelModifications.ForeColor = ThemeManager.Instance.CurrentTheme.ModifiedTextColor;
                 }
@@ -110,7 +110,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             _unitPicture = UnitPictureGenerator.Instance.GetUnitPicture(entityModel, false, LoadAnimatedThumbnail, out var requirementToken);
             _animationRequirementToken = requirementToken;
             BackgroundImage = _unitPicture;
-            RefreshModifications();
+            RefreshInfoNumber();
             RefreshIsFavorite();
         }
 
@@ -157,9 +157,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             IsFavorite = EntityModel!.Favorite;
         }
 
-        public void RefreshModifications()
+        public void RefreshInfoNumber()
         {
-            ModificationCount = EntityModel!.ModificationCount;
+            InfoNumber = EntityModel!.GetInfoNumber();
         }
 
         private void LoadAnimatedThumbnail(Image animatedImage)

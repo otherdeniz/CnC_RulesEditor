@@ -44,6 +44,7 @@
             toolStripLabelItem = new ToolStripLabel();
             toolStripButtonNext = new ToolStripButton();
             toolStripLabelTotal = new ToolStripLabel();
+            panelContent = new Panel();
             unitsLayoutPanel.SuspendLayout();
             panelLeft.SuspendLayout();
             ultraPanelScroll.ClientArea.SuspendLayout();
@@ -88,11 +89,10 @@
             // unitEdit
             // 
             unitEdit.BackColor = Color.White;
-            unitEdit.Dock = DockStyle.Fill;
-            unitEdit.Location = new Point(246, 0);
+            unitEdit.Location = new Point(290, 25);
             unitEdit.Margin = new Padding(5, 3, 5, 3);
             unitEdit.Name = "unitEdit";
-            unitEdit.Size = new Size(502, 444);
+            unitEdit.Size = new Size(423, 384);
             unitEdit.TabIndex = 3;
             unitEdit.Tag = "PLAIN";
             unitEdit.Visible = false;
@@ -209,10 +209,19 @@
             toolStripLabelTotal.Size = new Size(66, 22);
             toolStripLabelTotal.Text = "1'000 Items";
             // 
+            // panelContent
+            // 
+            panelContent.Location = new Point(258, 248);
+            panelContent.Name = "panelContent";
+            panelContent.Size = new Size(327, 188);
+            panelContent.TabIndex = 5;
+            panelContent.Visible = false;
+            // 
             // UnitsListControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(panelContent);
             Controls.Add(unitEdit);
             Controls.Add(splitterUnitPicker);
             Controls.Add(panelLeft);
@@ -251,5 +260,6 @@
         private ToolStripButton buttonAddEmpty;
         private CheckBox checkBoxOnlyModified;
         private Infragistics.Win.Misc.UltraPanel ultraPanelScroll;
+        private Panel panelContent;
     }
 }

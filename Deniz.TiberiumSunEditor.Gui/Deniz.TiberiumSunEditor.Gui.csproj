@@ -156,6 +156,7 @@
     <None Remove="CSPlugins\FFmpeg\x86\avutil-55.dll" />
     <None Remove="CSPlugins\FFmpeg\x86\swresample-2.dll" />
     <None Remove="CSPlugins\taglib-sharp.dll" />
+    <None Remove="Resources\Aistructure.json" />
     <None Remove="Resources\Artstructure.json" />
     <None Remove="Resources\Datastructure.json" />
     <None Remove="Resources\Datastructure.json.documentation.txt" />
@@ -282,6 +283,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="CSPlugins\taglib-sharp.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Aistructure.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Artstructure.json">

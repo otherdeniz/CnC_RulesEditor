@@ -7,8 +7,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 {
     public partial class EntitiesListControl : UserControl
     {
-        private List<EntityListIemModel> _listItems = null!;
+        private List<EntityListItemModel> _listItems = null!;
         private Type _entityEditControlType = null!;
+        private FilterByParentModel? _filterKeyValue;
         private bool _doEvents;
 
         public EntitiesListControl()
@@ -16,37 +17,51 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             InitializeComponent();
         }
 
-        public bool LoadModel(List<EntityListIemModel> listItems, Type entityEditControlType)
+        public bool LoadModel(List<EntityListItemModel> listItems,
+            Type entityEditControlType,
+            FilterByParentModel? filterKeyValue = null)
         {
             _listItems = listItems;
             _entityEditControlType = entityEditControlType;
+            _filterKeyValue = filterKeyValue;
             return LoadListItems();
         }
 
         private bool LoadListItems()
         {
             _doEvents = false;
-            SelectListItem(null);
+            SelectListItem(null, null);
+            var filteredItems = _filterKeyValue == null
+                ? _listItems
+                : _listItems.Where(e => e.EntityModel.FileSection.KeyValues.Any(k =>
+                {
+                    if (_filterKeyValue.FilterFunction != null)
+                    {
+                        return _filterKeyValue.FilterFunction(k);
+                    }
+                    return k.Key == _filterKeyValue.Key && k.Value.Equals(_filterKeyValue.Value,
+                            StringComparison.InvariantCultureIgnoreCase);
+                })).ToList();
+            entitiesGrid.DataSource = filteredItems;
             entitiesGrid.DisplayLayout.Override.CellClickAction = CellClickAction.RowSelect;
-            entitiesGrid.DataSource = _listItems;
             entitiesGrid.DisplayLayout.Bands[0].ScrollTipField = "Name";
             entitiesGrid.DisplayLayout.Bands[0].PerformAutoResizeColumns(true, PerformAutoSizeType.AllRowsInBand);
-            entitiesGrid.DisplayLayout.Bands[0].Columns["Modifications"].Width = 30;
             _doEvents = true;
-            return _listItems.Any();
+            return filteredItems.Any();
         }
 
-        private void SelectListItem(EntityListIemModel? entity)
+        private void SelectListItem(EntityListItemModel? entity, UltraGridRow? row)
         {
             var controlsToDispose = panelContent.Controls.OfType<Control>().ToList();
             panelContent.Controls.Clear();
             controlsToDispose.ForEach(c => c.Dispose());
-            if (entity != null)
+            if (entity != null && row != null)
             {
                 var contentControl = (EntityEditBaseControl)Activator.CreateInstance(_entityEditControlType)!;
                 ThemeManager.Instance.UseTheme(contentControl);
                 contentControl.Dock = DockStyle.Fill;
-                contentControl.LoadEntity(entity.EntityModel);
+                contentControl.LoadEntity(entity.EntityModel, _filterKeyValue);
+                contentControl.NameChanged += (sender, args) => row.Refresh();
                 panelContent.Controls.Add(contentControl);
             }
         }
@@ -54,10 +69,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private void entitiesGrid_AfterSelectChange(object sender, AfterSelectChangeEventArgs e)
         {
             if (!_doEvents || entitiesGrid.Selected.Rows.Count == 0) return;
-            if (entitiesGrid.Selected.Rows[0].ListObject is EntityListIemModel listItem)
+            if (entitiesGrid.Selected.Rows[0].ListObject is EntityListItemModel listItem)
             {
-                SelectListItem(listItem);
+                SelectListItem(listItem, entitiesGrid.Selected.Rows[0]);
             }
+        }
+
+        private void buttonAddNew_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

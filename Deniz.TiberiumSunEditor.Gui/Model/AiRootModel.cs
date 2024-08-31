@@ -1,4 +1,6 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Model.Interface;
+using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
+using Deniz.TiberiumSunEditor.Gui.Utils.Extensions;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 
 namespace Deniz.TiberiumSunEditor.Gui.Model
@@ -16,7 +18,18 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             RulesModel = rulesRootModel;
             File = iniFile;
             DefaultFile = defaultFileOverwrite ?? rulesRootModel.FileType.GameDefinition.LoadDefaultAiFile();
+            Aistructure = AistructureFile.Instance;
             LoadGameEntities();
+            foreach (var rulesEntity in RulesModel.InfantryEntities
+                         .Union(RulesModel.VehicleEntities)
+                         .Union(RulesModel.AircraftEntities))
+            {
+                rulesEntity.RootModel = this;
+                //TODO: caching of InfoNumber
+                rulesEntity.InfoNumberFunction = () =>
+                    TaskForceEntities.Count(e => e.EntityModel.FileSection.KeyValues.Any(k =>
+                        k.Value.EndsWith($",{rulesEntity.EntityKey}")));
+            }
         }
 
         public event EventHandler<EventArgs>? EntitiesChanged;
@@ -29,15 +42,17 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 
         public FileTypeModel FileType => RulesModel.FileType;
 
+        public AistructureFile Aistructure { get; }
+
         public List<LookupItemModel> LookupItems => RulesModel.LookupItems;
 
         public Dictionary<string, List<GameEntityModel>> LookupEntities { get; } = new();
 
-        public List<EntityListIemModel> TaskForceEntities { get; private set; } = null!;
+        public List<EntityListItemModel> TaskForceEntities { get; private set; } = null!;
 
-        public List<EntityListIemModel> ScriptEntities { get; private set; } = null!;
+        public List<EntityListItemModel> ScriptEntities { get; private set; } = null!;
 
-        public List<EntityListIemModel> TeamEntities { get; private set; } = null!;
+        public List<EntityListItemModel> TeamEntities { get; private set; } = null!;
 
         public void ReloadGameEntites()
         {
@@ -49,10 +64,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         {
             TaskForceEntities = GetGameEntitiesByAiTypesSection("TaskForces", null);
             ScriptEntities = GetGameEntitiesByAiTypesSection("ScriptTypes", null);
-            TeamEntities = GetGameEntitiesByAiTypesSection("TeamTypes", null);
+            TeamEntities = GetGameEntitiesByAiTypesSection("TeamTypes", Aistructure.Teams.ToCategorizedList());
         }
 
-        private List<EntityListIemModel> GetGameEntitiesByAiTypesSection(string aiTypesSection,
+        private List<EntityListItemModel> GetGameEntitiesByAiTypesSection(string aiTypesSection,
             List<CategorizedValueDefinition>? unitValueList)
         {
             var entityKeys = (File.GetSection(aiTypesSection)?.KeyValues
@@ -69,11 +84,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             return artEntities;
         }
 
-        private List<EntityListIemModel> GetGameEntities(string entityType,
+        private List<EntityListItemModel> GetGameEntities(string entityType,
             IEnumerable<IniFileLineKeyValue> entityKeysList,
             List<CategorizedValueDefinition>? unitValueList)
         {
-            var result = new List<EntityListIemModel>();
+            var result = new List<EntityListItemModel>();
             foreach (var entityKey in entityKeysList)
             {
                 var fileSection = File.GetSection(entityKey.Value);
@@ -87,7 +102,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                         defaultSection,
                         unitValueList,
                         rulesSection);
-                    result.Add(new EntityListIemModel(entityKey.Key, entityModel));
+                    result.Add(new EntityListItemModel(entityKey.Key, entityModel));
                 }
                 else if (defaultSection != null && _showMissingValues)
                 {
@@ -97,7 +112,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                         defaultSection,
                         unitValueList,
                         rulesSection);
-                    result.Add(new EntityListIemModel(entityKey.Key, entityModel));
+                    result.Add(new EntityListItemModel(entityKey.Key, entityModel));
                 }
             }
             if (LookupEntities.TryGetValue(entityType, out var existingLookupEntities))

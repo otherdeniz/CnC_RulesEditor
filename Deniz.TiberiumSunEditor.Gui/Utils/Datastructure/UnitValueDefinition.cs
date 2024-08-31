@@ -8,7 +8,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
 
         public string? Description { get; set; }
 
-        public string Default { get; set; } = "";
+        public string Default { get; set; } = string.Empty;
 
         public string? ValueList { get; set; }
 
@@ -20,8 +20,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
 
         public string? GameKeyFilter { get; set; }
 
+        public virtual string Category { get; set; } = string.Empty;
+
         [JsonIgnore] 
-        public string ModuleCategory { get; set; } = "";
+        public string ModuleCategory { get; set; } = string.Empty;
 
         [JsonIgnore]
         public bool DetectTypeAtRuntime { get; set; }

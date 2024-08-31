@@ -125,7 +125,7 @@
             // ultraTabPageControl1
             // 
             ultraTabPageControl1.Controls.Add(valuesEditCommon);
-            ultraTabPageControl1.Location = new Point(2, 30);
+            ultraTabPageControl1.Location = new Point(-10000, -10000);
             ultraTabPageControl1.Margin = new Padding(4, 3, 4, 3);
             ultraTabPageControl1.Name = "ultraTabPageControl1";
             ultraTabPageControl1.Size = new Size(1169, 396);
@@ -228,7 +228,7 @@
             // ultraTabPageControl3
             // 
             ultraTabPageControl3.Controls.Add(unitsInfantry);
-            ultraTabPageControl3.Location = new Point(-10000, -10000);
+            ultraTabPageControl3.Location = new Point(2, 30);
             ultraTabPageControl3.Margin = new Padding(4, 3, 4, 3);
             ultraTabPageControl3.Name = "ultraTabPageControl3";
             ultraTabPageControl3.Size = new Size(1169, 396);

@@ -4,6 +4,6 @@
     {
         public string Section { get; set; } = "General";
 
-        public string Category { get; set; } = "Other";
+        public override string Category { get; set; } = "Other";
     }
 }

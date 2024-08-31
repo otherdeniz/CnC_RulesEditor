@@ -19,9 +19,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private bool _canTakeValues = true;
         private bool _readonlyMode;
         private bool _showModifications = true;
+        private bool _showHeaderAndFooter = true;
         private List<GameEntityModel>? _usedByEntityModels;
         private UsedByPopupForm? _usedByPopupForm;
         private string _valueColumn = "value";
+        private List<string>? _hiddenValueKeys;
 
         public UnitEditControl()
         {
@@ -95,27 +97,41 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         [Browsable(false)]
         public string SearchText { get; set; } = "";
 
+        [DefaultValue(true)]
+        public bool ShowHeaderAndFooter
+        {
+            get => _showHeaderAndFooter;
+            set
+            {
+                _showHeaderAndFooter = value;
+                panelTop.Visible = value;
+                panelAddNew.Visible = value;
+            }
+        }
+
         public void ClearModel()
         {
             EntityModel = null;
         }
 
-        public void LoadModel(GameEntityModel entityModel)
+        public void LoadModel(GameEntityModel entityModel, List<string>? hiddenValueKeys = null)
         {
             EntityModel = entityModel;
             labelName.Text = entityModel.EntityName;
             labelKey.Text = entityModel.EntityKey;
-            if (EntityModel!.Thumbnail?.Kind == ThumbnailKind.Animation)
+            _hiddenValueKeys = hiddenValueKeys;
+            var thumbnail = EntityModel!.Thumbnail;
+            if (thumbnail?.Kind == ThumbnailKind.Animation)
             {
                 pictureThumbnail.Image = BitmapRepository.Instance.BlankImage;
-                EntityModel!.Thumbnail.LoadAnimationAsync(img =>
+                thumbnail.LoadAnimationAsync(img =>
                 {
                     pictureThumbnail.Image = img;
                 });
             }
             else
             {
-                pictureThumbnail.Image = EntityModel!.Thumbnail?.Image
+                pictureThumbnail.Image = thumbnail?.Image
                                          ?? BitmapRepository.Instance.BlankImage;
             }
             // original technos in rules.ini must not be deleted because it would change the Types-index of any other techno
@@ -238,6 +254,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private bool FilterValue(EntityValueModel value)
         {
+            if (_hiddenValueKeys?.Any(k => value.Key.Equals(k, StringComparison.InvariantCultureIgnoreCase)) == true)
+            {
+                return false;
+            }
             if (SearchText == "")
             {
                 return (!ShowOnlyFavoriteValues || value.Favorite)
