@@ -69,6 +69,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         }
 
         [DefaultValue(false)]
+        public bool UseValueNameColumn
+        {
+            get => unitEdit.UseValueNameColumn;
+            set => unitEdit.UseValueNameColumn = value;
+        }
+
+        [DefaultValue(false)]
         public bool ReadonlyMode
         {
             get => _readonlyMode;

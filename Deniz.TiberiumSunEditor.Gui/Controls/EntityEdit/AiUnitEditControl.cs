@@ -1,5 +1,6 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Model;
 using Deniz.TiberiumSunEditor.Gui.Utils;
+using ImageMagick;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
 {
@@ -33,8 +34,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
             if (entity.RootModel is AiRootModel aiRootModel)
             {
                 entitiesListTaskForces.LoadModel(aiRootModel.TaskForceEntities, typeof(AiTaskForceEditControl),
-                    new FilterByParentModel("0", $"1,{entity.EntityKey}",
-                        k => k.Value.EndsWith($",{entity.EntityKey}")));
+                    new FilterByParentModel(k => k.Value.EndsWith($",{entity.EntityKey}")));
             }
         }
 
@@ -48,5 +48,19 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
                 : ThemeManager.Instance.CurrentTheme.ModifiedTextColor;
         }
 
+        private void entitiesListTaskForces_AddEntity(object sender, EventArgs e)
+        {
+            if (EntityModel!.RootModel is AiRootModel aiRootModel)
+            {
+                var newEntityListItem = aiRootModel.AddGameEntity("TaskForces");
+                newEntityListItem.EntityModel.FileSection.SetValue("Name", $"1 {EntityModel.GetNameOrKey()}");
+                newEntityListItem.EntityModel.FileSection.SetValue("Group", "-1");
+                newEntityListItem.EntityModel.FileSection.SetValue("0", $"1,{EntityModel.EntityKey}");
+                entitiesListTaskForces.LoadModel(aiRootModel.TaskForceEntities, typeof(AiTaskForceEditControl),
+                    new FilterByParentModel(k => k.Value.EndsWith($",{EntityModel.EntityKey}")),
+                    selectKey: newEntityListItem.EntityModel.EntityKey);
+            }
+
+        }
     }
 }

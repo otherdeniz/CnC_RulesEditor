@@ -2,6 +2,7 @@
 using Infragistics.Win.UltraWinTabControl;
 using System.ComponentModel;
 using Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit;
+using Deniz.TiberiumSunEditor.Gui.Dialogs;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls
 {
@@ -82,6 +83,21 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 unitsListVehicles.LoadModel(Model.RulesModel.VehicleEntities, null, typeof(AiUnitEditControl));
             mainTab.Tabs["Aircrafts"].Visible =
                 unitsListAircrafts.LoadModel(Model.RulesModel.AircraftEntities, null, typeof(AiUnitEditControl));
+        }
+
+        private void entitiesListTaskForces_AddEntity(object sender, EventArgs e)
+        {
+            var newUnit = SelectUnitForm.ExecuteSelect(ParentForm!, Model.RulesModel,
+                SelectTechnoTypes.Infantry | SelectTechnoTypes.Vehicles | SelectTechnoTypes.Aircrafts);
+            if (newUnit != null)
+            {
+                var newEntityListItem = Model.AddGameEntity("TaskForces");
+                newEntityListItem.EntityModel.FileSection.SetValue("Name", $"1 {newUnit.GetNameOrKey()}");
+                newEntityListItem.EntityModel.FileSection.SetValue("Group", "-1");
+                newEntityListItem.EntityModel.FileSection.SetValue("0", $"1,{newUnit.EntityKey}");
+                entitiesListTaskForces.LoadModel(Model.TaskForceEntities, typeof(AiTaskForceEditControl),
+                    selectKey: newEntityListItem.EntityModel.EntityKey);
+            }
         }
     }
 }

@@ -40,6 +40,18 @@ namespace Deniz.TiberiumSunEditor.Gui.Model.KeyValue
             }
         }
 
+        [DisplayName(" ")]
+        public Image? PlusImage =>
+            _count == null
+                ? null
+                : ImageListComponent.Instance.Symbols16.Images[2];
+
+        [DisplayName(" ")]
+        public Image? MinusImage =>
+            _count == null || _count <= 1
+                ? null
+                : ImageListComponent.Instance.Symbols16.Images[3];
+
         [Browsable(false)]
         public string UnitKey
         {
@@ -61,6 +73,27 @@ namespace Deniz.TiberiumSunEditor.Gui.Model.KeyValue
 
         [DisplayName("Unit")]
         public Image UnitPicture { get; private set; }
+
+        public string? Cost
+        {
+            get
+            {
+                var costValue = UnitModel?.EntityValueList.FirstOrDefault(v => v.Key == "Cost")?.ValueResolved;
+                if (_count != null && int.TryParse(costValue, out var costNumber))
+                {
+                    return (_count.Value * costNumber).ToString("#,##0");
+                }
+                return costValue;
+            }
+        }
+
+        public string? Speed => UnitModel?.EntityValueList.FirstOrDefault(v => v.Key == "Speed")?.ValueResolved;
+
+        [DisplayName(" ")]
+        public Image? DeleteImage =>
+            Key == "0" || UnitKey == string.Empty
+                ? null
+                : ImageListComponent.Instance.Symbols16.Images[1];
 
         [Browsable(false)]
         public GameEntityModel? UnitModel { get; private set; }
@@ -85,6 +118,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model.KeyValue
             }
             _count = null;
             _unitKey = string.Empty;
+            UnitModel = null;
+            UnitPicture = SmallUnitPictureGenerator.Instance.GetUnitPicture(null);
         }
 
         private void Write()

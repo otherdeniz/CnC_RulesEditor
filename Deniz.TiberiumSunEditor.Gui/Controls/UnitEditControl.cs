@@ -22,7 +22,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private bool _showHeaderAndFooter = true;
         private List<GameEntityModel>? _usedByEntityModels;
         private UsedByPopupForm? _usedByPopupForm;
-        private string _valueColumn = "value";
+        private string _valueColumn = "Value";
+        private string _originalColumn = "NormalValue";
         private List<string>? _hiddenValueKeys;
 
         public UnitEditControl()
@@ -93,6 +94,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         [Browsable(false)]
         public bool ShowOnlyFavoriteValues { get; set; }
 
+        [DefaultValue(false)]
+        public bool UseValueNameColumn { get; set; }
+
         [DefaultValue("")]
         [Browsable(false)]
         public string SearchText { get; set; } = "";
@@ -105,7 +109,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 _showHeaderAndFooter = value;
                 panelTop.Visible = value;
-                panelAddNew.Visible = value;
+                //panelAddNew.Visible = value;
             }
         }
 
@@ -216,7 +220,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             _valueColumn = EntityModel!.RulesRootModel.UseSectionInheritance
                            || EntityModel!.RulesRootModel.UsePhobosSectionInheritance
                 ? "ValueResolved"
-                : "Value";
+                : UseValueNameColumn ? "ValueName" : "Value";
+            _originalColumn = UseValueNameColumn ? "NormalValueName" : "NormalValue";
             valuesGrid.DataSource = null;
             valuesGrid.DataSource = EntityModel!.EntityValueList
                 .Where(FilterValue)
@@ -227,24 +232,23 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 valuesGrid.DisplayLayout.Bands[0].SortedColumns.Add("Category", false, true);
             }
 
-            if (EntityModel!.RulesRootModel.UseSectionInheritance
-                || EntityModel!.RulesRootModel.UsePhobosSectionInheritance)
-            {
-                valuesGrid.DisplayLayout.Bands[0].Columns["Value"].Hidden = true;
-                valuesGrid.DisplayLayout.Bands[0].Columns["ValueResolved"].Hidden = false;
-            }
-            else
-            {
-                valuesGrid.DisplayLayout.Bands[0].Columns["Value"].Hidden = false;
-                valuesGrid.DisplayLayout.Bands[0].Columns["ValueResolved"].Hidden = true;
-            }
+            valuesGrid.DisplayLayout.Bands[0].Columns["Value"].Hidden = true;
+            valuesGrid.DisplayLayout.Bands[0].Columns["ValueName"].Hidden = true;
+            valuesGrid.DisplayLayout.Bands[0].Columns["ValueResolved"].Hidden = true;
+            valuesGrid.DisplayLayout.Bands[0].Columns[_valueColumn].Hidden = false;
+
+            valuesGrid.DisplayLayout.Bands[0].Columns["NormalValue"].Hidden = true;
+            valuesGrid.DisplayLayout.Bands[0].Columns["NormalValueName"].Hidden = true;
+            valuesGrid.DisplayLayout.Bands[0].Columns[_originalColumn].Hidden = false;
+
             valuesGrid.DisplayLayout.Bands[0].Columns["Key"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridReadonlyCellBackColor;
-            valuesGrid.DisplayLayout.Bands[0].Columns["NormalValue"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridReadonlyCellBackColor;
+            valuesGrid.DisplayLayout.Bands[0].Columns[_originalColumn].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridReadonlyCellBackColor;
             valuesGrid.DisplayLayout.Bands[0].Columns["DefaultValue"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridReadonlyCellBackColor;
             valuesGrid.DisplayLayout.Bands[0].Columns["Description"].CellAppearance.BackColor = ThemeManager.Instance.CurrentTheme.GridReadonlyCellBackColor;
+            valuesGrid.DisplayLayout.Bands[0].Columns["Description"].MaxWidth = 650;
             valuesGrid.DisplayLayout.Bands[0].PerformAutoResizeColumns(true, PerformAutoSizeType.AllRowsInBand);
             valuesGrid.DisplayLayout.Bands[0].Columns[_valueColumn].Width = 130;
-            valuesGrid.DisplayLayout.Bands[0].Columns["NormalValue"].Width = 130;
+            valuesGrid.DisplayLayout.Bands[0].Columns[_originalColumn].Width = 130;
             if (ReadonlyMode)
             {
                 valuesGrid.DisplayLayout.Bands[0].Columns["FavoriteImage"].Hidden = true;
@@ -450,7 +454,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                         e.Row.Cells[_valueColumn].ToolTipText = "Right-click to open Quick-Edit";
                     }
                     e.Row.Cells["Key"].Activation = Activation.NoEdit;
-                    e.Row.Cells["NormalValue"].Activation = Activation.NoEdit;
+                    e.Row.Cells[_originalColumn].Activation = Activation.NoEdit;
                     e.Row.Cells["DefaultValue"].Activation = Activation.NoEdit;
                     e.Row.Cells["Description"].Activation = Activation.NoEdit;
                 }

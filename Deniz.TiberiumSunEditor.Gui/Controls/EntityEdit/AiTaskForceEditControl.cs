@@ -1,6 +1,8 @@
-﻿using Deniz.TiberiumSunEditor.Gui.Dialogs;
+﻿using System.Diagnostics;
+using Deniz.TiberiumSunEditor.Gui.Dialogs;
 using Deniz.TiberiumSunEditor.Gui.Model;
 using Deniz.TiberiumSunEditor.Gui.Model.KeyValue;
+using ImageMagick;
 using Infragistics.Win.UltraWinGrid;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
@@ -8,17 +10,24 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
     public partial class AiTaskForceEditControl : EntityEditBaseControl
     {
         private List<AiTaskForceKeyValueModel> _keyValueModelList = null!;
+        private bool _doEvents;
 
         public AiTaskForceEditControl()
         {
             InitializeComponent();
         }
 
+        public event EventHandler<EventArgs>? CopyEntity;
+        public event EventHandler<EventArgs>? DeleteEntity;
+
         public override void LoadEntity(GameEntityModel entity, FilterByParentModel? filterKeyValue = null)
         {
             base.LoadEntity(entity, filterKeyValue);
+            _doEvents = false;
             labelKey.Text = entity.EntityKey;
             textName.Text = entity.EntityName;
+            comboGroup.Text = entity.FileSection.GetValue("Group")?.Value ?? string.Empty;
+            _doEvents = true;
             _keyValueModelList = new string[]
             {
                 "0", "1", "2", "3", "4"
@@ -32,9 +41,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
             valuesGrid.DataSource = _keyValueModelList;
             valuesGrid.DisplayLayout.Bands[0].PerformAutoResizeColumns(true, PerformAutoSizeType.AllRowsInBand);
             valuesGrid.DisplayLayout.Bands[0].Columns["Key"].Width = 30;
+            valuesGrid.DisplayLayout.Bands[0].Columns["Cost"].Width = 60;
         }
 
-        private void LoadTeamsList()
+        private void LoadTeamsList(string? selectedTeamKey = null)
         {
             if (EntityModel == null) return;
             if (EntityModel.RootModel is AiRootModel aiRootModel)
@@ -43,7 +53,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
                 var childEntities = aiRootModel.TeamEntities
                     .Where(e => e.EntityModel.FileSection.GetValue(childFilter.Key)?.Value == EntityModel.EntityKey)
                     .ToList();
-                entitiesListTeams.LoadModel(childEntities, typeof(AiTeamEditControl), childFilter);
+                entitiesListTeams.LoadModel(childEntities, typeof(AiTeamEditControl), childFilter, selectedTeamKey);
             }
         }
 
@@ -56,16 +66,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
 
         private void textName_TextChanged(object sender, EventArgs e)
         {
+            if (!_doEvents) return;
             EntityModel?.FileSection.SetValue("Name", textName.Text);
             RaiseNameChanged();
         }
 
-        private void valuesGrid_InitializeRow(object sender, InitializeRowEventArgs e)
+        private void comboGroup_TextChanged(object sender, EventArgs e)
         {
-            if (e.Row.ListObject is AiTaskForceKeyValueModel)
-            {
-                e.Row.Cells["Key"].Activation = Activation.NoEdit;
-            }
+            if (!_doEvents) return;
+            EntityModel!.FileSection.SetValue("Group", comboGroup.Text);
         }
 
         private void LookupEntityValue(AiTaskForceKeyValueModel valueModel, UltraGridRow row)
@@ -84,7 +93,33 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
         {
             if (e.Cell.Row.ListObject is AiTaskForceKeyValueModel valueModel)
             {
-                if (e.Cell.Column.Key == "UnitPicture")
+                if (e.Cell.Column.Key == "DeleteImage"
+                    && valueModel.DeleteImage != null)
+                {
+                    valueModel.UnitKey = string.Empty;
+                    e.Cell.Row.Refresh();
+                }
+                else if (e.Cell.Column.Key == "PlusImage"
+                         && valueModel.PlusImage != null)
+                {
+                    var count = valueModel.Count;
+                    if (count != null)
+                    {
+                        valueModel.Count = count + 1;
+                        e.Cell.Row.Refresh();
+                    }
+                }
+                else if (e.Cell.Column.Key == "MinusImage"
+                         && valueModel.MinusImage != null)
+                {
+                    var count = valueModel.Count;
+                    if (count != null)
+                    {
+                        valueModel.Count = count - 1;
+                        e.Cell.Row.Refresh();
+                    }
+                }
+                else if (e.Cell.Column.Key == "UnitPicture")
                 {
                     e.Cell.CancelUpdate();
                     LookupEntityValue(valueModel, e.Cell.Row);
@@ -92,19 +127,35 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
             }
         }
 
-        private void buttonCreateName_Click(object sender, EventArgs e)
+        private void valuesGrid_InitializeRow(object sender, InitializeRowEventArgs e)
+        {
+            if (e.Row.ListObject is AiTaskForceKeyValueModel)
+            {
+                e.Row.Cells["Key"].Activation = Activation.NoEdit;
+                e.Row.Cells["Cost"].Activation = Activation.NoEdit;
+                e.Row.Cells["Speed"].Activation = Activation.NoEdit;
+            }
+        }
+
+        private void buttonRefreshName_Click(object sender, EventArgs e)
         {
             RefreshName();
         }
 
         private void ButtonCopy_Click(object sender, EventArgs e)
         {
-
+            CopyEntity?.Invoke(this, EventArgs.Empty);
         }
 
         private void ButtonDelete_Click(object sender, EventArgs e)
         {
+            DeleteEntity?.Invoke(this, EventArgs.Empty);
+        }
 
+        private void entitiesListTeams_AddEntity(object sender, EventArgs e)
+        {
+            //TODO: add new Team
+            //LoadTeamsList("new-team-key");
         }
 
     }

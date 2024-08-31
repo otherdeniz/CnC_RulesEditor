@@ -1,5 +1,7 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Model.Interface;
+using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
+using Deniz.TiberiumSunEditor.Gui.Utils.Exceptions;
 using Deniz.TiberiumSunEditor.Gui.Utils.Extensions;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 
@@ -58,6 +60,61 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         {
             LoadGameEntities();
             EntitiesChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public EntityListItemModel AddGameEntity(string entityType)
+        {
+            var newKeyPrefix = FileType.BaseType == FileBaseType.Ai
+                ? "A"
+                : "B";
+            var newKeySufix = FileType.BaseType == FileBaseType.Ai
+                ? "-G"
+                : "";
+            List<EntityListItemModel> entitiesList;
+            List<CategorizedValueDefinition>? unitValueList = null;
+            switch (entityType)
+            {
+                case "TaskForces":
+                    newKeyPrefix += "1";
+                    entitiesList = TaskForceEntities;
+                    break;
+                case "ScriptTypes":
+                    newKeyPrefix += "2";
+                    entitiesList = ScriptEntities;
+                    break;
+                case "TeamTypes":
+                    newKeyPrefix += "3";
+                    entitiesList = TeamEntities;
+                    unitValueList = Aistructure.Teams.ToCategorizedList();
+                    break;
+                default:
+                    throw new RuntimeException($"could not add new GameEntity for EntiyType '{entityType}'");
+            }
+
+            string newKey;
+            do
+            {
+                newKey = $"{newKeyPrefix}{HexGenerator.GenerateRandomHex(6)}{newKeySufix}";
+            } while (entitiesList.Any(e => e.EntityModel.EntityKey == newKey));
+
+            var newFileSection = File.AddSection(newKey);
+            var newGameEntity = new GameEntityModel(RulesModel,
+                this,
+                entityType,
+                newFileSection,
+                null,
+                unitValueList);
+
+            var entitiesTypesSection = File.GetSection(entityType)
+                                       ?? File.AddSection(entityType);
+            var typeKey = entitiesTypesSection.KeyValues.Any()
+                ? entitiesTypesSection.KeyValues.Max(k => int.TryParse(k.Key, out var number) ? number : 0) + 1
+                : 0;
+            entitiesTypesSection.SetValue(typeKey.ToString(), newKey);
+
+            var newListItemModel = new EntityListItemModel(typeKey.ToString(), newGameEntity);
+            entitiesList.Add(newListItemModel);
+            return newListItemModel;
         }
 
         private void LoadGameEntities()

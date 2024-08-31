@@ -201,8 +201,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             valuesGrid.DisplayLayout.Bands[0].ScrollTipField = "Value";
             valuesGrid.DisplayLayout.Bands[0].Columns["Label"].Hidden =
                 string.IsNullOrEmpty(_textValuesModel!.FirstOrDefault()?.Label);
-            var selectedIndex = valuesList.Select(v => v.Value).ToList()
-                .IndexOf(_valueModel.Value);
+            var selectedIndex = valuesList.FindIndex(v => v.Value == _valueModel.Value);
             if (selectedIndex > -1)
             {
                 var selectedRow = valuesGrid.Rows[selectedIndex];
@@ -219,8 +218,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             valuesGrid.DisplayLayout.Override.CellClickAction = CellClickAction.RowSelect;
             valuesGrid.DataSource = valuesList;
             valuesGrid.DisplayLayout.Bands[0].ScrollTipField = "Key";
-            var selectedIndex = valuesList!.Select(v => v.Key).ToList()
-                .IndexOf(_valueModel.Value);
+            var selectedIndex = valuesList!.FindIndex(v => v.Key == _valueModel.Value);
             if (selectedIndex > -1)
             {
                 var selectedRow = valuesGrid.Rows[selectedIndex];

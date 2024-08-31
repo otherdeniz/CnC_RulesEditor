@@ -41,30 +41,30 @@
             ultraTabPageControl7 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
             entitiesListTaskForces = new EntitiesListControl();
             ultraTabPageControl1 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
+            ultraTabPageControl2 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
+            unitsListInfantry = new UnitsListControl();
+            ultraTabPageControl3 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
+            unitsListVehicles = new UnitsListControl();
+            ultraTabPageControl4 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
+            unitsListAircrafts = new UnitsListControl();
             panelTitle = new Panel();
             labelName = new Label();
             labelType = new Label();
             mainTab = new Infragistics.Win.UltraWinTabControl.UltraTabControl();
             ultraTabSharedControlsPage1 = new Infragistics.Win.UltraWinTabControl.UltraTabSharedControlsPage();
-            ultraTabPageControl2 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
-            ultraTabPageControl3 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
-            ultraTabPageControl4 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
-            unitsListVehicles = new UnitsListControl();
-            unitsListInfantry = new UnitsListControl();
-            unitsListAircrafts = new UnitsListControl();
             ultraTabPageControl7.SuspendLayout();
-            panelTitle.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)mainTab).BeginInit();
-            mainTab.SuspendLayout();
             ultraTabPageControl2.SuspendLayout();
             ultraTabPageControl3.SuspendLayout();
             ultraTabPageControl4.SuspendLayout();
+            panelTitle.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)mainTab).BeginInit();
+            mainTab.SuspendLayout();
             SuspendLayout();
             // 
             // ultraTabPageControl7
             // 
             ultraTabPageControl7.Controls.Add(entitiesListTaskForces);
-            ultraTabPageControl7.Location = new Point(-10000, -10000);
+            ultraTabPageControl7.Location = new Point(2, 30);
             ultraTabPageControl7.Name = "ultraTabPageControl7";
             ultraTabPageControl7.Size = new Size(963, 412);
             // 
@@ -75,12 +75,64 @@
             entitiesListTaskForces.Name = "entitiesListTaskForces";
             entitiesListTaskForces.Size = new Size(963, 412);
             entitiesListTaskForces.TabIndex = 0;
+            entitiesListTaskForces.AddEntity += entitiesListTaskForces_AddEntity;
             // 
             // ultraTabPageControl1
             // 
             ultraTabPageControl1.Location = new Point(-10000, -10000);
             ultraTabPageControl1.Name = "ultraTabPageControl1";
             ultraTabPageControl1.Size = new Size(963, 412);
+            // 
+            // ultraTabPageControl2
+            // 
+            ultraTabPageControl2.Controls.Add(unitsListInfantry);
+            ultraTabPageControl2.Location = new Point(-10000, -10000);
+            ultraTabPageControl2.Name = "ultraTabPageControl2";
+            ultraTabPageControl2.Size = new Size(963, 412);
+            // 
+            // unitsListInfantry
+            // 
+            unitsListInfantry.Dock = DockStyle.Fill;
+            unitsListInfantry.Location = new Point(0, 0);
+            unitsListInfantry.Margin = new Padding(4, 3, 4, 3);
+            unitsListInfantry.Name = "unitsListInfantry";
+            unitsListInfantry.Size = new Size(963, 412);
+            unitsListInfantry.TabIndex = 1;
+            unitsListInfantry.Tag = "PLAIN";
+            // 
+            // ultraTabPageControl3
+            // 
+            ultraTabPageControl3.Controls.Add(unitsListVehicles);
+            ultraTabPageControl3.Location = new Point(-10000, -10000);
+            ultraTabPageControl3.Name = "ultraTabPageControl3";
+            ultraTabPageControl3.Size = new Size(963, 412);
+            // 
+            // unitsListVehicles
+            // 
+            unitsListVehicles.Dock = DockStyle.Fill;
+            unitsListVehicles.Location = new Point(0, 0);
+            unitsListVehicles.Margin = new Padding(4, 3, 4, 3);
+            unitsListVehicles.Name = "unitsListVehicles";
+            unitsListVehicles.Size = new Size(963, 412);
+            unitsListVehicles.TabIndex = 0;
+            unitsListVehicles.Tag = "PLAIN";
+            // 
+            // ultraTabPageControl4
+            // 
+            ultraTabPageControl4.Controls.Add(unitsListAircrafts);
+            ultraTabPageControl4.Location = new Point(-10000, -10000);
+            ultraTabPageControl4.Name = "ultraTabPageControl4";
+            ultraTabPageControl4.Size = new Size(963, 412);
+            // 
+            // unitsListAircrafts
+            // 
+            unitsListAircrafts.Dock = DockStyle.Fill;
+            unitsListAircrafts.Location = new Point(0, 0);
+            unitsListAircrafts.Margin = new Padding(4, 3, 4, 3);
+            unitsListAircrafts.Name = "unitsListAircrafts";
+            unitsListAircrafts.Size = new Size(963, 412);
+            unitsListAircrafts.TabIndex = 1;
+            unitsListAircrafts.Tag = "PLAIN";
             // 
             // panelTitle
             // 
@@ -168,57 +220,6 @@
             ultraTabSharedControlsPage1.Name = "ultraTabSharedControlsPage1";
             ultraTabSharedControlsPage1.Size = new Size(963, 412);
             // 
-            // ultraTabPageControl2
-            // 
-            ultraTabPageControl2.Controls.Add(unitsListInfantry);
-            ultraTabPageControl2.Location = new Point(-10000, -10000);
-            ultraTabPageControl2.Name = "ultraTabPageControl2";
-            ultraTabPageControl2.Size = new Size(963, 412);
-            // 
-            // ultraTabPageControl3
-            // 
-            ultraTabPageControl3.Controls.Add(unitsListVehicles);
-            ultraTabPageControl3.Location = new Point(-10000, -10000);
-            ultraTabPageControl3.Name = "ultraTabPageControl3";
-            ultraTabPageControl3.Size = new Size(963, 412);
-            // 
-            // ultraTabPageControl4
-            // 
-            ultraTabPageControl4.Controls.Add(unitsListAircrafts);
-            ultraTabPageControl4.Location = new Point(2, 30);
-            ultraTabPageControl4.Name = "ultraTabPageControl4";
-            ultraTabPageControl4.Size = new Size(963, 412);
-            // 
-            // unitsListVehicles
-            // 
-            unitsListVehicles.Dock = DockStyle.Fill;
-            unitsListVehicles.Location = new Point(0, 0);
-            unitsListVehicles.Margin = new Padding(4, 3, 4, 3);
-            unitsListVehicles.Name = "unitsListVehicles";
-            unitsListVehicles.Size = new Size(963, 412);
-            unitsListVehicles.TabIndex = 0;
-            unitsListVehicles.Tag = "PLAIN";
-            // 
-            // unitsListInfantry
-            // 
-            unitsListInfantry.Dock = DockStyle.Fill;
-            unitsListInfantry.Location = new Point(0, 0);
-            unitsListInfantry.Margin = new Padding(4, 3, 4, 3);
-            unitsListInfantry.Name = "unitsListInfantry";
-            unitsListInfantry.Size = new Size(963, 412);
-            unitsListInfantry.TabIndex = 1;
-            unitsListInfantry.Tag = "PLAIN";
-            // 
-            // unitsListAircrafts
-            // 
-            unitsListAircrafts.Dock = DockStyle.Fill;
-            unitsListAircrafts.Location = new Point(0, 0);
-            unitsListAircrafts.Margin = new Padding(4, 3, 4, 3);
-            unitsListAircrafts.Name = "unitsListAircrafts";
-            unitsListAircrafts.Size = new Size(963, 412);
-            unitsListAircrafts.TabIndex = 1;
-            unitsListAircrafts.Tag = "PLAIN";
-            // 
             // AiEditMainControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -228,13 +229,13 @@
             Name = "AiEditMainControl";
             Size = new Size(967, 467);
             ultraTabPageControl7.ResumeLayout(false);
+            ultraTabPageControl2.ResumeLayout(false);
+            ultraTabPageControl3.ResumeLayout(false);
+            ultraTabPageControl4.ResumeLayout(false);
             panelTitle.ResumeLayout(false);
             panelTitle.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)mainTab).EndInit();
             mainTab.ResumeLayout(false);
-            ultraTabPageControl2.ResumeLayout(false);
-            ultraTabPageControl3.ResumeLayout(false);
-            ultraTabPageControl4.ResumeLayout(false);
             ResumeLayout(false);
         }
 

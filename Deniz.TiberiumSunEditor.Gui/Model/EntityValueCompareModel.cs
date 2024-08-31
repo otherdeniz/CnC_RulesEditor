@@ -29,7 +29,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         public Image? UseValueImage =>
             TargetValue == SourceValue
                 ? null
-                : ImageListComponent.Instance.Arrows24.Images[0];
+                : ImageListComponent.Instance.Symbols24.Images[0];
 
         [DisplayName("Source Value")]
         public string SourceValue => _sourceSection.GetValue(Key)?.Value ?? string.Empty;

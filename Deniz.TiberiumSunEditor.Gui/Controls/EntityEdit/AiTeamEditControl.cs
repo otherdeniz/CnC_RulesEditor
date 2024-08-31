@@ -15,7 +15,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
             labelKey.Text = entity.EntityKey;
             textName.Text = entity.EntityName;
             var hiddenValueKeys = new List<string> { "Name" };
-            if (filterKeyValue != null)
+            if (!string.IsNullOrEmpty(filterKeyValue?.Key))
             {
                 hiddenValueKeys.Add(filterKeyValue.Key);
             }

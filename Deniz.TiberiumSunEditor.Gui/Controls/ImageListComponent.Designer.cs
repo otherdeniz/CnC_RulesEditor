@@ -33,8 +33,8 @@
             Favorite24 = new ImageList(components);
             Favorite16 = new ImageList(components);
             Favorite48 = new ImageList(components);
-            Arrows16 = new ImageList(components);
-            Arrows24 = new ImageList(components);
+            Symbols16 = new ImageList(components);
+            Symbols24 = new ImageList(components);
             Blank1 = new ImageList(components);
             Black150 = new ImageList(components);
             // 
@@ -62,19 +62,23 @@
             Favorite48.Images.SetKeyName(0, "star_grey.png");
             Favorite48.Images.SetKeyName(1, "star_yellow.png");
             // 
-            // Arrows16
+            // Symbols16
             // 
-            Arrows16.ColorDepth = ColorDepth.Depth32Bit;
-            Arrows16.ImageStream = (ImageListStreamer)resources.GetObject("Arrows16.ImageStream");
-            Arrows16.TransparentColor = Color.Transparent;
-            Arrows16.Images.SetKeyName(0, "arrow_left_blue.png");
+            Symbols16.ColorDepth = ColorDepth.Depth32Bit;
+            Symbols16.ImageStream = (ImageListStreamer)resources.GetObject("Symbols16.ImageStream");
+            Symbols16.TransparentColor = Color.Transparent;
+            Symbols16.Images.SetKeyName(0, "arrow_left_blue.png");
+            Symbols16.Images.SetKeyName(1, "delete2.png");
+            Symbols16.Images.SetKeyName(2, "navigate_plus.png");
+            Symbols16.Images.SetKeyName(3, "navigate_minus.png");
             // 
-            // Arrows24
+            // Symbols24
             // 
-            Arrows24.ColorDepth = ColorDepth.Depth32Bit;
-            Arrows24.ImageStream = (ImageListStreamer)resources.GetObject("Arrows24.ImageStream");
-            Arrows24.TransparentColor = Color.Transparent;
-            Arrows24.Images.SetKeyName(0, "arrow_left_blue.png");
+            Symbols24.ColorDepth = ColorDepth.Depth32Bit;
+            Symbols24.ImageStream = (ImageListStreamer)resources.GetObject("Symbols24.ImageStream");
+            Symbols24.TransparentColor = Color.Transparent;
+            Symbols24.Images.SetKeyName(0, "arrow_left_blue.png");
+            Symbols24.Images.SetKeyName(1, "delete2.png");
             // 
             // Blank1
             // 
@@ -96,8 +100,8 @@
         public ImageList Favorite24;
         public ImageList Favorite16;
         public ImageList Favorite48;
-        public ImageList Arrows16;
-        public ImageList Arrows24;
+        public ImageList Symbols16;
+        public ImageList Symbols24;
         public ImageList Blank1;
         public ImageList Black150;
     }

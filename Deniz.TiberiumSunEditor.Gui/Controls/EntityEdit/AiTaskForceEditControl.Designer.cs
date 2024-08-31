@@ -32,7 +32,9 @@
             Infragistics.Win.UltraWinGrid.UltraGridBand ultraGridBand1 = new Infragistics.Win.UltraWinGrid.UltraGridBand("", -1);
             Infragistics.Win.Appearance appearance12 = new Infragistics.Win.Appearance();
             panelTop = new Panel();
-            buttonCreateName = new Button();
+            comboGroup = new ComboBox();
+            label1 = new Label();
+            buttonRefreshName = new Button();
             panelButtons = new Panel();
             ButtonDelete = new Button();
             ButtonCopy = new Button();
@@ -50,7 +52,9 @@
             // 
             // panelTop
             // 
-            panelTop.Controls.Add(buttonCreateName);
+            panelTop.Controls.Add(comboGroup);
+            panelTop.Controls.Add(label1);
+            panelTop.Controls.Add(buttonRefreshName);
             panelTop.Controls.Add(panelButtons);
             panelTop.Controls.Add(textName);
             panelTop.Controls.Add(labelKey);
@@ -60,18 +64,39 @@
             panelTop.Size = new Size(640, 39);
             panelTop.TabIndex = 0;
             // 
-            // buttonCreateName
+            // comboGroup
             // 
-            buttonCreateName.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonCreateName.Image = (Image)resources.GetObject("buttonCreateName.Image");
-            buttonCreateName.Location = new Point(421, 5);
-            buttonCreateName.Name = "buttonCreateName";
-            buttonCreateName.Size = new Size(27, 27);
-            buttonCreateName.TabIndex = 9;
-            buttonCreateName.TextAlign = ContentAlignment.MiddleRight;
-            buttonCreateName.TextImageRelation = TextImageRelation.ImageBeforeText;
-            buttonCreateName.UseVisualStyleBackColor = true;
-            buttonCreateName.Click += buttonCreateName_Click;
+            comboGroup.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            comboGroup.FormattingEnabled = true;
+            comboGroup.Items.AddRange(new object[] { "-1" });
+            comboGroup.Location = new Point(375, 7);
+            comboGroup.Name = "comboGroup";
+            comboGroup.Size = new Size(61, 23);
+            comboGroup.TabIndex = 2;
+            comboGroup.TextChanged += comboGroup_TextChanged;
+            // 
+            // label1
+            // 
+            label1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label1.AutoSize = true;
+            label1.Location = new Point(326, 10);
+            label1.Name = "label1";
+            label1.Size = new Size(43, 15);
+            label1.TabIndex = 10;
+            label1.Text = "Group:";
+            // 
+            // buttonRefreshName
+            // 
+            buttonRefreshName.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            buttonRefreshName.Image = (Image)resources.GetObject("buttonRefreshName.Image");
+            buttonRefreshName.Location = new Point(286, 5);
+            buttonRefreshName.Name = "buttonRefreshName";
+            buttonRefreshName.Size = new Size(27, 27);
+            buttonRefreshName.TabIndex = 1;
+            buttonRefreshName.TextAlign = ContentAlignment.MiddleRight;
+            buttonRefreshName.TextImageRelation = TextImageRelation.ImageBeforeText;
+            buttonRefreshName.UseVisualStyleBackColor = true;
+            buttonRefreshName.Click += buttonRefreshName_Click;
             // 
             // panelButtons
             // 
@@ -81,7 +106,7 @@
             panelButtons.Location = new Point(460, 0);
             panelButtons.Name = "panelButtons";
             panelButtons.Size = new Size(180, 39);
-            panelButtons.TabIndex = 8;
+            panelButtons.TabIndex = 3;
             // 
             // ButtonDelete
             // 
@@ -89,7 +114,7 @@
             ButtonDelete.Location = new Point(92, 5);
             ButtonDelete.Name = "ButtonDelete";
             ButtonDelete.Size = new Size(76, 27);
-            ButtonDelete.TabIndex = 6;
+            ButtonDelete.TabIndex = 1;
             ButtonDelete.Text = "Delete";
             ButtonDelete.TextAlign = ContentAlignment.MiddleRight;
             ButtonDelete.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -102,7 +127,7 @@
             ButtonCopy.Location = new Point(16, 5);
             ButtonCopy.Name = "ButtonCopy";
             ButtonCopy.Size = new Size(76, 27);
-            ButtonCopy.TabIndex = 7;
+            ButtonCopy.TabIndex = 0;
             ButtonCopy.Text = "Copy";
             ButtonCopy.TextAlign = ContentAlignment.MiddleRight;
             ButtonCopy.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -114,8 +139,8 @@
             textName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             textName.Location = new Point(92, 7);
             textName.Name = "textName";
-            textName.Size = new Size(329, 23);
-            textName.TabIndex = 1;
+            textName.Size = new Size(194, 23);
+            textName.TabIndex = 0;
             textName.TextChanged += textName_TextChanged;
             // 
             // labelKey
@@ -131,9 +156,9 @@
             // 
             groupBoxTeams.Controls.Add(entitiesListTeams);
             groupBoxTeams.Dock = DockStyle.Fill;
-            groupBoxTeams.Location = new Point(0, 275);
+            groupBoxTeams.Location = new Point(0, 265);
             groupBoxTeams.Name = "groupBoxTeams";
-            groupBoxTeams.Size = new Size(640, 238);
+            groupBoxTeams.Size = new Size(640, 248);
             groupBoxTeams.TabIndex = 2;
             groupBoxTeams.TabStop = false;
             groupBoxTeams.Text = "Teams";
@@ -143,8 +168,9 @@
             entitiesListTeams.Dock = DockStyle.Fill;
             entitiesListTeams.Location = new Point(3, 19);
             entitiesListTeams.Name = "entitiesListTeams";
-            entitiesListTeams.Size = new Size(634, 216);
+            entitiesListTeams.Size = new Size(634, 226);
             entitiesListTeams.TabIndex = 0;
+            entitiesListTeams.AddEntity += entitiesListTeams_AddEntity;
             // 
             // valuesGrid
             // 
@@ -170,8 +196,8 @@
             valuesGrid.Location = new Point(0, 39);
             valuesGrid.Margin = new Padding(4, 3, 4, 3);
             valuesGrid.Name = "valuesGrid";
-            valuesGrid.Size = new Size(640, 230);
-            valuesGrid.TabIndex = 9;
+            valuesGrid.Size = new Size(640, 220);
+            valuesGrid.TabIndex = 1;
             valuesGrid.InitializeRow += valuesGrid_InitializeRow;
             valuesGrid.ClickCell += valuesGrid_ClickCell;
             // 
@@ -179,7 +205,7 @@
             // 
             splitterUnitPicker.BackColor = SystemColors.ActiveBorder;
             splitterUnitPicker.Dock = DockStyle.Top;
-            splitterUnitPicker.Location = new Point(0, 269);
+            splitterUnitPicker.Location = new Point(0, 259);
             splitterUnitPicker.Margin = new Padding(4, 3, 4, 3);
             splitterUnitPicker.Name = "splitterUnitPicker";
             splitterUnitPicker.Size = new Size(640, 6);
@@ -214,8 +240,10 @@
         private Button ButtonCopy;
         private GroupBox groupBoxTeams;
         private Infragistics.Win.UltraWinGrid.UltraGrid valuesGrid;
-        private Button buttonCreateName;
+        private Button buttonRefreshName;
         private EntitiesListControl entitiesListTeams;
         private Splitter splitterUnitPicker;
+        private ComboBox comboGroup;
+        private Label label1;
     }
 }

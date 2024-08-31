@@ -9,7 +9,7 @@ namespace Deniz.Updater
         private string _downloadUrl = null!;
         private string? _autostartExe;
         private string[] _excludeFolders = null!;
-        private SynchronizationContext _synchronizationContext;
+        private SynchronizationContext _synchronizationContext = null!;
         private long _downloadSize;
         private long _downloadedBytes;
         private long _downloadedBytesBefore;

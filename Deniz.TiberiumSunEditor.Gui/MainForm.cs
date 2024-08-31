@@ -691,7 +691,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                 usePhobos: fileType.GameDefinition.UsePhobos,
                 useVinifera: fileType.GameDefinition.UseVinifera);
             var aiRootModel = new AiRootModel(rulesRootModel, aiFile,
-                showMissingValues: true);
+                showMissingValues: false);
             _editAiMainControl = new AiEditMainControl()
             {
                 Dock = DockStyle.Fill

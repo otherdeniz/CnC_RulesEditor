@@ -128,6 +128,7 @@
             unitEdit.Size = new Size(691, 331);
             unitEdit.TabIndex = 2;
             unitEdit.Tag = "PLAIN";
+            unitEdit.UseValueNameColumn = true;
             // 
             // AiTeamEditControl
             // 

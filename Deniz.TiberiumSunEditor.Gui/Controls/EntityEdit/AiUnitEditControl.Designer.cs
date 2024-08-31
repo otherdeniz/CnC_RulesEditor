@@ -30,12 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AiUnitEditControl));
             groupBox1 = new GroupBox();
+            entitiesListTaskForces = new EntitiesListControl();
             panelTop = new Panel();
             labelModifications = new Label();
             labelName = new Label();
             labelKey = new Label();
             pictureThumbnail = new PictureBox();
-            entitiesListTaskForces = new EntitiesListControl();
             groupBox1.SuspendLayout();
             panelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureThumbnail).BeginInit();
@@ -51,6 +51,15 @@
             groupBox1.TabIndex = 7;
             groupBox1.TabStop = false;
             groupBox1.Text = "Task Forces";
+            // 
+            // entitiesListTaskForces
+            // 
+            entitiesListTaskForces.Dock = DockStyle.Fill;
+            entitiesListTaskForces.Location = new Point(3, 19);
+            entitiesListTaskForces.Name = "entitiesListTaskForces";
+            entitiesListTaskForces.Size = new Size(858, 500);
+            entitiesListTaskForces.TabIndex = 1;
+            entitiesListTaskForces.AddEntity += entitiesListTaskForces_AddEntity;
             // 
             // panelTop
             // 
@@ -113,14 +122,6 @@
             pictureThumbnail.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureThumbnail.TabIndex = 1;
             pictureThumbnail.TabStop = false;
-            // 
-            // entitiesListTaskForces
-            // 
-            entitiesListTaskForces.Dock = DockStyle.Fill;
-            entitiesListTaskForces.Location = new Point(3, 19);
-            entitiesListTaskForces.Name = "entitiesListTaskForces";
-            entitiesListTaskForces.Size = new Size(858, 500);
-            entitiesListTaskForces.TabIndex = 1;
             // 
             // AiUnitEditControl
             // 

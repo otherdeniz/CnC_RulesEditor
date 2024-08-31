@@ -49,7 +49,7 @@
             panelLeft.Dock = DockStyle.Left;
             panelLeft.Location = new Point(0, 0);
             panelLeft.Name = "panelLeft";
-            panelLeft.Size = new Size(299, 558);
+            panelLeft.Size = new Size(260, 558);
             panelLeft.TabIndex = 0;
             // 
             // entitiesGrid
@@ -75,7 +75,7 @@
             entitiesGrid.Location = new Point(0, 25);
             entitiesGrid.Margin = new Padding(4, 3, 4, 3);
             entitiesGrid.Name = "entitiesGrid";
-            entitiesGrid.Size = new Size(299, 533);
+            entitiesGrid.Size = new Size(260, 533);
             entitiesGrid.TabIndex = 8;
             entitiesGrid.AfterSelectChange += entitiesGrid_AfterSelectChange;
             // 
@@ -84,7 +84,7 @@
             toolStripAdd.Items.AddRange(new ToolStripItem[] { buttonAddNew });
             toolStripAdd.Location = new Point(0, 0);
             toolStripAdd.Name = "toolStripAdd";
-            toolStripAdd.Size = new Size(299, 25);
+            toolStripAdd.Size = new Size(260, 25);
             toolStripAdd.TabIndex = 4;
             toolStripAdd.Text = "toolStrip1";
             // 
@@ -100,7 +100,7 @@
             // splitterUnitPicker
             // 
             splitterUnitPicker.BackColor = SystemColors.ActiveBorder;
-            splitterUnitPicker.Location = new Point(299, 0);
+            splitterUnitPicker.Location = new Point(260, 0);
             splitterUnitPicker.Margin = new Padding(4, 3, 4, 3);
             splitterUnitPicker.Name = "splitterUnitPicker";
             splitterUnitPicker.Size = new Size(6, 558);
@@ -110,9 +110,9 @@
             // panelContent
             // 
             panelContent.Dock = DockStyle.Fill;
-            panelContent.Location = new Point(305, 0);
+            panelContent.Location = new Point(266, 0);
             panelContent.Name = "panelContent";
-            panelContent.Size = new Size(540, 558);
+            panelContent.Size = new Size(579, 558);
             panelContent.TabIndex = 4;
             // 
             // EntitiesListControl

@@ -1,19 +1,29 @@
 ﻿using System.ComponentModel;
-using System.Windows.Forms;
 using Deniz.TiberiumSunEditor.Gui.Model;
-using Deniz.TiberiumSunEditor.Gui.Model.Interface;
-using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
 {
     public partial class EntityEditBaseControl : UserControl
     {
+        private bool _readonlyMode;
+
         public EntityEditBaseControl()
         {
             InitializeComponent();
         }
 
         public event EventHandler? NameChanged;
+
+        [DefaultValue(false)]
+        public bool ReadonlyMode
+        {
+            get => _readonlyMode;
+            set
+            {
+                _readonlyMode = value;
+                OnReadonlyChanged();
+            }
+        }
 
         [Browsable(false)]
         [DefaultValue(null)]
@@ -27,6 +37,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
         {
             EntityModel = entity;
             FilterKeyValue = filterKeyValue;
+        }
+
+        protected virtual void OnReadonlyChanged()
+        {
         }
 
         protected void RaiseNameChanged()

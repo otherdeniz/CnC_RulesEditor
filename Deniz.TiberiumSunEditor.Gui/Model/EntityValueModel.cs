@@ -84,14 +84,59 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             }
         }
 
+        [DisplayName("Value")]
+        public string ValueName
+        {
+            get
+            {
+                var rawValue = Value;
+                if (ValueDefinition.LookupType != null
+                    && !ValueDefinition.MultipleValues
+                    && rawValue != string.Empty)
+                {
+                    var lookupEntityName = EntityModel.RootModel.LookupEntities.Values
+                        .SelectMany(e => e)
+                        .FirstOrDefault(e => e.EntityKey == rawValue)?.EntityName;
+                    if (!string.IsNullOrEmpty(lookupEntityName))
+                    {
+                        return lookupEntityName;
+                    }
+                }
+                return rawValue;
+            }
+            set => Value = value;
+        }
+
         [DisplayName(" ")]
         public Image? UseNormalImage =>
             Value == NormalValue
                 ? null
-                : ImageListComponent.Instance.Arrows24.Images[0];
+                : ImageListComponent.Instance.Symbols24.Images[0];
 
         [DisplayName("Original")]
         public string NormalValue { get; }
+
+        [DisplayName("Original")]
+        public string NormalValueName
+        {
+            get
+            {
+                var rawValue = NormalValue;
+                if (ValueDefinition.LookupType != null
+                    && !ValueDefinition.MultipleValues
+                    && rawValue != string.Empty)
+                {
+                    var lookupEntityName = EntityModel.RootModel.LookupEntities.Values
+                        .SelectMany(e => e)
+                        .FirstOrDefault(e => e.EntityKey == rawValue)?.EntityName;
+                    if (!string.IsNullOrEmpty(lookupEntityName))
+                    {
+                        return lookupEntityName;
+                    }
+                }
+                return rawValue;
+            }
+        }
 
         [DisplayName("Default")] 
         public string DefaultValue => ValueDefinition.Default;
