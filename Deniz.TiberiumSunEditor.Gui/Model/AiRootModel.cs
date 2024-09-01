@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit;
 using Deniz.TiberiumSunEditor.Gui.Model.Interface;
 using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
@@ -24,6 +25,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             Aistructure = AistructureFile.Instance;
             TeamUnitValueDefinitions = Aistructure.Teams.ToCategorizedList();
             TriggerUnitValueDefinitions = Aistructure.TriggerVirtualSections.ToCategorizedList();
+            EntityTypeEditControl.Add(new EntityTypeEditControlTypeModel("TaskForces", typeof(AiTaskForceEditControl)));
+            EntityTypeEditControl.Add(new EntityTypeEditControlTypeModel("ScriptTypes", typeof(AiScriptEditControl)));
+            EntityTypeEditControl.Add(new EntityTypeEditControlTypeModel("TeamTypes", typeof(AiTeamEditControl)));
+            EntityTypeEditControl.Add(new EntityTypeEditControlTypeModel("AITriggerTypes", typeof(AiTriggerEditControl)));
             LoadGameEntities();
             foreach (var rulesEntity in RulesModel.InfantryEntities
                          .Union(RulesModel.VehicleEntities)
@@ -64,6 +69,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         public List<EntityListItemModel> TeamEntities { get; private set; } = null!;
 
         public List<AiTriggerListItemModel> TriggerEntities { get; private set; } = null!;
+
+        public List<EntityTypeEditControlTypeModel> EntityTypeEditControl { get; } = new();
 
         public void RaiseGlobalEntityNotification(string entitiyKey, string notificationName)
         {

@@ -1,6 +1,8 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Controls;
+using Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit;
 using Deniz.TiberiumSunEditor.Gui.Model.Interface;
 using Deniz.TiberiumSunEditor.Gui.Utils;
+using ImageMagick;
 using Infragistics.Win.UltraWinTabControl;
 
 namespace Deniz.TiberiumSunEditor.Gui.Dialogs
@@ -36,12 +38,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                     .FirstOrDefault(m => m.EntityKey == entityKey);
                 if (entityModel != null)
                 {
-                    var unitEditControl = new UnitEditControl
-                    {
-                        Dock = DockStyle.Fill
-                    };
-                    unitEditControl.LoadModel(entityModel);
-                    ThemeManager.Instance.UseTheme(unitEditControl);
                     var tabPageControl = new UltraTabPageControl
                     {
                         Location = new Point(-10000, -10000),
@@ -53,7 +49,27 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                         Text = $"{entityKey} [{entityModel.EntityType}]"
                     };
                     ultraTab.TabPage = tabPageControl;
-                    tabPageControl.Controls.Add(unitEditControl);
+                    var entityEditControlType =
+                        rootModel.EntityTypeEditControl.FirstOrDefault(e => e.EntityType == entityModel.EntityType)
+                            ?.EditControlType;
+                    if (entityEditControlType != null)
+                    {
+                        var contentControl = (EntityEditBaseControl)Activator.CreateInstance(entityEditControlType)!;
+                        ThemeManager.Instance.UseTheme(contentControl);
+                        contentControl.Dock = DockStyle.Fill;
+                        contentControl.LoadEntity(entityModel);
+                        tabPageControl.Controls.Add(contentControl);
+                    }
+                    else
+                    {
+                        var unitEditControl = new UnitEditControl
+                        {
+                            Dock = DockStyle.Fill
+                        };
+                        unitEditControl.LoadModel(entityModel);
+                        ThemeManager.Instance.UseTheme(unitEditControl);
+                        tabPageControl.Controls.Add(unitEditControl);
+                    }
                     ultraTabEntities.Controls.Add(tabPageControl);
                     ultraTabEntities.Tabs.Add(ultraTab);
                     result = true;

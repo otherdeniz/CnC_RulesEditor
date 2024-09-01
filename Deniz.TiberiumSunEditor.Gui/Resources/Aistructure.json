@@ -37,8 +37,8 @@
 	],
 	
 	"TriggerVirtualSections": [
-		{"Key":"Team1","Category":"1) Basics","Description":"The first TeamType that will be created when this AI Trigger gets triggered.","Default":"<none>","LookupType":"Teams"},
-		{"Key":"Team2","Category":"1) Basics","Description":"The second TeamType that will be created when this AI Trigger gets triggered.","Default":"<none>","LookupType":"Teams"},
+		{"Key":"Team1","Category":"1) Basics","Description":"The first TeamType that will be created when this AI Trigger gets triggered.","Default":"<none>","LookupType":"TeamTypes"},
+		{"Key":"Team2","Category":"1) Basics","Description":"The second TeamType that will be created when this AI Trigger gets triggered.","Default":"<none>","LookupType":"TeamTypes"},
 		{"Key":"Side","Category":"1) Basics","Description":"Indicates the Side that may use this AI Trigger. 0 means available for all sides. Positive value indicates the specific AI playable side. For RA2/YR: 1 for Allied, 2 for Soviet, 3 for Yuri and so on. For TS: 1 for GDI, 2 for Nod and so on.","Default":"0","ValueList":"0=All sides,1=GDI or Allied,2=Nod or Soviet,3=Yuri,4=Forth Side,5=Fifth Side,6=Sixt Side,7=Seventh Side,8=Eight Side"},
 		{"Key":"OwnerHouse","Category":"1) Basics","Description":"The Country(RA2)/House(TS) that should use this AI Trigger. Defaults to <none>, can be set to an individual country's/house's name or to <all> indicating that all countries/houses of the appropriate Side can use this AI Trigger.","Default":"<all>","LookupType":"Houses"},
 		{"Key":"TechLevel","Category":"1) Basics","Description":"Minimum TechLevel required for this AI Trigger. It is recalculated internally to be the minimum TechLevel required to build all the units in this AI Trigger's first and second TeamTypes.","Default":"1"},

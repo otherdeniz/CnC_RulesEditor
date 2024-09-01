@@ -1,15 +1,19 @@
 ﻿using System.ComponentModel;
 using Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit;
 using Deniz.TiberiumSunEditor.Gui.Model;
+using Deniz.TiberiumSunEditor.Gui.Model.Interface;
 using Deniz.TiberiumSunEditor.Gui.Utils;
+using Deniz.TiberiumSunEditor.Gui.Utils.Exceptions;
 using Infragistics.Win.UltraWinGrid;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls
 {
     public partial class EntitiesListControl : UserControl
     {
-        private Type _entityEditControlType = null!;
+        private IRootModel _rootModel = null!;
         private FilterByParentModel? _filterKeyValue;
+        private Type _bindedListItemType = null!;
+        private object _bindedList = null!;
         private bool _listOnTop;
         private int _listSize = 260;
         private bool _readonlyMode;
@@ -80,13 +84,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         [Browsable(false)]
         public FilterByParentModel? ParentFilterKeyValue => _filterKeyValue;
 
-        public bool LoadModel<TListItemModel>(List<TListItemModel> listItems,
-            Type entityEditControlType,
+        public bool LoadListModel<TListItemModel>(
+            IRootModel rootModel,
+            List<TListItemModel> listItems,
             FilterByParentModel? filterKeyValue = null,
             string? selectKey = null)
             where TListItemModel : EntityListItemModel
         {
-            _entityEditControlType = entityEditControlType;
+            _rootModel = rootModel;
+            _bindedListItemType = typeof(TListItemModel);
+            _bindedList = listItems;
             _filterKeyValue = filterKeyValue;
             _doEvents = false;
             SelectListItem(null, null);
@@ -120,6 +127,19 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             return filteredItems.Any();
         }
 
+        private void ReloadList()
+        {
+            typeof(EntitiesListControl)
+                .GetMethod("ReloadListModel")?
+                .MakeGenericMethod(_bindedListItemType)
+                .Invoke(this, Array.Empty<object>());
+        }
+
+        public void ReloadListModel<TListItemModel>() where TListItemModel : EntityListItemModel
+        {
+            LoadListModel(_rootModel, (List<TListItemModel>)_bindedList, _filterKeyValue);
+        }
+
         private void SelectListItem(EntityListItemModel? entity, UltraGridRow? row)
         {
             var controlsToDispose = panelContent.Controls.OfType<Control>().ToList();
@@ -127,12 +147,17 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             controlsToDispose.ForEach(c => c.Dispose());
             if (entity != null && row != null)
             {
-                var contentControl = (EntityEditBaseControl)Activator.CreateInstance(_entityEditControlType)!;
+                var entityEditControlType =
+                    _rootModel.EntityTypeEditControl.FirstOrDefault(e => e.EntityType == entity.EntityModel.EntityType)?.EditControlType
+                    ?? throw new RuntimeException(
+                        $"_rootModel.EntityTypeEditControl has no entry for EntityType '{entity.EntityModel.EntityType}'");
+                var contentControl = (EntityEditBaseControl)Activator.CreateInstance(entityEditControlType)!;
                 ThemeManager.Instance.UseTheme(contentControl);
                 contentControl.ReadonlyMode = _readonlyMode;
                 contentControl.Dock = DockStyle.Fill;
                 contentControl.LoadEntity(entity.EntityModel, _filterKeyValue);
                 contentControl.NameChanged += (sender, args) => row.Refresh();
+                contentControl.EntityDeleted += (sender, args) => ReloadList();
                 panelContent.Controls.Add(contentControl);
             }
         }

@@ -6,7 +6,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
 {
     public partial class SelectUnitForm : Form
     {
+        private const int PageSize = 250;
         private GameEntityModel? _selectedEntityModel;
+        private RulesRootModel _rulesRootModel = null!;
+        private SelectTechnoTypes _technoTypes;
+        private int _currentPage = 1;
 
         public SelectUnitForm()
         {
@@ -31,26 +35,72 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
 
         private void LoadTechnos(RulesRootModel rulesRootModel, SelectTechnoTypes technoTypes)
         {
-            if (technoTypes.HasFlag(SelectTechnoTypes.Aircrafts))
+            _rulesRootModel = rulesRootModel;
+            _technoTypes = technoTypes;
+            LoadPage(1);
+        }
+
+        private void LoadPage(int pageNumber)
+        {
+            ultraPanelUnits.Visible = false;
+            // clear controls
+            var controlsToDispose = ultraPanelUnits.ClientArea.Controls
+                .OfType<Control>().ToList();
+            ultraPanelUnits.ClientArea.Controls.Clear();
+            controlsToDispose.ForEach(c => c.Dispose());
+            // load page
+            _currentPage = pageNumber;
+            var skip = PageSize * (pageNumber - 1);
+            var take = PageSize;
+            var totalCount = 0;
+            if (_technoTypes.HasFlag(SelectTechnoTypes.Buildings))
             {
-                AddTechnosGroup("Aircrafts", rulesRootModel.AircraftEntities);
+                AddTechnosGroup("Buildings", _rulesRootModel.BuildingEntities, ref skip, ref take, ref totalCount);
             }
-            if (technoTypes.HasFlag(SelectTechnoTypes.Vehicles))
+            if (_technoTypes.HasFlag(SelectTechnoTypes.Infantry))
             {
-                AddTechnosGroup("Vehicles", rulesRootModel.VehicleEntities);
+                AddTechnosGroup("Infantry", _rulesRootModel.InfantryEntities, ref skip, ref take, ref totalCount);
             }
-            if (technoTypes.HasFlag(SelectTechnoTypes.Infantry))
+            if (_technoTypes.HasFlag(SelectTechnoTypes.Vehicles))
             {
-                AddTechnosGroup("Infantry", rulesRootModel.InfantryEntities);
+                AddTechnosGroup("Vehicles", _rulesRootModel.VehicleEntities, ref skip, ref take, ref totalCount);
             }
-            if (technoTypes.HasFlag(SelectTechnoTypes.Buildings))
+            if (_technoTypes.HasFlag(SelectTechnoTypes.Aircrafts))
             {
-                AddTechnosGroup("Buildings", rulesRootModel.BuildingEntities);
+                AddTechnosGroup("Aircrafts", _rulesRootModel.AircraftEntities, ref skip, ref take, ref totalCount);
+            }
+            ultraPanelUnits.Visible = true;
+            toolStripLabelTotal.Text = $"{totalCount:#,##0} Items";
+            if (totalCount > PageSize)
+            {
+                var fromItem = PageSize * (pageNumber - 1) + 1;
+                var toItem = PageSize * pageNumber > totalCount
+                    ? totalCount
+                    : PageSize * pageNumber;
+                toolStripLabelItem.Text = $"{fromItem:#,000} - {toItem:#,000}";
+                toolStripButtonPrev.Enabled = pageNumber > 1;
+                toolStripButtonNext.Enabled = PageSize * pageNumber < totalCount;
+                toolStripLabelItem.Visible = true;
+                toolStripButtonPrev.Visible = true;
+                toolStripButtonNext.Visible = true;
+            }
+            else
+            {
+                toolStripLabelItem.Visible = false;
+                toolStripButtonPrev.Visible = false;
+                toolStripButtonNext.Visible = false;
             }
         }
 
-        private void AddTechnosGroup(string title, List<GameEntityModel> entities)
+        private void AddTechnosGroup(string title, List<GameEntityModel> entities, ref int skip, ref int take, ref int totalCount)
         {
+            totalCount += entities.Count;
+            if (take == 0) return;
+            if (entities.Count <= skip)
+            {
+                skip -= entities.Count;
+                return;
+            }
             var groupControl = new GroupBox
             {
                 Text = title,
@@ -64,7 +114,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                 AutoSize = true,
                 Margin = new Padding(3)
             };
-            foreach (var entityModel in entities)
+            var takenEntites = entities.Skip(skip).Take(take).ToList();
+            skip = 0;
+            take -= takenEntites.Count;
+            foreach (var entityModel in takenEntites)
             {
                 var unitPicker = new UnitPickerControl
                 {
@@ -80,6 +133,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
 
             groupControl.Controls.Add(flowLayoutControl);
             ultraPanelUnits.ClientArea.Controls.Add(groupControl);
+            ultraPanelUnits.ClientArea.Controls.SetChildIndex(groupControl, 0);
         }
 
         private void OnUnitClick(GameEntityModel entityModel)
@@ -87,6 +141,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             _selectedEntityModel = entityModel;
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void toolStripButtonPrev_Click(object sender, EventArgs e)
+        {
+            LoadPage(_currentPage - 1);
+        }
+
+        private void toolStripButtonNext_Click(object sender, EventArgs e)
+        {
+            LoadPage(_currentPage + 1);
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)

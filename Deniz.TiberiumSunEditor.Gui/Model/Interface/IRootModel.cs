@@ -16,6 +16,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model.Interface
 
         public List<LookupItemModel> LookupItems { get; }
 
+        public List<EntityTypeEditControlTypeModel> EntityTypeEditControl { get; }
+
         public Dictionary<string, List<GameEntityModel>> LookupEntities { get; }
 
         public void RaiseGlobalEntityNotification(string entitiyKey, string notificationName);

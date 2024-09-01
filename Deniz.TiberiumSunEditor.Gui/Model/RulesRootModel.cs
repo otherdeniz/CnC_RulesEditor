@@ -160,6 +160,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 
         public Dictionary<string, List<GameEntityModel>> LookupEntities { get; } = new();
 
+        public List<EntityTypeEditControlTypeModel> EntityTypeEditControl { get; } = new();
+
         public void RaiseGlobalEntityNotification(string entitiyKey, string notificationName)
         {
             GlobalEntityNotification?.Invoke(this, new GlobalEntityNotificationEventArgs(entitiyKey, notificationName));

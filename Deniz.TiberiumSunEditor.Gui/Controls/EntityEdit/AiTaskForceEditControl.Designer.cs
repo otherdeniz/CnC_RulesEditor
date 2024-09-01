@@ -132,6 +132,7 @@
             ButtonCopy.TextAlign = ContentAlignment.MiddleRight;
             ButtonCopy.TextImageRelation = TextImageRelation.ImageBeforeText;
             ButtonCopy.UseVisualStyleBackColor = true;
+            ButtonCopy.Visible = false;
             ButtonCopy.Click += ButtonCopy_Click;
             // 
             // textName

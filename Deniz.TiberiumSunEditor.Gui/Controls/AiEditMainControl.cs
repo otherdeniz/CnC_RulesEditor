@@ -88,7 +88,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         public void LoadModels()
         {
             mainTab.Tabs["TaskForces"].Visible =
-                entitiesListTaskForces.LoadModel(Model.TaskForceEntities, typeof(AiTaskForceEditControl));
+                entitiesListTaskForces.LoadListModel(Model, Model.TaskForceEntities);
+            mainTab.Tabs["Scripts"].Visible =
+                entitiesListScripts.LoadListModel(Model, Model.ScriptEntities);
             mainTab.Tabs["Infantry"].Visible =
                 unitsListInfantry.LoadModel(Model.RulesModel.InfantryEntities, null, typeof(AiUnitEditControl));
             mainTab.Tabs["Vehicles"].Visible =
@@ -108,9 +110,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 newEntityListItem.EntityModel.FileSection.SetValue("Group", "-1");
                 newEntityListItem.EntityModel.FileSection.SetValue("0", $"1,{newUnit.EntityKey}");
                 Model.RaiseGlobalEntityNotification(newUnit.EntityKey, "RefreshInfoNumber");
-                entitiesListTaskForces.LoadModel(Model.TaskForceEntities, typeof(AiTaskForceEditControl),
+                entitiesListTaskForces.LoadListModel(Model, Model.TaskForceEntities,
                     selectKey: newEntityListItem.EntityModel.EntityKey);
             }
+        }
+
+        private void entitiesListScripts_AddEntity(object sender, EventArgs e)
+        {
+
         }
     }
 }

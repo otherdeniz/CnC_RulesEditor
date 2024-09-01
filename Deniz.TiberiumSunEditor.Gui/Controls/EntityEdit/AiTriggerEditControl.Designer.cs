@@ -86,6 +86,7 @@
             ButtonDelete.TextAlign = ContentAlignment.MiddleRight;
             ButtonDelete.TextImageRelation = TextImageRelation.ImageBeforeText;
             ButtonDelete.UseVisualStyleBackColor = true;
+            ButtonDelete.Click += ButtonDelete_Click;
             // 
             // ButtonCopy
             // 
@@ -98,6 +99,7 @@
             ButtonCopy.TextAlign = ContentAlignment.MiddleRight;
             ButtonCopy.TextImageRelation = TextImageRelation.ImageBeforeText;
             ButtonCopy.UseVisualStyleBackColor = true;
+            ButtonCopy.Visible = false;
             // 
             // textName
             // 

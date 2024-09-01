@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel;
 using Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit;
 using Deniz.TiberiumSunEditor.Gui.Model;
-using Deniz.TiberiumSunEditor.Gui.Model.Interface;
 using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
-using ImageMagick;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls
 {

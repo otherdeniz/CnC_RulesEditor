@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AiScriptEditControl));
+            Infragistics.Win.UltraWinGrid.UltraGridBand ultraGridBand1 = new Infragistics.Win.UltraWinGrid.UltraGridBand("", -1);
+            Infragistics.Win.Appearance appearance12 = new Infragistics.Win.Appearance();
             panelTop = new Panel();
             buttonRefreshName = new Button();
             panelButtons = new Panel();
@@ -36,8 +38,10 @@
             ButtonCopy = new Button();
             textName = new TextBox();
             labelKey = new Label();
+            valuesGrid = new Infragistics.Win.UltraWinGrid.UltraGrid();
             panelTop.SuspendLayout();
             panelButtons.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)valuesGrid).BeginInit();
             SuspendLayout();
             // 
             // panelTop
@@ -97,6 +101,7 @@
             ButtonCopy.TextAlign = ContentAlignment.MiddleRight;
             ButtonCopy.TextImageRelation = TextImageRelation.ImageBeforeText;
             ButtonCopy.UseVisualStyleBackColor = true;
+            ButtonCopy.Visible = false;
             // 
             // textName
             // 
@@ -116,16 +121,45 @@
             labelKey.TabIndex = 0;
             labelKey.Text = "01234567-G";
             // 
+            // valuesGrid
+            // 
+            ultraGridBand1.Override.AllowGroupBy = Infragistics.Win.DefaultableBoolean.True;
+            ultraGridBand1.Override.AllowGroupCollapsing = Infragistics.Win.DefaultableBoolean.True;
+            valuesGrid.DisplayLayout.BandsSerializer.Add(ultraGridBand1);
+            valuesGrid.DisplayLayout.GroupByBox.Hidden = true;
+            valuesGrid.DisplayLayout.Override.AllowColMoving = Infragistics.Win.UltraWinGrid.AllowColMoving.NotAllowed;
+            valuesGrid.DisplayLayout.Override.AllowDelete = Infragistics.Win.DefaultableBoolean.False;
+            valuesGrid.DisplayLayout.Override.ColumnAutoSizeMode = Infragistics.Win.UltraWinGrid.ColumnAutoSizeMode.AllRowsInBand;
+            valuesGrid.DisplayLayout.Override.GroupByRowInitialExpansionState = Infragistics.Win.UltraWinGrid.GroupByRowInitialExpansionState.Expanded;
+            appearance12.TextHAlignAsString = "Left";
+            valuesGrid.DisplayLayout.Override.HeaderAppearance = appearance12;
+            valuesGrid.DisplayLayout.Override.HeaderClickAction = Infragistics.Win.UltraWinGrid.HeaderClickAction.Select;
+            valuesGrid.DisplayLayout.Override.RowSelectors = Infragistics.Win.DefaultableBoolean.False;
+            valuesGrid.DisplayLayout.Override.RowSizing = Infragistics.Win.UltraWinGrid.RowSizing.AutoFixed;
+            valuesGrid.DisplayLayout.Override.RowSizingArea = Infragistics.Win.UltraWinGrid.RowSizingArea.EntireRow;
+            valuesGrid.DisplayLayout.ShowDeleteRowsPrompt = false;
+            valuesGrid.DisplayLayout.ViewStyle = Infragistics.Win.UltraWinGrid.ViewStyle.SingleBand;
+            valuesGrid.DisplayLayout.ViewStyleBand = Infragistics.Win.UltraWinGrid.ViewStyleBand.OutlookGroupBy;
+            valuesGrid.Dock = DockStyle.Fill;
+            valuesGrid.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            valuesGrid.Location = new Point(0, 39);
+            valuesGrid.Margin = new Padding(4, 3, 4, 3);
+            valuesGrid.Name = "valuesGrid";
+            valuesGrid.Size = new Size(774, 490);
+            valuesGrid.TabIndex = 3;
+            // 
             // AiScriptEditControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(valuesGrid);
             Controls.Add(panelTop);
             Name = "AiScriptEditControl";
             Size = new Size(774, 529);
             panelTop.ResumeLayout(false);
             panelTop.PerformLayout();
             panelButtons.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)valuesGrid).EndInit();
             ResumeLayout(false);
         }
 
@@ -138,5 +172,6 @@
         private Button ButtonCopy;
         private TextBox textName;
         private Label labelKey;
+        private Infragistics.Win.UltraWinGrid.UltraGrid valuesGrid;
     }
 }

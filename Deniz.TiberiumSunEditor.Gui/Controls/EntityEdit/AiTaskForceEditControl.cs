@@ -46,10 +46,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
             if (EntityModel?.RootModel is AiRootModel aiRootModel)
             {
                 var childFilter = new FilterByParentModel("TaskForce", EntityModel.EntityKey);
-                var childEntities = aiRootModel.TeamEntities
-                    .Where(e => e.EntityModel.FileSection.GetValue(childFilter.Key)?.Value == EntityModel.EntityKey)
-                    .ToList();
-                entitiesListTeams.LoadModel(childEntities, typeof(AiTeamEditControl), childFilter, selectedTeamKey);
+                entitiesListTeams.LoadListModel(aiRootModel, aiRootModel.TeamEntities, childFilter, selectedTeamKey);
             }
         }
 

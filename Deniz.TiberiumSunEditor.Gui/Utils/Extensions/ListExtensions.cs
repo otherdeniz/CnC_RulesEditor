@@ -9,5 +9,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Extensions
         {
             return sourceList.Select(v => new CategorizedValueDefinition(v, v.Category)).ToList();
         }
+
+        public static void RemoveWhere<TItem>(this List<TItem> list, Func<TItem, bool> match)
+        {
+            var itemsToRemove = list.Where(match).ToList();
+            itemsToRemove.ForEach(r => list.Remove(r));
+        }
     }
 }

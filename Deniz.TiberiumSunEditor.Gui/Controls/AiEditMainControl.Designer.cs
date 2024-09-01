@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             Infragistics.Win.Appearance appearance11 = new Infragistics.Win.Appearance();
-            Infragistics.Win.UltraWinTabControl.UltraTab ultraTab16 = new Infragistics.Win.UltraWinTabControl.UltraTab();
             Infragistics.Win.UltraWinTabControl.UltraTab ultraTab17 = new Infragistics.Win.UltraWinTabControl.UltraTab();
+            Infragistics.Win.UltraWinTabControl.UltraTab ultraTab16 = new Infragistics.Win.UltraWinTabControl.UltraTab();
             Infragistics.Win.UltraWinTabControl.UltraTab ultraTab1 = new Infragistics.Win.UltraWinTabControl.UltraTab();
             Infragistics.Win.Appearance appearance12 = new Infragistics.Win.Appearance();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AiEditMainControl));
@@ -38,9 +38,10 @@
             Infragistics.Win.Appearance appearance13 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinTabControl.UltraTab ultraTab12 = new Infragistics.Win.UltraWinTabControl.UltraTab();
             Infragistics.Win.Appearance appearance14 = new Infragistics.Win.Appearance();
+            ultraTabPageControl1 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
+            entitiesListScripts = new EntitiesListControl();
             ultraTabPageControl7 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
             entitiesListTaskForces = new EntitiesListControl();
-            ultraTabPageControl1 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
             ultraTabPageControl2 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
             unitsListInfantry = new UnitsListControl();
             ultraTabPageControl3 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
@@ -52,6 +53,7 @@
             labelType = new Label();
             mainTab = new Infragistics.Win.UltraWinTabControl.UltraTabControl();
             ultraTabSharedControlsPage1 = new Infragistics.Win.UltraWinTabControl.UltraTabSharedControlsPage();
+            ultraTabPageControl1.SuspendLayout();
             ultraTabPageControl7.SuspendLayout();
             ultraTabPageControl2.SuspendLayout();
             ultraTabPageControl3.SuspendLayout();
@@ -61,10 +63,26 @@
             mainTab.SuspendLayout();
             SuspendLayout();
             // 
+            // ultraTabPageControl1
+            // 
+            ultraTabPageControl1.Controls.Add(entitiesListScripts);
+            ultraTabPageControl1.Location = new Point(2, 30);
+            ultraTabPageControl1.Name = "ultraTabPageControl1";
+            ultraTabPageControl1.Size = new Size(963, 412);
+            // 
+            // entitiesListScripts
+            // 
+            entitiesListScripts.Dock = DockStyle.Fill;
+            entitiesListScripts.Location = new Point(0, 0);
+            entitiesListScripts.Name = "entitiesListScripts";
+            entitiesListScripts.Size = new Size(963, 412);
+            entitiesListScripts.TabIndex = 1;
+            entitiesListScripts.AddEntity += entitiesListScripts_AddEntity;
+            // 
             // ultraTabPageControl7
             // 
             ultraTabPageControl7.Controls.Add(entitiesListTaskForces);
-            ultraTabPageControl7.Location = new Point(2, 30);
+            ultraTabPageControl7.Location = new Point(-10000, -10000);
             ultraTabPageControl7.Name = "ultraTabPageControl7";
             ultraTabPageControl7.Size = new Size(963, 412);
             // 
@@ -76,12 +94,6 @@
             entitiesListTaskForces.Size = new Size(963, 412);
             entitiesListTaskForces.TabIndex = 0;
             entitiesListTaskForces.AddEntity += entitiesListTaskForces_AddEntity;
-            // 
-            // ultraTabPageControl1
-            // 
-            ultraTabPageControl1.Location = new Point(-10000, -10000);
-            ultraTabPageControl1.Name = "ultraTabPageControl1";
-            ultraTabPageControl1.Size = new Size(963, 412);
             // 
             // ultraTabPageControl2
             // 
@@ -189,28 +201,28 @@
             mainTab.TabIndex = 5;
             mainTab.TabLayoutStyle = Infragistics.Win.UltraWinTabs.TabLayoutStyle.MultiRowAutoSize;
             mainTab.TabPadding = new Size(1, 3);
-            ultraTab16.Key = "TaskForces";
-            ultraTab16.TabPage = ultraTabPageControl7;
-            ultraTab16.Text = "Task Forces";
             ultraTab17.Key = "Scripts";
             ultraTab17.TabPage = ultraTabPageControl1;
             ultraTab17.Text = "Scripts";
+            ultraTab16.Key = "TaskForces";
+            ultraTab16.TabPage = ultraTabPageControl7;
+            ultraTab16.Text = "Task Forces";
             appearance12.Image = resources.GetObject("appearance12.Image");
             ultraTab1.Appearance = appearance12;
             ultraTab1.Key = "Infantry";
             ultraTab1.TabPage = ultraTabPageControl2;
-            ultraTab1.Text = "Infantry";
+            ultraTab1.Text = "Infantry Task Forces";
             appearance13.Image = resources.GetObject("appearance13.Image");
             ultraTab11.Appearance = appearance13;
             ultraTab11.Key = "Vehicles";
             ultraTab11.TabPage = ultraTabPageControl3;
-            ultraTab11.Text = "Vehicles";
+            ultraTab11.Text = "Vehicle Task Forces";
             appearance14.Image = resources.GetObject("appearance14.Image");
             ultraTab12.Appearance = appearance14;
             ultraTab12.Key = "Aircrafts";
             ultraTab12.TabPage = ultraTabPageControl4;
-            ultraTab12.Text = "Aircrafts";
-            mainTab.Tabs.AddRange(new Infragistics.Win.UltraWinTabControl.UltraTab[] { ultraTab16, ultraTab17, ultraTab1, ultraTab11, ultraTab12 });
+            ultraTab12.Text = "Aircraft Task Forces";
+            mainTab.Tabs.AddRange(new Infragistics.Win.UltraWinTabControl.UltraTab[] { ultraTab17, ultraTab16, ultraTab1, ultraTab11, ultraTab12 });
             mainTab.UseOsThemes = Infragistics.Win.DefaultableBoolean.False;
             // 
             // ultraTabSharedControlsPage1
@@ -228,6 +240,7 @@
             Controls.Add(panelTitle);
             Name = "AiEditMainControl";
             Size = new Size(967, 467);
+            ultraTabPageControl1.ResumeLayout(false);
             ultraTabPageControl7.ResumeLayout(false);
             ultraTabPageControl2.ResumeLayout(false);
             ultraTabPageControl3.ResumeLayout(false);
@@ -255,5 +268,6 @@
         private UnitsListControl unitsListVehicles;
         private Infragistics.Win.UltraWinTabControl.UltraTabPageControl ultraTabPageControl4;
         private UnitsListControl unitsListAircrafts;
+        private EntitiesListControl entitiesListScripts;
     }
 }

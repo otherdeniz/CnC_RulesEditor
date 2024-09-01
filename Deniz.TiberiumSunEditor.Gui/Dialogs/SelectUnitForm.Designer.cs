@@ -32,8 +32,14 @@
             panelBottom = new Panel();
             buttonCancel = new Button();
             ultraPanelUnits = new Infragistics.Win.Misc.UltraPanel();
+            toolStripPaging = new ToolStrip();
+            toolStripButtonPrev = new ToolStripButton();
+            toolStripLabelItem = new ToolStripLabel();
+            toolStripButtonNext = new ToolStripButton();
+            toolStripLabelTotal = new ToolStripLabel();
             panelBottom.SuspendLayout();
             ultraPanelUnits.SuspendLayout();
+            toolStripPaging.SuspendLayout();
             SuspendLayout();
             // 
             // panelBottom
@@ -65,8 +71,51 @@
             ultraPanelUnits.Dock = DockStyle.Fill;
             ultraPanelUnits.Location = new Point(4, 4);
             ultraPanelUnits.Name = "ultraPanelUnits";
-            ultraPanelUnits.Size = new Size(907, 523);
+            ultraPanelUnits.Size = new Size(907, 498);
             ultraPanelUnits.TabIndex = 2;
+            // 
+            // toolStripPaging
+            // 
+            toolStripPaging.Dock = DockStyle.Bottom;
+            toolStripPaging.Items.AddRange(new ToolStripItem[] { toolStripButtonPrev, toolStripLabelItem, toolStripButtonNext, toolStripLabelTotal });
+            toolStripPaging.Location = new Point(4, 502);
+            toolStripPaging.Name = "toolStripPaging";
+            toolStripPaging.Size = new Size(907, 25);
+            toolStripPaging.TabIndex = 3;
+            // 
+            // toolStripButtonPrev
+            // 
+            toolStripButtonPrev.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButtonPrev.Enabled = false;
+            toolStripButtonPrev.Image = (Image)resources.GetObject("toolStripButtonPrev.Image");
+            toolStripButtonPrev.ImageTransparentColor = Color.Magenta;
+            toolStripButtonPrev.Name = "toolStripButtonPrev";
+            toolStripButtonPrev.Size = new Size(23, 22);
+            toolStripButtonPrev.Text = "toolStripButton1";
+            toolStripButtonPrev.Click += toolStripButtonPrev_Click;
+            // 
+            // toolStripLabelItem
+            // 
+            toolStripLabelItem.Name = "toolStripLabelItem";
+            toolStripLabelItem.Size = new Size(54, 22);
+            toolStripLabelItem.Text = "001 - 250";
+            // 
+            // toolStripButtonNext
+            // 
+            toolStripButtonNext.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButtonNext.Enabled = false;
+            toolStripButtonNext.Image = (Image)resources.GetObject("toolStripButtonNext.Image");
+            toolStripButtonNext.ImageTransparentColor = Color.Magenta;
+            toolStripButtonNext.Name = "toolStripButtonNext";
+            toolStripButtonNext.Size = new Size(23, 22);
+            toolStripButtonNext.Text = "toolStripButton2";
+            toolStripButtonNext.Click += toolStripButtonNext_Click;
+            // 
+            // toolStripLabelTotal
+            // 
+            toolStripLabelTotal.Name = "toolStripLabelTotal";
+            toolStripLabelTotal.Size = new Size(66, 22);
+            toolStripLabelTotal.Text = "1'000 Items";
             // 
             // SelectUnitForm
             // 
@@ -75,6 +124,7 @@
             CancelButton = buttonCancel;
             ClientSize = new Size(915, 574);
             Controls.Add(ultraPanelUnits);
+            Controls.Add(toolStripPaging);
             Controls.Add(panelBottom);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "SelectUnitForm";
@@ -84,7 +134,10 @@
             Load += SelectUnitForm_Load;
             panelBottom.ResumeLayout(false);
             ultraPanelUnits.ResumeLayout(false);
+            toolStripPaging.ResumeLayout(false);
+            toolStripPaging.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -92,5 +145,10 @@
         private Panel panelBottom;
         private Button buttonCancel;
         private Infragistics.Win.Misc.UltraPanel ultraPanelUnits;
+        private ToolStrip toolStripPaging;
+        private ToolStripButton toolStripButtonPrev;
+        private ToolStripLabel toolStripLabelItem;
+        private ToolStripButton toolStripButtonNext;
+        private ToolStripLabel toolStripLabelTotal;
     }
 }

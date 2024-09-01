@@ -12,7 +12,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
             InitializeComponent();
         }
 
-        public event EventHandler? NameChanged;
+        public event EventHandler<EventArgs>? EntityDeleted;
+        public event EventHandler<EventArgs>? NameChanged;
 
         [DefaultValue(false)]
         public bool ReadonlyMode
@@ -41,6 +42,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
 
         protected virtual void OnReadonlyChanged()
         {
+        }
+
+        protected void RaiseEntityDeleted()
+        {
+            EntityDeleted?.Invoke(this, EventArgs.Empty);
         }
 
         protected void RaiseNameChanged()

@@ -33,7 +33,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
             RefreshInfoNumber();
             if (entity.RootModel is AiRootModel aiRootModel)
             {
-                entitiesListTaskForces.LoadModel(aiRootModel.TaskForceEntities, typeof(AiTaskForceEditControl),
+                entitiesListTaskForces.LoadListModel(aiRootModel, aiRootModel.TaskForceEntities,
                     new FilterByParentModel(k => k.Value.EndsWith($",{entity.EntityKey}")));
             }
         }
@@ -57,7 +57,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
                 newEntityListItem.EntityModel.FileSection.SetValue("Group", "-1");
                 newEntityListItem.EntityModel.FileSection.SetValue("0", $"1,{EntityModel.EntityKey}");
                 aiRootModel.RaiseGlobalEntityNotification(EntityModel.EntityKey, "RefreshInfoNumber");
-                entitiesListTaskForces.LoadModel(aiRootModel.TaskForceEntities, typeof(AiTaskForceEditControl),
+                entitiesListTaskForces.LoadListModel(aiRootModel, aiRootModel.TaskForceEntities,
                     new FilterByParentModel(k => k.Value.EndsWith($",{EntityModel.EntityKey}")),
                     selectKey: newEntityListItem.EntityModel.EntityKey);
             }
