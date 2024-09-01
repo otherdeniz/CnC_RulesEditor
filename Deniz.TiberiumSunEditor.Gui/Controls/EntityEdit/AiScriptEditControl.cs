@@ -2,9 +2,9 @@
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
 {
-    public partial class AiTeamEditControl : EntityEditBaseControl
+    public partial class AiScriptEditControl : EntityEditBaseControl
     {
-        public AiTeamEditControl()
+        public AiScriptEditControl()
         {
             InitializeComponent();
         }
@@ -19,21 +19,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
             {
                 hiddenValueKeys.Add(filterKeyValue.Key);
             }
-            unitEdit.LoadModel(entity, hiddenValueKeys);
-            LoadTriggersList();
-        }
-
-        private void LoadTriggersList(string? selectedTeamKey = null)
-        {
-            if (EntityModel?.RootModel is AiRootModel aiRootModel)
-            {
-                var childEntities = aiRootModel.TriggerEntities
-                    .Where(e => e.EntityModel.FileSection.KeyValues
-                        .Any(k => (k.Key == "Team1" && k.Value == EntityModel.EntityKey)
-                                  || (k.Key == "Team2" && k.Value == EntityModel.EntityKey)))
-                    .ToList();
-                entitiesListTriggers.LoadModel(childEntities, typeof(AiTriggerEditControl), selectKey:selectedTeamKey);
-            }
+            //unitEdit.LoadModel(entity, hiddenValueKeys);
         }
 
         private void textName_TextChanged(object sender, EventArgs e)

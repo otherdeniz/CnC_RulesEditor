@@ -56,6 +56,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
                 newEntityListItem.EntityModel.FileSection.SetValue("Name", $"1 {EntityModel.GetNameOrKey()}");
                 newEntityListItem.EntityModel.FileSection.SetValue("Group", "-1");
                 newEntityListItem.EntityModel.FileSection.SetValue("0", $"1,{EntityModel.EntityKey}");
+                aiRootModel.RaiseGlobalEntityNotification(EntityModel.EntityKey, "RefreshInfoNumber");
                 entitiesListTaskForces.LoadModel(aiRootModel.TaskForceEntities, typeof(AiTaskForceEditControl),
                     new FilterByParentModel(k => k.Value.EndsWith($",{EntityModel.EntityKey}")),
                     selectKey: newEntityListItem.EntityModel.EntityKey);

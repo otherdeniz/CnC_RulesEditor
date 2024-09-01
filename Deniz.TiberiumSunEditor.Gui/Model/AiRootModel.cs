@@ -1,4 +1,5 @@
-﻿using Deniz.TiberiumSunEditor.Gui.Model.Interface;
+﻿using System.Text;
+using Deniz.TiberiumSunEditor.Gui.Model.Interface;
 using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Deniz.TiberiumSunEditor.Gui.Utils.Exceptions;
@@ -21,20 +22,22 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             File = iniFile;
             DefaultFile = defaultFileOverwrite ?? rulesRootModel.FileType.GameDefinition.LoadDefaultAiFile();
             Aistructure = AistructureFile.Instance;
+            TeamUnitValueDefinitions = Aistructure.Teams.ToCategorizedList();
+            TriggerUnitValueDefinitions = Aistructure.TriggerVirtualSections.ToCategorizedList();
             LoadGameEntities();
             foreach (var rulesEntity in RulesModel.InfantryEntities
                          .Union(RulesModel.VehicleEntities)
                          .Union(RulesModel.AircraftEntities))
             {
                 rulesEntity.RootModel = this;
-                //TODO: caching of InfoNumber
                 rulesEntity.InfoNumberFunction = () =>
                     TaskForceEntities.Count(e => e.EntityModel.FileSection.KeyValues.Any(k =>
                         k.Value.EndsWith($",{rulesEntity.EntityKey}")));
             }
         }
 
-        public event EventHandler<EventArgs>? EntitiesChanged;
+        public event EventHandler<EventArgs>? EntitiesReloaded;
+        public event EventHandler<GlobalEntityNotificationEventArgs>? GlobalEntityNotification;
 
         public RulesRootModel RulesModel { get; }
 
@@ -46,6 +49,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 
         public AistructureFile Aistructure { get; }
 
+        public List<CategorizedValueDefinition> TeamUnitValueDefinitions { get; }
+
+        public List<CategorizedValueDefinition> TriggerUnitValueDefinitions { get; }
+
         public List<LookupItemModel> LookupItems => RulesModel.LookupItems;
 
         public Dictionary<string, List<GameEntityModel>> LookupEntities { get; } = new();
@@ -56,10 +63,25 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 
         public List<EntityListItemModel> TeamEntities { get; private set; } = null!;
 
+        public List<AiTriggerListItemModel> TriggerEntities { get; private set; } = null!;
+
+        public void RaiseGlobalEntityNotification(string entitiyKey, string notificationName)
+        {
+            GlobalEntityNotification?.Invoke(this, new GlobalEntityNotificationEventArgs(entitiyKey, notificationName));
+        }
+
         public void ReloadGameEntites()
         {
             LoadGameEntities();
-            EntitiesChanged?.Invoke(this, EventArgs.Empty);
+            EntitiesReloaded?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void LoadGameEntities()
+        {
+            TaskForceEntities = GetGameEntitiesByAiTypesSection("TaskForces", null);
+            ScriptEntities = GetGameEntitiesByAiTypesSection("ScriptTypes", null);
+            TeamEntities = GetGameEntitiesByAiTypesSection("TeamTypes", TeamUnitValueDefinitions);
+            TriggerEntities = GetVirtualTriggerGameEntities();
         }
 
         public EntityListItemModel AddGameEntity(string entityType)
@@ -85,7 +107,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 case "TeamTypes":
                     newKeyPrefix += "3";
                     entitiesList = TeamEntities;
-                    unitValueList = Aistructure.Teams.ToCategorizedList();
+                    unitValueList = TeamUnitValueDefinitions;
                     break;
                 default:
                     throw new RuntimeException($"could not add new GameEntity for EntiyType '{entityType}'");
@@ -117,11 +139,20 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             return newListItemModel;
         }
 
-        private void LoadGameEntities()
+        private List<AiTriggerListItemModel> GetVirtualTriggerGameEntities()
         {
-            TaskForceEntities = GetGameEntitiesByAiTypesSection("TaskForces", null);
-            ScriptEntities = GetGameEntitiesByAiTypesSection("ScriptTypes", null);
-            TeamEntities = GetGameEntitiesByAiTypesSection("TeamTypes", Aistructure.Teams.ToCategorizedList());
+            var triggerSection = File.GetSection("AITriggerTypes");
+            if (triggerSection == null)
+            {
+                return new List<AiTriggerListItemModel>();
+            }
+
+            var defaultTriggerSection = DefaultFile.GetSection("AITriggerTypes");
+
+            return triggerSection.KeyValues.Select(k =>
+                    new AiTriggerListItemModel(k.Key, new VirtualTriggerGameEntitiyModel(this, k, 
+                        defaultTriggerSection?.KeyValues.FirstOrDefault(d => d.Key == k.Key))))
+                .ToList();
         }
 
         private List<EntityListItemModel> GetGameEntitiesByAiTypesSection(string aiTypesSection,
@@ -150,15 +181,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             {
                 var fileSection = File.GetSection(entityKey.Value);
                 var defaultSection = DefaultFile.GetSection(entityKey.Value);
-                var rulesSection = RulesModel.File.GetSection(entityKey.Value);
                 if (fileSection != null)
                 {
                     var entityModel = new GameEntityModel(RulesModel, this,
                         entityType,
                         fileSection,
                         defaultSection,
-                        unitValueList,
-                        rulesSection);
+                        unitValueList);
                     result.Add(new EntityListItemModel(entityKey.Key, entityModel));
                 }
                 else if (defaultSection != null && _showMissingValues)
@@ -167,8 +196,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                         entityType,
                         File.AddSection(entityKey.Value),
                         defaultSection,
-                        unitValueList,
-                        rulesSection);
+                        unitValueList);
                     result.Add(new EntityListItemModel(entityKey.Key, entityModel));
                 }
             }
@@ -183,5 +211,162 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             return result;
         }
 
+        public class VirtualTriggerGameEntitiyModel : GameEntityModel
+        {
+            private readonly AiRootModel _rootModel;
+
+            public VirtualTriggerGameEntitiyModel(AiRootModel rootModel, 
+                IniFileLineKeyValue triggerKeyValue, 
+                IniFileLineKeyValue? defaultTriggerKeyValue)
+                : base(rootModel.RulesModel, 
+                    rootModel, 
+                    "AITriggerTypes", 
+                    new IniFileSection { SectionName = triggerKeyValue.Key },
+                    defaultTriggerKeyValue == null 
+                        ? null 
+                        : new IniFileSection { SectionName = triggerKeyValue.Key },
+                    rootModel.TriggerUnitValueDefinitions)
+            {
+                _rootModel = rootModel;
+                TriggerKeyValue = triggerKeyValue;
+                ReadTriggerValue(FileSection, triggerKeyValue);
+                if (DefaultSection != null && defaultTriggerKeyValue != null)
+                {
+                    ReadTriggerValue(DefaultSection, defaultTriggerKeyValue);
+                }
+                FileSection.ValueChanged += FileSectionOnValueChanged;
+            }
+
+            public IniFileLineKeyValue TriggerKeyValue { get; }
+
+            private void ReadTriggerValue(IniFileSection fileSection, IniFileLineKeyValue triggerKeyValue)
+            {
+                var valueParts = triggerKeyValue.Value.Split(',');
+                if (valueParts.Length == 18)
+                {
+                    fileSection.SetValue("Name", valueParts[0]);
+                    fileSection.SetValue("Team1", valueParts[1]);
+                    fileSection.SetValue("OwnerHouse", valueParts[2]);
+                    fileSection.SetValue("TechLevel", valueParts[3]);
+                    fileSection.SetValue("TriggerWhen", valueParts[4]);
+                    fileSection.SetValue("ComparisonObject", valueParts[5]);
+
+                    var comparisonValue = valueParts[6];
+                    if (comparisonValue.Length >= 16)
+                    {
+                        var hexNumber = $"0x{comparisonValue[6..7]}{comparisonValue[4..5]}{comparisonValue[2..3]}{comparisonValue[0..1]}";
+                        if (int.TryParse(hexNumber, out var valueNumber))
+                        {
+                            fileSection.SetValue("Value", valueNumber.ToString("0"));
+                        }
+
+                        var comparatorText = "Less than";
+                        switch (comparisonValue[9])
+                        {
+                            case '1':
+                                comparatorText = "Less than or equal to";
+                                break;
+                            case '2':
+                                comparatorText = "Equal to";
+                                break;
+                            case '3':
+                                comparatorText = "Greater than or equal to";
+                                break;
+                            case '4':
+                                comparatorText = "Greater than";
+                                break;
+                            case '5':
+                                comparatorText = "Not equal to";
+                                break;
+                        }
+                        fileSection.SetValue("Comparator", comparatorText);
+                    }
+
+                    fileSection.SetValue("StartingWeight", valueParts[7]);
+                    fileSection.SetValue("MinimumWeight", valueParts[8]);
+                    fileSection.SetValue("MaximumWeight", valueParts[9]);
+                    fileSection.SetValue("IsForSkirmish", valueParts[10] == "1" ? "yes" : "no");
+                    fileSection.SetValue("Side", valueParts[12]);
+                    fileSection.SetValue("Team2", valueParts[14]);
+                    fileSection.SetValue("Easy", valueParts[15] == "1" ? "yes" : "no");
+                    fileSection.SetValue("Medium", valueParts[16] == "1" ? "yes" : "no");
+                    fileSection.SetValue("Hard", valueParts[17] == "1" ? "yes" : "no");
+                }
+                else
+                {
+                    // use all default values
+                    fileSection.SetValue("Name", "new trigger");
+                    _rootModel.TriggerUnitValueDefinitions.ForEach(v => fileSection.SetValue(v.UnitValueDefinition.Key, v.UnitValueDefinition.Default));
+                }
+            }
+
+            private void FileSectionOnValueChanged(object? sender, IniFileSectionChangedEventArgs e)
+            {
+                // write the trigger value
+                var valueBuilder = new StringBuilder();
+                valueBuilder.Append($"{FileSection.GetValue("Name")?.Value ?? "no name"},");
+                valueBuilder.Append($"{FileSection.GetValue("Team1")?.Value ?? "<none>"},");
+                valueBuilder.Append($"{FileSection.GetValue("OwnerHouse")?.Value ?? "<none>"},");
+                valueBuilder.Append($"{FileSection.GetValue("TechLevel")?.Value ?? "1"},");
+                valueBuilder.Append($"{FileSection.GetValue("TriggerWhen")?.Value ?? "-1"},");
+                valueBuilder.Append($"{FileSection.GetValue("ComparisonObject")?.Value ?? "<none>"},");
+
+                var octetPart1 = "00000000";
+                if (int.TryParse(FileSection.GetValue("Value")?.Value, out var valueNumber))
+                {
+                    var hexNumber = valueNumber.ToString("X8");
+                    octetPart1 = $"{hexNumber[6..7]}{hexNumber[4..5]}{hexNumber[2..3]}{hexNumber[0..1]}";
+                }
+                var octetPart2 = "00000000";
+                switch (FileSection.GetValue("Comparator")?.Value)
+                {
+                    case "Less than or equal to":
+                        octetPart2 = "01000000";
+                        break;
+                    case "Equal to":
+                        octetPart2 = "02000000";
+                        break;
+                    case "Greater than or equal to":
+                        octetPart2 = "03000000";
+                        break;
+                    case "Greater than":
+                        octetPart2 = "04000000";
+                        break;
+                    case "Not equal to":
+                        octetPart2 = "05000000";
+                        break;
+                }
+                valueBuilder.Append($"{octetPart1}{octetPart2}000000000000000000000000000000000000000000000000");
+
+                valueBuilder.Append((decimal.TryParse(FileSection.GetValue("StartingWeight")?.Value ?? "50",
+                                        out var startingWeightNumber)
+                                        ? startingWeightNumber.ToString("0.000000")
+                                        : "50.000000")
+                                    + ",");
+
+                valueBuilder.Append((decimal.TryParse(FileSection.GetValue("MinimumWeight")?.Value ?? "50",
+                                        out var minWeightNumber)
+                                        ? minWeightNumber.ToString("0.000000")
+                                        : "50.000000")
+                                    + ",");
+
+                valueBuilder.Append((decimal.TryParse(FileSection.GetValue("MaximumWeight")?.Value ?? "50",
+                                        out var maxWeightNumber)
+                                        ? maxWeightNumber.ToString("0.000000")
+                                        : "50.000000")
+                                    + ",");
+
+                valueBuilder.Append((FileSection.GetValue("IsForSkirmish")?.Value == "yes" ? "1" : "0") + ",");
+                valueBuilder.Append("0");
+                valueBuilder.Append($"{FileSection.GetValue("Side")?.Value ?? "0"},");
+                valueBuilder.Append("0");
+                valueBuilder.Append($"{FileSection.GetValue("Team2")?.Value ?? "<none>"},");
+                valueBuilder.Append((FileSection.GetValue("Easy")?.Value == "yes" ? "1" : "0") + ",");
+                valueBuilder.Append((FileSection.GetValue("Medium")?.Value == "yes" ? "1" : "0") + ",");
+                valueBuilder.Append(FileSection.GetValue("Hard")?.Value == "yes" ? "1" : "0");
+
+                TriggerKeyValue.Value = valueBuilder.ToString();
+            }
+        }
     }
 }

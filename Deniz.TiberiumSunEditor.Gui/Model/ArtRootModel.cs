@@ -25,7 +25,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             LoadGameEntities();
         }
 
-        public event EventHandler<EventArgs>? EntitiesChanged;
+        public event EventHandler<EventArgs>? EntitiesReloaded;
+        public event EventHandler<GlobalEntityNotificationEventArgs>? GlobalEntityNotification;
 
         public RulesRootModel RulesModel { get; }
 
@@ -55,10 +56,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 
         public Dictionary<string, List<GameEntityModel>> LookupEntities { get; } = new();
 
+        public void RaiseGlobalEntityNotification(string entitiyKey, string notificationName)
+        {
+            GlobalEntityNotification?.Invoke(this, new GlobalEntityNotificationEventArgs(entitiyKey, notificationName));
+        }
+
         public void ReloadGameEntites()
         {
             LoadGameEntities();
-            EntitiesChanged?.Invoke(this, EventArgs.Empty);
+            EntitiesReloaded?.Invoke(this, EventArgs.Empty);
         }
 
         private void LoadGameEntities()

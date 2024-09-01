@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit;
 using Deniz.TiberiumSunEditor.Gui.Model;
+using Deniz.TiberiumSunEditor.Gui.Model.Interface;
 using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
 using ImageMagick;
@@ -245,6 +246,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             ultraPanelScroll.Visible = true;
         }
 
+        public void RefreshInfoNumber(string entityKey)
+        {
+            _unitPickerControls.FirstOrDefault(c => c.UnitKey == entityKey)
+                ?.RefreshInfoNumber();
+        }
+
         private bool FilterValue(GameEntityModel entityModel)
         {
             if (_filter != null)
@@ -390,8 +397,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void unitEdit_UnitModificationsChanged(object sender, EventArgs e)
         {
-            _unitPickerControls.FirstOrDefault(c => c.UnitKey == unitEdit.EntityModel!.EntityKey)
-                ?.RefreshInfoNumber();
+            RefreshInfoNumber(unitEdit.EntityModel!.EntityKey);
         }
 
         private void unitEdit_UnitCreateCopy(object sender, EntityCopyEventArgs e)

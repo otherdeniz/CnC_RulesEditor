@@ -8,9 +8,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 {
     public partial class EntitiesListControl : UserControl
     {
-        private List<EntityListItemModel> _listItems = null!;
         private Type _entityEditControlType = null!;
         private FilterByParentModel? _filterKeyValue;
+        private bool _listOnTop;
+        private int _listSize = 260;
         private bool _readonlyMode;
         private bool _doEvents;
 
@@ -32,40 +33,80 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
         }
 
+        [DefaultValue(260)]
+        public int ListSize
+        {
+            get => _listSize;
+            set
+            {
+                if (_listSize == value) return;
+                _listSize = value;
+                if (_listOnTop)
+                {
+                    panelLeft.Height = _listSize;
+                }
+                else
+                {
+                    panelLeft.Width = _listSize;
+                }
+            }
+        }
+
+        [DefaultValue(false)]
+        public bool ListOnTop
+        {
+            get => _listOnTop;
+            set
+            {
+                if (_listOnTop == value) return;
+                _listOnTop = value;
+                panelLeft.Dock = _listOnTop
+                    ? DockStyle.Top
+                    : DockStyle.Left;
+                splitterUnitPicker.Dock = _listOnTop
+                    ? DockStyle.Top
+                    : DockStyle.Left;
+                if (_listOnTop)
+                {
+                    panelLeft.Height = _listSize;
+                }
+                else
+                {
+                    panelLeft.Width = _listSize;
+                }
+            }
+        }
+
         [Browsable(false)]
         public FilterByParentModel? ParentFilterKeyValue => _filterKeyValue;
 
-        public bool LoadModel(List<EntityListItemModel> listItems,
+        public bool LoadModel<TListItemModel>(List<TListItemModel> listItems,
             Type entityEditControlType,
             FilterByParentModel? filterKeyValue = null,
             string? selectKey = null)
+            where TListItemModel : EntityListItemModel
         {
-            _listItems = listItems;
             _entityEditControlType = entityEditControlType;
             _filterKeyValue = filterKeyValue;
-            return LoadListItems(selectKey);
-        }
-
-        private bool LoadListItems(string? selectKey = null)
-        {
             _doEvents = false;
             SelectListItem(null, null);
             var filteredItems = _filterKeyValue == null
-                ? _listItems
-                : _listItems.Where(e => e.EntityModel.FileSection.KeyValues.Any(k =>
+                ? listItems
+                : listItems.Where(e => e.EntityModel.FileSection.KeyValues.Any(k =>
                 {
                     if (_filterKeyValue.FilterFunction != null)
                     {
                         return _filterKeyValue.FilterFunction(k);
                     }
                     return k.Key == _filterKeyValue.Key && k.Value.Equals(_filterKeyValue.Value,
-                            StringComparison.InvariantCultureIgnoreCase);
+                        StringComparison.InvariantCultureIgnoreCase);
                 })).ToList();
             entitiesGrid.DataSource = null;
             entitiesGrid.DataSource = filteredItems;
             entitiesGrid.DisplayLayout.Override.CellClickAction = CellClickAction.RowSelect;
             entitiesGrid.DisplayLayout.Bands[0].ScrollTipField = "Name";
             entitiesGrid.DisplayLayout.Bands[0].PerformAutoResizeColumns(true, PerformAutoSizeType.AllRowsInBand);
+            _doEvents = true;
             if (selectKey != null)
             {
                 var selectedIndex = filteredItems!.FindIndex(v => v.EntityModel.EntityKey == selectKey);
@@ -76,7 +117,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     entitiesGrid.ActiveRowScrollRegion.ScrollRowIntoView(selectedRow);
                 }
             }
-            _doEvents = true;
             return filteredItems.Any();
         }
 

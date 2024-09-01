@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using Deniz.TiberiumSunEditor.Gui.Controls;
 
-namespace Deniz.TiberiumSunEditor.Gui.Model.KeyValue
+namespace Deniz.TiberiumSunEditor.Gui.Model
 {
     public class AiTaskForceKeyValueModel
     {

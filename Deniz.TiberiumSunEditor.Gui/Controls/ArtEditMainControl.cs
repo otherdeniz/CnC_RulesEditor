@@ -129,7 +129,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 mainTab.SelectedTab = firstVisibleTab;
             }
-            model.EntitiesChanged += (sender, args) => LoadModels();
+            model.EntitiesReloaded += (sender, args) => LoadModels();
         }
 
         public void LoadModels()

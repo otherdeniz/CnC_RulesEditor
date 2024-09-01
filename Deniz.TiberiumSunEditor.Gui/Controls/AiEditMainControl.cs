@@ -3,6 +3,7 @@ using Infragistics.Win.UltraWinTabControl;
 using System.ComponentModel;
 using Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit;
 using Deniz.TiberiumSunEditor.Gui.Dialogs;
+using Deniz.TiberiumSunEditor.Gui.Model.Interface;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls
 {
@@ -70,7 +71,18 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 mainTab.SelectedTab = firstVisibleTab;
             }
-            model.EntitiesChanged += (sender, args) => LoadModels();
+            model.EntitiesReloaded += (sender, args) => LoadModels();
+            model.GlobalEntityNotification += ModelOnGlobalEntityNotification;
+        }
+
+        private void ModelOnGlobalEntityNotification(object? sender, GlobalEntityNotificationEventArgs e)
+        {
+            if (e.NotificationName == "RefreshInfoNumber")
+            {
+                unitsListInfantry.RefreshInfoNumber(e.EntitiyKey);
+                unitsListVehicles.RefreshInfoNumber(e.EntitiyKey);
+                unitsListAircrafts.RefreshInfoNumber(e.EntitiyKey);
+            }
         }
 
         public void LoadModels()
@@ -95,6 +107,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 newEntityListItem.EntityModel.FileSection.SetValue("Name", $"1 {newUnit.GetNameOrKey()}");
                 newEntityListItem.EntityModel.FileSection.SetValue("Group", "-1");
                 newEntityListItem.EntityModel.FileSection.SetValue("0", $"1,{newUnit.EntityKey}");
+                Model.RaiseGlobalEntityNotification(newUnit.EntityKey, "RefreshInfoNumber");
                 entitiesListTaskForces.LoadModel(Model.TaskForceEntities, typeof(AiTaskForceEditControl),
                     selectKey: newEntityListItem.EntityModel.EntityKey);
             }

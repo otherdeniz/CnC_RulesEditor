@@ -71,8 +71,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             AudioVisualValues = GetAllSectionValues("AudioVisual");
         }
 
-        public event EventHandler<EventArgs>? EntitiesChanged;
-        
+        public event EventHandler<EventArgs>? EntitiesReloaded;
+        public event EventHandler<GlobalEntityNotificationEventArgs>? GlobalEntityNotification;
+
         public IniFile File { get; }
 
         public IniFile DefaultFile { get; }
@@ -159,6 +160,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 
         public Dictionary<string, List<GameEntityModel>> LookupEntities { get; } = new();
 
+        public void RaiseGlobalEntityNotification(string entitiyKey, string notificationName)
+        {
+            GlobalEntityNotification?.Invoke(this, new GlobalEntityNotificationEventArgs(entitiyKey, notificationName));
+        }
+
         public IniFileSection? FindSection(string name)
         {
             return File.GetSection(name) ?? DefaultFile.GetSection(name);
@@ -167,7 +173,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         {
             LoadGameEntities();
             InitialiseLookupItems();
-            EntitiesChanged?.Invoke(this, EventArgs.Empty);
+            EntitiesReloaded?.Invoke(this, EventArgs.Empty);
         }
 
         private void LoadGameEntities()

@@ -18,4 +18,6 @@ public class AistructureFile : JsonFileBase
 
     public List<UnitValueDefinition> Teams { get; set; } = new();
 
+    public List<UnitValueDefinition> TriggerVirtualSections { get; set; } = new();
+
 }

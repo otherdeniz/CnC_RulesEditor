@@ -10,9 +10,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             EntityModel = entityModel;
         }
 
-        public string Id { get; }
+        public virtual string Id { get; }
 
-        public string Name => EntityModel.FileSection.GetValue("Name")?.Value ?? string.Empty;
+        public virtual string Name => EntityModel.EntityName;
 
         [Browsable(false)]
         public bool IsModified => EntityModel.ModificationCount > 0;

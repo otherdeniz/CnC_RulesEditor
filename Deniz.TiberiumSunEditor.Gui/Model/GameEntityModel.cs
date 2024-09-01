@@ -41,7 +41,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                     u.UnitValueDefinition))
                 .Union(fileSection.KeyValues.Where(k =>
                     !unitValueList.Any(v => k.Key == v.UnitValueDefinition.Key 
-                                            || k.Key == "BaseSection"))
+                                            || k.Key == "BaseSection"
+                                            || k.Key == "$Inherits"))
                     .Select(k => new EntityValueModel(
                         this,
                         "9) Other values",
@@ -50,6 +51,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                         k.Key,
                         new UnitValueDefinition {Key = k.Key, DetectTypeAtRuntime = true})))
                 .ToList();
+            if (rootModel is AiRootModel) return;
             if (rulesRootModel.UseSectionInheritance)
             {
                 EntityValueList.Add(new EntityValueModel(

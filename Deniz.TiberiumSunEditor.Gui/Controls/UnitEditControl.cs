@@ -109,7 +109,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 _showHeaderAndFooter = value;
                 panelTop.Visible = value;
-                //panelAddNew.Visible = value;
+                panelAddNew.Visible = value;
             }
         }
 

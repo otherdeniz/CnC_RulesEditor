@@ -4,7 +4,6 @@ using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
 using System.ComponentModel;
 using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Deniz.TiberiumSunEditor.Gui.Utils.Extensions;
-using Infragistics.Win.Printing;
 
 namespace Deniz.TiberiumSunEditor.Gui.Model
 {
@@ -13,6 +12,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         private readonly IniFileSection _fileSection;
         private readonly IniFileSection? _defaultSection;
         private string? _resolvedValue;
+        private string? _normalValue;
 
         public EntityValueModel(GameEntityModel entityModel,
             string category,
@@ -27,7 +27,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             Category = valueDefinition.ModuleCategory + category;
             Key = key;
             ValueDefinition = valueDefinition;
-            NormalValue = _defaultSection?.GetValue(key)?.Value ?? "";
         }
 
         [DisplayName(" ")]
@@ -114,7 +113,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 : ImageListComponent.Instance.Symbols24.Images[0];
 
         [DisplayName("Original")]
-        public string NormalValue { get; }
+        public string NormalValue => _normalValue ??= _defaultSection?.GetValue(Key)?.Value ?? "";
 
         [DisplayName("Original")]
         public string NormalValueName

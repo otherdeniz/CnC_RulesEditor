@@ -1,8 +1,5 @@
-﻿using System.Diagnostics;
-using Deniz.TiberiumSunEditor.Gui.Dialogs;
+﻿using Deniz.TiberiumSunEditor.Gui.Dialogs;
 using Deniz.TiberiumSunEditor.Gui.Model;
-using Deniz.TiberiumSunEditor.Gui.Model.KeyValue;
-using ImageMagick;
 using Infragistics.Win.UltraWinGrid;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
@@ -46,8 +43,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
 
         private void LoadTeamsList(string? selectedTeamKey = null)
         {
-            if (EntityModel == null) return;
-            if (EntityModel.RootModel is AiRootModel aiRootModel)
+            if (EntityModel?.RootModel is AiRootModel aiRootModel)
             {
                 var childFilter = new FilterByParentModel("TaskForce", EntityModel.EntityKey);
                 var childEntities = aiRootModel.TeamEntities
@@ -85,6 +81,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
             if (newUnit != null)
             {
                 valueModel.UnitKey = newUnit.EntityKey;
+                EntityModel!.RootModel.RaiseGlobalEntityNotification(newUnit.EntityKey, "RefreshInfoNumber");
                 row.Refresh();
             }
         }
@@ -96,7 +93,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
                 if (e.Cell.Column.Key == "DeleteImage"
                     && valueModel.DeleteImage != null)
                 {
+                    var oldUnitKey = valueModel.UnitKey;
                     valueModel.UnitKey = string.Empty;
+                    EntityModel!.RootModel.RaiseGlobalEntityNotification(oldUnitKey, "RefreshInfoNumber");
                     e.Cell.Row.Refresh();
                 }
                 else if (e.Cell.Column.Key == "PlusImage"
