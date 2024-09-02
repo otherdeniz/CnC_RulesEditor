@@ -16,7 +16,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         public AiRootModel(RulesRootModel rulesRootModel,
             IniFile iniFile,
             IniFile? defaultFileOverwrite = null,
-            bool showMissingValues = false)
+            bool showMissingValues = false,
+            bool remapTechnosRootModel = true)
         {
             _showMissingValues = showMissingValues;
             RulesModel = rulesRootModel;
@@ -30,14 +31,17 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             EntityTypeEditControl.Add(new EntityTypeEditControlTypeModel("TeamTypes", typeof(AiTeamEditControl)));
             EntityTypeEditControl.Add(new EntityTypeEditControlTypeModel("AITriggerTypes", typeof(AiTriggerEditControl)));
             LoadGameEntities();
-            foreach (var rulesEntity in RulesModel.InfantryEntities
-                         .Union(RulesModel.VehicleEntities)
-                         .Union(RulesModel.AircraftEntities))
+            if (remapTechnosRootModel)
             {
-                rulesEntity.RootModel = this;
-                rulesEntity.InfoNumberFunction = () =>
-                    TaskForceEntities.Count(e => e.EntityModel.FileSection.KeyValues.Any(k =>
-                        k.Value.EndsWith($",{rulesEntity.EntityKey}")));
+                foreach (var rulesEntity in RulesModel.InfantryEntities
+                             .Union(RulesModel.VehicleEntities)
+                             .Union(RulesModel.AircraftEntities))
+                {
+                    rulesEntity.RootModel = this;
+                    rulesEntity.InfoNumberFunction = () =>
+                        TaskForceEntities.Count(e => e.EntityModel.FileSection.KeyValues.Any(k =>
+                            k.Value.EndsWith($",{rulesEntity.EntityKey}")));
+                }
             }
         }
 
@@ -136,9 +140,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 
             var entitiesTypesSection = File.GetSection(entityType)
                                        ?? File.AddSection(entityType);
-            var typeKey = entitiesTypesSection.KeyValues.Any()
-                ? entitiesTypesSection.KeyValues.Max(k => int.TryParse(k.Key, out var number) ? number : 0) + 1
-                : 0;
+            var typeKey = entitiesTypesSection.GetMaxKeyValue() + 1 ?? 0;
             entitiesTypesSection.SetValue(typeKey.ToString(), newKey);
 
             var newListItemModel = new EntityListItemModel(typeKey.ToString(), newGameEntity);

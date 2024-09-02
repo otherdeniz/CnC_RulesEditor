@@ -86,6 +86,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             _gameTypeDetector = new GameTypeDetector(customModSetting.GamePath);
             LoadRulesIniSources();
             LoadArtIniSources();
+            LoadAiIniSources();
             _doEvents = true;
         }
 
@@ -95,7 +96,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                                && !string.IsNullOrEmpty(textGamePath.Text)
                                && SelectedGameDefinition != null
                                && comboBoxRulesIni.SelectedIndex > -1
-                               && comboBoxArtIni.SelectedIndex > -1;
+                               && comboBoxArtIni.SelectedIndex > -1
+                               && comboBoxAiIni.SelectedIndex > -1;
         }
 
         private void LoadRulesIniSources()
@@ -127,7 +129,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                     }
                 }
             }
-            if (comboBoxRulesIni.SelectedIndex == -1 
+            if (comboBoxRulesIni.SelectedIndex == -1
                 && comboBoxRulesIni.Items.Count > 0)
             {
                 comboBoxRulesIni.SelectedIndex = 0;
@@ -170,6 +172,42 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             }
         }
 
+        private void LoadAiIniSources()
+        {
+            comboBoxAiIni.Items.Clear();
+            if (_gameTypeDetector == null) return;
+            if (!string.IsNullOrEmpty(_gameTypeDetector.GameDirectory))
+            {
+                foreach (var iniFolderRule in _gameTypeDetector.IniFolderSearch("ai*.ini"))
+                {
+                    comboBoxAiIni.Items.Add(iniFolderRule);
+                    if (CurrentModSetting?.AiIniPath == iniFolderRule)
+                    {
+                        comboBoxAiIni.SelectedIndex = comboBoxAiIni.Items.Count - 1;
+                    }
+
+                }
+            }
+            if (SelectedGameDefinition != null)
+            {
+                foreach (var mixFileContent in _gameTypeDetector.FileManager.MixFilesContents
+                             .Where(c => c.FileName == SelectedGameDefinition.SaveAsAiFilename))
+                {
+                    var mixContentPath = mixFileContent.ToString();
+                    comboBoxAiIni.Items.Add(mixContentPath);
+                    if (CurrentModSetting?.AiIniMixSource == mixContentPath)
+                    {
+                        comboBoxAiIni.SelectedIndex = comboBoxAiIni.Items.Count - 1;
+                    }
+                }
+            }
+            if (comboBoxAiIni.SelectedIndex == -1
+                && comboBoxAiIni.Items.Count > 0)
+            {
+                comboBoxAiIni.SelectedIndex = 0;
+            }
+        }
+
         private bool CheckClientCommandLineArgument(string gamePath, string argument)
         {
             var clientDefinitionIniPath = Path.Combine(gamePath, @"Resources\ClientDefinitions.ini");
@@ -195,7 +233,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             if (comboBoxGameType.SelectedIndex > -1)
             {
                 var gameDefinition = _gameDefinitions[comboBoxGameType.SelectedIndex];
-                if (gameDefinition.GameKey == "TiberianSun" 
+                if (gameDefinition.GameKey == "TiberianSun"
                     || gameDefinition.GameKey == "Firestorm"
                     || gameDefinition.GameKey == "DTA")
                 {
@@ -234,6 +272,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         }
 
         private void comboBoxArtIni_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SetButtonOkEnabled();
+        }
+
+        private void comboBoxAiIni_SelectedIndexChanged(object sender, EventArgs e)
         {
             SetButtonOkEnabled();
         }
@@ -319,6 +362,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                 }
                 LoadRulesIniSources();
                 LoadArtIniSources();
+                LoadAiIniSources();
             }
         }
 
@@ -342,7 +386,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             {
                 foreach (var fileName in fileNames)
                 {
-                    File.Copy(Path.Combine(iniBasePath, fileName), 
+                    File.Copy(Path.Combine(iniBasePath, fileName),
                         Path.Combine(iniBasePath, Path.GetFileNameWithoutExtension(fileName) + "-default.ini"), false);
                 }
             }
@@ -416,6 +460,23 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                 CurrentModSetting.ArtIniMixSource = null;
                 CurrentModSetting.ArtIniPath = selectedArtIni;
             }
+            // Ai.ini
+            var selectedAiIni = (string)comboBoxAiIni.SelectedItem;
+            if (selectedAiIni.Contains(":"))
+            {
+                // mix content
+                CurrentModSetting.AiIniMixSource = selectedAiIni;
+                var mixFileContent =
+                    _gameTypeDetector!.FileManager.MixFilesContents.First(c =>
+                        c.ToString() == selectedAiIni);
+                CurrentModSetting.AiIniPath = UserSettingsFolder.Instance
+                    .SaveFile($"{CurrentModSetting.Key}_ai.ini", mixFileContent.Read());
+            }
+            else
+            {
+                CurrentModSetting.AiIniMixSource = null;
+                CurrentModSetting.AiIniPath = selectedAiIni;
+            }
             // Logo
             if (IconImagePath != null)
             {
@@ -455,5 +516,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         {
             DarkTitleBarHelper.UseImmersiveDarkMode(Handle, ThemeManager.Instance.CurrentTheme.WindowUseDarkHeader);
         }
+
     }
 }

@@ -71,6 +71,8 @@
             Symbols16.Images.SetKeyName(1, "delete2.png");
             Symbols16.Images.SetKeyName(2, "navigate_plus.png");
             Symbols16.Images.SetKeyName(3, "navigate_minus.png");
+            Symbols16.Images.SetKeyName(4, "arrow_up_blue.png");
+            Symbols16.Images.SetKeyName(5, "arrow_down_blue.png");
             // 
             // Symbols24
             // 

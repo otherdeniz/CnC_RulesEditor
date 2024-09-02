@@ -636,7 +636,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\COPYING" Link="COPYING" />
+    <Content Include="..\COPYING" Link="COPYING">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

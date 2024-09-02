@@ -55,6 +55,8 @@
             label8 = new Label();
             checkBoxXnaSectionInheritance = new CheckBox();
             checkBoxPhobosSectionInheritance = new CheckBox();
+            label9 = new Label();
+            comboBoxAiIni = new ComboBox();
             panelBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxIcon).BeginInit();
             SuspendLayout();
@@ -64,10 +66,10 @@
             panelBottom.Controls.Add(buttonOk);
             panelBottom.Controls.Add(buttonCancel);
             panelBottom.Dock = DockStyle.Bottom;
-            panelBottom.Location = new Point(0, 301);
+            panelBottom.Location = new Point(0, 326);
             panelBottom.Name = "panelBottom";
             panelBottom.Size = new Size(527, 43);
-            panelBottom.TabIndex = 10;
+            panelBottom.TabIndex = 12;
             // 
             // buttonOk
             // 
@@ -206,9 +208,9 @@
             label5.AutoSize = true;
             label5.Location = new Point(12, 135);
             label5.Name = "label5";
-            label5.Size = new Size(83, 15);
+            label5.Size = new Size(96, 15);
             label5.TabIndex = 13;
-            label5.Text = "Initial rules.ini:";
+            label5.Text = "Original rules.ini:";
             // 
             // comboBoxRulesIni
             // 
@@ -224,27 +226,27 @@
             // checkBoxAres
             // 
             checkBoxAres.AutoSize = true;
-            checkBoxAres.Location = new Point(121, 193);
+            checkBoxAres.Location = new Point(121, 225);
             checkBoxAres.Name = "checkBoxAres";
             checkBoxAres.Size = new Size(93, 19);
-            checkBoxAres.TabIndex = 6;
+            checkBoxAres.TabIndex = 7;
             checkBoxAres.Text = "Ares support";
             checkBoxAres.UseVisualStyleBackColor = true;
             // 
             // checkBoxPhobos
             // 
             checkBoxPhobos.AutoSize = true;
-            checkBoxPhobos.Location = new Point(121, 218);
+            checkBoxPhobos.Location = new Point(121, 250);
             checkBoxPhobos.Name = "checkBoxPhobos";
             checkBoxPhobos.Size = new Size(110, 19);
-            checkBoxPhobos.TabIndex = 7;
+            checkBoxPhobos.TabIndex = 8;
             checkBoxPhobos.Text = "Phobos support";
             checkBoxPhobos.UseVisualStyleBackColor = true;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(12, 194);
+            label6.Location = new Point(12, 226);
             label6.Name = "label6";
             label6.Size = new Size(84, 15);
             label6.TabIndex = 13;
@@ -255,9 +257,9 @@
             label7.AutoSize = true;
             label7.Location = new Point(12, 164);
             label7.Name = "label7";
-            label7.Size = new Size(72, 15);
+            label7.Size = new Size(85, 15);
             label7.TabIndex = 13;
-            label7.Text = "Initial art.ini:";
+            label7.Text = "Original art.ini:";
             // 
             // comboBoxArtIni
             // 
@@ -273,17 +275,17 @@
             // checkBoxVinifera
             // 
             checkBoxVinifera.AutoSize = true;
-            checkBoxVinifera.Location = new Point(121, 243);
+            checkBoxVinifera.Location = new Point(121, 275);
             checkBoxVinifera.Name = "checkBoxVinifera";
             checkBoxVinifera.Size = new Size(110, 19);
-            checkBoxVinifera.TabIndex = 8;
+            checkBoxVinifera.TabIndex = 10;
             checkBoxVinifera.Text = "Vinifera support";
             checkBoxVinifera.UseVisualStyleBackColor = true;
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(12, 269);
+            label8.Location = new Point(12, 301);
             label8.Name = "label8";
             label8.Size = new Size(93, 15);
             label8.TabIndex = 13;
@@ -292,22 +294,42 @@
             // checkBoxXnaSectionInheritance
             // 
             checkBoxXnaSectionInheritance.AutoSize = true;
-            checkBoxXnaSectionInheritance.Location = new Point(121, 268);
+            checkBoxXnaSectionInheritance.Location = new Point(121, 300);
             checkBoxXnaSectionInheritance.Name = "checkBoxXnaSectionInheritance";
             checkBoxXnaSectionInheritance.Size = new Size(285, 19);
-            checkBoxXnaSectionInheritance.TabIndex = 9;
+            checkBoxXnaSectionInheritance.TabIndex = 11;
             checkBoxXnaSectionInheritance.Text = "XNAClient Section Inheritance ('BaseSection' tag)";
             checkBoxXnaSectionInheritance.UseVisualStyleBackColor = true;
             // 
             // checkBoxPhobosSectionInheritance
             // 
             checkBoxPhobosSectionInheritance.AutoSize = true;
-            checkBoxPhobosSectionInheritance.Location = new Point(237, 218);
+            checkBoxPhobosSectionInheritance.Location = new Point(237, 250);
             checkBoxPhobosSectionInheritance.Name = "checkBoxPhobosSectionInheritance";
             checkBoxPhobosSectionInheritance.Size = new Size(252, 19);
-            checkBoxPhobosSectionInheritance.TabIndex = 7;
+            checkBoxPhobosSectionInheritance.TabIndex = 9;
             checkBoxPhobosSectionInheritance.Text = "Phobos Section inheritance ('$Inherits' tag)";
             checkBoxPhobosSectionInheritance.UseVisualStyleBackColor = true;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(12, 193);
+            label9.Name = "label9";
+            label9.Size = new Size(80, 15);
+            label9.TabIndex = 13;
+            label9.Text = "Original ai.ini:";
+            // 
+            // comboBoxAiIni
+            // 
+            comboBoxAiIni.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            comboBoxAiIni.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxAiIni.FormattingEnabled = true;
+            comboBoxAiIni.Location = new Point(121, 190);
+            comboBoxAiIni.Name = "comboBoxAiIni";
+            comboBoxAiIni.Size = new Size(394, 23);
+            comboBoxAiIni.TabIndex = 6;
+            comboBoxAiIni.SelectedIndexChanged += comboBoxAiIni_SelectedIndexChanged;
             // 
             // NewCustomModForm
             // 
@@ -315,7 +337,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = buttonCancel;
-            ClientSize = new Size(527, 344);
+            ClientSize = new Size(527, 369);
             Controls.Add(checkBoxVinifera);
             Controls.Add(checkBoxPhobosSectionInheritance);
             Controls.Add(checkBoxPhobos);
@@ -324,9 +346,11 @@
             Controls.Add(pictureBoxIcon);
             Controls.Add(buttonIcon);
             Controls.Add(buttonPath);
+            Controls.Add(comboBoxAiIni);
             Controls.Add(comboBoxArtIni);
             Controls.Add(comboBoxRulesIni);
             Controls.Add(comboBoxGameType);
+            Controls.Add(label9);
             Controls.Add(label8);
             Controls.Add(label7);
             Controls.Add(label6);
@@ -377,5 +401,7 @@
         private Label label8;
         private CheckBox checkBoxXnaSectionInheritance;
         private CheckBox checkBoxPhobosSectionInheritance;
+        private Label label9;
+        private ComboBox comboBoxAiIni;
     }
 }

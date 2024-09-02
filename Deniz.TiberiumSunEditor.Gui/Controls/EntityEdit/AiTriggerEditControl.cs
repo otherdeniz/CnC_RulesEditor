@@ -5,6 +5,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
 {
     public partial class AiTriggerEditControl : EntityEditBaseControl
     {
+        private bool _doEvents;
+
         public AiTriggerEditControl()
         {
             InitializeComponent();
@@ -13,8 +15,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
         public override void LoadEntity(GameEntityModel entity, FilterByParentModel? filterKeyValue = null)
         {
             base.LoadEntity(entity, filterKeyValue);
+            _doEvents = false;
             labelKey.Text = entity.EntityKey;
             textName.Text = entity.EntityName;
+            _doEvents = true;
             var hiddenValueKeys = new List<string> { "Name" };
             if (!string.IsNullOrEmpty(filterKeyValue?.Key))
             {
@@ -25,6 +29,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
 
         private void textName_TextChanged(object sender, EventArgs e)
         {
+            if (!_doEvents) return;
             EntityModel?.FileSection.SetValue("Name", textName.Text);
             RaiseNameChanged();
         }

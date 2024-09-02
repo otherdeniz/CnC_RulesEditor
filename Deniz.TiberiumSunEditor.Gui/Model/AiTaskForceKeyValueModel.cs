@@ -74,6 +74,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         [DisplayName("Unit")]
         public Image UnitPicture { get; private set; }
 
+        [DisplayName("Cost (sum)")]
         public string? Cost
         {
             get

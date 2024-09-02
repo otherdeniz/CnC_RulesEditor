@@ -57,5 +57,309 @@
 		{"Key":"MinimumWeight","Category":"4) Weight","Description":"Specifies a floating point value that will be interpreted as this AI Trigger's Minimum Weight.\n\nAI Triggers are given weights to define how important they are. Larger current weight makes that AI Trigger more likely to get triggered. When the game starts, the starting weight is the current weight. Later when it is recomputed, the current weight changes within the given MinimumWeight and MaximumWeight.\nEach time an AI controlled TeamType is dissolved (when they complete their ScriptType or are destroyed), all AI Triggers using that TeamType as their primary (Team1) get their current weight modified:\nIf the Team has executed a Script Action 49, 0 in its lifetime, [General] AITriggerSuccessWeightDelta= is added to its current weight, otherwise, [General] AITriggerFailureWeightDelta= multiplied by [General] AITriggerTrackRecordCoefficient= (the former is usually negative) is added. Care is taken not to push the weight outside the limits set by MinimumWeight and MaximumWeight while doing so.\nA Weight equivalent to 5000.0, triggers this AITigger as soon as its conditions are met. In RA2, it is originally used for Teams utilising minor SuperWeapons, the Iron Curtain or the ChronoSphere.\nA constant weight given for StartingWeight, MinimumWeight and MaximumWeight like 50.0,50.0,50.0 is not altered by the weight computations.","Default":"50.0"},
 		{"Key":"MaximumWeight","Category":"4) Weight","Description":"Specifies a floating point value that will be interpreted as this AI Trigger's Maximum Weight.\n\nAI Triggers are given weights to define how important they are. Larger current weight makes that AI Trigger more likely to get triggered. When the game starts, the starting weight is the current weight. Later when it is recomputed, the current weight changes within the given MinimumWeight and MaximumWeight.\nEach time an AI controlled TeamType is dissolved (when they complete their ScriptType or are destroyed), all AI Triggers using that TeamType as their primary (Team1) get their current weight modified:\nIf the Team has executed a Script Action 49, 0 in its lifetime, [General] AITriggerSuccessWeightDelta= is added to its current weight, otherwise, [General] AITriggerFailureWeightDelta= multiplied by [General] AITriggerTrackRecordCoefficient= (the former is usually negative) is added. Care is taken not to push the weight outside the limits set by MinimumWeight and MaximumWeight while doing so.\nA Weight equivalent to 5000.0, triggers this AITigger as soon as its conditions are met. In RA2, it is originally used for Teams utilising minor SuperWeapons, the Iron Curtain or the ChronoSphere.\nA constant weight given for StartingWeight, MinimumWeight and MaximumWeight like 50.0,50.0,50.0 is not altered by the weight computations.","Default":"50.0"}
 		
+	],
+	
+	"ScriptActions": [
+		{
+			"Number":"0","ActionName":"Attack Target","ParameterValue":"v","ParameterName":"Target Type to attack","Description":"This instructs the team to approach and attack the target specified by the parameter. These attack script actions are inherently self repeating. For example, when executing script action attack structure (0,2), the task force will attack the next structure when the current structure being attacked is destroyed and will continue to destroy enemy buildings until there are no more left. When no more target is left to attack, the script action is complete and the task force moves on to execute its next script action. The completion of this script action could get cut-short in cases the task force gets destroyed or runs out of ammo.",
+			"ParameterValues":[
+				{"Value":"0","Name":"Cancel Attack","Description":"Cancel attack mission"},
+				{"Value":"1","Name":"Target Anything","Description":"Anything [VehicleTypes], [AircraftTypes], [InfantryTypes] and [BuildingTypes]"},
+				{"Value":"2","Name":"Target Structures","Description":"Enemy [BuildingTypes]"},
+				{"Value":"3","Name":"Target Harvesters","Description":"Enemy [VehicleTypes] with Harvester=yes set (Ore Miners / Harvesters)"},
+				{"Value":"4","Name":"Target Infantry","Description":"Enemy [InfantryTypes]"},
+				{"Value":"5","Name":"Target Vehicles","Description":"Enemy [VehicleTypes]"},
+				{"Value":"6","Name":"Target Factories","Description":"Enemy [BuildingTypes] with a Factory= setting"},
+				{"Value":"7","Name":"Target Base Defenses","Description":"Enemy [BuildingTypes] with IsBaseDefense=yes set. In YR, also buildings defined in AlliedBaseDefenses, SovietBaseDefenses and ThirdBaseDefenses."},
+				{"Value":"8","Name":"Target Base Threats","Description":"Enemy objects approaching (or already in) its base and which are in an attack mission"},
+				{"Value":"9","Name":"Target Power Plants","Description":"Enemy [BuildingTypes] with positive Power= values set"},
+				{"Value":"10","Name":"Target Occupiable","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"[BuildingTypes] with [RA2]CanBeOccupied=yes or [YR]CanOccupyFire=yes set (usually neutral structures)"},
+				{"Value":"11","Name":"Target Tech Buildings","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"[BuildingTypes] with NeedsEngineer=yes set (usually NeutralTechBuildings=)"}
+			]
+		},
+		{
+			"Number":"1","ActionName":"Attack Waypoint","ParameterValue":"n","ParameterName":"Waypoint number to attack","Description":"This instructs the TeamType to use the TaskForce to attack the waypoint number specified by the parameter. If any members have Infiltrate=yes set they will enter the structure at the waypoint. Members with Engineer=yes set will capture the structure provided it does not have Capturable=no set or if it has NeedsEngineer=yes set. Members with Agent=yes set will spy on the structure if it has Spyable=yes set. Members that do not have Assaulter=no set will garrison the structure if it has CanBeOccupied=yes set. Members with C4=yes set will blow up the structure if does not have CanC4=no set. If there is no building at the specified waypoint, the TaskForce will attack the ground when reaching in range of the waypoint. Refer Waypoints for details on waypoint."
+		},
+		{
+			"Number":"2","ActionName":"Do nothing","ParameterValue":"0","ParameterName":"","Description":"Do nothing and go to next script action if present."
+		},
+		{
+			"Number":"3","ActionName":"Move To Waypoint","ParameterValue":"n","ParameterName":"Waypoint number to move to","Description":"This instructs the TeamType to use the TaskForce to move to the waypoint number specified by the parameter. Move mission is completed only when all team members reach the close enough distance (typically 1 cell around the waypoint). If the taskfose has too many members, the script action may not finish as all members are unable to reach CloseEnough distance."
+		},
+		{
+			"Number":"4","ActionName":"Move Into Specific Cell","ParameterValue":"n","ParameterName":"cell to move into","Description":"This instructs the TeamType to use the TaskForce to move to the Cell specified by the parameter. This is used when you want the TeamType to trigger a specific Action (when the game tests for the CellTag being entered). CellTags are attached to cells and are used to trigger Events and thus fire Actions when that cell is entered by a unit (or any unit from the TaskForce). Parameter: value = (y * 128) + x. This old formula is replaced by hacks. Hacks use value = (y * 1000) + x."
+		},
+		{
+			"Number":"5","ActionName":"Guard Area","ParameterValue":"n","ParameterName":"Time to guard area","Description":"Time is in tenths of a minute (multiples of 6 seconds). This instructs the TeamType to put the TaskForce into Guard Mode. Units will move to attack enemy units that fall within their Sight= range."
+		},
+		{
+			"Number":"6","ActionName":"Jump To Script Action","ParameterValue":"n","ParameterName":"Line number of this script to jump to","Description":"This is used to repeat actions within the ScriptType. The first Script Action has line number 1."
+		},
+		{
+			"Number":"7","ActionName":"Force Player Win","ParameterValue":"0","ParameterName":"","Description":"Forces a game win condition for the owner of the TeamType (they win the game)."
+		},
+		{
+			"Number":"8","ActionName":"Unload","ParameterValue":"v","ParameterName":"Type of unloading","Description":"If the TaskForce contains a unit or units that have a valid Passengers= value set, and those units contain passengers, this command will make the units inside the transport(s) disembark. Note that once the passengers have disembarked, the transport itself is suspended until given a new mission and is therefore no longer considered a part of this TaskForce - this means that you cannot, for example, get units to disembark, do something, then get back into the transport in the same script. The parameter can be used to control what happens to the transport after it 'deploys' its cargo",
+			"ParameterValues":[
+				{"Value":"0","Name":"Keep transports and units","Description":"all remain in the team and execute the remainder of the script"},
+				{"Value":"1","Name":"Keep transport and lose the units","Description":"only the transport will execute the remainder of the script"},
+				{"Value":"2","Name":"Lose transport and keep units","Description":"only the units will execute the remainder of the script"},
+				{"Value":"3","Name":"Lose transports and lose units","Description":"nothing executes the remainder of the script"}
+			]
+		},
+		{
+			"Number":"9","ActionName":"Deploy","ParameterValue":"0","ParameterName":"","Description":"If the TaskForce contains a unit or units that are able to deploy (for example a unit which DeploysInto= a [BuildingType] or has any of Deployer=yes, DeployFire=yes, DeployToFire=yes set) then this action causes them to deploy at the current cell they are occupying (same effect as selecting a unit and pressing the Deploy key as defined in KEYBOARD.INI or clicking the relevant button on the Advanced Command Bar). Units that deploy into buildings doesn't remain units, so can't execute any more script actions."
+		},
+		{
+			"Number":"10","ActionName":"Follow friendlies","ParameterValue":"0","ParameterName":"","Description":"This command causes the TaskForce to follow the nearest friendly unit when it moves although it will not function as if it is 'guarding' the unit. The following is not permanent, when the TaskForce is assigned another mission it abandons the following. TIP: If the support TeamType has this as the first line in its ScriptType, then it will escort the first TeamType."
+		},
+		{
+			"Number":"11","ActionName":"Assign New Mission","ParameterValue":"v","ParameterName":"Mission type","Description":"The objects in the TaskForce are all assigned the new mission defined by the parameter. The actions such as Sleep/Sticky/Guard/Area Guard/Hunt etc. changes the state/mission in which the units are and those remain in that state until those units are destroyed or recruited into another team and given a different command. Such actions are never completed so as to move on to execute the next script action, so these are given as the last script action in their scripts. These missions are affected by the properties set in their respective sections in rules(md).ini file. For example, unit in sleep mission are not recruitable because [Sleep] has Recruitable=no in rules.ini.",
+			"ParameterValues":[
+				{"Value":"0","Name":"Sleep","Description":"object sits around and plays dead, will not acquire targets"},
+				{"Value":"1","Name":"Attack","Description":"special attack mission used by AI team types (utilizes threat rating logic)"},
+				{"Value":"2","Name":"Move","Description":"simply moving to destination"},
+				{"Value":"3","Name":"QMove","Description":"special move to destination after other queued moves occur"},
+				{"Value":"4","Name":"Retreat","Description":"object runs away (may even leave the map)"},
+				{"Value":"5","Name":"Guard","Description":"object sits around and will engage an enemy that falls within its weapon range"},
+				{"Value":"6","Name":"Sticky","Description":"just like guard mode, except the object will engage enemies but not pursue them"},
+				{"Value":"7","Name":"Enter","Description":"enter building or transport"},
+				{"Value":"8","Name":"Capture","Description":"engineer entry logic used by MultiEngineer"},
+				{"Value":"9","Name":"Harvest","GameKeyFilter":"TiberianSun,Firestorm,DTA","Description":"the loop controlling harvesting of tiberium and dumping at a Refinery"},
+				{"Value":"10","Name":"Area Guard","GameKeyFilter":"TiberianSun,Firestorm,DTA","Description":"guard the general area where the object starts at"},
+				{"Value":"11","Name":"Return","GameKeyFilter":"TiberianSun,Firestorm,DTA","Description":"return to co-ordinating object (e.g. spawned object returns to the spawner)"},
+				{"Value":"12","Name":"Stop","GameKeyFilter":"TiberianSun,Firestorm,DTA","Description":"stop moving or firing at the first available opportunity"},
+				{"Value":"13","Name":"Ambush","GameKeyFilter":"TiberianSun,Firestorm,DTA","Description":"force fire (units with Infiltrate=yes will enter target if possible)"},
+				{"Value":"14","Name":"Hunt","GameKeyFilter":"TiberianSun,Firestorm,DTA","Description":"scan for and attack enemies wherever they may be on the map"},
+				{"Value":"15","Name":"Unload","GameKeyFilter":"TiberianSun,Firestorm,DTA","Description":"while dropping off cargo"},
+				{"Value":"16","Name":"Place C4","GameKeyFilter":"TiberianSun,Firestorm,DTA","Description":"unit runs to place C4 on a building"},
+				{"Value":"17","Name":"Construction","GameKeyFilter":"TiberianSun,Firestorm,DTA","Description":"structures use this when building up after initial placement"},
+				{"Value":"18","Name":"Selling","GameKeyFilter":"TiberianSun,Firestorm,DTA","Description":"structures use this for deconstruction after being sold"},
+				{"Value":"19","Name":"Repair","GameKeyFilter":"TiberianSun,Firestorm,DTA","Description":"used when repairing an object (e.g. Service Depot)"},
+				{"Value":"20","Name":"Rescue","GameKeyFilter":"TiberianSun,Firestorm,DTA","Description":"special team over-ride mission"},
+				{"Value":"21","Name":"Missile","GameKeyFilter":"TiberianSun,Firestorm,DTA","Description":"Nuke Silo special launch missile mission"},
+				{"Value":"22","Name":"Harmless","GameKeyFilter":"TiberianSun,Firestorm,DTA","Description":"object doesn't fire and is not considered in any threat scan"},
+				{"Value":"23","Name":"Open","GameKeyFilter":"TiberianSun,Firestorm,DTA","Description":"while opening or closing a gate to allow passage"},
+				{"Value":"24","Name":"Patrol","GameKeyFilter":"TiberianSun,Firestorm,DTA","Description":"patrol a series of waypoints"},
+				{"Value":"9","Name":"Eaten","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"when object is being repaired (applies only to structures)"},
+				{"Value":"10","Name":"Harvest","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"the loop controlling harvesting of tiberium and dumping at a Refinery"},
+				{"Value":"11","Name":"Area Guard","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"guard the general area where the object starts at"},
+				{"Value":"12","Name":"Return","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"return to co-ordinating object (e.g. spawned object returns to the spawner)"},
+				{"Value":"13","Name":"Stop","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"stop moving or firing at the first available opportunity"},
+				{"Value":"14","Name":"Ambush","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"force fire (units with Infiltrate=yes will enter target if possible)"},
+				{"Value":"15","Name":"Hunt","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"scan for and attack enemies wherever they may be on the map"},
+				{"Value":"16","Name":"Unload","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"while dropping off cargo"},
+				{"Value":"17","Name":"Place C4","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"unit runs to place C4 on a building"},
+				{"Value":"18","Name":"Construction","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"structures use this when building up after initial placement"},
+				{"Value":"19","Name":"Selling","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"structures use this for deconstruction after being sold"},
+				{"Value":"20","Name":"Repair","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"used when repairing an object (e.g. Service Depot)"},
+				{"Value":"21","Name":"Rescue","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"special team over-ride mission"},
+				{"Value":"22","Name":"Missile","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"Nuke Silo special launch missile mission"},
+				{"Value":"23","Name":"Harmless","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"object doesn't fire and is not considered in any threat scan"},
+				{"Value":"24","Name":"Open","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"while opening or closing a gate to allow passage"},
+				{"Value":"25","Name":"Patrol","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"patrol a series of waypoints"},
+				{"Value":"26","Name":"Paradrop Approach","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"object is approaching the paradrop site"},
+				{"Value":"27","Name":"Paradrop Overfly","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"object is flying over the paradrop site (i.e. dropping the paratroopers)"},
+				{"Value":"28","Name":"Wait","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"paused and awaiting next mission"},
+				{"Value":"29","Name":"Move","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"(special duplicate) used when Chrono units are moving to destination"},
+				{"Value":"30","Name":"Attack","GameKeyFilter":"RA2,RA2YR,RA2MO","Description":"(special duplicate) used when units are deployed to fire (e.g. weapons with an area fire effect)"},
+				{"Value":"31","Name":"Spyplane Approach","GameKeyFilter":"RA2YR,RA2MO","Description":"object is flying towards target"},
+				{"Value":"32","Name":"Spyplane Overfly","GameKeyFilter":"RA2YR,RA2MO","Description":"object is flying over the target"}
+			]
+		},
+		{
+			"Number":"12","ActionName":"Set Global","ParameterValue":"n","ParameterName":"global number to be set","Description":"The global number specified in the parameter is defined as being 'set' (it is allocated a value of '1' or 'true'). This should be employed in specific map files only. This is part of the boolean logic employed by the global variables system in the game engine."
+		},
+		{
+			"Number":"13","ActionName":"Play Idle Anim Sequence","ParameterValue":"n","ParameterName":"Sequence number","Description":"If the TaskForce contains a unit or units that are SHPs (i.e. infantry) then the relevant idle SHP sequence is displayed as defined by the frame numbering system in ART.INI. 0 for Idle1 and 1 for Idle2."
+		},
+		{
+			"Number":"14","ActionName":"Load Onto Transport","ParameterValue":"0","ParameterName":"","Description":"If the TaskForce contains a unit or units that have a valid Passengers= value set, and units whose Size= and PhysicalSize= settings allow them to be carried by that transport, this command will make the units enter the transport. This action remans incomplete if the transport is not loaded to its full capacity."
+		},
+		{
+			"Number":"15","ActionName":"Enter Structure At Waypoint","ParameterValue":"n","ParameterName":"waypoint number","Description":"This instructs the TaskForce to enter the structure at the waypoint number specified by the parameter. In RA2/YR, could be used for units with Infiltrate=yes and Agent=yes set and spy on the structure if it has Spyable=yes set. In TS, this is used for entering a building at waypoint, like engineer to enter a bridge repair hut at a given waypoint to repair that bridge."
+		},
+		{
+			"Number":"16","ActionName":"Patrol To Waypoint","ParameterValue":"n","ParameterName":"waypoint number","Description":"This is similar to Move to waypoint. This instructs the TeamType to use the TaskForce to move to the waypoint number specified by the parameter. The difference is that the units in the TaskForce will move out of their patrol route to actively go and engage any enemy objects that are within their Sight= as they move to the waypoint. NOTE: this action eats up processor time, because the TaskForce will scan for enemy objects with each movement. If you have a lot of TaskForces (or lots of units in them) engaged in this action, you will experience slowdown in the game - this is one reason why the single player missions are comparatively slow, they use this action a lot. The rate at which the scanning for targets whilst in this mission is controlled by the PatrolScan= statement in the [AI]section of RULES.INI."
+		},
+		{
+			"Number":"17","ActionName":"Change Script","ParameterValue":"n","ParameterName":"script number to execute","Description":"This instructs the TaskForce to execute another ScriptType. The parameter specifies the number of the ScriptType to execute as listed in the [ScriptTypes] table (consider the table as being numbered starting at 0 for this purpose)."
+		},
+		{
+			"Number":"18","ActionName":"Change Team","ParameterValue":"n","ParameterName":"team number to join","Description":"This instructs the TaskForce to join another TeamType. The parameter specifies the number of the TeamType to join as listed in the [TeamTypes] table (consider the table as being numbered starting at 0 for this purpose). In TS, vanilla FS expansion single player maps use this a lot, so any change in the number in the list of TeamTypes, affects those mission maps."
+		},
+		{
+			"Number":"19","ActionName":"Panic","ParameterValue":"0","ParameterName":"","Description":"If the TaskForce contains a unit or units that have Fraidycat=yes set then they will run around aimlessly, using the Panic animation from their sequence as defined in ART.INI. Normally used for the civilian units. Units that do not fulfil this criteria lie down and act as if prone."
+		},
+		{
+			"Number":"20","ActionName":"Change House Ownership","ParameterValue":"n","ParameterName":"house number of new owner","Description":"Used in single player missions on specific map files only, this changes ownership of the entire TeamType to the house number specified by the parameter."
+		},
+		{
+			"Number":"21","ActionName":"Scatter","ParameterValue":"0","ParameterName":"","Description":"This instructs the TaskForce to scatter (same effect as selecting a group of units and pressing the Scatter key as defined in KEYBOARD.INI)."
+		},
+		{
+			"Number":"22","ActionName":"Afraid & Run To Shroud","ParameterValue":"0","ParameterName":"","Description":"This instructs the TaskForce to behave in a scared manner and it will run to the nearest shrouded cell. The TaskForce will not actively engage in combat, will not acquire targets and will not retaliate (it will scatter instead if attacked)."
+		},
+		{
+			"Number":"23","ActionName":"Force Player Loss","ParameterValue":"0","ParameterName":"","Description":"Forces a game loss condition for the owner of the TeamType (they lose the game)."
+		},
+		{
+			"Number":"24","ActionName":"Play Speech","ParameterValue":"n","ParameterName":"number of speech to play","Description":"This instructs the TaskForce to play one of the Sofia or EVA voices from EVA.INI (depending upon the ParentCountry= or the owner of this TaskForce). The parameter is the number of the sound to be played from the [DialogList] in the EVA.INI file (note that you should consider this list as being numbered from 0 instead of 1 to get the correct numbering convention). In TS, the speech list is hardcoded in the game."
+		},
+		{
+			"Number":"25","ActionName":"Play Sound","ParameterValue":"n","ParameterName":"number of sound to play","Description":"This instructs the TaskForce to play one of the generic in game sounds from the [SoundList] in the SOUND.INI file (note that for all in game Action and Trigger purposes this number is from an internal table)."
+		},
+		{
+			"Number":"26","ActionName":"Play Movie","ParameterValue":"n","ParameterName":"number of movie to play","Description":"This instructs the TaskForce to play one of the movies from the [Movies] list in the ART.INI file (note that for all in game Action and Trigger purposes this number is from an internal table)."
+		},
+		{
+			"Number":"27","ActionName":"Play Theme","ParameterValue":"n","ParameterName":"number of theme to play","Description":"This instructs the TaskForce to play one of the game soundtracks from the [Themes] list in the THEME.INI file (note that for all in game Action and Trigger purposes this number is from an internal table)."
+		},
+		{
+			"Number":"28","ActionName":"Reduce Tiberium/Ore","ParameterValue":"0","ParameterName":"","Description":"Reduces the amount of Tiberium/Ore in the cell that the TeamType is occupying."
+		},
+		{
+			"Number":"29","ActionName":"Begin Production","ParameterValue":"0","ParameterName":"","Description":"Forces the owner of the TeamType to begin the auto-production process (the AI's behaviour in skirmish games). Should only be used on AI controlled houses."
+		},
+		{
+			"Number":"30","ActionName":"Force Sale","ParameterValue":"0","ParameterName":"","Description":"Forces the 'fire sale' of all remaining structures owned by the House= to which the TeamType belongs."
+		},
+		{
+			"Number":"31","ActionName":"Suicide","ParameterValue":"0","ParameterName":"","Description":"This instructs the TaskForce to destroy itself. In effect it commits suicide, usually accompanied by an explosion."
+		},
+		{
+			"Number":"32","ActionName":"Start Weather Storm","ParameterValue":"n","ParameterName":"number of seconds","Description":"(in TS: Ion Storm) This initiates the Weather Storm intro effect (when the screen goes dark prior to the clouds appearing) and is set to be delayed by the number of seconds specified by parameter 2."
+		},
+		{
+			"Number":"33","ActionName":"End Weather Storm","ParameterValue":"0","ParameterName":"","Description":"(in TS: Ion Storm) This forces an end to the Weather Storm intro effect (when the screen goes dark prior to the clouds appearing)."
+		},
+		{
+			"Number":"34","ActionName":"Center Map On Team","ParameterValue":"n","ParameterName":"Switch speed","Description":"This will center the screen on the TeamType. The parameter determines the speed at which the 'camera' switches view to the TaskForce. 0 slow to 4 fast."
+		},
+		{
+			"Number":"35","ActionName":"Shroud Map For Time","ParameterValue":"n","ParameterName":"Time to remain shrouded","Description":"Time in frames. This action will shroud the entire map except for the area around the players MCV's (if they have one). The parameter determines the number of frames for which the map should remain shrouded (1 second = approximately 15 frames) after which the explored areas are revealed again."
+		},
+		{
+			"Number":"36","ActionName":"Reveal Map For Time","ParameterValue":"n","ParameterName":"Time to remain revealed","Description":"Time in frames. This action will reveal the entire map. The parameter determines the number of frames for which the map should remain revealed (1 second = approximately 15 frames) after which the map is shrouded again."
+		},
+		{
+			"Number":"37","ActionName":"Delete Team Members","ParameterValue":"0","ParameterName":"","Description":"This forces members of the TaskForce to be deleted."
+		},
+		{
+			"Number":"38","ActionName":"Clear Global","ParameterValue":"n","ParameterName":"Global number to be cleared","Description":"The global number specified in the parameter is defined as being 'clear' (it is allocated a value of '0' or 'false'). This should be employed in specific map files only in which the global variable has been defined. This is part of the boolean logic employed by the global variables system in the game engine."
+		},
+		{
+			"Number":"39","ActionName":"Set Local","ParameterValue":"n","ParameterName":"Local number to be set","Description":"The local variable number specified in the parameter is defined as being 'set' (it is allocated a value of '1' or 'true'). This should be employed in specific map files only in which the local variable has been defined. This is part of the boolean logic employed by the local variables system in the game engine."
+		},
+		{
+			"Number":"40","ActionName":"Clear Local","ParameterValue":"n","ParameterName":"Local number to be cleared","Description":"The local variable number specified in the parameter is defined as being 'cleared' (it is allocated a value of '0' or 'false'). This should be employed in specific map files only in which the local variable has been defined. This is part of the boolean logic employed by the local variables system in the game engine."
+		},
+		{
+			"Number":"41","ActionName":"Unpanic","ParameterValue":"0","ParameterName":"","Description":"If the TaskForce contains a unit or units that have Fraidycat=yes set which are currently assigned the Panic= sequence then this action nullifies that effect and the unit(s) adopt their default behaviour."
+		},
+		{
+			"Number":"42","ActionName":"Change Facing","ParameterValue":"v","ParameterName":"new direction to face","Description":"This instructs the TaskForce to turn and face the new direction specified by the parameter.",
+			"ParameterValues":[
+				{"Value":"0","Name":"North","Description":""},
+				{"Value":"1","Name":"North East","Description":""},
+				{"Value":"2","Name":"East","Description":""},
+				{"Value":"3","Name":"South East","Description":""},
+				{"Value":"4","Name":"South","Description":""},
+				{"Value":"5","Name":"South West","Description":""},
+				{"Value":"6","Name":"West","Description":""},
+				{"Value":"7","Name":"North West","Description":""}
+			]
+		},
+		{
+			"Number":"43","ActionName":"Wait Until Fully Loaded","ParameterValue":"0","ParameterName":"","Description":"This is always used after members of the TaskForce have entered a transport in the same TaskForce and serves two purposes. The effect of this is that the transport will be used to carry out any subsequent movement or deploy actions but after that it is no longer considered a part of this TaskForce and as such is available to be recruited into new TeamTypes. It is this action which enables use of the TransportsReturnOnUnload=yes statement in the corresponding TeamType entry. The second purpose is to flag the transport as being 'loaded' with passengers and thus is considered in the AI's targeting logic as a potential threat (see the ContentScan= entry in the RULES.INI). This action also orders the transport to wait until it is fully loaded before executing any subsequent script actions."
+		},
+		{
+			"Number":"44","ActionName":"Unload TRUCKB > TRUCKA","ParameterValue":"0","ParameterName":"","Description":"Used purely for a graphical effect and applicable uniquely to the [TRUCKB] unit, this has the effect of converting [TRUCKB] into [TRUCKA] to give the impression that the unit has unloaded its cargo. NOTE: this is residual from Tiberian Sun and as such may not work correctly since [TRUCKA] refers to the Demo Truck image in Red Alert 2 which has no 'unloaded' image. Changing the image for the Demo Truck and assigning new units to [TRUCKA] and [TRUCKB] enables use of this logic."
+		},
+		{
+			"Number":"45","ActionName":"Load TRUCKA > TRUCKB","ParameterValue":"0","ParameterName":"","Description":"Used purely for a graphical effect and applicable uniquely to the [TRUCKA] unit, this has the effect of converting [TRUCKA] into [TRUCKB]to give the impression that the unit has been loaded with cargo. NOTE: this is residual from Tiberian Sun and as such may not work correctly since [TRUCKA] refers to the Demo Truck image in Red Alert 2 which has no 'unloaded' image. Changing the image for the Demo Truck and assigning new units to [TRUCKA] and [TRUCKB] enables use of this logic."
+		},
+		{
+			"Number":"46","ActionName":"Attack Enemy Structure","ParameterValue":"BuildingTypes","ParameterName":"Enemy Building","Description":"Members of this TaskForce attack the enemy structure specified by the parameter. This action depends upon the type of units in the TaskForce and if certain members have Infiltrate=yes set. Members with Engineer=yes set will capture the structure provided it does not have Capturable=no set or if it has NeedsEngineer=yes set. Members with Agent=yes set will spy on the structure if it has Spyable=yes set. Members that do not have Assaulter=no set will garrison the structure if it has CanBeOccupied=yes set. Members with C4=yes set will blow up the structure if does not have CanC4=no set."
+		},
+		{
+			"Number":"47","ActionName":"Move To Enemy Structure","ParameterValue":"BuildingTypes","ParameterName":"Enemy Building","Description":"Members of this TaskForce move and stay adjacent to the enemy structure specified by the parameter. Completion of this action depends on all members reaching the close enough distance fron the foundation of the building."
+		},
+		{
+			"Number":"48","ActionName":"Scout","ParameterValue":"0","ParameterName":"","Description":"Causes members of this TaskForce to move to a pre-determined point on the map in an attempt to scout an area. The effect is that the TaskForce will move in one randomly chosen direction until it is no longer able to do so which can make it very useful or a waste of time depending on the direction chosen. If you want to continually scout the map, you should loop this script action."
+		},
+		{
+			"Number":"49","ActionName":"Register Trigger Weight Success","ParameterValue":"0","ParameterName":"","Description":"Register Success For AITrigger Weight Adjustment. Executing this script action even once in a script by its task force is considered as a success. A script not containing this script action is a fail for its task force. A script containing this script action but the task force being unable to reach and execute this script action even once is a fail. These success and failure are used to adjust the current weight defined in AITriggers."
+		},
+		{
+			"Number":"50","ActionName":"Flash (visual effect)","ParameterValue":"n","ParameterName":"number of flashes","Description":"This causes the TaskForce to 'flash', the visual effect you get on an object when you order something to attack it. The parameter is the number of times to flash the unit 'white'."
+		},
+		{
+			"Number":"51","ActionName":"Play Animation","ParameterValue":"n","ParameterName":"animation number","Description":"This instructs the TaskForce to play one of the animations from the [Animations] in the RULES.INI.INI file (note that for all in game Action and Trigger purposes this number is from an internal table)."
+		},
+		{
+			"Number":"52","ActionName":"Display Talk Bubble","ParameterValue":"v","ParameterName":"talk bubble number","Description":"Should be used for single-unit TaskForces only, this causes a 'talk bubble' to appear above the unit. The parameter determines which type of talk bubble to display. Note that the length of time for which the talk bubble is displayed is controlled through the TalkBubbleTime= statement in RULES.INI - refer to the RULES.INI Guide for details of this and the steps to take to enable its inclusion in Red Alert 2 as this remains residual from Tiberian Sun:Firestorm.",
+			"ParameterValues":[
+				{"Value":"1","Name":"*","Description":"general speech"},
+				{"Value":"2","Name":"?","Description":"question"},
+				{"Value":"3","Name":"!","Description":"shouting or statement"}
+			]
+		},
+		{
+			"Number":"53","ActionName":"Gather at enemy base","ParameterValue":"0","ParameterName":"","Description":"This causes the TaskForce to gather together (sometimes used when members of the TaskForce move at different speeds and you want the faster ones to stop while the slower ones catch up) after the previous action has been executed. If the TaskForce is in an attack mission and moving towards an enemy base, this command is usually executed when the first member of the TaskForce reaches the distance from that base defined by the AISafeDistance= statement in RULES.INI.",
+			"GameKeyFilter":"RA2,RA2YR,RA2MO"
+		},
+		{
+			"Number":"54","ActionName":"Regroup at friendly base","ParameterValue":"0","ParameterName":"","Description":"This causes the TaskForce to regroup, if for example any of its members have become engaged in a base defense mission or strayed away whilst in guard mode, or even the TeamType itself has been suspended for whatever reason. The members regroup directly next to each other leaving no 'gaps' at the nearest available point with sufficient space, and is used, for example, prior to activating the Iron Curtain so that all applicable members are affected (i.e. they fall within its range of effect).",
+			"GameKeyFilter":"RA2,RA2YR,RA2MO"
+		},
+		{
+			"Number":"55","ActionName":"Activate Iron Curtain","ParameterValue":"0","ParameterName":"","Description":"Activate Iron Curtain on this TaskForce. If the owner of the TaskForce to which this ScriptType is attached also has the Iron Curtain fully charged then it will be fired at this TaskForce. Note that the use of the Iron Curtain in this manner depends on the percentage chance of the AI incorporating them into its actions as defined by the AIMinorSuperReadyPercent= statement in RULES.INI.",
+			"GameKeyFilter":"RA2,RA2YR,RA2MO"
+		},
+		{
+			"Number":"56","ActionName":"Chronoshift To Building","ParameterValue":"BuildingTypes","ParameterName":"Chronoshift to Building","Description":"Chronoshifts the team to a building. If the owner of the task force to which this script is attached also has the Chronosphere fully charged then it will be used on the task force to transport it to the enemy structure specified by the parameter, before moving on to the next script action. Note that the use of the Chronosphere in this manner depends on the percentage chance of the AI incorporating them into its actions as defined by the AIMinorSuperReadyPercent statement in RULES.INI.",
+			"GameKeyFilter":"RA2,RA2YR,RA2MO"
+		},
+		{
+			"Number":"57","ActionName":"Chronoshift To Target Type","ParameterValue":"n","ParameterName":"Target type number","Description":"Chronoshifts the team to a target type. If the owner of the task force to which this script is attached also has the Chronosphere fully charged then it will be used on the task force to transport it to a target that fits the quarry type (target category) specified by the parameter, before moving on to the next script action. Target selection is based on nearest/first built depending on the scan range defined by TargetDistanceCoefficientDefault or its technotype override of TargetDistanceCoefficient. Note that the use of the Chronosphere in this manner depends on the percentage chance of the AI incorporating them into its actions as defined by the AIMinorSuperReadyPercent statement in RULES.INI.",
+			"GameKeyFilter":"RA2,RA2YR,RA2MO"
+		},
+		{
+			"Number":"58","ActionName":"Move To Friendly Building","ParameterValue":"n","ParameterName":"Building number","Description":"Members of this TaskForce move and stay adjacent to the friendly structure specified by the parameter. The structure can be one owned by the owner of the TaskForce or any of its allies.",
+			"GameKeyFilter":"RA2,RA2YR,RA2MO"
+		},
+		{
+			"Number":"59","ActionName":"Attack Structure At Waypoint","ParameterValue":"n","ParameterName":"waypoint number","Description":"Members of this TaskForce attack the structure at the waypoint specified by the parameter. This action is very similar to action number 43 although this action does not test for ownership of the structure itself - thus the inclusion of this action allows, for example, InfantryTypes with Engineer=yes set to enter structures owned by the same side for the purposes of repair. This would be the most appropriate action to use to get the AI to repair bridges. Use of this also means that the TaskForce will attack the structure with one of its weapons meaning, for example, that units with C4=yes set will not C4 the building but shoot at it instead. This is useful if you want to get a TaskForce to destroy a nearby occupiable structure instead of entering it in a bid to prevent the enemy getting hold of it - a tactic used in the Yuri's Revenge AI.",
+			"GameKeyFilter":"RA2YR,RA2MO"
+		},
+		{
+			"Number":"60","ActionName":"Enter Grinder","ParameterValue":"0","ParameterName":"","Description":"Members of this TaskForce will enter the nearest structure with Grinding=yes set if it is owned by the owner of the TaskForce or any of its allies.",
+			"GameKeyFilter":"RA2YR,RA2MO"
+		},
+		{
+			"Number":"61","ActionName":"Occupy Tank Bunker","ParameterValue":"0","ParameterName":"","Description":"Any VehicleType members of this TaskForce which do not have Bunkerable=no set will enter the nearest vacant structure with Bunker=yes set if it is owned by the owner of the TaskForce or any of its allies.",
+			"GameKeyFilter":"RA2YR,RA2MO"
+		},
+		{
+			"Number":"62","ActionName":"Enter Bio Reactor","ParameterValue":"0","ParameterName":"","Description":"Any InfantryType members of this TaskForce will enter the nearest structure with InfantryAbsorb=yes set if it is owned by the owner of the TaskForce or any of its allies and has space available.",
+			"GameKeyFilter":"RA2YR,RA2MO"
+		},
+		{
+			"Number":"63","ActionName":"Occupy Battle Bunker","ParameterValue":"0","ParameterName":"","Description":"Any InfantryType members of this TaskForce with Occupier=yes set will enter the nearest structure (which they own) with CanOccupyFire=yes set.",
+			"GameKeyFilter":"RA2YR,RA2MO"
+		},
+		{
+			"Number":"64","ActionName":"Garrison Structure","ParameterValue":"0","ParameterName":"","Description":"Any InfantryType members of this TaskForce with Occupier=yes set will enter the nearest (neutral) structure with CanOccupyFire=yes set. This action is used specifically for this purpose due to action #59 (see above) since the logic in Yuri's Revenge has changed so that the units weapon is transferred to the structure. Use of this action also allows the computer to repair those structures by sending an InfantryType with Engineer=yes set into them and also allows the AI to differentiate between attacking such a structure and entering it, which is useful if you want the AI to use infantry to destroy an occupiable structure thus preventing its enemy from using it.",
+			"GameKeyFilter":"RA2YR,RA2MO"
+		}
+	],
+	
+	"ScriptBuildingParameter2": [
+		{"AddValue":0,"Name":"Building with least threat"},
+		{"AddValue":65536,"Name":"Building with highest threat"},
+		{"AddValue":131072,"Name":"nearest Building"},
+		{"AddValue":196608,"Name":"farthest Building"},
 	]
+	
 }

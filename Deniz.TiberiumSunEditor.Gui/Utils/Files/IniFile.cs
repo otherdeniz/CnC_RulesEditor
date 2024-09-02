@@ -299,7 +299,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
                     : null;
         }
 
-        public void SetValue(string key, string value)
+        public void SetValue(string key, string value, string? comment = null)
         {
             var keyValue = GetValue(key);
             if (keyValue != null)
@@ -313,6 +313,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
                 else
                 {
                     keyValue.Value = value;
+                    if (comment != null)
+                    {
+                        keyValue.Comment = comment;
+                    }
                 }
             }
             else
@@ -320,11 +324,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
                 var lastKeyValueLineIndex = Lines.FindLastIndex(l => l is IniFileLineKeyValue);
                 if (lastKeyValueLineIndex > -1 && lastKeyValueLineIndex < Lines.Count - 1)
                 {
-                    Lines.Insert(lastKeyValueLineIndex + 1, new IniFileLineKeyValue(key, value, runtimeAdded: true));
+                    Lines.Insert(lastKeyValueLineIndex + 1, new IniFileLineKeyValue(key, value, comment, runtimeAdded: true));
                 }
                 else
                 {
-                    Lines.Add(new IniFileLineKeyValue(key, value, runtimeAdded: true));
+                    Lines.Add(new IniFileLineKeyValue(key, value, comment, runtimeAdded: true));
                 }
                 _keyValuesList = null;
                 _keyValuesDictionary = null;
@@ -340,6 +344,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
             removeLines.ForEach(l => Lines.Remove(l));
             _keyValuesList = null;
             _keyValuesDictionary = null;
+        }
+
+        public int? GetMaxKeyValue()
+        {
+            return KeyValues.Any() 
+                ? KeyValues.Max(k => int.TryParse(k.Key, out var number) ? number : 0)
+                : null;
         }
 
         public override string ToString()
@@ -427,7 +438,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
         }
 
         [Browsable(false)]
-        public string? Comment { get; }
+        public string? Comment { get; set; }
 
         [Browsable(false)]
         public bool RuntimeAdded { get; }

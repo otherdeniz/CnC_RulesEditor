@@ -270,9 +270,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 var entitiesTypesSection = Model.File.GetSection(entityTypes)
                                            ?? Model.File.AddSection(entityTypes);
-                var typeKey = entitiesTypesSection.KeyValues.Any()
-                    ? entitiesTypesSection.KeyValues.Max(k => int.TryParse(k.Key, out var number) ? number : 0) + 1
-                    : 900;
+                var typeKey = entitiesTypesSection.GetMaxKeyValue() + 1 ?? 900;
                 entitiesTypesSection.SetValue(typeKey.ToString(), copy.NewKey);
             }
             Model.ReloadGameEntites();
@@ -331,9 +329,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     {
                         var entitiesTypesSection = Model.File.GetSection(entityTypes)
                                                    ?? Model.File.AddSection(entityTypes);
-                        var typeKey = entitiesTypesSection.KeyValues.Any()
-                            ? entitiesTypesSection.KeyValues.Max(k => int.TryParse(k.Key, out var number) ? number : 0) + 1
-                            : Model.FileType.BaseType == FileBaseType.Rules ? 1 : 900;
+                        var typeKey = entitiesTypesSection.GetMaxKeyValue() + 1
+                                      ?? (Model.FileType.BaseType == FileBaseType.Rules ? 0 : 900);
                         entitiesTypesSection.SetValue(typeKey.ToString(), newKey);
                     }
                     Model.ReloadGameEntites();
@@ -358,9 +355,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 newSection.SetValue("Owner", Model.Sides[0].Value.FirstOrDefault() ?? "");
                 var entitiesTypesSection = Model.File.GetSection(entityType)
                                            ?? Model.File.AddSection(entityType);
-                var typeKey = entitiesTypesSection.KeyValues.Any()
-                    ? entitiesTypesSection.KeyValues.Max(k => int.TryParse(k.Key, out var number) ? number : 0) + 1
-                    : 900;
+                var typeKey = entitiesTypesSection.GetMaxKeyValue() + 1
+                              ?? (Model.FileType.BaseType == FileBaseType.Rules ? 0 : 900);
                 entitiesTypesSection.SetValue(typeKey.ToString(), addUnitResult.Key);
                 Model.ReloadGameEntites();
                 unitsListControl.SelectKey(addUnitResult.Key);
