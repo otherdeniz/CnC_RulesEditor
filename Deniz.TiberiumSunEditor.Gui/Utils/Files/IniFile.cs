@@ -272,6 +272,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
     {
         private List<IniFileLineKeyValue>? _keyValuesList;
         private Dictionary<string, IniFileLineKeyValue>? _keyValuesDictionary;
+        private List<IniFileLineBase> _lines = new List<IniFileLineBase>();
 
         public event EventHandler<IniFileSectionChangedEventArgs>? ValueChanged;
 
@@ -283,7 +284,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
 
         public List<IniFileLineComment> HeaderComments { get; set; } = new List<IniFileLineComment>();
 
-        public List<IniFileLineBase> Lines { get; } = new List<IniFileLineBase>();
+        public List<IniFileLineBase> Lines
+        {
+            get => _lines;
+            set
+            {
+                _lines = value;
+                _keyValuesList = null;
+                _keyValuesDictionary = null;
+            }
+        }
 
         public List<IniFileLineKeyValue> KeyValues => _keyValuesList
             ??= Lines.OfType<IniFileLineKeyValue>().ToList();

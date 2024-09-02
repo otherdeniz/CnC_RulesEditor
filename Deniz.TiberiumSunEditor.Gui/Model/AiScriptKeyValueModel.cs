@@ -128,43 +128,95 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 }
                 case "BuildingTypes":
                 {
-                    var parameter2Definition = AistructureFile.Instance.ScriptBuildingParameter2
-                        .LastOrDefault(p => p.AddValue <= parameterNumber);
-                    if (parameter2Definition != null)
+                    var resolvedBuildingParameter = ResolveBuildingParameter(EntityModel.RootModel.RulesModel,
+                        parameterNumber, CommentValue);
+                    if (resolvedBuildingParameter.Building != null 
+                        && resolvedBuildingParameter.Parameter2 != null)
                     {
-                        Parameter2 = parameter2Definition.Name;
-                        GameEntityModel? buildingEntity = null;
-                        if (!string.IsNullOrEmpty(CommentValue))
-                        {
-                            buildingEntity =
-                                EntityModel.RootModel.RulesModel.BuildingEntities.FirstOrDefault(b =>
-                                    b.EntityKey == CommentValue);
-                            //TODO: check index and re-write value if miss-matches
-                        }
-                        if (buildingEntity == null)
-                        {
-                            var buildingIndex = parameterNumber - parameter2Definition.AddValue;
-                            var buildingKeyValues = EntityModel.RootModel.RulesModel.DefaultFile
-                                .GetSection("BuildingTypes")?.KeyValues;
-                            if (buildingKeyValues != null
-                                && buildingIndex >= 0
-                                && buildingIndex < buildingKeyValues.Count)
-                            {
-                                buildingEntity = EntityModel.RootModel.RulesModel.BuildingEntities.FirstOrDefault(b =>
-                                    b.EntityKey == buildingKeyValues[buildingIndex].Value);
-                            }
-                        }
-                        if (buildingEntity != null)
-                        {
-                            var buildingName = buildingEntity.EntityName;
-                            Parameter = buildingName == string.Empty
-                                ? buildingEntity.EntityKey
-                                : $"{buildingEntity.EntityKey} [{buildingName}]";
-                        }
+                        var buildingName = resolvedBuildingParameter.Building.EntityName;
+                        Parameter = buildingName == string.Empty
+                            ? resolvedBuildingParameter.Building.EntityKey
+                            : $"{resolvedBuildingParameter.Building.EntityKey} [{buildingName}]";
+                        Parameter2 = resolvedBuildingParameter.Parameter2.Name;
                     }
+                    //var parameter2Definition = AistructureFile.Instance.ScriptBuildingParameter2
+                    //    .LastOrDefault(p => p.AddValue <= parameterNumber);
+                    //if (parameter2Definition != null)
+                    //{
+                    //    Parameter2 = parameter2Definition.Name;
+                    //    GameEntityModel? buildingEntity = null;
+                    //    if (!string.IsNullOrEmpty(CommentValue))
+                    //    {
+                    //        buildingEntity =
+                    //            EntityModel.RootModel.RulesModel.BuildingEntities.FirstOrDefault(b =>
+                    //                b.EntityKey == CommentValue);
+                    //        //TODO: check index and re-write value if miss-matches
+                    //    }
+                    //    if (buildingEntity == null)
+                    //    {
+                    //        var buildingIndex = parameterNumber - parameter2Definition.AddValue;
+                    //        var buildingKeyValues = EntityModel.RootModel.RulesModel.DefaultFile
+                    //            .GetSection("BuildingTypes")?.KeyValues;
+                    //        if (buildingKeyValues != null
+                    //            && buildingIndex >= 0
+                    //            && buildingIndex < buildingKeyValues.Count)
+                    //        {
+                    //            buildingEntity = EntityModel.RootModel.RulesModel.BuildingEntities.FirstOrDefault(b =>
+                    //                b.EntityKey == buildingKeyValues[buildingIndex].Value);
+                    //        }
+                    //    }
+                    //    if (buildingEntity != null)
+                    //    {
+                    //        var buildingName = buildingEntity.EntityName;
+                    //        Parameter = buildingName == string.Empty
+                    //            ? buildingEntity.EntityKey
+                    //            : $"{buildingEntity.EntityKey} [{buildingName}]";
+                    //    }
+                    //}
                     break;
                 }
             }
+        }
+
+        public static (GameEntityModel? Building, ScriptBuildingParameter2Definition? Parameter2) ResolveBuildingParameter(
+            RulesRootModel rulesRootModel, int parameterValue, string? comment)
+        {
+            var parameter2Definition = AistructureFile.Instance.ScriptBuildingParameter2
+                .LastOrDefault(p => p.AddValue <= parameterValue);
+            if (parameter2Definition != null)
+            {
+                //Parameter2 = parameter2Definition.Name;
+                GameEntityModel? buildingEntity = null;
+                if (!string.IsNullOrEmpty(comment))
+                {
+                    buildingEntity =
+                        rulesRootModel.BuildingEntities.FirstOrDefault(b =>
+                            b.EntityKey == comment);
+                    //TODO: check index and re-write value if miss-matches
+                }
+                if (buildingEntity == null)
+                {
+                    var buildingIndex = parameterValue - parameter2Definition.AddValue;
+                    var buildingKeyValues = rulesRootModel.DefaultFile
+                        .GetSection("BuildingTypes")?.KeyValues;
+                    if (buildingKeyValues != null
+                        && buildingIndex >= 0
+                        && buildingIndex < buildingKeyValues.Count)
+                    {
+                        buildingEntity = rulesRootModel.BuildingEntities.FirstOrDefault(b =>
+                            b.EntityKey == buildingKeyValues[buildingIndex].Value);
+                    }
+                }
+                if (buildingEntity != null)
+                {
+                    return (buildingEntity, parameter2Definition);
+                //    var buildingName = buildingEntity.EntityName;
+                //    Parameter = buildingName == string.Empty
+                //        ? buildingEntity.EntityKey
+                //        : $"{buildingEntity.EntityKey} [{buildingName}]";
+                }
+            }
+            return (null, null);
         }
     }
 }

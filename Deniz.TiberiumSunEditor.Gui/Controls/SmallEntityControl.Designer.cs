@@ -36,20 +36,24 @@ partial class SmallEntityControl
         // 
         // labelKey
         // 
+        labelKey.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
         labelKey.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
         labelKey.Location = new Point(44, 1);
         labelKey.Name = "labelKey";
         labelKey.Size = new Size(109, 15);
         labelKey.TabIndex = 10;
         labelKey.Text = "Key";
+        labelKey.Click += labelKey_Click;
         // 
         // labelName
         // 
+        labelName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
         labelName.Location = new Point(44, 17);
         labelName.Name = "labelName";
         labelName.Size = new Size(109, 15);
         labelName.TabIndex = 11;
         labelName.Text = "Name";
+        labelName.Click += labelName_Click;
         // 
         // pictureThumbnail
         // 
@@ -62,6 +66,7 @@ partial class SmallEntityControl
         pictureThumbnail.SizeMode = PictureBoxSizeMode.StretchImage;
         pictureThumbnail.TabIndex = 8;
         pictureThumbnail.TabStop = false;
+        pictureThumbnail.Click += pictureThumbnail_Click;
         // 
         // SmallEntityControl
         // 

@@ -39,9 +39,12 @@
             textName = new TextBox();
             labelKey = new Label();
             valuesGrid = new Infragistics.Win.UltraWinGrid.UltraGrid();
+            toolStripAdd = new ToolStrip();
+            buttonAddNew = new ToolStripButton();
             panelTop.SuspendLayout();
             panelButtons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)valuesGrid).BeginInit();
+            toolStripAdd.SuspendLayout();
             SuspendLayout();
             // 
             // panelTop
@@ -142,17 +145,38 @@
             valuesGrid.DisplayLayout.ViewStyleBand = Infragistics.Win.UltraWinGrid.ViewStyleBand.OutlookGroupBy;
             valuesGrid.Dock = DockStyle.Fill;
             valuesGrid.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            valuesGrid.Location = new Point(0, 39);
+            valuesGrid.Location = new Point(0, 64);
             valuesGrid.Margin = new Padding(4, 3, 4, 3);
             valuesGrid.Name = "valuesGrid";
-            valuesGrid.Size = new Size(774, 490);
+            valuesGrid.Size = new Size(774, 465);
             valuesGrid.TabIndex = 3;
+            valuesGrid.InitializeRow += valuesGrid_InitializeRow;
+            valuesGrid.ClickCell += valuesGrid_ClickCell;
+            // 
+            // toolStripAdd
+            // 
+            toolStripAdd.Items.AddRange(new ToolStripItem[] { buttonAddNew });
+            toolStripAdd.Location = new Point(0, 39);
+            toolStripAdd.Name = "toolStripAdd";
+            toolStripAdd.Size = new Size(774, 25);
+            toolStripAdd.TabIndex = 5;
+            toolStripAdd.Text = "toolStrip1";
+            // 
+            // buttonAddNew
+            // 
+            buttonAddNew.Image = (Image)resources.GetObject("buttonAddNew.Image");
+            buttonAddNew.ImageTransparentColor = Color.Magenta;
+            buttonAddNew.Name = "buttonAddNew";
+            buttonAddNew.Size = new Size(165, 22);
+            buttonAddNew.Text = "Append new Script Action";
+            buttonAddNew.Click += buttonAddNew_Click;
             // 
             // AiScriptEditControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(valuesGrid);
+            Controls.Add(toolStripAdd);
             Controls.Add(panelTop);
             Name = "AiScriptEditControl";
             Size = new Size(774, 529);
@@ -160,7 +184,10 @@
             panelTop.PerformLayout();
             panelButtons.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)valuesGrid).EndInit();
+            toolStripAdd.ResumeLayout(false);
+            toolStripAdd.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -173,5 +200,7 @@
         private TextBox textName;
         private Label labelKey;
         private Infragistics.Win.UltraWinGrid.UltraGrid valuesGrid;
+        private ToolStrip toolStripAdd;
+        private ToolStripButton buttonAddNew;
     }
 }

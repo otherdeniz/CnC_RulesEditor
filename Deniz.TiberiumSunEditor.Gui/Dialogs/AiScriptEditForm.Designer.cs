@@ -28,76 +28,59 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AiScriptEditForm));
             Infragistics.Win.UltraWinGrid.UltraGridBand ultraGridBand1 = new Infragistics.Win.UltraWinGrid.UltraGridBand("", -1);
             Infragistics.Win.Appearance appearance12 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinGrid.UltraGridBand ultraGridBand2 = new Infragistics.Win.UltraWinGrid.UltraGridBand("", -1);
             Infragistics.Win.Appearance appearance1 = new Infragistics.Win.Appearance();
-            panelBottom = new Panel();
-            buttonCancel = new Button();
-            ultraComboEditor1 = new Infragistics.Win.UltraWinEditors.UltraComboEditor();
-            smallEntityControl1 = new Controls.SmallEntityControl();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AiScriptEditForm));
+            ultraComboBuildingTarget = new Infragistics.Win.UltraWinEditors.UltraComboEditor();
+            smallEntityBuilding = new Controls.SmallEntityControl();
             label3 = new Label();
             label2 = new Label();
             groupBoxParam = new GroupBox();
+            panelParamNumber = new Panel();
+            numericParamValue = new NumericUpDown();
+            label4 = new Label();
             panelParamBuilding = new Panel();
             paramValuesGrid = new Infragistics.Win.UltraWinGrid.UltraGrid();
             label1 = new Label();
             groupBoxAction = new GroupBox();
             actionsGrid = new Infragistics.Win.UltraWinGrid.UltraGrid();
-            panelParamNumber = new Panel();
-            label4 = new Label();
-            numericParamValue = new NumericUpDown();
-            panelBottom.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)ultraComboEditor1).BeginInit();
+            panelBottom = new Panel();
+            panelOkCancel = new Panel();
+            buttonOk = new Button();
+            buttonCancel = new Button();
+            ((System.ComponentModel.ISupportInitialize)ultraComboBuildingTarget).BeginInit();
             groupBoxParam.SuspendLayout();
+            panelParamNumber.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericParamValue).BeginInit();
             panelParamBuilding.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)paramValuesGrid).BeginInit();
             groupBoxAction.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)actionsGrid).BeginInit();
-            panelParamNumber.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numericParamValue).BeginInit();
+            panelBottom.SuspendLayout();
+            panelOkCancel.SuspendLayout();
             SuspendLayout();
             // 
-            // panelBottom
+            // ultraComboBuildingTarget
             // 
-            panelBottom.Controls.Add(buttonCancel);
-            panelBottom.Dock = DockStyle.Bottom;
-            panelBottom.Location = new Point(4, 614);
-            panelBottom.Name = "panelBottom";
-            panelBottom.Size = new Size(1176, 43);
-            panelBottom.TabIndex = 2;
+            ultraComboBuildingTarget.DropDownStyle = Infragistics.Win.DropDownStyle.DropDownList;
+            ultraComboBuildingTarget.Location = new Point(146, 51);
+            ultraComboBuildingTarget.Name = "ultraComboBuildingTarget";
+            ultraComboBuildingTarget.Size = new Size(189, 25);
+            ultraComboBuildingTarget.TabIndex = 2;
+            ultraComboBuildingTarget.ValueChanged += ultraComboBuildingTarget_ValueChanged;
             // 
-            // buttonCancel
+            // smallEntityBuilding
             // 
-            buttonCancel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonCancel.Image = (Image)resources.GetObject("buttonCancel.Image");
-            buttonCancel.Location = new Point(1075, 9);
-            buttonCancel.Name = "buttonCancel";
-            buttonCancel.Size = new Size(90, 26);
-            buttonCancel.TabIndex = 1;
-            buttonCancel.Text = "Cancel";
-            buttonCancel.TextAlign = ContentAlignment.MiddleRight;
-            buttonCancel.TextImageRelation = TextImageRelation.ImageBeforeText;
-            buttonCancel.UseVisualStyleBackColor = true;
-            buttonCancel.Click += buttonCancel_Click;
-            // 
-            // ultraComboEditor1
-            // 
-            ultraComboEditor1.Location = new Point(146, 51);
-            ultraComboEditor1.Name = "ultraComboEditor1";
-            ultraComboEditor1.Size = new Size(189, 25);
-            ultraComboEditor1.TabIndex = 2;
-            // 
-            // smallEntityControl1
-            // 
-            smallEntityControl1.BorderStyle = BorderStyle.FixedSingle;
-            smallEntityControl1.Cursor = Cursors.Hand;
-            smallEntityControl1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            smallEntityControl1.Location = new Point(146, 10);
-            smallEntityControl1.Name = "smallEntityControl1";
-            smallEntityControl1.Size = new Size(189, 35);
-            smallEntityControl1.TabIndex = 1;
+            smallEntityBuilding.BorderStyle = BorderStyle.FixedSingle;
+            smallEntityBuilding.Cursor = Cursors.Hand;
+            smallEntityBuilding.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            smallEntityBuilding.Location = new Point(146, 10);
+            smallEntityBuilding.Name = "smallEntityBuilding";
+            smallEntityBuilding.Size = new Size(189, 35);
+            smallEntityBuilding.TabIndex = 1;
+            smallEntityBuilding.Click += smallEntityBuilding_Click;
             // 
             // label3
             // 
@@ -123,17 +106,44 @@
             groupBoxParam.Controls.Add(panelParamBuilding);
             groupBoxParam.Controls.Add(paramValuesGrid);
             groupBoxParam.Dock = DockStyle.Bottom;
-            groupBoxParam.Location = new Point(4, 465);
+            groupBoxParam.Location = new Point(4, 433);
             groupBoxParam.Name = "groupBoxParam";
-            groupBoxParam.Size = new Size(1176, 149);
-            groupBoxParam.TabIndex = 0;
+            groupBoxParam.Size = new Size(1176, 189);
+            groupBoxParam.TabIndex = 1;
             groupBoxParam.TabStop = false;
             groupBoxParam.Text = "Parameter";
             // 
+            // panelParamNumber
+            // 
+            panelParamNumber.Controls.Add(numericParamValue);
+            panelParamNumber.Controls.Add(label4);
+            panelParamNumber.Location = new Point(6, 22);
+            panelParamNumber.Name = "panelParamNumber";
+            panelParamNumber.Size = new Size(224, 97);
+            panelParamNumber.TabIndex = 10;
+            panelParamNumber.Visible = false;
+            // 
+            // numericParamValue
+            // 
+            numericParamValue.Location = new Point(85, 10);
+            numericParamValue.Name = "numericParamValue";
+            numericParamValue.Size = new Size(106, 23);
+            numericParamValue.TabIndex = 1;
+            numericParamValue.ValueChanged += numericParamValue_ValueChanged;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(14, 12);
+            label4.Name = "label4";
+            label4.Size = new Size(54, 15);
+            label4.TabIndex = 0;
+            label4.Text = "Number:";
+            // 
             // panelParamBuilding
             // 
-            panelParamBuilding.Controls.Add(ultraComboEditor1);
-            panelParamBuilding.Controls.Add(smallEntityControl1);
+            panelParamBuilding.Controls.Add(ultraComboBuildingTarget);
+            panelParamBuilding.Controls.Add(smallEntityBuilding);
             panelParamBuilding.Controls.Add(label2);
             panelParamBuilding.Controls.Add(label3);
             panelParamBuilding.Location = new Point(560, 22);
@@ -151,6 +161,7 @@
             paramValuesGrid.DisplayLayout.GroupByBox.Hidden = true;
             paramValuesGrid.DisplayLayout.Override.AllowColMoving = Infragistics.Win.UltraWinGrid.AllowColMoving.NotAllowed;
             paramValuesGrid.DisplayLayout.Override.AllowDelete = Infragistics.Win.DefaultableBoolean.False;
+            paramValuesGrid.DisplayLayout.Override.CellClickAction = Infragistics.Win.UltraWinGrid.CellClickAction.RowSelect;
             paramValuesGrid.DisplayLayout.Override.ColumnAutoSizeMode = Infragistics.Win.UltraWinGrid.ColumnAutoSizeMode.AllRowsInBand;
             paramValuesGrid.DisplayLayout.Override.GroupByRowInitialExpansionState = Infragistics.Win.UltraWinGrid.GroupByRowInitialExpansionState.Expanded;
             appearance12.TextHAlignAsString = "Left";
@@ -167,6 +178,7 @@
             paramValuesGrid.Size = new Size(242, 94);
             paramValuesGrid.TabIndex = 8;
             paramValuesGrid.Visible = false;
+            paramValuesGrid.AfterSelectChange += paramValuesGrid_AfterSelectChange;
             // 
             // label1
             // 
@@ -183,8 +195,8 @@
             groupBoxAction.Dock = DockStyle.Fill;
             groupBoxAction.Location = new Point(4, 4);
             groupBoxAction.Name = "groupBoxAction";
-            groupBoxAction.Size = new Size(1176, 461);
-            groupBoxAction.TabIndex = 5;
+            groupBoxAction.Size = new Size(1176, 429);
+            groupBoxAction.TabIndex = 0;
             groupBoxAction.TabStop = false;
             groupBoxAction.Text = "Action";
             // 
@@ -197,12 +209,14 @@
             actionsGrid.DisplayLayout.GroupByBox.Hidden = true;
             actionsGrid.DisplayLayout.Override.AllowColMoving = Infragistics.Win.UltraWinGrid.AllowColMoving.NotAllowed;
             actionsGrid.DisplayLayout.Override.AllowDelete = Infragistics.Win.DefaultableBoolean.False;
+            actionsGrid.DisplayLayout.Override.CellClickAction = Infragistics.Win.UltraWinGrid.CellClickAction.RowSelect;
             actionsGrid.DisplayLayout.Override.ColumnAutoSizeMode = Infragistics.Win.UltraWinGrid.ColumnAutoSizeMode.AllRowsInBand;
             actionsGrid.DisplayLayout.Override.GroupByRowInitialExpansionState = Infragistics.Win.UltraWinGrid.GroupByRowInitialExpansionState.Expanded;
             appearance1.TextHAlignAsString = "Left";
             actionsGrid.DisplayLayout.Override.HeaderAppearance = appearance1;
             actionsGrid.DisplayLayout.Override.HeaderClickAction = Infragistics.Win.UltraWinGrid.HeaderClickAction.Select;
             actionsGrid.DisplayLayout.Override.RowSelectors = Infragistics.Win.DefaultableBoolean.False;
+            actionsGrid.DisplayLayout.Override.RowSizing = Infragistics.Win.UltraWinGrid.RowSizing.AutoFree;
             actionsGrid.DisplayLayout.ShowDeleteRowsPrompt = false;
             actionsGrid.DisplayLayout.ViewStyle = Infragistics.Win.UltraWinGrid.ViewStyle.SingleBand;
             actionsGrid.DisplayLayout.ViewStyleBand = Infragistics.Win.UltraWinGrid.ViewStyleBand.OutlookGroupBy;
@@ -211,40 +225,60 @@
             actionsGrid.Location = new Point(3, 19);
             actionsGrid.Margin = new Padding(4, 3, 4, 3);
             actionsGrid.Name = "actionsGrid";
-            actionsGrid.Size = new Size(1170, 439);
-            actionsGrid.TabIndex = 8;
+            actionsGrid.Size = new Size(1170, 407);
+            actionsGrid.TabIndex = 0;
+            actionsGrid.AfterSelectChange += actionsGrid_AfterSelectChange;
             // 
-            // panelParamNumber
+            // panelBottom
             // 
-            panelParamNumber.Controls.Add(numericParamValue);
-            panelParamNumber.Controls.Add(label4);
-            panelParamNumber.Location = new Point(6, 22);
-            panelParamNumber.Name = "panelParamNumber";
-            panelParamNumber.Size = new Size(224, 97);
-            panelParamNumber.TabIndex = 10;
-            panelParamNumber.Visible = false;
+            panelBottom.Controls.Add(panelOkCancel);
+            panelBottom.Dock = DockStyle.Bottom;
+            panelBottom.Location = new Point(4, 622);
+            panelBottom.Name = "panelBottom";
+            panelBottom.Size = new Size(1176, 35);
+            panelBottom.TabIndex = 11;
             // 
-            // label4
+            // panelOkCancel
             // 
-            label4.AutoSize = true;
-            label4.Location = new Point(14, 12);
-            label4.Name = "label4";
-            label4.Size = new Size(54, 15);
-            label4.TabIndex = 0;
-            label4.Text = "Number:";
+            panelOkCancel.Controls.Add(buttonOk);
+            panelOkCancel.Controls.Add(buttonCancel);
+            panelOkCancel.Dock = DockStyle.Right;
+            panelOkCancel.Location = new Point(968, 0);
+            panelOkCancel.Name = "panelOkCancel";
+            panelOkCancel.Size = new Size(208, 35);
+            panelOkCancel.TabIndex = 2;
             // 
-            // numericParamValue
+            // buttonOk
             // 
-            numericParamValue.Location = new Point(85, 10);
-            numericParamValue.Name = "numericParamValue";
-            numericParamValue.Size = new Size(106, 23);
-            numericParamValue.TabIndex = 1;
+            buttonOk.Enabled = false;
+            buttonOk.Image = (Image)resources.GetObject("buttonOk.Image");
+            buttonOk.Location = new Point(19, 5);
+            buttonOk.Name = "buttonOk";
+            buttonOk.Size = new Size(90, 26);
+            buttonOk.TabIndex = 0;
+            buttonOk.Text = "Ok";
+            buttonOk.TextAlign = ContentAlignment.MiddleRight;
+            buttonOk.TextImageRelation = TextImageRelation.ImageBeforeText;
+            buttonOk.UseVisualStyleBackColor = true;
+            buttonOk.Click += buttonOk_Click;
+            // 
+            // buttonCancel
+            // 
+            buttonCancel.Image = (Image)resources.GetObject("buttonCancel.Image");
+            buttonCancel.Location = new Point(115, 5);
+            buttonCancel.Name = "buttonCancel";
+            buttonCancel.Size = new Size(90, 26);
+            buttonCancel.TabIndex = 1;
+            buttonCancel.Text = "Cancel";
+            buttonCancel.TextAlign = ContentAlignment.MiddleRight;
+            buttonCancel.TextImageRelation = TextImageRelation.ImageBeforeText;
+            buttonCancel.UseVisualStyleBackColor = true;
+            buttonCancel.Click += buttonCancel_Click;
             // 
             // AiScriptEditForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            CancelButton = buttonCancel;
             ClientSize = new Size(1184, 661);
             Controls.Add(groupBoxAction);
             Controls.Add(groupBoxParam);
@@ -255,36 +289,38 @@
             StartPosition = FormStartPosition.CenterParent;
             Text = "Edit Script Item";
             Load += AiScriptEditForm_Load;
-            panelBottom.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)ultraComboEditor1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ultraComboBuildingTarget).EndInit();
             groupBoxParam.ResumeLayout(false);
+            panelParamNumber.ResumeLayout(false);
+            panelParamNumber.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericParamValue).EndInit();
             panelParamBuilding.ResumeLayout(false);
             panelParamBuilding.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)paramValuesGrid).EndInit();
             groupBoxAction.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)actionsGrid).EndInit();
-            panelParamNumber.ResumeLayout(false);
-            panelParamNumber.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)numericParamValue).EndInit();
+            panelBottom.ResumeLayout(false);
+            panelOkCancel.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
-
-        private Panel panelBottom;
-        private Button buttonCancel;
         private GroupBox groupBoxParam;
         private GroupBox groupBoxAction;
         private Label label1;
         private Infragistics.Win.UltraWinGrid.UltraGrid paramValuesGrid;
         private Infragistics.Win.UltraWinGrid.UltraGrid actionsGrid;
-        private Controls.SmallEntityControl smallEntityControl1;
+        private Controls.SmallEntityControl smallEntityBuilding;
         private Label label3;
         private Label label2;
-        private Infragistics.Win.UltraWinEditors.UltraComboEditor ultraComboEditor1;
+        private Infragistics.Win.UltraWinEditors.UltraComboEditor ultraComboBuildingTarget;
         private Panel panelParamBuilding;
         private Panel panelParamNumber;
         private NumericUpDown numericParamValue;
         private Label label4;
+        private Panel panelBottom;
+        private Panel panelOkCancel;
+        private Button buttonOk;
+        private Button buttonCancel;
     }
 }

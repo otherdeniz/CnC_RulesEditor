@@ -53,4 +53,19 @@ public partial class SmallEntityControl : UserControl
             pictureThumbnail.BorderStyle = BorderStyle.None;
         }
     }
+
+    private void pictureThumbnail_Click(object sender, EventArgs e)
+    {
+        OnClick(e);
+    }
+
+    private void labelKey_Click(object sender, EventArgs e)
+    {
+        OnClick(e);
+    }
+
+    private void labelName_Click(object sender, EventArgs e)
+    {
+        OnClick(e);
+    }
 }
