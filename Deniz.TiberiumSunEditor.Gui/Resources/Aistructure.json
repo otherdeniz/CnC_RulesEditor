@@ -17,7 +17,7 @@
 		{"Key":"IonImmune","Category":"2) Generic","Description":"On yes, team is immune to Ion Storm.","Default":"no"},
 		{"Key":"Aggressive","Category":"2) Generic","Description":"","Default":"no"},
 		{"Key":"Suicide","Category":"2) Generic","Description":"","Default":"no"},
-		{"Key":"AvoidThreads","Category":"2) Generic","Description":"","Default":"no"},
+		{"Key":"AvoidThreats","Category":"2) Generic","Description":"","Default":"no"},
 		{"Key":"OnlyTargetHouseEnemy","Category":"2) Generic","Description":"","Default":"no"},
 		
 		{"Key":"AreTeamMembersRecruitable","Category":"3) Recruitment related","Description":"yes means that the units in this team can be recruited into other teams. When set to no the team members are not available for recruitment. When the team members finish their script actions they loose their AreTeamMembersRecruitable value and become available for recruitment into other teams.","Default":"no"},
