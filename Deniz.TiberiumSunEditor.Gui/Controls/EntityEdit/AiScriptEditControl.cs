@@ -58,7 +58,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
         {
             panelButtons.Visible = !ReadonlyMode;
             toolStripAdd.Visible = !ReadonlyMode;
-            buttonRefreshName.Visible = !ReadonlyMode;
             entitiesListTeams.ReadonlyMode = ReadonlyMode;
             textName.ReadOnly = ReadonlyMode;
         }

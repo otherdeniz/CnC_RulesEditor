@@ -35,12 +35,12 @@
             toolStripAdd = new ToolStrip();
             buttonAddNew = new ToolStripButton();
             panelTop = new Panel();
-            buttonRefreshName = new Button();
+            panelName = new Panel();
+            textName = new TextBox();
+            labelKey = new Label();
             panelButtons = new Panel();
             ButtonDelete = new Button();
             ButtonCopy = new Button();
-            textName = new TextBox();
-            labelKey = new Label();
             entitiesListTeams = new EntitiesListControl();
             panelScript = new Panel();
             groupBoxTeams = new GroupBox();
@@ -48,6 +48,7 @@
             ((System.ComponentModel.ISupportInitialize)valuesGrid).BeginInit();
             toolStripAdd.SuspendLayout();
             panelTop.SuspendLayout();
+            panelName.SuspendLayout();
             panelButtons.SuspendLayout();
             panelScript.SuspendLayout();
             groupBoxTeams.SuspendLayout();
@@ -102,28 +103,41 @@
             // 
             // panelTop
             // 
-            panelTop.Controls.Add(buttonRefreshName);
+            panelTop.Controls.Add(panelName);
             panelTop.Controls.Add(panelButtons);
-            panelTop.Controls.Add(textName);
-            panelTop.Controls.Add(labelKey);
             panelTop.Dock = DockStyle.Top;
             panelTop.Location = new Point(0, 0);
             panelTop.Name = "panelTop";
             panelTop.Size = new Size(774, 39);
             panelTop.TabIndex = 2;
             // 
-            // buttonRefreshName
+            // panelName
             // 
-            buttonRefreshName.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonRefreshName.Image = (Image)resources.GetObject("buttonRefreshName.Image");
-            buttonRefreshName.Location = new Point(555, 5);
-            buttonRefreshName.Name = "buttonRefreshName";
-            buttonRefreshName.Size = new Size(27, 27);
-            buttonRefreshName.TabIndex = 9;
-            buttonRefreshName.TextAlign = ContentAlignment.MiddleRight;
-            buttonRefreshName.TextImageRelation = TextImageRelation.ImageBeforeText;
-            buttonRefreshName.UseVisualStyleBackColor = true;
-            buttonRefreshName.Visible = false;
+            panelName.Controls.Add(textName);
+            panelName.Controls.Add(labelKey);
+            panelName.Dock = DockStyle.Fill;
+            panelName.Location = new Point(0, 0);
+            panelName.Name = "panelName";
+            panelName.Size = new Size(594, 39);
+            panelName.TabIndex = 10;
+            // 
+            // textName
+            // 
+            textName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            textName.Location = new Point(92, 8);
+            textName.Name = "textName";
+            textName.Size = new Size(487, 23);
+            textName.TabIndex = 1;
+            textName.TextChanged += textName_TextChanged;
+            // 
+            // labelKey
+            // 
+            labelKey.AutoSize = true;
+            labelKey.Location = new Point(3, 11);
+            labelKey.Name = "labelKey";
+            labelKey.Size = new Size(68, 15);
+            labelKey.TabIndex = 0;
+            labelKey.Text = "01234567-G";
             // 
             // panelButtons
             // 
@@ -160,24 +174,6 @@
             ButtonCopy.TextImageRelation = TextImageRelation.ImageBeforeText;
             ButtonCopy.UseVisualStyleBackColor = true;
             ButtonCopy.Visible = false;
-            // 
-            // textName
-            // 
-            textName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textName.Location = new Point(92, 7);
-            textName.Name = "textName";
-            textName.Size = new Size(463, 23);
-            textName.TabIndex = 1;
-            textName.TextChanged += textName_TextChanged;
-            // 
-            // labelKey
-            // 
-            labelKey.AutoSize = true;
-            labelKey.Location = new Point(3, 10);
-            labelKey.Name = "labelKey";
-            labelKey.Size = new Size(68, 15);
-            labelKey.TabIndex = 0;
-            labelKey.Text = "01234567-G";
             // 
             // entitiesListTeams
             // 
@@ -235,7 +231,8 @@
             toolStripAdd.ResumeLayout(false);
             toolStripAdd.PerformLayout();
             panelTop.ResumeLayout(false);
-            panelTop.PerformLayout();
+            panelName.ResumeLayout(false);
+            panelName.PerformLayout();
             panelButtons.ResumeLayout(false);
             panelScript.ResumeLayout(false);
             panelScript.PerformLayout();
@@ -246,7 +243,6 @@
         #endregion
 
         private Panel panelTop;
-        private Button buttonRefreshName;
         private Panel panelButtons;
         private Button ButtonDelete;
         private Button ButtonCopy;
@@ -259,5 +255,6 @@
         private Panel panelScript;
         private GroupBox groupBoxTeams;
         private Splitter splitterUnitPicker;
+        private Panel panelName;
     }
 }

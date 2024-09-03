@@ -45,19 +45,21 @@
             entitiesListTriggers = new EntitiesListControl();
             ultraTab = new Infragistics.Win.UltraWinTabControl.UltraTabControl();
             ultraTabSharedControlsPage1 = new Infragistics.Win.UltraWinTabControl.UltraTabSharedControlsPage();
+            panelName = new Panel();
             ultraTabPageControl1.SuspendLayout();
             panelTop.SuspendLayout();
             panelButtons.SuspendLayout();
             ultraTabPageControl2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)ultraTab).BeginInit();
             ultraTab.SuspendLayout();
+            panelName.SuspendLayout();
             SuspendLayout();
             // 
             // ultraTabPageControl1
             // 
             ultraTabPageControl1.Controls.Add(unitEdit);
             ultraTabPageControl1.Controls.Add(panelTop);
-            ultraTabPageControl1.Location = new Point(-10000, -10000);
+            ultraTabPageControl1.Location = new Point(1, 25);
             ultraTabPageControl1.Name = "ultraTabPageControl1";
             ultraTabPageControl1.Size = new Size(687, 342);
             // 
@@ -77,10 +79,8 @@
             // 
             // panelTop
             // 
-            panelTop.Controls.Add(buttonRefreshName);
+            panelTop.Controls.Add(panelName);
             panelTop.Controls.Add(panelButtons);
-            panelTop.Controls.Add(textName);
-            panelTop.Controls.Add(labelKey);
             panelTop.Dock = DockStyle.Top;
             panelTop.Location = new Point(0, 0);
             panelTop.Name = "panelTop";
@@ -91,7 +91,7 @@
             // 
             buttonRefreshName.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonRefreshName.Image = (Image)resources.GetObject("buttonRefreshName.Image");
-            buttonRefreshName.Location = new Point(468, 5);
+            buttonRefreshName.Location = new Point(471, 6);
             buttonRefreshName.Name = "buttonRefreshName";
             buttonRefreshName.Size = new Size(27, 27);
             buttonRefreshName.TabIndex = 9;
@@ -139,16 +139,16 @@
             // textName
             // 
             textName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textName.Location = new Point(92, 7);
+            textName.Location = new Point(92, 8);
             textName.Name = "textName";
-            textName.Size = new Size(376, 23);
+            textName.Size = new Size(379, 23);
             textName.TabIndex = 1;
             textName.TextChanged += textName_TextChanged;
             // 
             // labelKey
             // 
             labelKey.AutoSize = true;
-            labelKey.Location = new Point(3, 10);
+            labelKey.Location = new Point(3, 11);
             labelKey.Name = "labelKey";
             labelKey.Size = new Size(68, 15);
             labelKey.TabIndex = 0;
@@ -157,7 +157,7 @@
             // ultraTabPageControl2
             // 
             ultraTabPageControl2.Controls.Add(entitiesListTriggers);
-            ultraTabPageControl2.Location = new Point(1, 25);
+            ultraTabPageControl2.Location = new Point(-10000, -10000);
             ultraTabPageControl2.Name = "ultraTabPageControl2";
             ultraTabPageControl2.Size = new Size(687, 342);
             // 
@@ -198,6 +198,17 @@
             ultraTabSharedControlsPage1.Name = "ultraTabSharedControlsPage1";
             ultraTabSharedControlsPage1.Size = new Size(687, 342);
             // 
+            // panelName
+            // 
+            panelName.Controls.Add(buttonRefreshName);
+            panelName.Controls.Add(textName);
+            panelName.Controls.Add(labelKey);
+            panelName.Dock = DockStyle.Fill;
+            panelName.Location = new Point(0, 0);
+            panelName.Name = "panelName";
+            panelName.Size = new Size(507, 39);
+            panelName.TabIndex = 10;
+            // 
             // AiTeamEditControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -207,11 +218,12 @@
             Size = new Size(691, 370);
             ultraTabPageControl1.ResumeLayout(false);
             panelTop.ResumeLayout(false);
-            panelTop.PerformLayout();
             panelButtons.ResumeLayout(false);
             ultraTabPageControl2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)ultraTab).EndInit();
             ultraTab.ResumeLayout(false);
+            panelName.ResumeLayout(false);
+            panelName.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -230,5 +242,6 @@
         private Infragistics.Win.UltraWinTabControl.UltraTabPageControl ultraTabPageControl1;
         private Infragistics.Win.UltraWinTabControl.UltraTabPageControl ultraTabPageControl2;
         private EntitiesListControl entitiesListTriggers;
+        private Panel panelName;
     }
 }

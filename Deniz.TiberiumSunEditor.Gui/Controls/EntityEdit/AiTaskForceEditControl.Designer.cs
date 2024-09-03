@@ -44,20 +44,18 @@
             entitiesListTeams = new EntitiesListControl();
             valuesGrid = new Infragistics.Win.UltraWinGrid.UltraGrid();
             splitterUnitPicker = new Splitter();
+            panelName = new Panel();
             panelTop.SuspendLayout();
             panelButtons.SuspendLayout();
             groupBoxTeams.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)valuesGrid).BeginInit();
+            panelName.SuspendLayout();
             SuspendLayout();
             // 
             // panelTop
             // 
-            panelTop.Controls.Add(comboGroup);
-            panelTop.Controls.Add(label1);
-            panelTop.Controls.Add(buttonRefreshName);
+            panelTop.Controls.Add(panelName);
             panelTop.Controls.Add(panelButtons);
-            panelTop.Controls.Add(textName);
-            panelTop.Controls.Add(labelKey);
             panelTop.Dock = DockStyle.Top;
             panelTop.Location = new Point(0, 0);
             panelTop.Name = "panelTop";
@@ -69,7 +67,7 @@
             comboGroup.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             comboGroup.FormattingEnabled = true;
             comboGroup.Items.AddRange(new object[] { "-1" });
-            comboGroup.Location = new Point(375, 7);
+            comboGroup.Location = new Point(378, 8);
             comboGroup.Name = "comboGroup";
             comboGroup.Size = new Size(61, 23);
             comboGroup.TabIndex = 2;
@@ -79,7 +77,7 @@
             // 
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Location = new Point(326, 10);
+            label1.Location = new Point(329, 11);
             label1.Name = "label1";
             label1.Size = new Size(43, 15);
             label1.TabIndex = 10;
@@ -89,7 +87,7 @@
             // 
             buttonRefreshName.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonRefreshName.Image = (Image)resources.GetObject("buttonRefreshName.Image");
-            buttonRefreshName.Location = new Point(286, 5);
+            buttonRefreshName.Location = new Point(289, 6);
             buttonRefreshName.Name = "buttonRefreshName";
             buttonRefreshName.Size = new Size(27, 27);
             buttonRefreshName.TabIndex = 1;
@@ -138,16 +136,16 @@
             // textName
             // 
             textName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textName.Location = new Point(92, 7);
+            textName.Location = new Point(92, 8);
             textName.Name = "textName";
-            textName.Size = new Size(194, 23);
+            textName.Size = new Size(197, 23);
             textName.TabIndex = 0;
             textName.TextChanged += textName_TextChanged;
             // 
             // labelKey
             // 
             labelKey.AutoSize = true;
-            labelKey.Location = new Point(3, 10);
+            labelKey.Location = new Point(3, 11);
             labelKey.Name = "labelKey";
             labelKey.Size = new Size(68, 15);
             labelKey.TabIndex = 0;
@@ -214,6 +212,19 @@
             splitterUnitPicker.TabIndex = 10;
             splitterUnitPicker.TabStop = false;
             // 
+            // panelName
+            // 
+            panelName.Controls.Add(comboGroup);
+            panelName.Controls.Add(label1);
+            panelName.Controls.Add(buttonRefreshName);
+            panelName.Controls.Add(textName);
+            panelName.Controls.Add(labelKey);
+            panelName.Dock = DockStyle.Fill;
+            panelName.Location = new Point(0, 0);
+            panelName.Name = "panelName";
+            panelName.Size = new Size(460, 39);
+            panelName.TabIndex = 11;
+            // 
             // AiTaskForceEditControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -225,10 +236,11 @@
             Name = "AiTaskForceEditControl";
             Size = new Size(640, 513);
             panelTop.ResumeLayout(false);
-            panelTop.PerformLayout();
             panelButtons.ResumeLayout(false);
             groupBoxTeams.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)valuesGrid).EndInit();
+            panelName.ResumeLayout(false);
+            panelName.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -247,5 +259,6 @@
         private Splitter splitterUnitPicker;
         private ComboBox comboGroup;
         private Label label1;
+        private Panel panelName;
     }
 }

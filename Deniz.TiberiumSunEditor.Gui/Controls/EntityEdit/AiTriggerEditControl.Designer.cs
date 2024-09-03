@@ -37,16 +37,16 @@
             textName = new TextBox();
             labelKey = new Label();
             unitEdit = new UnitEditControl();
+            panelName = new Panel();
             panelTop.SuspendLayout();
             panelButtons.SuspendLayout();
+            panelName.SuspendLayout();
             SuspendLayout();
             // 
             // panelTop
             // 
-            panelTop.Controls.Add(buttonRefreshName);
+            panelTop.Controls.Add(panelName);
             panelTop.Controls.Add(panelButtons);
-            panelTop.Controls.Add(textName);
-            panelTop.Controls.Add(labelKey);
             panelTop.Dock = DockStyle.Top;
             panelTop.Location = new Point(0, 0);
             panelTop.Name = "panelTop";
@@ -57,7 +57,7 @@
             // 
             buttonRefreshName.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonRefreshName.Image = (Image)resources.GetObject("buttonRefreshName.Image");
-            buttonRefreshName.Location = new Point(428, 5);
+            buttonRefreshName.Location = new Point(432, 6);
             buttonRefreshName.Name = "buttonRefreshName";
             buttonRefreshName.Size = new Size(27, 27);
             buttonRefreshName.TabIndex = 9;
@@ -105,16 +105,16 @@
             // textName
             // 
             textName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textName.Location = new Point(92, 7);
+            textName.Location = new Point(92, 8);
             textName.Name = "textName";
-            textName.Size = new Size(336, 23);
+            textName.Size = new Size(340, 23);
             textName.TabIndex = 1;
             textName.TextChanged += textName_TextChanged;
             // 
             // labelKey
             // 
             labelKey.AutoSize = true;
-            labelKey.Location = new Point(3, 10);
+            labelKey.Location = new Point(3, 11);
             labelKey.Name = "labelKey";
             labelKey.Size = new Size(68, 15);
             labelKey.TabIndex = 0;
@@ -134,6 +134,17 @@
             unitEdit.UseValueNameColumn = true;
             unitEdit.KeyValueChanged += unitEdit_KeyValueChanged;
             // 
+            // panelName
+            // 
+            panelName.Controls.Add(buttonRefreshName);
+            panelName.Controls.Add(textName);
+            panelName.Controls.Add(labelKey);
+            panelName.Dock = DockStyle.Fill;
+            panelName.Location = new Point(0, 0);
+            panelName.Name = "panelName";
+            panelName.Size = new Size(467, 39);
+            panelName.TabIndex = 10;
+            // 
             // AiTriggerEditControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -143,8 +154,9 @@
             Name = "AiTriggerEditControl";
             Size = new Size(647, 500);
             panelTop.ResumeLayout(false);
-            panelTop.PerformLayout();
             panelButtons.ResumeLayout(false);
+            panelName.ResumeLayout(false);
+            panelName.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -158,5 +170,6 @@
         private TextBox textName;
         private Label labelKey;
         private UnitEditControl unitEdit;
+        private Panel panelName;
     }
 }
