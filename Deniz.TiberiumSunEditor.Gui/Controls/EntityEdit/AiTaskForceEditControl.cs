@@ -149,6 +149,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
                                     "and all AITriggers where any TaskForce-Team is Team1?", "Delete with all relatives?", MessageBoxButtons.YesNo) ==
                     DialogResult.Yes)
                 {
+                    var unitKeys = _keyValueModelList.Where(v => v.Count != null && v.UnitModel != null)
+                        .Select(v => v.UnitModel!.EntityKey)
+                        .ToList();
                     // delete all teams
                     var teamsToDelete = aiRootModel.TeamEntities.Where(t =>
                         t.EntityModel.FileSection.KeyValues.Any(k =>
@@ -186,6 +189,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
                     {
                         lookupEntities.RemoveWhere(l => l.EntityKey == EntityModel.EntityKey);
                     }
+                    // for each unit: RefreshInfoNumber
+                    unitKeys.ForEach(k => EntityModel!.RootModel.RaiseGlobalEntityNotification(k, "RefreshInfoNumber"));
                     RaiseEntityDeleted();
                 }
             }

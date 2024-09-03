@@ -30,6 +30,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             EntityTypeEditControl.Add(new EntityTypeEditControlTypeModel("ScriptTypes", typeof(AiScriptEditControl)));
             EntityTypeEditControl.Add(new EntityTypeEditControlTypeModel("TeamTypes", typeof(AiTeamEditControl)));
             EntityTypeEditControl.Add(new EntityTypeEditControlTypeModel("AITriggerTypes", typeof(AiTriggerEditControl)));
+            EntityTypeEditControl.Add(new EntityTypeEditControlTypeModel("InfantryTypes", typeof(AiUnitEditControl)));
+            EntityTypeEditControl.Add(new EntityTypeEditControlTypeModel("VehicleTypes", typeof(AiUnitEditControl)));
+            EntityTypeEditControl.Add(new EntityTypeEditControlTypeModel("AircraftTypes", typeof(AiUnitEditControl)));
             LoadGameEntities();
             if (remapTechnosRootModel)
             {
