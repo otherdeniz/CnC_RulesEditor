@@ -47,6 +47,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
                 : ThemeManager.Instance.CurrentTheme.ModifiedTextColor;
         }
 
+        protected override void OnReadonlyChanged()
+        {
+            entitiesListTaskForces.ReadonlyMode = ReadonlyMode;
+        }
+
         private void entitiesListTaskForces_AddEntityManual(object sender, EventArgs e)
         {
             if (EntityModel!.RootModel is AiRootModel aiRootModel)

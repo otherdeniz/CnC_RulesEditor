@@ -37,6 +37,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
             valuesGrid.DataSource = keyValueModelList;
             valuesGrid.DisplayLayout.Bands[0].PerformAutoResizeColumns(true, PerformAutoSizeType.AllRowsInBand);
             valuesGrid.DisplayLayout.Bands[0].Columns["Key"].Width = 30;
+            if (ReadonlyMode)
+            {
+                valuesGrid.DisplayLayout.Bands[0].Columns["UpImage"].Hidden = true;
+                valuesGrid.DisplayLayout.Bands[0].Columns["DownImage"].Hidden = true;
+                valuesGrid.DisplayLayout.Bands[0].Columns["DeleteImage"].Hidden = true;
+            }
         }
 
         private void LoadTeamsList(string? selectedTeamKey = null)
@@ -46,6 +52,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
                 var childFilter = new FilterByParentModel(EntityModel, "Script", EntityModel.EntityKey);
                 entitiesListTeams.LoadListModel(aiRootModel, aiRootModel.TeamEntities, childFilter, selectedTeamKey);
             }
+        }
+
+        protected override void OnReadonlyChanged()
+        {
+            panelButtons.Visible = !ReadonlyMode;
+            toolStripAdd.Visible = !ReadonlyMode;
+            buttonRefreshName.Visible = !ReadonlyMode;
+            entitiesListTeams.ReadonlyMode = ReadonlyMode;
+            textName.ReadOnly = ReadonlyMode;
         }
 
         private void textName_TextChanged(object sender, EventArgs e)
@@ -74,6 +89,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
 
         private void valuesGrid_ClickCell(object sender, ClickCellEventArgs e)
         {
+            if (ReadonlyMode) return;
             valuesGrid.Selected.Rows.Clear();
             if (e.Cell.Row.ListObject is AiScriptKeyValueModel keyValueModel)
             {

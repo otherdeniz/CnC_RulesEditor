@@ -36,6 +36,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
             }
         }
 
+        protected override void OnReadonlyChanged()
+        {
+            panelButtons.Visible = !ReadonlyMode;
+            buttonRefreshName.Visible = !ReadonlyMode;
+            unitEdit.ReadonlyMode = ReadonlyMode;
+            entitiesListTriggers.ReadonlyMode = ReadonlyMode;
+            textName.ReadOnly = ReadonlyMode;
+        }
+
         private void textName_TextChanged(object sender, EventArgs e)
         {
             if (!_doEvents) return;

@@ -283,7 +283,6 @@
         private Panel panelTitle;
         private Label labelName;
         private Label labelType;
-        private Infragistics.Win.UltraWinTabControl.UltraTabControl mainTab;
         private Infragistics.Win.UltraWinTabControl.UltraTabSharedControlsPage ultraTabSharedControlsPage1;
         private Infragistics.Win.UltraWinTabControl.UltraTabPageControl ultraTabPageControl7;
         private Infragistics.Win.UltraWinTabControl.UltraTabPageControl ultraTabPageControl1;
@@ -297,5 +296,6 @@
         private EntitiesListControl entitiesListScripts;
         private Infragistics.Win.UltraWinTabControl.UltraTabPageControl ultraTabPageControl5;
         private EntitiesListControl entitiesListTeams;
+        public Infragistics.Win.UltraWinTabControl.UltraTabControl mainTab;
     }
 }

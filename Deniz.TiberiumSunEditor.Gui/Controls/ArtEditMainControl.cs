@@ -123,16 +123,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             labelType.Text = model.FileType.TypeLabel;
             labelName.Text = model.FileType.Title;
             filterControl.LoadModel(model);
-            LoadModels();
+            ReloadModels();
             var firstVisibleTab = mainTab.Tabs.OfType<UltraTab>().FirstOrDefault(t => t.Visible);
             if (firstVisibleTab != null)
             {
                 mainTab.SelectedTab = firstVisibleTab;
             }
-            model.EntitiesReloaded += (sender, args) => LoadModels();
+            model.EntitiesReloaded += (sender, args) => ReloadModels();
         }
 
-        public void LoadModels()
+        public void ReloadModels()
         {
             AnimationsAsyncLoader.Instance.Stop(true, false);
             mainTab.Tabs["Buildings"].Visible = unitsBuildings.LoadModel(Model.BuildingEntities, filterControl.CurrentFilter);
@@ -235,7 +235,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void filterControl_FilterChanged(object sender, EventArgs e)
         {
-            LoadModels();
+            ReloadModels();
         }
     }
 }

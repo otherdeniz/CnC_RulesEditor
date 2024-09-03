@@ -36,6 +36,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
             valuesGrid.DataSource = _keyValueModelList;
             valuesGrid.DisplayLayout.Bands[0].PerformAutoResizeColumns(true, PerformAutoSizeType.AllRowsInBand);
             valuesGrid.DisplayLayout.Bands[0].Columns["Key"].Width = 30;
+            if (ReadonlyMode)
+            {
+                valuesGrid.DisplayLayout.Bands[0].Columns["PlusImage"].Hidden = true;
+                valuesGrid.DisplayLayout.Bands[0].Columns["MinusImage"].Hidden = true;
+                valuesGrid.DisplayLayout.Bands[0].Columns["DeleteImage"].Hidden = true;
+            }
         }
 
         private void LoadTeamsList(string? selectedTeamKey = null)
@@ -45,6 +51,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
                 var childFilter = new FilterByParentModel(EntityModel, "TaskForce", EntityModel.EntityKey);
                 entitiesListTeams.LoadListModel(aiRootModel, aiRootModel.TeamEntities, childFilter, selectedTeamKey);
             }
+        }
+
+        protected override void OnReadonlyChanged()
+        {
+            panelButtons.Visible = !ReadonlyMode;
+            buttonRefreshName.Visible = !ReadonlyMode;
+            entitiesListTeams.ReadonlyMode = ReadonlyMode;
+            textName.ReadOnly = ReadonlyMode;
+            comboGroup.Enabled = !ReadonlyMode;
         }
 
         private void RefreshName()
@@ -82,6 +97,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
 
         private void valuesGrid_ClickCell(object sender, ClickCellEventArgs e)
         {
+            if (ReadonlyMode) return;
             if (e.Cell.Row.ListObject is AiTaskForceKeyValueModel valueModel)
             {
                 if (e.Cell.Column.Key == "DeleteImage"

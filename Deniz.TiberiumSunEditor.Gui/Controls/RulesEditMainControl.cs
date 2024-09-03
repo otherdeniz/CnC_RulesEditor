@@ -16,6 +16,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private bool _showOnlyFavoriteUnits;
         private bool _titleVisible = true;
         private string _searchText = "";
+        private AiEditMainControl? _aiEditSubControl;
 
         public RulesRootModel Model { get; private set; } = null!;
 
@@ -143,6 +144,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 unitsProjectiles.SearchText = _searchText;
                 unitsWarheads.SearchText = _searchText;
                 unitsSuperWeapons.SearchText = _searchText;
+                if (_aiEditSubControl != null)
+                {
+                    _aiEditSubControl.SearchText = _searchText;
+                }
             }
         }
 
@@ -152,16 +157,37 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             labelType.Text = fileTypeOverride ?? model.FileType.TypeLabel;
             labelName.Text = nameOverride ?? model.FileType.Title;
             filterControl.LoadModel(model);
-            LoadModels();
+            ReloadModels();
             var firstVisibleTab = mainTab.Tabs.OfType<UltraTab>().FirstOrDefault(t => t.Visible);
             if (firstVisibleTab != null)
             {
                 mainTab.SelectedTab = firstVisibleTab;
             }
-            model.EntitiesReloaded += (sender, args) => LoadModels();
+            model.EntitiesReloaded += (sender, args) => ReloadModels();
+            if (model.FileType.BaseType == FileBaseType.Map)
+            {
+                _aiEditSubControl = new AiEditMainControl
+                {
+                    ReadonlyMode = _readonlyMode
+                };
+                _aiEditSubControl.LoadModel(new AiRootModel(model, model.File, model.DefaultFile, false, false));
+                TakeSubTab(_aiEditSubControl.mainTab, "Scripts");
+                TakeSubTab(_aiEditSubControl.mainTab, "TaskForces");
+                TakeSubTab(_aiEditSubControl.mainTab, "Teams");
+            }
         }
 
-        public void LoadModels()
+        private void TakeSubTab(UltraTabControl subTabControl, string tabKey)
+        {
+            var tabItem = subTabControl.Tabs[tabKey];
+            subTabControl.Tabs.Remove(tabItem);
+            subTabControl.Controls.Remove(tabItem.TabPage);
+            ThemeManager.Instance.UseTheme(tabItem.TabPage);
+            mainTab.Tabs.Add(tabItem);
+            mainTab.Controls.Add(tabItem.TabPage);
+        }
+
+        public void ReloadModels()
         {
             AnimationsAsyncLoader.Instance.Stop(true, false);
             mainTab.Tabs["Sides"].Visible = unitsSides.LoadModel(Model.SideEntities, filterControl.CurrentFilter);
@@ -249,6 +275,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 }
             }
             mainTab.Tabs["Phobos"].Visible = hasPhobos;
+            _aiEditSubControl?.ReloadModels();
             AnimationsAsyncLoader.Instance.Start();
         }
 
@@ -476,7 +503,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void filterControl_FilterChanged(object sender, EventArgs e)
         {
-            LoadModels();
+            ReloadModels();
         }
 
     }

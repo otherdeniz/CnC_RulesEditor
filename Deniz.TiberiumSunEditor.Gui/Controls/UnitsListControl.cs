@@ -16,6 +16,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private UnitPickerControl? _selectedUnitPickerControl;
         private bool _readonlyMode;
         private bool _showOnlyFavoriteValues;
+        private bool _showOnlyModifiedCheckbox = true;
         private int _currentPage = 1;
         private bool _showOnlyFavoriteUnits;
         private bool _doEvents;
@@ -81,7 +82,22 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 _readonlyMode = value;
                 unitEdit.ReadonlyMode = _readonlyMode;
-                checkBoxOnlyModified.Visible = !_readonlyMode && !_showOnlyFavoriteUnits;
+                checkBoxOnlyModified.Visible = !_readonlyMode
+                                               && !_showOnlyFavoriteUnits
+                                               && _showOnlyModifiedCheckbox;
+            }
+        }
+
+        [DefaultValue(true)]
+        public bool ShowOnlyModifiedCheckbox
+        {
+            get => _showOnlyModifiedCheckbox;
+            set
+            {
+                _showOnlyModifiedCheckbox = value;
+                checkBoxOnlyModified.Visible = !_readonlyMode 
+                                               && !_showOnlyFavoriteUnits 
+                                               && _showOnlyModifiedCheckbox;
             }
         }
 
@@ -105,7 +121,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             set
             {
                 _showOnlyFavoriteUnits = value;
-                checkBoxOnlyModified.Visible = !_readonlyMode && !_showOnlyFavoriteUnits;
+                checkBoxOnlyModified.Visible = !_readonlyMode
+                                               && !_showOnlyFavoriteUnits
+                                               && _showOnlyModifiedCheckbox;
             }
         }
 

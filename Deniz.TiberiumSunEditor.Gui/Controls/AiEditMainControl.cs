@@ -12,10 +12,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private bool _filterVisible;
         private bool _titleVisible = true;
         private string _searchText = "";
+        private readonly UltraTab _ultraTabScripts;
+        private readonly UltraTab _ultraTabTaskForces;
+        private readonly UltraTab _ultraTabTeams;
 
         public AiEditMainControl()
         {
             InitializeComponent();
+            _ultraTabScripts = mainTab.Tabs["Scripts"];
+            _ultraTabTaskForces = mainTab.Tabs["TaskForces"];
+            _ultraTabTeams = mainTab.Tabs["Teams"];
         }
 
         public AiRootModel Model { get; private set; } = null!;
@@ -64,19 +70,22 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
         }
 
+        [DefaultValue(true)]
+        public bool ShowUnitTaskForceTabs { get; set; } = true;
+
         public void LoadModel(AiRootModel model)
         {
             Model = model;
             labelType.Text = model.FileType.TypeLabel;
             labelName.Text = model.FileType.Title;
             //filterControl.LoadModel(model);
-            LoadModels();
+            ReloadModels();
             var firstVisibleTab = mainTab.Tabs.OfType<UltraTab>().FirstOrDefault(t => t.Visible);
             if (firstVisibleTab != null)
             {
                 mainTab.SelectedTab = firstVisibleTab;
             }
-            model.EntitiesReloaded += (sender, args) => LoadModels();
+            model.EntitiesReloaded += (sender, args) => ReloadModels();
             model.GlobalEntityNotification += ModelOnGlobalEntityNotification;
         }
 
@@ -90,20 +99,23 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
         }
 
-        public void LoadModels()
+        public void ReloadModels()
         {
-            mainTab.Tabs["TaskForces"].Visible =
-                entitiesListTaskForces.LoadListModel(Model, Model.TaskForceEntities);
-            mainTab.Tabs["Scripts"].Visible =
-                entitiesListScripts.LoadListModel(Model, Model.ScriptEntities);
-            mainTab.Tabs["Teams"].Visible =
-                entitiesListTeams.LoadListModel(Model, Model.TeamEntities);
-            mainTab.Tabs["Infantry"].Visible =
-                unitsListInfantry.LoadModel(Model.RulesModel.InfantryEntities);
-            mainTab.Tabs["Vehicles"].Visible =
-                unitsListVehicles.LoadModel(Model.RulesModel.VehicleEntities);
-            mainTab.Tabs["Aircrafts"].Visible =
-                unitsListAircrafts.LoadModel(Model.RulesModel.AircraftEntities);
+            _ultraTabScripts.Visible = entitiesListScripts.LoadListModel(Model, Model.ScriptEntities)
+                                       || _searchText == string.Empty && !_readonlyMode;
+            _ultraTabTaskForces.Visible = entitiesListTaskForces.LoadListModel(Model, Model.TaskForceEntities)
+                                          || _searchText == string.Empty && !_readonlyMode;
+            _ultraTabTeams.Visible = entitiesListTeams.LoadListModel(Model, Model.TeamEntities)
+                                     || _searchText == string.Empty && !_readonlyMode;
+            mainTab.Tabs["Infantry"].Visible = ShowUnitTaskForceTabs
+                                               && (unitsListInfantry.LoadModel(Model.RulesModel.InfantryEntities)
+                                                   || _searchText == string.Empty && !_readonlyMode);
+            mainTab.Tabs["Vehicles"].Visible = ShowUnitTaskForceTabs
+                                               && (unitsListVehicles.LoadModel(Model.RulesModel.VehicleEntities)
+                                                   || _searchText == string.Empty && !_readonlyMode);
+            mainTab.Tabs["Aircrafts"].Visible = ShowUnitTaskForceTabs
+                                                && (unitsListAircrafts.LoadModel(Model.RulesModel.AircraftEntities)
+                                                    || _searchText == string.Empty && !_readonlyMode);
         }
 
         private void entitiesListTaskForces_AddEntityManual(object sender, EventArgs e)

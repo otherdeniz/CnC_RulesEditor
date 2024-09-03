@@ -235,6 +235,16 @@ namespace Deniz.TiberiumSunEditor.Gui
                     changesForm.ShowDialog(this);
                 }
             }
+            else if (_editAiMainControl != null)
+            {
+                using (var changesForm = new ShowAiChangesForm())
+                {
+                    var defaultFile = _editAiMainControl.Model.DefaultFile;
+                    var changesFile = _editAiMainControl.Model.File.GetChangesFile(defaultFile);
+                    changesForm.LoadModel(changesFile, defaultFile, _editAiMainControl.Model.RulesModel);
+                    changesForm.ShowDialog(this);
+                }
+            }
         }
 
         private void ButtonBalancingTool()
@@ -245,7 +255,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             {
                 balancingForm.LoadModel(_editRulesMainControl.Model);
                 balancingForm.ShowDialog(this);
-                _editRulesMainControl.LoadModels();
+                _editRulesMainControl.ReloadModels();
             }
         }
 
@@ -303,8 +313,8 @@ namespace Deniz.TiberiumSunEditor.Gui
             DarkTitleBarHelper.UseImmersiveDarkMode(Handle, ThemeManager.Instance.CurrentTheme.WindowUseDarkHeader);
             BitmapRepository.Instance.InitBlanks();
             CCGameRepository.Instance.ClearAnimationsCache();
-            _editRulesMainControl?.LoadModels();
-            _editArtMainControl?.LoadModels();
+            _editRulesMainControl?.ReloadModels();
+            _editArtMainControl?.ReloadModels();
         }
 
         private void InitializeNewMenu()
@@ -705,7 +715,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             panelMain.Controls.Add(_editAiMainControl);
             mainToolbarsManager.Tools["SaveMenu"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["OnlyFavorites"].SharedProps.Enabled = false;
-            mainToolbarsManager.Tools["ShowChanges"].SharedProps.Enabled = false;
+            mainToolbarsManager.Tools["ShowChanges"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["ToolsMenu"].SharedProps.Enabled = CCGameRepository.Instance.IsLoaded;
             mainToolbarsManager.Tools["MixBrowser"].SharedProps.Enabled = CCGameRepository.Instance.IsLoaded;
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = true;
@@ -730,7 +740,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                 _editRulesMainControl.SearchText = searchText.Length > 2 ? searchText : "";
                 if (searchText.Length > 2 || searchText == "")
                 {
-                    _editRulesMainControl.LoadModels();
+                    _editRulesMainControl.ReloadModels();
                 }
             }
             else if (_editArtMainControl != null)
@@ -738,7 +748,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                 _editArtMainControl.SearchText = searchText.Length > 2 ? searchText : "";
                 if (searchText.Length > 2 || searchText == "")
                 {
-                    _editArtMainControl.LoadModels();
+                    _editArtMainControl.ReloadModels();
                 }
             }
             else if (_editAiMainControl != null)
@@ -746,7 +756,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                 _editAiMainControl.SearchText = searchText.Length > 2 ? searchText : "";
                 if (searchText.Length > 2 || searchText == "")
                 {
-                    _editAiMainControl.LoadModels();
+                    _editAiMainControl.ReloadModels();
                 }
             }
         }
@@ -924,12 +934,12 @@ namespace Deniz.TiberiumSunEditor.Gui
                     if (_editRulesMainControl != null)
                     {
                         _editRulesMainControl.ShowOnlyFavoriteValues = ShowOnlyFavoriteValues;
-                        _editRulesMainControl.LoadModels();
+                        _editRulesMainControl.ReloadModels();
                     }
                     else if (_editArtMainControl != null)
                     {
                         _editArtMainControl.ShowOnlyFavoriteValues = ShowOnlyFavoriteValues;
-                        _editArtMainControl.LoadModels();
+                        _editArtMainControl.ReloadModels();
                     }
                     break;
                 case "OnlyFavoriteUnits":
@@ -938,12 +948,12 @@ namespace Deniz.TiberiumSunEditor.Gui
                     if (_editRulesMainControl != null)
                     {
                         _editRulesMainControl.ShowOnlyFavoriteUnits = ShowOnlyFavoriteUnits;
-                        _editRulesMainControl.LoadModels();
+                        _editRulesMainControl.ReloadModels();
                     }
                     else if (_editArtMainControl != null)
                     {
                         _editArtMainControl.ShowOnlyFavoriteUnits = ShowOnlyFavoriteUnits;
-                        _editArtMainControl.LoadModels();
+                        _editArtMainControl.ReloadModels();
                     }
                     break;
                 case "ShowChanges":
@@ -961,7 +971,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                         Cursor = Cursors.WaitCursor;
                         if (InsertSnippetForm.InsertSnippetToModel(this, _editRulesMainControl.Model))
                         {
-                            _editRulesMainControl.LoadModels();
+                            _editRulesMainControl.ReloadModels();
                         }
                         Cursor = Cursors.Default;
                     }

@@ -14,7 +14,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
 
         public void LoadModel(IniFile changesFile, IniFile defaultFile, RulesRootModel rulesRootModel)
         {
-            var changesModel = new RulesRootModel(changesFile, FileTypeModel.Empty, defaultFile,
+            var changesModel = new RulesRootModel(changesFile, rulesRootModel.FileType, defaultFile,
                 useAres: rulesRootModel.UseAres,
                 usePhobos: rulesRootModel.UsePhobos,
                 useVinifera: rulesRootModel.UseVinifera);
