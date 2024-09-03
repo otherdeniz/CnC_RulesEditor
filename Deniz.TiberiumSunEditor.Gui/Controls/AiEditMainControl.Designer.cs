@@ -38,6 +38,7 @@
             Infragistics.Win.Appearance appearance13 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinTabControl.UltraTab ultraTab12 = new Infragistics.Win.UltraWinTabControl.UltraTab();
             Infragistics.Win.Appearance appearance14 = new Infragistics.Win.Appearance();
+            Infragistics.Win.UltraWinTabControl.UltraTab ultraTab13 = new Infragistics.Win.UltraWinTabControl.UltraTab();
             ultraTabPageControl1 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
             entitiesListScripts = new EntitiesListControl();
             ultraTabPageControl7 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
@@ -48,6 +49,8 @@
             unitsListVehicles = new UnitsListControl();
             ultraTabPageControl4 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
             unitsListAircrafts = new UnitsListControl();
+            ultraTabPageControl5 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
+            entitiesListTeams = new EntitiesListControl();
             panelTitle = new Panel();
             labelName = new Label();
             labelType = new Label();
@@ -58,6 +61,7 @@
             ultraTabPageControl2.SuspendLayout();
             ultraTabPageControl3.SuspendLayout();
             ultraTabPageControl4.SuspendLayout();
+            ultraTabPageControl5.SuspendLayout();
             panelTitle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)mainTab).BeginInit();
             mainTab.SuspendLayout();
@@ -73,11 +77,11 @@
             // entitiesListScripts
             // 
             entitiesListScripts.Dock = DockStyle.Fill;
+            entitiesListScripts.EntityType = "ScriptTypes";
             entitiesListScripts.Location = new Point(0, 0);
             entitiesListScripts.Name = "entitiesListScripts";
             entitiesListScripts.Size = new Size(963, 412);
             entitiesListScripts.TabIndex = 1;
-            entitiesListScripts.AddEntity += entitiesListScripts_AddEntity;
             // 
             // ultraTabPageControl7
             // 
@@ -89,11 +93,12 @@
             // entitiesListTaskForces
             // 
             entitiesListTaskForces.Dock = DockStyle.Fill;
+            entitiesListTaskForces.EntityType = "TaskForces";
             entitiesListTaskForces.Location = new Point(0, 0);
             entitiesListTaskForces.Name = "entitiesListTaskForces";
             entitiesListTaskForces.Size = new Size(963, 412);
             entitiesListTaskForces.TabIndex = 0;
-            entitiesListTaskForces.AddEntity += entitiesListTaskForces_AddEntity;
+            entitiesListTaskForces.AddEntityManual += entitiesListTaskForces_AddEntityManual;
             // 
             // ultraTabPageControl2
             // 
@@ -146,6 +151,22 @@
             unitsListAircrafts.TabIndex = 1;
             unitsListAircrafts.Tag = "PLAIN";
             // 
+            // ultraTabPageControl5
+            // 
+            ultraTabPageControl5.Controls.Add(entitiesListTeams);
+            ultraTabPageControl5.Location = new Point(-10000, -10000);
+            ultraTabPageControl5.Name = "ultraTabPageControl5";
+            ultraTabPageControl5.Size = new Size(963, 412);
+            // 
+            // entitiesListTeams
+            // 
+            entitiesListTeams.Dock = DockStyle.Fill;
+            entitiesListTeams.EntityType = "TeamTypes";
+            entitiesListTeams.Location = new Point(0, 0);
+            entitiesListTeams.Name = "entitiesListTeams";
+            entitiesListTeams.Size = new Size(963, 412);
+            entitiesListTeams.TabIndex = 1;
+            // 
             // panelTitle
             // 
             panelTitle.Controls.Add(labelName);
@@ -190,6 +211,7 @@
             mainTab.Controls.Add(ultraTabPageControl2);
             mainTab.Controls.Add(ultraTabPageControl3);
             mainTab.Controls.Add(ultraTabPageControl4);
+            mainTab.Controls.Add(ultraTabPageControl5);
             mainTab.Dock = DockStyle.Fill;
             mainTab.Location = new Point(0, 23);
             mainTab.Margin = new Padding(4, 3, 4, 3);
@@ -222,7 +244,10 @@
             ultraTab12.Key = "Aircrafts";
             ultraTab12.TabPage = ultraTabPageControl4;
             ultraTab12.Text = "Aircraft Task Forces";
-            mainTab.Tabs.AddRange(new Infragistics.Win.UltraWinTabControl.UltraTab[] { ultraTab17, ultraTab16, ultraTab1, ultraTab11, ultraTab12 });
+            ultraTab13.Key = "Teams";
+            ultraTab13.TabPage = ultraTabPageControl5;
+            ultraTab13.Text = "All Teams";
+            mainTab.Tabs.AddRange(new Infragistics.Win.UltraWinTabControl.UltraTab[] { ultraTab17, ultraTab16, ultraTab1, ultraTab11, ultraTab12, ultraTab13 });
             mainTab.UseOsThemes = Infragistics.Win.DefaultableBoolean.False;
             // 
             // ultraTabSharedControlsPage1
@@ -245,6 +270,7 @@
             ultraTabPageControl2.ResumeLayout(false);
             ultraTabPageControl3.ResumeLayout(false);
             ultraTabPageControl4.ResumeLayout(false);
+            ultraTabPageControl5.ResumeLayout(false);
             panelTitle.ResumeLayout(false);
             panelTitle.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)mainTab).EndInit();
@@ -269,5 +295,7 @@
         private Infragistics.Win.UltraWinTabControl.UltraTabPageControl ultraTabPageControl4;
         private UnitsListControl unitsListAircrafts;
         private EntitiesListControl entitiesListScripts;
+        private Infragistics.Win.UltraWinTabControl.UltraTabPageControl ultraTabPageControl5;
+        private EntitiesListControl entitiesListTeams;
     }
 }

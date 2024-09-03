@@ -20,10 +20,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
             textName.Text = entity.EntityName;
             _doEvents = true;
             var hiddenValueKeys = new List<string> { "Name" };
-            if (!string.IsNullOrEmpty(filterKeyValue?.Key))
-            {
-                hiddenValueKeys.Add(filterKeyValue.Key);
-            }
             unitEdit.LoadModel(entity, hiddenValueKeys);
         }
 
@@ -32,6 +28,41 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
             if (!_doEvents) return;
             EntityModel?.FileSection.SetValue("Name", textName.Text);
             RaiseNameChanged();
+        }
+
+        public static string GenerateName(GameEntityModel teamEntityModel)
+        {
+            var prefix = "";
+            if (teamEntityModel.FileSection.GetValue("Eays")?.Value == "yes")
+            {
+                prefix = "E";
+            }
+            if (teamEntityModel.FileSection.GetValue("Medium")?.Value == "yes")
+            {
+                prefix += "M";
+            }
+            if (teamEntityModel.FileSection.GetValue("Hard")?.Value == "yes")
+            {
+                prefix += "H";
+            }
+
+            if (prefix != string.Empty)
+            {
+                prefix += ": ";
+            }
+            var team1Name = teamEntityModel.EntityValueList.FirstOrDefault(v => v.Key == "Team1")?.ValueName
+                            ?? string.Empty;
+            if (team1Name == string.Empty)
+            {
+                team1Name = "[please assign Team1]";
+            }
+            return $"{prefix}{team1Name}";
+        }
+
+        private void buttonRefreshName_Click(object sender, EventArgs e)
+        {
+            if (EntityModel == null) return;
+            textName.Text = GenerateName(EntityModel);
         }
 
         private void ButtonDelete_Click(object sender, EventArgs e)
@@ -45,6 +76,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
                     aiRootModel.File.GetSection("AITriggerTypes")?.RemoveValues(v => v.Key == EntityModel.EntityKey);
                     RaiseEntityDeleted();
                 }
+            }
+        }
+
+        private void unitEdit_KeyValueChanged(object sender, KeyValueChangedEventArgs e)
+        {
+            if (e.Key == "Team1" || e.Key == "Easy" || e.Key == "Medium" || e.Key == "Hard")
+            {
+                buttonRefreshName_Click(this, e);
             }
         }
     }

@@ -143,6 +143,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             var typeKey = entitiesTypesSection.GetMaxKeyValue() + 1 ?? 0;
             entitiesTypesSection.SetValue(typeKey.ToString(), newKey);
 
+            LookupItems.Add(new LookupItemModel(entityType, newKey, newGameEntity));
+            if (LookupEntities.TryGetValue(entityType, out var lookupEntities))
+            {
+                lookupEntities.Add(newGameEntity);
+            }
+
             var newListItemModel = new EntityListItemModel(typeKey.ToString(), newGameEntity);
             entitiesList.Add(newListItemModel);
             return newListItemModel;

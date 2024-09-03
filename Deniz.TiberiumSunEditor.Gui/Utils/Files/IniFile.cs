@@ -309,12 +309,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
                     : null;
         }
 
-        public void SetValue(string key, string value, string? comment = null)
+        public void SetValue(string key, string value, string? comment = null, bool removeEmptyRuntimeAdded = true)
         {
             var keyValue = GetValue(key);
             if (keyValue != null)
             {
-                if (value == "" && keyValue.RuntimeAdded)
+                if (value == "" && keyValue.RuntimeAdded && removeEmptyRuntimeAdded)
                 {
                     Lines.Remove(keyValue);
                     _keyValuesList = null;

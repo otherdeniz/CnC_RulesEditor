@@ -1,7 +1,6 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Model;
 using Infragistics.Win.UltraWinTabControl;
 using System.ComponentModel;
-using Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit;
 using Deniz.TiberiumSunEditor.Gui.Dialogs;
 using Deniz.TiberiumSunEditor.Gui.Model.Interface;
 
@@ -39,6 +38,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             set
             {
                 _readonlyMode = value;
+                entitiesListTaskForces.ReadonlyMode = _readonlyMode;
+                entitiesListScripts.ReadonlyMode = _readonlyMode;
+                entitiesListTeams.ReadonlyMode = _readonlyMode;
                 unitsListInfantry.ReadonlyMode = _readonlyMode;
                 unitsListVehicles.ReadonlyMode = _readonlyMode;
                 unitsListAircrafts.ReadonlyMode = _readonlyMode;
@@ -53,6 +55,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             set
             {
                 _searchText = value;
+                entitiesListTaskForces.SearchText = _searchText;
+                entitiesListScripts.SearchText = _searchText;
+                entitiesListTeams.SearchText = _searchText;
                 unitsListInfantry.SearchText = _searchText;
                 unitsListVehicles.SearchText = _searchText;
                 unitsListAircrafts.SearchText = _searchText;
@@ -91,15 +96,17 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 entitiesListTaskForces.LoadListModel(Model, Model.TaskForceEntities);
             mainTab.Tabs["Scripts"].Visible =
                 entitiesListScripts.LoadListModel(Model, Model.ScriptEntities);
+            mainTab.Tabs["Teams"].Visible =
+                entitiesListTeams.LoadListModel(Model, Model.TeamEntities);
             mainTab.Tabs["Infantry"].Visible =
-                unitsListInfantry.LoadModel(Model.RulesModel.InfantryEntities, null, typeof(AiUnitEditControl));
+                unitsListInfantry.LoadModel(Model.RulesModel.InfantryEntities);
             mainTab.Tabs["Vehicles"].Visible =
-                unitsListVehicles.LoadModel(Model.RulesModel.VehicleEntities, null, typeof(AiUnitEditControl));
+                unitsListVehicles.LoadModel(Model.RulesModel.VehicleEntities);
             mainTab.Tabs["Aircrafts"].Visible =
-                unitsListAircrafts.LoadModel(Model.RulesModel.AircraftEntities, null, typeof(AiUnitEditControl));
+                unitsListAircrafts.LoadModel(Model.RulesModel.AircraftEntities);
         }
 
-        private void entitiesListTaskForces_AddEntity(object sender, EventArgs e)
+        private void entitiesListTaskForces_AddEntityManual(object sender, EventArgs e)
         {
             var newUnit = SelectUnitForm.ExecuteSelect(ParentForm!, Model.RulesModel,
                 SelectTechnoTypes.Infantry | SelectTechnoTypes.Vehicles | SelectTechnoTypes.Aircrafts);
@@ -113,11 +120,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 entitiesListTaskForces.LoadListModel(Model, Model.TaskForceEntities,
                     selectKey: newEntityListItem.EntityModel.EntityKey);
             }
-        }
-
-        private void entitiesListScripts_AddEntity(object sender, EventArgs e)
-        {
-
         }
     }
 }

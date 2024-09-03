@@ -24,7 +24,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             InitializeComponent();
         }
 
-        public event EventHandler<EventArgs>? AddEntity;
+        public event EventHandler<EventArgs>? AddEntityManual;
+        public event EventHandler<GameEntityEventArgs>? AddedEntity;
 
         [DefaultValue(false)]
         public bool ReadonlyMode
@@ -36,6 +37,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 toolStripAdd.Visible = !value;
             }
         }
+
+        [DefaultValue("")]
+        [Browsable(false)]
+        public string SearchText { get; set; } = "";
+
+        [DefaultValue("")]
+        public string EntityType { get; set; } = "";
 
         [DefaultValue(260)]
         public int ListSize
@@ -97,17 +105,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             _filterKeyValue = filterKeyValue;
             _doEvents = false;
             SelectListItem(null, null);
-            var filteredItems = _filterKeyValue == null
-                ? listItems
-                : listItems.Where(e => e.EntityModel.FileSection.KeyValues.Any(k =>
-                {
-                    if (_filterKeyValue.FilterFunction != null)
-                    {
-                        return _filterKeyValue.FilterFunction(k);
-                    }
-                    return k.Key == _filterKeyValue.Key && k.Value.Equals(_filterKeyValue.Value,
-                        StringComparison.InvariantCultureIgnoreCase);
-                })).ToList();
+            var filteredItems = FilterListItems(listItems);
             entitiesGrid.DataSource = null;
             entitiesGrid.DataSource = filteredItems;
             entitiesGrid.DisplayLayout.Override.CellClickAction = CellClickAction.RowSelect;
@@ -127,17 +125,44 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             return filteredItems.Any();
         }
 
-        private void ReloadList()
+        private List<TListItemModel> FilterListItems<TListItemModel>(List<TListItemModel> listItems)
+            where TListItemModel : EntityListItemModel
+        {
+            if (_filterKeyValue == null && SearchText == string.Empty)
+            {
+                return listItems;
+            }
+            var filteredItems = _filterKeyValue == null
+                ? listItems
+                : listItems.Where(e => e.EntityModel.FileSection.KeyValues.Any(k =>
+                {
+                    if (_filterKeyValue.FilterFunction != null)
+                    {
+                        return _filterKeyValue.FilterFunction(k);
+                    }
+                    return k.Key == _filterKeyValue.Key && k.Value.Equals(_filterKeyValue.Value,
+                        StringComparison.InvariantCultureIgnoreCase);
+                })).ToList();
+            if (SearchText != string.Empty)
+            {
+                filteredItems = filteredItems
+                    .Where(f => f.Name.Contains(SearchText, StringComparison.InvariantCultureIgnoreCase))
+                    .ToList();
+            }
+            return filteredItems;
+        }
+
+        private void ReloadList(string? selectKey = null)
         {
             typeof(EntitiesListControl)
                 .GetMethod("ReloadListModel")?
                 .MakeGenericMethod(_bindedListItemType)
-                .Invoke(this, Array.Empty<object>());
+                .Invoke(this, new object?[] { selectKey });
         }
 
-        public void ReloadListModel<TListItemModel>() where TListItemModel : EntityListItemModel
+        public void ReloadListModel<TListItemModel>(string? selectKey) where TListItemModel : EntityListItemModel
         {
-            LoadListModel(_rootModel, (List<TListItemModel>)_bindedList, _filterKeyValue);
+            LoadListModel(_rootModel, (List<TListItemModel>)_bindedList, _filterKeyValue, selectKey);
         }
 
         private void SelectListItem(EntityListItemModel? entity, UltraGridRow? row)
@@ -173,7 +198,19 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void buttonAddNew_Click(object sender, EventArgs e)
         {
-            AddEntity?.Invoke(this, EventArgs.Empty);
+            if (AddEntityManual != null)
+            {
+                AddEntityManual?.Invoke(this, EventArgs.Empty);
+                return;
+            }
+            if (_rootModel is AiRootModel aiRootModel 
+                && EntityType != string.Empty)
+            {
+                var entityFactory = new AiGameEntityFactory(aiRootModel);
+                var newEntity = entityFactory.AddNewGameEntity(EntityType, _filterKeyValue?.ParentEntity);
+                AddedEntity?.Invoke(this, new GameEntityEventArgs(newEntity));
+                ReloadList(newEntity.EntityKey);
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Dialogs;
 using Deniz.TiberiumSunEditor.Gui.Model;
+using Deniz.TiberiumSunEditor.Gui.Utils.Extensions;
 using Infragistics.Win.UltraWinGrid;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
@@ -13,9 +14,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
         {
             InitializeComponent();
         }
-
-        public event EventHandler<EventArgs>? CopyEntity;
-        public event EventHandler<EventArgs>? DeleteEntity;
 
         public override void LoadEntity(GameEntityModel entity, FilterByParentModel? filterKeyValue = null)
         {
@@ -38,14 +36,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
             valuesGrid.DataSource = _keyValueModelList;
             valuesGrid.DisplayLayout.Bands[0].PerformAutoResizeColumns(true, PerformAutoSizeType.AllRowsInBand);
             valuesGrid.DisplayLayout.Bands[0].Columns["Key"].Width = 30;
-            valuesGrid.DisplayLayout.Bands[0].Columns["Cost"].Width = 60;
         }
 
         private void LoadTeamsList(string? selectedTeamKey = null)
         {
             if (EntityModel?.RootModel is AiRootModel aiRootModel)
             {
-                var childFilter = new FilterByParentModel("TaskForce", EntityModel.EntityKey);
+                var childFilter = new FilterByParentModel(EntityModel, "TaskForce", EntityModel.EntityKey);
                 entitiesListTeams.LoadListModel(aiRootModel, aiRootModel.TeamEntities, childFilter, selectedTeamKey);
             }
         }
@@ -140,19 +137,63 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
 
         private void ButtonCopy_Click(object sender, EventArgs e)
         {
-            CopyEntity?.Invoke(this, EventArgs.Empty);
+            //CopyEntity?.Invoke(this, EventArgs.Empty);
         }
 
         private void ButtonDelete_Click(object sender, EventArgs e)
         {
-            DeleteEntity?.Invoke(this, EventArgs.Empty);
+            if (EntityModel!.RootModel is AiRootModel aiRootModel)
+            {
+                if (MessageBox.Show("Do you want to delete this TaskForce\n" +
+                                    "and all Teams of this TaskForce?\n" +
+                                    "and all AITriggers where any TaskForce-Team is Team1?", "Delete with all relatives?", MessageBoxButtons.YesNo) ==
+                    DialogResult.Yes)
+                {
+                    // delete all teams
+                    var teamsToDelete = aiRootModel.TeamEntities.Where(t =>
+                        t.EntityModel.FileSection.KeyValues.Any(k =>
+                            k.Key == "TaskForce" && k.Value == EntityModel.EntityKey))
+                        .ToList();
+                    foreach (var teamToDelete in teamsToDelete)
+                    {
+                        // delete Triggers (by Team1)
+                        var triggersToDelete = aiRootModel.TriggerEntities.Where(t =>
+                            t.EntityModel.FileSection.KeyValues.Any(k =>
+                                k.Key == "Team1" && k.Value == teamToDelete.EntityModel.EntityKey));
+                        aiRootModel.TriggerEntities.RemoveWhere(t => triggersToDelete.Any(d => d.EntityModel.EntityKey == t.EntityModel.EntityKey));
+                        aiRootModel.File.GetSection("AITriggerTypes")?.RemoveValues(v => triggersToDelete.Any(d => d.EntityModel.EntityKey == v.Key));
+                        // update Triggers (by Team2)
+                        foreach (var updateTrigger in aiRootModel.TriggerEntities.Where(t =>
+                                     t.EntityModel.FileSection.KeyValues.Any(k =>
+                                         k.Key == "Team2" && k.Value == teamToDelete.EntityModel.EntityKey)))
+                        {
+                            updateTrigger.EntityModel.FileSection.SetValue("Team2", "<none>");
+                        }
+                        // delete Team
+                        aiRootModel.TeamEntities.RemoveWhere(t => t.EntityModel.EntityKey == teamToDelete.EntityModel.EntityKey);
+                        aiRootModel.File.GetSection("TeamTypes")?.RemoveValues(v => v.Key == teamToDelete.EntityModel.EntityKey);
+                        aiRootModel.LookupItems.RemoveWhere(l => l.Key == teamToDelete.EntityModel.EntityKey);
+                        if (aiRootModel.LookupEntities.TryGetValue("TeamTypes", out var teamLookupEntities))
+                        {
+                            teamLookupEntities.RemoveWhere(l => l.EntityKey == teamToDelete.EntityModel.EntityKey);
+                        }
+                    }
+                    // delete TaskForce
+                    aiRootModel.TaskForceEntities.RemoveWhere(t => t.EntityModel.EntityKey == EntityModel.EntityKey);
+                    aiRootModel.File.GetSection("TaskForces")?.RemoveValues(v => v.Key == EntityModel.EntityKey);
+                    aiRootModel.LookupItems.RemoveWhere(l => l.Key == EntityModel.EntityKey);
+                    if (aiRootModel.LookupEntities.TryGetValue("TaskForces", out var lookupEntities))
+                    {
+                        lookupEntities.RemoveWhere(l => l.EntityKey == EntityModel.EntityKey);
+                    }
+                    RaiseEntityDeleted();
+                }
+            }
         }
 
-        private void entitiesListTeams_AddEntity(object sender, EventArgs e)
+        private void entitiesListTeams_AddedEntity(object sender, GameEntityEventArgs e)
         {
-            //TODO: add new Team
-            //LoadTeamsList("new-team-key");
+            e.GameEntity.FileSection.SetValue("Name", AiTeamEditControl.GenerateName(e.GameEntity));
         }
-
     }
 }

@@ -167,11 +167,12 @@
             // entitiesListTeams
             // 
             entitiesListTeams.Dock = DockStyle.Fill;
+            entitiesListTeams.EntityType = "TeamTypes";
             entitiesListTeams.Location = new Point(3, 19);
             entitiesListTeams.Name = "entitiesListTeams";
             entitiesListTeams.Size = new Size(634, 226);
             entitiesListTeams.TabIndex = 0;
-            entitiesListTeams.AddEntity += entitiesListTeams_AddEntity;
+            entitiesListTeams.AddedEntity += entitiesListTeams_AddedEntity;
             // 
             // valuesGrid
             // 

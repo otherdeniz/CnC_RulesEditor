@@ -93,11 +93,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
                     MixFiles = baseGameDefinition.MixFiles,
                     ResourcesDefaultIniFile = GetRulesIniFilePath(),
                     ResourcesDefaultArtIniFile = GetArtIniFilePath(),
+                    ResourcesDefaultAiIniFile = GetAiIniFilePath(),
                     ResourcesDescriptionIniFile = baseGameDefinition.ResourcesDescriptionIniFile ??
                                                   baseGameDefinition.ResourcesDefaultIniFile,
                     Sides = baseGameDefinition.Sides,
                     SaveAsFilename = baseGameDefinition.SaveAsFilename,
                     SaveAsArtFilename = baseGameDefinition.SaveAsArtFilename,
+                    SaveAsAiFilename = baseGameDefinition.SaveAsAiFilename,
                     UseAres = HasAres,
                     UsePhobos = HasPhobos,
                     UsePhobosSectionInheritance = HasPhobosSectionInheritance,

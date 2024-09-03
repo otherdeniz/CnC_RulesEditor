@@ -1,6 +1,5 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Model;
 using Deniz.TiberiumSunEditor.Gui.Utils;
-using ImageMagick;
 
 namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
 {
@@ -34,7 +33,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
             if (entity.RootModel is AiRootModel aiRootModel)
             {
                 entitiesListTaskForces.LoadListModel(aiRootModel, aiRootModel.TaskForceEntities,
-                    new FilterByParentModel(k => k.Value.EndsWith($",{entity.EntityKey}")));
+                    new FilterByParentModel(entity, k => k.Value.EndsWith($",{entity.EntityKey}")));
             }
         }
 
@@ -48,7 +47,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
                 : ThemeManager.Instance.CurrentTheme.ModifiedTextColor;
         }
 
-        private void entitiesListTaskForces_AddEntity(object sender, EventArgs e)
+        private void entitiesListTaskForces_AddEntityManual(object sender, EventArgs e)
         {
             if (EntityModel!.RootModel is AiRootModel aiRootModel)
             {
@@ -58,10 +57,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
                 newEntityListItem.EntityModel.FileSection.SetValue("0", $"1,{EntityModel.EntityKey}");
                 aiRootModel.RaiseGlobalEntityNotification(EntityModel.EntityKey, "RefreshInfoNumber");
                 entitiesListTaskForces.LoadListModel(aiRootModel, aiRootModel.TaskForceEntities,
-                    new FilterByParentModel(k => k.Value.EndsWith($",{EntityModel.EntityKey}")),
+                    new FilterByParentModel(EntityModel, k => k.Value.EndsWith($",{EntityModel.EntityKey}")),
                     selectKey: newEntityListItem.EntityModel.EntityKey);
             }
-
         }
     }
 }

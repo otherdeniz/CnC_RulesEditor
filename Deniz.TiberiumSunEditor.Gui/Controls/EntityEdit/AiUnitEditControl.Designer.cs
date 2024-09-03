@@ -55,11 +55,12 @@
             // entitiesListTaskForces
             // 
             entitiesListTaskForces.Dock = DockStyle.Fill;
+            entitiesListTaskForces.EntityType = "TaskForces";
             entitiesListTaskForces.Location = new Point(3, 19);
             entitiesListTaskForces.Name = "entitiesListTaskForces";
             entitiesListTaskForces.Size = new Size(858, 500);
             entitiesListTaskForces.TabIndex = 1;
-            entitiesListTaskForces.AddEntity += entitiesListTaskForces_AddEntity;
+            entitiesListTaskForces.AddEntityManual += entitiesListTaskForces_AddEntityManual;
             // 
             // panelTop
             // 

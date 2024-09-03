@@ -37,6 +37,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         public event EventHandler<EventArgs>? UnitModificationsChanged;
         public event EventHandler<EntityCopyEventArgs>? UnitCreateCopy;
         public event EventHandler<EntityDeleteEventArgs>? UnitDelete;
+        public event EventHandler<KeyValueChangedEventArgs>? KeyValueChanged;
 
         public GameEntityModel? EntityModel { get; private set; }
 
@@ -523,6 +524,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 {
                     e.Cell.Row.Cells["UseNormalImage"].Refresh();
                 }
+                KeyValueChanged?.Invoke(this, new KeyValueChangedEventArgs(valueModel.Key, valueModel.Value));
                 RefreshModifications();
                 UnitModificationsChanged?.Invoke(this, EventArgs.Empty);
             }
@@ -647,6 +649,19 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             _usedByPopupForm?.Close();
         }
 
+    }
+
+    public class KeyValueChangedEventArgs : EventArgs
+    {
+        public KeyValueChangedEventArgs(string key, string newValue)
+        {
+            Key = key;
+            NewValue = newValue;
+        }
+
+        public string Key { get; }
+
+        public string NewValue { get; }
     }
 
     public class EntityCopyEventArgs : EventArgs

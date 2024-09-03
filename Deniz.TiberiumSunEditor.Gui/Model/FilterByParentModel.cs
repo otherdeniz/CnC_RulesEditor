@@ -1,23 +1,25 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Utils.Files;
-using Newtonsoft.Json.Linq;
-using System.Windows.Forms;
 
 namespace Deniz.TiberiumSunEditor.Gui.Model
 {
     public class FilterByParentModel
     {
-        public FilterByParentModel(Func<IniFileLineKeyValue, bool> filterFunction)
+        public FilterByParentModel(GameEntityModel parentEntity, Func<IniFileLineKeyValue, bool> filterFunction)
         {
+            ParentEntity = parentEntity;
             Key = "";
             Value = "";
             FilterFunction = filterFunction;
         }
 
-        public FilterByParentModel(string key, string value)
+        public FilterByParentModel(GameEntityModel parentEntity, string key, string value)
         {
+            ParentEntity = parentEntity;
             Key = key;
             Value = value;
         }
+
+        public GameEntityModel ParentEntity { get; }
 
         public string Key { get; }
 

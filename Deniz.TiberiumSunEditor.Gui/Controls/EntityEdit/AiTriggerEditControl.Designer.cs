@@ -64,6 +64,7 @@
             buttonRefreshName.TextAlign = ContentAlignment.MiddleRight;
             buttonRefreshName.TextImageRelation = TextImageRelation.ImageBeforeText;
             buttonRefreshName.UseVisualStyleBackColor = true;
+            buttonRefreshName.Click += buttonRefreshName_Click;
             // 
             // panelButtons
             // 
@@ -131,6 +132,7 @@
             unitEdit.TabIndex = 4;
             unitEdit.Tag = "PLAIN";
             unitEdit.UseValueNameColumn = true;
+            unitEdit.KeyValueChanged += unitEdit_KeyValueChanged;
             // 
             // AiTriggerEditControl
             // 

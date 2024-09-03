@@ -57,7 +57,7 @@
             // 
             ultraTabPageControl1.Controls.Add(unitEdit);
             ultraTabPageControl1.Controls.Add(panelTop);
-            ultraTabPageControl1.Location = new Point(1, 25);
+            ultraTabPageControl1.Location = new Point(-10000, -10000);
             ultraTabPageControl1.Name = "ultraTabPageControl1";
             ultraTabPageControl1.Size = new Size(687, 342);
             // 
@@ -73,6 +73,7 @@
             unitEdit.TabIndex = 2;
             unitEdit.Tag = "PLAIN";
             unitEdit.UseValueNameColumn = true;
+            unitEdit.KeyValueChanged += unitEdit_KeyValueChanged;
             // 
             // panelTop
             // 
@@ -97,6 +98,7 @@
             buttonRefreshName.TextAlign = ContentAlignment.MiddleRight;
             buttonRefreshName.TextImageRelation = TextImageRelation.ImageBeforeText;
             buttonRefreshName.UseVisualStyleBackColor = true;
+            buttonRefreshName.Click += buttonRefreshName_Click;
             // 
             // panelButtons
             // 
@@ -155,19 +157,21 @@
             // ultraTabPageControl2
             // 
             ultraTabPageControl2.Controls.Add(entitiesListTriggers);
-            ultraTabPageControl2.Location = new Point(-10000, -10000);
+            ultraTabPageControl2.Location = new Point(1, 25);
             ultraTabPageControl2.Name = "ultraTabPageControl2";
             ultraTabPageControl2.Size = new Size(687, 342);
             // 
             // entitiesListTriggers
             // 
             entitiesListTriggers.Dock = DockStyle.Fill;
+            entitiesListTriggers.EntityType = "AITriggerTypes";
             entitiesListTriggers.ListOnTop = true;
             entitiesListTriggers.ListSize = 140;
             entitiesListTriggers.Location = new Point(0, 0);
             entitiesListTriggers.Name = "entitiesListTriggers";
             entitiesListTriggers.Size = new Size(687, 342);
             entitiesListTriggers.TabIndex = 0;
+            entitiesListTriggers.AddedEntity += entitiesListTriggers_AddedEntity;
             // 
             // ultraTab
             // 

@@ -22,7 +22,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private List<EntityGroupSetting> _entityGroups = new();
         private Dictionary<string, EntityGroupSetting> _keyEntityGroups = new();
         private readonly Dictionary<string, UnitPickerGroupControl> _groupControls = new();
-        private Type? _entityEditControlType;
 
         public UnitsListControl()
         {
@@ -115,12 +114,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         public string SearchText { get; set; } = "";
 
         public bool LoadModel(List<GameEntityModel> entities, 
-            FilterModel? filter = null,
-            Type? entityEditControlType = null)
+            FilterModel? filter = null)
         {
             _entities = entities;
             _filter = filter;
-            _entityEditControlType = entityEditControlType;
             _doEvents = false;
             checkBoxOnlyModified.Checked = false;
             _doEvents = true;
@@ -358,12 +355,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
             _selectedUnitPickerControl = pickerControl;
             pickerControl.IsSelected = true;
-            if (_entityEditControlType != null)
+            var entityEditControlType =
+                entityModel.RootModel.EntityTypeEditControl.FirstOrDefault(e => e.EntityType == entityModel.EntityType)
+                    ?.EditControlType;
+            if (entityEditControlType != null)
             {
                 var controlsToDispose = panelContent.Controls.OfType<Control>().ToList();
                 panelContent.Controls.Clear();
                 controlsToDispose.ForEach(c => c.Dispose());
-                var contentControl = (EntityEditBaseControl)Activator.CreateInstance(_entityEditControlType)!;
+                var contentControl = (EntityEditBaseControl)Activator.CreateInstance(entityEditControlType)!;
                 ThemeManager.Instance.UseTheme(contentControl);
                 contentControl.Dock = DockStyle.Fill;
                 contentControl.LoadEntity(entityModel);
