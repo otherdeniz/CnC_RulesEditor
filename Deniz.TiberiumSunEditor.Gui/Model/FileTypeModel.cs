@@ -81,7 +81,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 && resolveGameDefintionFunc != null)
             {
                 var aiGame = overrideGameDefinition
-                             ?? resolveGameDefintionFunc(iniFile.OriginalFileName, FileBaseType.Art)?.GameDefinition;
+                             ?? resolveGameDefintionFunc(iniFile.OriginalFileName, FileBaseType.Ai)?.GameDefinition;
                 if (aiGame == null)
                 {
                     return null;

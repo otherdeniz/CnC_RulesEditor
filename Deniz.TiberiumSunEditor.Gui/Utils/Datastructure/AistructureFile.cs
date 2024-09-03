@@ -1,12 +1,15 @@
-﻿using Deniz.TiberiumSunEditor.Gui.Utils.Files;
+﻿using Deniz.TiberiumSunEditor.Gui.Utils.EqualityComparer;
+using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 
 namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 
 public class AistructureFile : JsonFileBase
 {
     private static AistructureFile? _instance;
+    private static AistructureFile? _instancePhobos;
 
     public static AistructureFile Instance => _instance ??= LoadFile("Aistructure.json");
+    public static AistructureFile InstancePhobos => _instancePhobos ??= LoadFile("AistructurePhobos.json");
 
     protected static AistructureFile LoadFile(string fileName)
     {
@@ -30,4 +33,16 @@ public class AistructureFile : JsonFileBase
             v.GameKeyFilter == null || v.GameKeyFilter.Split(",").Any(g => g == gameKey));
     }
 
+    public AistructureFile MergeWith(AistructureFile priorityFile)
+    {
+        return new AistructureFile
+        {
+            Teams = priorityFile.Teams,
+            TriggerVirtualSections = priorityFile.TriggerVirtualSections,
+            ScriptActions = priorityFile.ScriptActions
+                .UnionBy(ScriptActions, k => k.Number, StringEqualityComparer.Instance)
+                .ToList(),
+            ScriptBuildingParameter2 = priorityFile.ScriptBuildingParameter2
+        };
+    }
 }

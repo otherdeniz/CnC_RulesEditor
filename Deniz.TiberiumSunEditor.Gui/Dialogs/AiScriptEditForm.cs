@@ -67,6 +67,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             actionsGrid.DisplayLayout.Bands[0].Columns["ActionName"].PerformAutoResize();
             actionsGrid.DisplayLayout.Bands[0].Columns["ParameterName"].PerformAutoResize();
             actionsGrid.DisplayLayout.Bands[0].Columns["Description"].CellMultiLine = DefaultableBoolean.True;
+            actionsGrid.DisplayLayout.Bands[0].Columns["Description"].CellAppearance.FontData.SizeInPoints = this.Font.Size - 1;
             if (selectedAction != null)
             {
                 var selectedIndex = actionDefinitionList!.FindIndex(v => v.Number == selectedAction);

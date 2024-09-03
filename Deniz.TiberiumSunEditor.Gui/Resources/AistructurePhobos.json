@@ -1,0 +1,10 @@
+{
+	"ScriptActions": [
+		{
+			"Number":"10100 ","ActionName":"Timed Area Guard","ParameterValue":"n","ParameterName":"time in ingame seconds","Description":"Puts the TaskForce into Area Guard mode for the given units of time. Unlike the original timed Guard script action (5,n) that just stays in place doing a basic guard operation this action has a more active role attacking nearby invaders or defending units that needs protection."
+		},
+		{
+			"Number":"10101","ActionName":"Wait Until Ammo is Full","ParameterValue":"0","ParameterName":"","Description":"If the TaskForce contains unit(s) that use ammo then the the script will not continue until all these units have fully refilled the ammo."
+		}
+	]
+}
