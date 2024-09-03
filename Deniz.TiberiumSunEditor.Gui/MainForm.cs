@@ -516,6 +516,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["ToolsMenu"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["BalancingTool"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["MixBrowser"].SharedProps.Enabled = false;
+            mainToolbarsManager.Tools["SnippetsMenu"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["InsertSnippet"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["ExportChanges"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = false;
@@ -554,6 +555,7 @@ namespace Deniz.TiberiumSunEditor.Gui
                 panelMain.Controls.Add(_editRulesMainControl);
                 mainToolbarsManager.Tools["ToolsMenu"].SharedProps.Enabled = true;
                 mainToolbarsManager.Tools["BalancingTool"].SharedProps.Enabled = true;
+                mainToolbarsManager.Tools["SnippetsMenu"].SharedProps.Enabled = true;
                 mainToolbarsManager.Tools["InsertSnippet"].SharedProps.Enabled = true;
                 mainToolbarsManager.Tools["ExportChanges"].SharedProps.Enabled = true;
             }
@@ -618,6 +620,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["ToolsMenu"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["BalancingTool"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["MixBrowser"].SharedProps.Enabled = CCGameRepository.Instance.IsLoaded;
+            mainToolbarsManager.Tools["SnippetsMenu"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["InsertSnippet"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["ExportChanges"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = true;
