@@ -354,7 +354,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                         octetPart2 = "05000000";
                         break;
                 }
-                valueBuilder.Append($"{octetPart1}{octetPart2}000000000000000000000000000000000000000000000000");
+                valueBuilder.Append($"{octetPart1}{octetPart2}000000000000000000000000000000000000000000000000,");
 
                 valueBuilder.Append((decimal.TryParse(FileSection.GetValue("StartingWeight")?.Value ?? "50",
                                         out var startingWeightNumber)
