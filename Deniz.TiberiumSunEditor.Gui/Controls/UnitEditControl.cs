@@ -72,7 +72,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 _readonlyMode = value;
                 panelTopRight.Visible = !_readonlyMode;
-                panelAddNew.Visible = !_readonlyMode;
+                panelAddNew.Visible = !_readonlyMode && _showHeaderAndFooter;
                 pictureBoxUnitPreview.Visible = !_readonlyMode;
             }
         }
@@ -110,7 +110,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 _showHeaderAndFooter = value;
                 panelTop.Visible = value;
-                panelAddNew.Visible = value;
+                panelAddNew.Visible = !_readonlyMode && value;
             }
         }
 
