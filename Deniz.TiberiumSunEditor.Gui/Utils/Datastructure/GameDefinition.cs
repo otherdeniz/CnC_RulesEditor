@@ -94,17 +94,21 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
             return LoadDefaultRulesFile();
         }
 
-        public IniFile LoadDefaultRulesFile()
+        public IniFile LoadDefaultRulesFile(bool isNewFile = false)
         {
             return !string.IsNullOrEmpty(ResourcesDefaultIniFile)
-                ? IniFile.Load(ResourcesRepository.Instance.ReadResourcesFile(ResourcesDefaultIniFile), SaveAsFilename)
+                ? IniFile.Load(ResourcesRepository.Instance.ReadResourcesFile(ResourcesDefaultIniFile), 
+                    SaveAsFilename,
+                    IsCustomMod && !isNewFile ? ResourcesDefaultIniFile : null)
                 : new IniFile();
         }
 
-        public IniFile LoadDefaultArtFile()
+        public IniFile LoadDefaultArtFile(bool isNewFile = false)
         {
             return !string.IsNullOrEmpty(ResourcesDefaultArtIniFile)
-                ? IniFile.Load(ResourcesRepository.Instance.ReadResourcesFile(ResourcesDefaultArtIniFile), SaveAsArtFilename)
+                ? IniFile.Load(ResourcesRepository.Instance.ReadResourcesFile(ResourcesDefaultArtIniFile), 
+                    SaveAsArtFilename,
+                    IsCustomMod && !isNewFile ? ResourcesDefaultArtIniFile : null)
                 : new IniFile();
         }
 
@@ -127,10 +131,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
             return LoadDefaultArtFile();
         }
 
-        public IniFile LoadDefaultAiFile()
+        public IniFile LoadDefaultAiFile(bool isNewFile = false)
         {
             return !string.IsNullOrEmpty(ResourcesDefaultAiIniFile)
-                ? IniFile.Load(ResourcesRepository.Instance.ReadResourcesFile(ResourcesDefaultAiIniFile), SaveAsAiFilename)
+                ? IniFile.Load(ResourcesRepository.Instance.ReadResourcesFile(ResourcesDefaultAiIniFile), 
+                    SaveAsAiFilename,
+                    IsCustomMod && !isNewFile ? ResourcesDefaultAiIniFile : null)
                 : new IniFile();
         }
 

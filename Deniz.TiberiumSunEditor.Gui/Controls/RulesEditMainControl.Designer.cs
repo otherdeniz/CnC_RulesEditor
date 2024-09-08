@@ -92,6 +92,10 @@
             mainTab = new Infragistics.Win.UltraWinTabControl.UltraTabControl();
             ultraTabSharedControlsPage1 = new Infragistics.Win.UltraWinTabControl.UltraTabSharedControlsPage();
             panelTitle = new Panel();
+            labelOriginalPath = new Label();
+            labelOriginalTitle = new Label();
+            labelFilePath = new Label();
+            labelFileTitle = new Label();
             labelName = new Label();
             labelType = new Label();
             filterControl = new FilterControl();
@@ -125,7 +129,7 @@
             // ultraTabPageControl1
             // 
             ultraTabPageControl1.Controls.Add(valuesEditCommon);
-            ultraTabPageControl1.Location = new Point(-10000, -10000);
+            ultraTabPageControl1.Location = new Point(2, 30);
             ultraTabPageControl1.Margin = new Padding(4, 3, 4, 3);
             ultraTabPageControl1.Name = "ultraTabPageControl1";
             ultraTabPageControl1.Size = new Size(1169, 396);
@@ -228,7 +232,7 @@
             // ultraTabPageControl3
             // 
             ultraTabPageControl3.Controls.Add(unitsInfantry);
-            ultraTabPageControl3.Location = new Point(2, 30);
+            ultraTabPageControl3.Location = new Point(-10000, -10000);
             ultraTabPageControl3.Margin = new Padding(4, 3, 4, 3);
             ultraTabPageControl3.Name = "ultraTabPageControl3";
             ultraTabPageControl3.Size = new Size(1169, 396);
@@ -572,6 +576,10 @@
             // 
             // panelTitle
             // 
+            panelTitle.Controls.Add(labelOriginalPath);
+            panelTitle.Controls.Add(labelOriginalTitle);
+            panelTitle.Controls.Add(labelFilePath);
+            panelTitle.Controls.Add(labelFileTitle);
             panelTitle.Controls.Add(labelName);
             panelTitle.Controls.Add(labelType);
             panelTitle.Dock = DockStyle.Top;
@@ -581,6 +589,54 @@
             panelTitle.Padding = new Padding(2);
             panelTitle.Size = new Size(1173, 23);
             panelTitle.TabIndex = 2;
+            // 
+            // labelOriginalPath
+            // 
+            labelOriginalPath.AutoSize = true;
+            labelOriginalPath.Dock = DockStyle.Left;
+            labelOriginalPath.Location = new Point(238, 2);
+            labelOriginalPath.Margin = new Padding(4, 0, 4, 0);
+            labelOriginalPath.Name = "labelOriginalPath";
+            labelOriginalPath.Size = new Size(45, 15);
+            labelOriginalPath.TabIndex = 5;
+            labelOriginalPath.Text = "(name)";
+            // 
+            // labelOriginalTitle
+            // 
+            labelOriginalTitle.AutoSize = true;
+            labelOriginalTitle.Dock = DockStyle.Left;
+            labelOriginalTitle.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            labelOriginalTitle.Location = new Point(177, 2);
+            labelOriginalTitle.Margin = new Padding(4, 0, 4, 0);
+            labelOriginalTitle.Name = "labelOriginalTitle";
+            labelOriginalTitle.Padding = new Padding(8, 0, 0, 0);
+            labelOriginalTitle.Size = new Size(61, 15);
+            labelOriginalTitle.TabIndex = 4;
+            labelOriginalTitle.Text = "Original:";
+            // 
+            // labelFilePath
+            // 
+            labelFilePath.AutoSize = true;
+            labelFilePath.Dock = DockStyle.Left;
+            labelFilePath.Location = new Point(132, 2);
+            labelFilePath.Margin = new Padding(4, 0, 4, 0);
+            labelFilePath.Name = "labelFilePath";
+            labelFilePath.Size = new Size(45, 15);
+            labelFilePath.TabIndex = 3;
+            labelFilePath.Text = "(name)";
+            // 
+            // labelFileTitle
+            // 
+            labelFileTitle.AutoSize = true;
+            labelFileTitle.Dock = DockStyle.Left;
+            labelFileTitle.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            labelFileTitle.Location = new Point(95, 2);
+            labelFileTitle.Margin = new Padding(4, 0, 4, 0);
+            labelFileTitle.Name = "labelFileTitle";
+            labelFileTitle.Padding = new Padding(8, 0, 0, 0);
+            labelFileTitle.Size = new Size(37, 15);
+            labelFileTitle.TabIndex = 2;
+            labelFileTitle.Text = "File:";
             // 
             // labelName
             // 
@@ -697,5 +753,9 @@
         private Infragistics.Win.UltraWinTabControl.UltraTabPageControl ultraTabPageControl14;
         private UnitsListControl unitsProjectiles;
         private FilterControl filterControl;
+        private Label labelOriginalPath;
+        private Label labelOriginalTitle;
+        private Label labelFilePath;
+        private Label labelFileTitle;
     }
 }

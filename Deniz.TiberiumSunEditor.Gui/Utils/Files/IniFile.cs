@@ -17,14 +17,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
 
         public string? OriginalFullPath { get; set; }
 
-        public string OriginalFileName { get; set; } = "";
+        public string FileName { get; set; } = "";
 
-        public static IniFile Load(byte[] fileBytes, string originalFilename = "")
+        public static IniFile Load(byte[] fileBytes, string filename = "", string? originalFullpath = null)
         {
             using (var fileStream = new MemoryStream(fileBytes))
             {
                 var iniFile = LoadStream(fileStream);
-                iniFile.OriginalFileName = originalFilename;
+                iniFile.FileName = filename;
+                iniFile.OriginalFullPath = originalFullpath;
                 return iniFile;
             }
         }
@@ -35,7 +36,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
             {
                 var iniFile = LoadStream(fileStream);
                 iniFile.OriginalFullPath = filePath;
-                iniFile.OriginalFileName = Path.GetFileName(filePath);
+                iniFile.FileName = Path.GetFileName(filePath);
                 return iniFile;
             }
         }
@@ -109,7 +110,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
             return iniFile;
         }
 
-        public void SaveAs(string filePath)
+        public void SaveAs(string filePath, bool updateOriginalFullPath = false)
         {
             if (File.Exists(filePath))
             {
@@ -128,6 +129,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
                     writer.Write(category.ToString());
                 }
                 writer.Flush();
+            }
+            if (updateOriginalFullPath)
+            {
+                OriginalFullPath = filePath;
             }
         }
 

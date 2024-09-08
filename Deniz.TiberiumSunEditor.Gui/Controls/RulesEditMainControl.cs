@@ -156,6 +156,23 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             Model = model;
             labelType.Text = fileTypeOverride ?? model.FileType.TypeLabel;
             labelName.Text = nameOverride ?? model.FileType.Title;
+            UpdateHeaderFilePath();
+            if (model.DefaultFile.OriginalFullPath != null)
+            {
+                var originalPath = model.DefaultFile.OriginalFullPath;
+                if (model.FileType.GameDefinition.CustomMod?.RulesIniMixSource != null
+                    && originalPath == model.FileType.GameDefinition.CustomMod.RulesIniPath)
+                {
+                    var snapshotDate = File.GetLastWriteTime(originalPath);
+                    originalPath +=
+                        $" [snapshot@{snapshotDate:d} of {model.FileType.GameDefinition.CustomMod?.RulesIniMixSource}]";
+                }
+                labelOriginalPath.Text = originalPath;
+            }
+            else
+            {
+                labelOriginalPath.Text = $"[C&&C Rules Editor Path]\\Resources\\{model.FileType.GameDefinition.ResourcesDefaultIniFile}";
+            }
             filterControl.LoadModel(model);
             ReloadModels();
             var firstVisibleTab = mainTab.Tabs.OfType<UltraTab>().FirstOrDefault(t => t.Visible);
@@ -175,6 +192,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 TakeSubTab(_aiEditSubControl.mainTab, "TaskForces");
                 TakeSubTab(_aiEditSubControl.mainTab, "Teams");
             }
+        }
+
+        public void UpdateHeaderFilePath(string? saveLocation = null)
+        {
+            labelFilePath.Text = saveLocation 
+                                 ?? Model.File.OriginalFullPath 
+                                 ?? "new";
         }
 
         private void TakeSubTab(UltraTabControl subTabControl, string tabKey)

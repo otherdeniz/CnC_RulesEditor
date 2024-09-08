@@ -64,7 +64,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                 // Art
                 var defaultFile = IniFile.Load(textFile1Path.Text);
                 var compareFile = IniFile.Load(textFile2Path.Text);
-                var fileTypeModel = new FileTypeModel(FileBaseType.Art, compareFile.OriginalFileName, gameDefinition);
+                var fileTypeModel = new FileTypeModel(FileBaseType.Art, compareFile.FileName, gameDefinition);
                 var rulesRootModel = new RulesRootModel(gameDefinition.LoadDefaultRulesFile(), fileTypeModel,
                     showMissingValues: true,
                     useAres: gameDefinition.UseAres,

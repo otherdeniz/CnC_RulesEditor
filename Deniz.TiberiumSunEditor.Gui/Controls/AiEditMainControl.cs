@@ -78,6 +78,23 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             Model = model;
             labelType.Text = model.FileType.TypeLabel;
             labelName.Text = model.FileType.Title;
+            UpdateHeaderFilePath();
+            if (model.DefaultFile.OriginalFullPath != null)
+            {
+                var originalPath = model.DefaultFile.OriginalFullPath;
+                if (model.FileType.GameDefinition.CustomMod?.AiIniMixSource != null
+                    && originalPath == model.FileType.GameDefinition.CustomMod.AiIniPath)
+                {
+                    var snapshotDate = File.GetLastWriteTime(originalPath);
+                    originalPath +=
+                        $" [snapshot@{snapshotDate:d} of {model.FileType.GameDefinition.CustomMod?.AiIniMixSource}]";
+                }
+                labelOriginalPath.Text = originalPath;
+            }
+            else
+            {
+                labelOriginalPath.Text = $"[C&&C Rules Editor Path]\\Resources\\{model.FileType.GameDefinition.ResourcesDefaultAiIniFile}";
+            }
             //filterControl.LoadModel(model);
             ReloadModels();
             var firstVisibleTab = mainTab.Tabs.OfType<UltraTab>().FirstOrDefault(t => t.Visible);
@@ -87,6 +104,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
             model.EntitiesReloaded += (sender, args) => ReloadModels();
             model.GlobalEntityNotification += ModelOnGlobalEntityNotification;
+        }
+
+        public void UpdateHeaderFilePath(string? saveLocation = null)
+        {
+            labelFilePath.Text = saveLocation
+                                 ?? Model.File.OriginalFullPath
+                                 ?? "new";
         }
 
         private void ModelOnGlobalEntityNotification(object? sender, GlobalEntityNotificationEventArgs e)

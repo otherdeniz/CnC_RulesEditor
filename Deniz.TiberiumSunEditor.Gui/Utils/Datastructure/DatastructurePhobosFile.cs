@@ -79,7 +79,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
                     {
                         commonValueDeinitions.Add(new CommonValueDefinition
                         {
-                            ModuleCategory = $", {GetFileDescription(valueSection.File.OriginalFileName)}",
+                            ModuleCategory = $", {GetFileDescription(valueSection.File.FileName)}",
                             Category = "General",
                             Default = commonKeyValue.Value,
                             Description = commonKeyValue.Comment,
@@ -98,7 +98,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
                     {
                         unitValueDefinitions.Add(new UnitValueDefinition
                         {
-                            ModuleCategory = $", {GetFileDescription(valueSection.File.OriginalFileName)}",
+                            ModuleCategory = $", {GetFileDescription(valueSection.File.FileName)}",
                             Default = unitKeyValue.Value,
                             Description = unitKeyValue.Comment,
                             Key = unitKeyValue.Key,

@@ -65,6 +65,10 @@
             ultraTabSharedControlsPage1 = new Infragistics.Win.UltraWinTabControl.UltraTabSharedControlsPage();
             mainTab = new Infragistics.Win.UltraWinTabControl.UltraTabControl();
             panelTitle = new Panel();
+            labelOriginalPath = new Label();
+            labelOriginalTitle = new Label();
+            labelFilePath = new Label();
+            labelFileTitle = new Label();
             labelName = new Label();
             labelType = new Label();
             filterControl = new FilterControl();
@@ -324,6 +328,10 @@
             // 
             // panelTitle
             // 
+            panelTitle.Controls.Add(labelOriginalPath);
+            panelTitle.Controls.Add(labelOriginalTitle);
+            panelTitle.Controls.Add(labelFilePath);
+            panelTitle.Controls.Add(labelFileTitle);
             panelTitle.Controls.Add(labelName);
             panelTitle.Controls.Add(labelType);
             panelTitle.Dock = DockStyle.Top;
@@ -333,6 +341,54 @@
             panelTitle.Padding = new Padding(2);
             panelTitle.Size = new Size(911, 23);
             panelTitle.TabIndex = 3;
+            // 
+            // labelOriginalPath
+            // 
+            labelOriginalPath.AutoSize = true;
+            labelOriginalPath.Dock = DockStyle.Left;
+            labelOriginalPath.Location = new Point(238, 2);
+            labelOriginalPath.Margin = new Padding(4, 0, 4, 0);
+            labelOriginalPath.Name = "labelOriginalPath";
+            labelOriginalPath.Size = new Size(45, 15);
+            labelOriginalPath.TabIndex = 9;
+            labelOriginalPath.Text = "(name)";
+            // 
+            // labelOriginalTitle
+            // 
+            labelOriginalTitle.AutoSize = true;
+            labelOriginalTitle.Dock = DockStyle.Left;
+            labelOriginalTitle.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            labelOriginalTitle.Location = new Point(177, 2);
+            labelOriginalTitle.Margin = new Padding(4, 0, 4, 0);
+            labelOriginalTitle.Name = "labelOriginalTitle";
+            labelOriginalTitle.Padding = new Padding(8, 0, 0, 0);
+            labelOriginalTitle.Size = new Size(61, 15);
+            labelOriginalTitle.TabIndex = 8;
+            labelOriginalTitle.Text = "Original:";
+            // 
+            // labelFilePath
+            // 
+            labelFilePath.AutoSize = true;
+            labelFilePath.Dock = DockStyle.Left;
+            labelFilePath.Location = new Point(132, 2);
+            labelFilePath.Margin = new Padding(4, 0, 4, 0);
+            labelFilePath.Name = "labelFilePath";
+            labelFilePath.Size = new Size(45, 15);
+            labelFilePath.TabIndex = 7;
+            labelFilePath.Text = "(name)";
+            // 
+            // labelFileTitle
+            // 
+            labelFileTitle.AutoSize = true;
+            labelFileTitle.Dock = DockStyle.Left;
+            labelFileTitle.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            labelFileTitle.Location = new Point(95, 2);
+            labelFileTitle.Margin = new Padding(4, 0, 4, 0);
+            labelFileTitle.Name = "labelFileTitle";
+            labelFileTitle.Padding = new Padding(8, 0, 0, 0);
+            labelFileTitle.Size = new Size(37, 15);
+            labelFileTitle.TabIndex = 6;
+            labelFileTitle.Text = "File:";
             // 
             // labelName
             // 
@@ -419,5 +475,9 @@
         private Infragistics.Win.UltraWinTabControl.UltraTabPageControl ultraTabPageControl4;
         private UnitsListControl unitsAnimations;
         private FilterControl filterControl;
+        private Label labelOriginalPath;
+        private Label labelOriginalTitle;
+        private Label labelFilePath;
+        private Label labelFileTitle;
     }
 }

@@ -51,20 +51,20 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 return new FileTypeModel(FileBaseType.Map, mapName, mapGame);
             }
 
-            if ((iniFile.OriginalFileName.Equals("art.ini", StringComparison.InvariantCultureIgnoreCase)
-                 || iniFile.OriginalFileName.Equals("artmd.ini", StringComparison.InvariantCultureIgnoreCase)
+            if ((iniFile.FileName.Equals("art.ini", StringComparison.InvariantCultureIgnoreCase)
+                 || iniFile.FileName.Equals("artmd.ini", StringComparison.InvariantCultureIgnoreCase)
                  || iniFile.OriginalFullPath != null && overrideGameDefinition?.ResourcesDefaultArtIniFile == iniFile.OriginalFullPath
                  || iniFile.Sections.Any() && iniFile.Sections[0].Lines.OfType<IniFileLineComment>().Any(c => c.Comment.Contains("ART.INI")))
                 && resolveGameDefintionFunc != null)
             {
                 var artGame = overrideGameDefinition 
-                              ?? resolveGameDefintionFunc(iniFile.OriginalFileName, FileBaseType.Art)?.GameDefinition;
+                              ?? resolveGameDefintionFunc(iniFile.FileName, FileBaseType.Art)?.GameDefinition;
                 if (artGame == null)
                 {
                     return null;
                 }
 
-                var fileTitle = iniFile.OriginalFileName;
+                var fileTitle = iniFile.FileName;
                 if (iniFile.OriginalFullPath != null 
                     && overrideGameDefinition?.ResourcesDefaultArtIniFile == iniFile.OriginalFullPath
                     && overrideGameDefinition.CustomMod != null)
@@ -81,13 +81,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 && resolveGameDefintionFunc != null)
             {
                 var aiGame = overrideGameDefinition
-                             ?? resolveGameDefintionFunc(iniFile.OriginalFileName, FileBaseType.Ai)?.GameDefinition;
+                             ?? resolveGameDefintionFunc(iniFile.FileName, FileBaseType.Ai)?.GameDefinition;
                 if (aiGame == null)
                 {
                     return null;
                 }
 
-                var fileTitle = iniFile.OriginalFileName;
+                var fileTitle = iniFile.FileName;
                 if (iniFile.OriginalFullPath != null
                     && overrideGameDefinition?.ResourcesDefaultAiIniFile == iniFile.OriginalFullPath
                     && overrideGameDefinition.CustomMod != null)
@@ -97,15 +97,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 return new FileTypeModel(FileBaseType.Ai, fileTitle, aiGame);
             }
 
-            var unknownGameDefinition = resolveGameDefintionFunc?.Invoke(iniFile.OriginalFileName, FileBaseType.Unknown);
+            var unknownGameDefinition = resolveGameDefintionFunc?.Invoke(iniFile.FileName, FileBaseType.Unknown);
             if (unknownGameDefinition != null)
             {
                 return new FileTypeModel(unknownGameDefinition.Value.FileType, 
-                    iniFile.OriginalFileName,
+                    iniFile.FileName,
                     unknownGameDefinition.Value.GameDefinition);
             }
 
-            return new FileTypeModel(FileBaseType.Unknown, iniFile.OriginalFileName);
+            return new FileTypeModel(FileBaseType.Unknown, iniFile.FileName);
         }
 
         private readonly string? _keyOverride;
