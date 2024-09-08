@@ -1,0 +1,22 @@
+{
+	"ScriptActions": [
+		{
+			"Number":"65","ActionName":"Ares: Auxiliary Power","ParameterValue":"n","ParameterName":"Power amount","Description":"The power amount is added to the house owning the team"
+		},
+		{
+			"Number":"66","ActionName":"Ares: Kill Drivers","ParameterValue":"0","ParameterName":"","Description":"Kill driver and affected units will change to the country Special."
+		},
+		{
+			"Number":"67","ActionName":"Ares: Take Vehicles","ParameterValue":"0","ParameterName":"","Description":"Make infantry taskforce to enter the nearest vehicles."
+		},
+		{
+			"Number":"68","ActionName":"Ares: Convert Type","ParameterValue":"0","ParameterName":"","Description":"Changes all members of this team into their respective Convert.Script type."
+		},
+		{
+			"Number":"69","ActionName":"Ares: Sonar Reveal","ParameterValue":"n","ParameterName":"Duration in frames","Description":"Objects will not be allowed to cloak for the given duration in frames."
+		},
+		{
+			"Number":"70","ActionName":"Ares: Disable Weapons","ParameterValue":"n","ParameterName":"Duration in frames","Description":"Objects will not be allowed to fire for the given duration in frames."
+		}
+	]
+}

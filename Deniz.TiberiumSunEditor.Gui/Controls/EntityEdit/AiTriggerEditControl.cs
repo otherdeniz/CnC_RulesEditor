@@ -41,7 +41,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
         public static string GenerateName(GameEntityModel teamEntityModel)
         {
             var prefix = "";
-            if (teamEntityModel.FileSection.GetValue("Eays")?.Value == "yes")
+            if (teamEntityModel.FileSection.GetValue("Easy")?.Value == "yes")
             {
                 prefix = "E";
             }

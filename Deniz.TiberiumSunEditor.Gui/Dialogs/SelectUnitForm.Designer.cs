@@ -37,9 +37,17 @@
             toolStripLabelItem = new ToolStripLabel();
             toolStripButtonNext = new ToolStripButton();
             toolStripLabelTotal = new ToolStripLabel();
+            panelTop = new Panel();
+            numericTechLevel = new NumericUpDown();
+            buttonResetSearch = new Button();
+            textBoxSearch = new TextBox();
+            label2 = new Label();
+            label1 = new Label();
             panelBottom.SuspendLayout();
             ultraPanelUnits.SuspendLayout();
             toolStripPaging.SuspendLayout();
+            panelTop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericTechLevel).BeginInit();
             SuspendLayout();
             // 
             // panelBottom
@@ -69,9 +77,9 @@
             // 
             ultraPanelUnits.AutoScroll = true;
             ultraPanelUnits.Dock = DockStyle.Fill;
-            ultraPanelUnits.Location = new Point(4, 4);
+            ultraPanelUnits.Location = new Point(4, 40);
             ultraPanelUnits.Name = "ultraPanelUnits";
-            ultraPanelUnits.Size = new Size(907, 498);
+            ultraPanelUnits.Size = new Size(907, 462);
             ultraPanelUnits.TabIndex = 2;
             // 
             // toolStripPaging
@@ -117,6 +125,66 @@
             toolStripLabelTotal.Size = new Size(66, 22);
             toolStripLabelTotal.Text = "1'000 Items";
             // 
+            // panelTop
+            // 
+            panelTop.Controls.Add(numericTechLevel);
+            panelTop.Controls.Add(buttonResetSearch);
+            panelTop.Controls.Add(textBoxSearch);
+            panelTop.Controls.Add(label2);
+            panelTop.Controls.Add(label1);
+            panelTop.Dock = DockStyle.Top;
+            panelTop.Location = new Point(4, 4);
+            panelTop.Name = "panelTop";
+            panelTop.Size = new Size(907, 36);
+            panelTop.TabIndex = 4;
+            // 
+            // numericTechLevel
+            // 
+            numericTechLevel.Location = new Point(353, 6);
+            numericTechLevel.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
+            numericTechLevel.Name = "numericTechLevel";
+            numericTechLevel.Size = new Size(57, 23);
+            numericTechLevel.TabIndex = 4;
+            numericTechLevel.Value = new decimal(new int[] { 1, 0, 0, int.MinValue });
+            numericTechLevel.ValueChanged += numericTechLevel_ValueChanged;
+            // 
+            // buttonResetSearch
+            // 
+            buttonResetSearch.Enabled = false;
+            buttonResetSearch.Image = (Image)resources.GetObject("buttonResetSearch.Image");
+            buttonResetSearch.Location = new Point(172, 6);
+            buttonResetSearch.Name = "buttonResetSearch";
+            buttonResetSearch.Size = new Size(23, 23);
+            buttonResetSearch.TabIndex = 3;
+            buttonResetSearch.UseVisualStyleBackColor = true;
+            buttonResetSearch.Click += buttonResetSearch_Click;
+            // 
+            // textBoxSearch
+            // 
+            textBoxSearch.Location = new Point(72, 6);
+            textBoxSearch.Name = "textBoxSearch";
+            textBoxSearch.Size = new Size(100, 23);
+            textBoxSearch.TabIndex = 1;
+            textBoxSearch.TextChanged += textBoxSearch_TextChanged;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(228, 10);
+            label2.Name = "label2";
+            label2.Size = new Size(88, 15);
+            label2.TabIndex = 0;
+            label2.Text = "Min. TechLevel:";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(3, 9);
+            label1.Name = "label1";
+            label1.Size = new Size(45, 15);
+            label1.TabIndex = 0;
+            label1.Text = "Search:";
+            // 
             // SelectUnitForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -124,6 +192,7 @@
             CancelButton = buttonCancel;
             ClientSize = new Size(915, 574);
             Controls.Add(ultraPanelUnits);
+            Controls.Add(panelTop);
             Controls.Add(toolStripPaging);
             Controls.Add(panelBottom);
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -136,6 +205,9 @@
             ultraPanelUnits.ResumeLayout(false);
             toolStripPaging.ResumeLayout(false);
             toolStripPaging.PerformLayout();
+            panelTop.ResumeLayout(false);
+            panelTop.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericTechLevel).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -150,5 +222,11 @@
         private ToolStripLabel toolStripLabelItem;
         private ToolStripButton toolStripButtonNext;
         private ToolStripLabel toolStripLabelTotal;
+        private Panel panelTop;
+        private TextBox textBoxSearch;
+        private Label label1;
+        private Button buttonResetSearch;
+        private NumericUpDown numericTechLevel;
+        private Label label2;
     }
 }

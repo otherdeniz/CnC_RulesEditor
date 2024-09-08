@@ -1,10 +1,617 @@
 {
 	"ScriptActions": [
 		{
-			"Number":"10100 ","ActionName":"Timed Area Guard","ParameterValue":"n","ParameterName":"time in ingame seconds","Description":"Puts the TaskForce into Area Guard mode for the given units of time. Unlike the original timed Guard script action (5,n) that just stays in place doing a basic guard operation this action has a more active role attacking nearby invaders or defending units that needs protection."
+			"Number":"10000","ActionName":"Phobos: Attack nearest repeat","ParameterValue":"v","ParameterName":"Target category","Description":"Ends when a team member kill the designated target",
+			"ParameterValues":[
+				{"Value":"0","Name":"<not used>","Description":""},
+				{"Value":"1","Name":"Anything","Description":""},
+				{"Value":"2","Name":"Building without deployed flags","Description":""},
+				{"Value":"3","Name":"Ore Miners","Description":""},
+				{"Value":"4","Name":"Infantry","Description":""},
+				{"Value":"5","Name":"Vehicles/Aircraft/deployed units","Description":""},
+				{"Value":"6","Name":"Factories","Description":""},
+				{"Value":"7","Name":"Base Defenses","Description":""},
+				{"Value":"8","Name":"House Threats or near Team Leader","Description":""},
+				{"Value":"9","Name":"Power Plants","Description":""},
+				{"Value":"10","Name":"Occupied Building","Description":""},
+				{"Value":"11","Name":"Tech Buildings","Description":""},
+				{"Value":"12","Name":"Refinery/ResourceGatherer","Description":""},
+				{"Value":"13","Name":"Mind Controller","Description":""},
+				{"Value":"14","Name":"Air Units/Infantry/Aircrafts","Description":""},
+				{"Value":"15","Name":"Naval (Anything on water)","Description":""},
+				{"Value":"16","Name":"Disruptors (Cloak/Jammer/GapGen)","Description":""},
+				{"Value":"17","Name":"Ground Vehicles","Description":""},
+				{"Value":"18","Name":"Economy (with recources)","Description":""},
+				{"Value":"19","Name":"Barracks","Description":""},
+				{"Value":"20","Name":"Vehicle Factory","Description":""},
+				{"Value":"21","Name":"Aircraft Factory","Description":""},
+				{"Value":"22","Name":"Radar/SpySat","Description":""},
+				{"Value":"23","Name":"Tech Lab","Description":""},
+				{"Value":"24","Name":"Naval Factory","Description":""},
+				{"Value":"25","Name":"Super Weapon	Building","Description":""},
+				{"Value":"26","Name":"Construction Yard","Description":""},
+				{"Value":"27","Name":"Neutrals","Description":""},
+				{"Value":"28","Name":"Cloak/Gap Generators","Description":""},
+				{"Value":"29","Name":"Radar Jammer","Description":""},
+				{"Value":"30","Name":"Inhibitors","Description":""},
+				{"Value":"31","Name":"Naval Units (not Buildings)","Description":""},
+				{"Value":"32","Name":"Anything except Buildings","Description":""},
+				{"Value":"33","Name":"Capturable Buildings","Description":""},
+				{"Value":"34","Name":"Area Threats (in Team Leader range)","Description":""},
+				{"Value":"35","Name":"Vehicle and Naval Factory","Description":""},
+				{"Value":"36","Name":"Non-defensive Structures","Description":""}
+			]
 		},
 		{
-			"Number":"10101","ActionName":"Wait Until Ammo is Full","ParameterValue":"0","ParameterName":"","Description":"If the TaskForce contains unit(s) that use ammo then the the script will not continue until all these units have fully refilled the ammo."
+			"Number":"10001","ActionName":"Phobos: Attack nearest once","ParameterValue":"v","ParameterName":"Target category","Description":"Ends when a team member kill the designated target",
+			"ParameterValues":[
+				{"Value":"0","Name":"<not used>","Description":""},
+				{"Value":"1","Name":"Anything","Description":""},
+				{"Value":"2","Name":"Building without deployed flags","Description":""},
+				{"Value":"3","Name":"Ore Miners","Description":""},
+				{"Value":"4","Name":"Infantry","Description":""},
+				{"Value":"5","Name":"Vehicles/Aircraft/deployed units","Description":""},
+				{"Value":"6","Name":"Factories","Description":""},
+				{"Value":"7","Name":"Base Defenses","Description":""},
+				{"Value":"8","Name":"House Threats or near Team Leader","Description":""},
+				{"Value":"9","Name":"Power Plants","Description":""},
+				{"Value":"10","Name":"Occupied Building","Description":""},
+				{"Value":"11","Name":"Tech Buildings","Description":""},
+				{"Value":"12","Name":"Refinery/ResourceGatherer","Description":""},
+				{"Value":"13","Name":"Mind Controller","Description":""},
+				{"Value":"14","Name":"Air Units/Infantry/Aircrafts","Description":""},
+				{"Value":"15","Name":"Naval (Anything on water)","Description":""},
+				{"Value":"16","Name":"Disruptors (Cloak/Jammer/GapGen)","Description":""},
+				{"Value":"17","Name":"Ground Vehicles","Description":""},
+				{"Value":"18","Name":"Economy (with recources)","Description":""},
+				{"Value":"19","Name":"Barracks","Description":""},
+				{"Value":"20","Name":"Vehicle Factory","Description":""},
+				{"Value":"21","Name":"Aircraft Factory","Description":""},
+				{"Value":"22","Name":"Radar/SpySat","Description":""},
+				{"Value":"23","Name":"Tech Lab","Description":""},
+				{"Value":"24","Name":"Naval Factory","Description":""},
+				{"Value":"25","Name":"Super Weapon	Building","Description":""},
+				{"Value":"26","Name":"Construction Yard","Description":""},
+				{"Value":"27","Name":"Neutrals","Description":""},
+				{"Value":"28","Name":"Cloak/Gap Generators","Description":""},
+				{"Value":"29","Name":"Radar Jammer","Description":""},
+				{"Value":"30","Name":"Inhibitors","Description":""},
+				{"Value":"31","Name":"Naval Units (not Buildings)","Description":""},
+				{"Value":"32","Name":"Anything except Buildings","Description":""},
+				{"Value":"33","Name":"Capturable Buildings","Description":""},
+				{"Value":"34","Name":"Area Threats (in Team Leader range)","Description":""},
+				{"Value":"35","Name":"Vehicle and Naval Factory","Description":""},
+				{"Value":"36","Name":"Non-defensive Structures","Description":""}
+			]
+		},
+		{
+			"Number":"10002","ActionName":"Phobos: Attack nearest repeat 2","ParameterValue":"n","ParameterName":"AITargetTypes of Rules.ini","Description":"Ends when a team member kill the designated target. Parameter is 0-based index of AITargetTypes in rulesmd.ini"
+		},
+		{
+			"Number":"10003","ActionName":"Phobos: Attack nearest once 2","ParameterValue":"n","ParameterName":"AITargetTypes of Rules.ini","Description":"Ends when a team member kill the designated target. Parameter is 0-based index of AITargetTypes in rulesmd.ini"
+		},
+		{
+			"Number":"10004","ActionName":"Phobos: Attack nearest repeat 3","ParameterValue":"n","ParameterName":"AITargetTypes of Rules.ini","Description":"Picks 1 random target from the list. Parameter is 0-based index of AITargetTypes in rulesmd.ini"
+		},
+		{
+			"Number":"10005","ActionName":"Phobos: Attack farthest repeat","ParameterValue":"v","ParameterName":"Target category","Description":"Ends when a team member kill the designated target",
+			"ParameterValues":[
+				{"Value":"0","Name":"<not used>","Description":""},
+				{"Value":"1","Name":"Anything","Description":""},
+				{"Value":"2","Name":"Building without deployed flags","Description":""},
+				{"Value":"3","Name":"Ore Miners","Description":""},
+				{"Value":"4","Name":"Infantry","Description":""},
+				{"Value":"5","Name":"Vehicles/Aircraft/deployed units","Description":""},
+				{"Value":"6","Name":"Factories","Description":""},
+				{"Value":"7","Name":"Base Defenses","Description":""},
+				{"Value":"8","Name":"House Threats or near Team Leader","Description":""},
+				{"Value":"9","Name":"Power Plants","Description":""},
+				{"Value":"10","Name":"Occupied Building","Description":""},
+				{"Value":"11","Name":"Tech Buildings","Description":""},
+				{"Value":"12","Name":"Refinery/ResourceGatherer","Description":""},
+				{"Value":"13","Name":"Mind Controller","Description":""},
+				{"Value":"14","Name":"Air Units/Infantry/Aircrafts","Description":""},
+				{"Value":"15","Name":"Naval (Anything on water)","Description":""},
+				{"Value":"16","Name":"Disruptors (Cloak/Jammer/GapGen)","Description":""},
+				{"Value":"17","Name":"Ground Vehicles","Description":""},
+				{"Value":"18","Name":"Economy (with recources)","Description":""},
+				{"Value":"19","Name":"Barracks","Description":""},
+				{"Value":"20","Name":"Vehicle Factory","Description":""},
+				{"Value":"21","Name":"Aircraft Factory","Description":""},
+				{"Value":"22","Name":"Radar/SpySat","Description":""},
+				{"Value":"23","Name":"Tech Lab","Description":""},
+				{"Value":"24","Name":"Naval Factory","Description":""},
+				{"Value":"25","Name":"Super Weapon	Building","Description":""},
+				{"Value":"26","Name":"Construction Yard","Description":""},
+				{"Value":"27","Name":"Neutrals","Description":""},
+				{"Value":"28","Name":"Cloak/Gap Generators","Description":""},
+				{"Value":"29","Name":"Radar Jammer","Description":""},
+				{"Value":"30","Name":"Inhibitors","Description":""},
+				{"Value":"31","Name":"Naval Units (not Buildings)","Description":""},
+				{"Value":"32","Name":"Anything except Buildings","Description":""},
+				{"Value":"33","Name":"Capturable Buildings","Description":""},
+				{"Value":"34","Name":"Area Threats (in Team Leader range)","Description":""},
+				{"Value":"35","Name":"Vehicle and Naval Factory","Description":""},
+				{"Value":"36","Name":"Non-defensive Structures","Description":""}
+			]
+		},
+		{
+			"Number":"10006","ActionName":"Phobos: Attack farthest once","ParameterValue":"v","ParameterName":"Target category","Description":"Ends when a team member kill the designated target",
+			"ParameterValues":[
+				{"Value":"0","Name":"<not used>","Description":""},
+				{"Value":"1","Name":"Anything","Description":""},
+				{"Value":"2","Name":"Building without deployed flags","Description":""},
+				{"Value":"3","Name":"Ore Miners","Description":""},
+				{"Value":"4","Name":"Infantry","Description":""},
+				{"Value":"5","Name":"Vehicles/Aircraft/deployed units","Description":""},
+				{"Value":"6","Name":"Factories","Description":""},
+				{"Value":"7","Name":"Base Defenses","Description":""},
+				{"Value":"8","Name":"House Threats or near Team Leader","Description":""},
+				{"Value":"9","Name":"Power Plants","Description":""},
+				{"Value":"10","Name":"Occupied Building","Description":""},
+				{"Value":"11","Name":"Tech Buildings","Description":""},
+				{"Value":"12","Name":"Refinery/ResourceGatherer","Description":""},
+				{"Value":"13","Name":"Mind Controller","Description":""},
+				{"Value":"14","Name":"Air Units/Infantry/Aircrafts","Description":""},
+				{"Value":"15","Name":"Naval (Anything on water)","Description":""},
+				{"Value":"16","Name":"Disruptors (Cloak/Jammer/GapGen)","Description":""},
+				{"Value":"17","Name":"Ground Vehicles","Description":""},
+				{"Value":"18","Name":"Economy (with recources)","Description":""},
+				{"Value":"19","Name":"Barracks","Description":""},
+				{"Value":"20","Name":"Vehicle Factory","Description":""},
+				{"Value":"21","Name":"Aircraft Factory","Description":""},
+				{"Value":"22","Name":"Radar/SpySat","Description":""},
+				{"Value":"23","Name":"Tech Lab","Description":""},
+				{"Value":"24","Name":"Naval Factory","Description":""},
+				{"Value":"25","Name":"Super Weapon	Building","Description":""},
+				{"Value":"26","Name":"Construction Yard","Description":""},
+				{"Value":"27","Name":"Neutrals","Description":""},
+				{"Value":"28","Name":"Cloak/Gap Generators","Description":""},
+				{"Value":"29","Name":"Radar Jammer","Description":""},
+				{"Value":"30","Name":"Inhibitors","Description":""},
+				{"Value":"31","Name":"Naval Units (not Buildings)","Description":""},
+				{"Value":"32","Name":"Anything except Buildings","Description":""},
+				{"Value":"33","Name":"Capturable Buildings","Description":""},
+				{"Value":"34","Name":"Area Threats (in Team Leader range)","Description":""},
+				{"Value":"35","Name":"Vehicle and Naval Factory","Description":""},
+				{"Value":"36","Name":"Non-defensive Structures","Description":""}
+			]
+		},
+		{
+			"Number":"10007","ActionName":"Phobos: Attack farthest repeat 2","ParameterValue":"n","ParameterName":"AITargetTypes of Rules.ini","Description":"Ends when a team member kill the designated target. Parameter is 0-based index of AITargetTypes in rulesmd.ini"
+		},
+		{
+			"Number":"10008","ActionName":"Phobos: Attack farthest once 2","ParameterValue":"n","ParameterName":"AITargetTypes of Rules.ini","Description":"Ends when a team member kill the designated target. Parameter is 0-based index of AITargetTypes in rulesmd.ini"
+		},
+		{
+			"Number":"10009","ActionName":"Phobos: Attack farthest repeat 3","ParameterValue":"n","ParameterName":"AITargetTypes of Rules.ini","Description":"Picks 1 random target from the list. Parameter is 0-based index of AITargetTypes in rulesmd.ini"
+		},
+		{
+			"Number":"10010","ActionName":"Phobos: Attack near high threat repeat","ParameterValue":"v","ParameterName":"Target category","Description":"Ends when a team member kill the designated target",
+			"ParameterValues":[
+				{"Value":"0","Name":"<not used>","Description":""},
+				{"Value":"1","Name":"Anything","Description":""},
+				{"Value":"2","Name":"Building without deployed flags","Description":""},
+				{"Value":"3","Name":"Ore Miners","Description":""},
+				{"Value":"4","Name":"Infantry","Description":""},
+				{"Value":"5","Name":"Vehicles/Aircraft/deployed units","Description":""},
+				{"Value":"6","Name":"Factories","Description":""},
+				{"Value":"7","Name":"Base Defenses","Description":""},
+				{"Value":"8","Name":"House Threats or near Team Leader","Description":""},
+				{"Value":"9","Name":"Power Plants","Description":""},
+				{"Value":"10","Name":"Occupied Building","Description":""},
+				{"Value":"11","Name":"Tech Buildings","Description":""},
+				{"Value":"12","Name":"Refinery/ResourceGatherer","Description":""},
+				{"Value":"13","Name":"Mind Controller","Description":""},
+				{"Value":"14","Name":"Air Units/Infantry/Aircrafts","Description":""},
+				{"Value":"15","Name":"Naval (Anything on water)","Description":""},
+				{"Value":"16","Name":"Disruptors (Cloak/Jammer/GapGen)","Description":""},
+				{"Value":"17","Name":"Ground Vehicles","Description":""},
+				{"Value":"18","Name":"Economy (with recources)","Description":""},
+				{"Value":"19","Name":"Barracks","Description":""},
+				{"Value":"20","Name":"Vehicle Factory","Description":""},
+				{"Value":"21","Name":"Aircraft Factory","Description":""},
+				{"Value":"22","Name":"Radar/SpySat","Description":""},
+				{"Value":"23","Name":"Tech Lab","Description":""},
+				{"Value":"24","Name":"Naval Factory","Description":""},
+				{"Value":"25","Name":"Super Weapon	Building","Description":""},
+				{"Value":"26","Name":"Construction Yard","Description":""},
+				{"Value":"27","Name":"Neutrals","Description":""},
+				{"Value":"28","Name":"Cloak/Gap Generators","Description":""},
+				{"Value":"29","Name":"Radar Jammer","Description":""},
+				{"Value":"30","Name":"Inhibitors","Description":""},
+				{"Value":"31","Name":"Naval Units (not Buildings)","Description":""},
+				{"Value":"32","Name":"Anything except Buildings","Description":""},
+				{"Value":"33","Name":"Capturable Buildings","Description":""},
+				{"Value":"34","Name":"Area Threats (in Team Leader range)","Description":""},
+				{"Value":"35","Name":"Vehicle and Naval Factory","Description":""},
+				{"Value":"36","Name":"Non-defensive Structures","Description":""}
+			]
+		},
+		{
+			"Number":"10011","ActionName":"Phobos: Attack near high threat once","ParameterValue":"v","ParameterName":"Target category","Description":"Ends when a team member kill the designated target",
+			"ParameterValues":[
+				{"Value":"0","Name":"<not used>","Description":""},
+				{"Value":"1","Name":"Anything","Description":""},
+				{"Value":"2","Name":"Building without deployed flags","Description":""},
+				{"Value":"3","Name":"Ore Miners","Description":""},
+				{"Value":"4","Name":"Infantry","Description":""},
+				{"Value":"5","Name":"Vehicles/Aircraft/deployed units","Description":""},
+				{"Value":"6","Name":"Factories","Description":""},
+				{"Value":"7","Name":"Base Defenses","Description":""},
+				{"Value":"8","Name":"House Threats or near Team Leader","Description":""},
+				{"Value":"9","Name":"Power Plants","Description":""},
+				{"Value":"10","Name":"Occupied Building","Description":""},
+				{"Value":"11","Name":"Tech Buildings","Description":""},
+				{"Value":"12","Name":"Refinery/ResourceGatherer","Description":""},
+				{"Value":"13","Name":"Mind Controller","Description":""},
+				{"Value":"14","Name":"Air Units/Infantry/Aircrafts","Description":""},
+				{"Value":"15","Name":"Naval (Anything on water)","Description":""},
+				{"Value":"16","Name":"Disruptors (Cloak/Jammer/GapGen)","Description":""},
+				{"Value":"17","Name":"Ground Vehicles","Description":""},
+				{"Value":"18","Name":"Economy (with recources)","Description":""},
+				{"Value":"19","Name":"Barracks","Description":""},
+				{"Value":"20","Name":"Vehicle Factory","Description":""},
+				{"Value":"21","Name":"Aircraft Factory","Description":""},
+				{"Value":"22","Name":"Radar/SpySat","Description":""},
+				{"Value":"23","Name":"Tech Lab","Description":""},
+				{"Value":"24","Name":"Naval Factory","Description":""},
+				{"Value":"25","Name":"Super Weapon	Building","Description":""},
+				{"Value":"26","Name":"Construction Yard","Description":""},
+				{"Value":"27","Name":"Neutrals","Description":""},
+				{"Value":"28","Name":"Cloak/Gap Generators","Description":""},
+				{"Value":"29","Name":"Radar Jammer","Description":""},
+				{"Value":"30","Name":"Inhibitors","Description":""},
+				{"Value":"31","Name":"Naval Units (not Buildings)","Description":""},
+				{"Value":"32","Name":"Anything except Buildings","Description":""},
+				{"Value":"33","Name":"Capturable Buildings","Description":""},
+				{"Value":"34","Name":"Area Threats (in Team Leader range)","Description":""},
+				{"Value":"35","Name":"Vehicle and Naval Factory","Description":""},
+				{"Value":"36","Name":"Non-defensive Structures","Description":""}
+			]
+		},
+		{
+			"Number":"10012","ActionName":"Phobos: Attack near high threat repeat 2","ParameterValue":"n","ParameterName":"AITargetTypes of Rules.ini","Description":"Ends when a team member kill the designated target. Parameter is 0-based index of AITargetTypes in rulesmd.ini"
+		},
+		{
+			"Number":"10013","ActionName":"Phobos: Attack near high threat once 2","ParameterValue":"n","ParameterName":"AITargetTypes of Rules.ini","Description":"Ends when a team member kill the designated target. Parameter is 0-based index of AITargetTypes in rulesmd.ini"
+		},
+		{
+			"Number":"10014","ActionName":"Phobos: Attack far high threat repeat","ParameterValue":"v","ParameterName":"Target category","Description":"Ends when a team member kill the designated target",
+			"ParameterValues":[
+				{"Value":"0","Name":"<not used>","Description":""},
+				{"Value":"1","Name":"Anything","Description":""},
+				{"Value":"2","Name":"Building without deployed flags","Description":""},
+				{"Value":"3","Name":"Ore Miners","Description":""},
+				{"Value":"4","Name":"Infantry","Description":""},
+				{"Value":"5","Name":"Vehicles/Aircraft/deployed units","Description":""},
+				{"Value":"6","Name":"Factories","Description":""},
+				{"Value":"7","Name":"Base Defenses","Description":""},
+				{"Value":"8","Name":"House Threats or near Team Leader","Description":""},
+				{"Value":"9","Name":"Power Plants","Description":""},
+				{"Value":"10","Name":"Occupied Building","Description":""},
+				{"Value":"11","Name":"Tech Buildings","Description":""},
+				{"Value":"12","Name":"Refinery/ResourceGatherer","Description":""},
+				{"Value":"13","Name":"Mind Controller","Description":""},
+				{"Value":"14","Name":"Air Units/Infantry/Aircrafts","Description":""},
+				{"Value":"15","Name":"Naval (Anything on water)","Description":""},
+				{"Value":"16","Name":"Disruptors (Cloak/Jammer/GapGen)","Description":""},
+				{"Value":"17","Name":"Ground Vehicles","Description":""},
+				{"Value":"18","Name":"Economy (with recources)","Description":""},
+				{"Value":"19","Name":"Barracks","Description":""},
+				{"Value":"20","Name":"Vehicle Factory","Description":""},
+				{"Value":"21","Name":"Aircraft Factory","Description":""},
+				{"Value":"22","Name":"Radar/SpySat","Description":""},
+				{"Value":"23","Name":"Tech Lab","Description":""},
+				{"Value":"24","Name":"Naval Factory","Description":""},
+				{"Value":"25","Name":"Super Weapon	Building","Description":""},
+				{"Value":"26","Name":"Construction Yard","Description":""},
+				{"Value":"27","Name":"Neutrals","Description":""},
+				{"Value":"28","Name":"Cloak/Gap Generators","Description":""},
+				{"Value":"29","Name":"Radar Jammer","Description":""},
+				{"Value":"30","Name":"Inhibitors","Description":""},
+				{"Value":"31","Name":"Naval Units (not Buildings)","Description":""},
+				{"Value":"32","Name":"Anything except Buildings","Description":""},
+				{"Value":"33","Name":"Capturable Buildings","Description":""},
+				{"Value":"34","Name":"Area Threats (in Team Leader range)","Description":""},
+				{"Value":"35","Name":"Vehicle and Naval Factory","Description":""},
+				{"Value":"36","Name":"Non-defensive Structures","Description":""}
+			]
+		},
+		{
+			"Number":"10015","ActionName":"Phobos: Attack far high threat once","ParameterValue":"v","ParameterName":"Target category","Description":"Ends when a team member kill the designated target",
+			"ParameterValues":[
+				{"Value":"0","Name":"<not used>","Description":""},
+				{"Value":"1","Name":"Anything","Description":""},
+				{"Value":"2","Name":"Building without deployed flags","Description":""},
+				{"Value":"3","Name":"Ore Miners","Description":""},
+				{"Value":"4","Name":"Infantry","Description":""},
+				{"Value":"5","Name":"Vehicles/Aircraft/deployed units","Description":""},
+				{"Value":"6","Name":"Factories","Description":""},
+				{"Value":"7","Name":"Base Defenses","Description":""},
+				{"Value":"8","Name":"House Threats or near Team Leader","Description":""},
+				{"Value":"9","Name":"Power Plants","Description":""},
+				{"Value":"10","Name":"Occupied Building","Description":""},
+				{"Value":"11","Name":"Tech Buildings","Description":""},
+				{"Value":"12","Name":"Refinery/ResourceGatherer","Description":""},
+				{"Value":"13","Name":"Mind Controller","Description":""},
+				{"Value":"14","Name":"Air Units/Infantry/Aircrafts","Description":""},
+				{"Value":"15","Name":"Naval (Anything on water)","Description":""},
+				{"Value":"16","Name":"Disruptors (Cloak/Jammer/GapGen)","Description":""},
+				{"Value":"17","Name":"Ground Vehicles","Description":""},
+				{"Value":"18","Name":"Economy (with recources)","Description":""},
+				{"Value":"19","Name":"Barracks","Description":""},
+				{"Value":"20","Name":"Vehicle Factory","Description":""},
+				{"Value":"21","Name":"Aircraft Factory","Description":""},
+				{"Value":"22","Name":"Radar/SpySat","Description":""},
+				{"Value":"23","Name":"Tech Lab","Description":""},
+				{"Value":"24","Name":"Naval Factory","Description":""},
+				{"Value":"25","Name":"Super Weapon	Building","Description":""},
+				{"Value":"26","Name":"Construction Yard","Description":""},
+				{"Value":"27","Name":"Neutrals","Description":""},
+				{"Value":"28","Name":"Cloak/Gap Generators","Description":""},
+				{"Value":"29","Name":"Radar Jammer","Description":""},
+				{"Value":"30","Name":"Inhibitors","Description":""},
+				{"Value":"31","Name":"Naval Units (not Buildings)","Description":""},
+				{"Value":"32","Name":"Anything except Buildings","Description":""},
+				{"Value":"33","Name":"Capturable Buildings","Description":""},
+				{"Value":"34","Name":"Area Threats (in Team Leader range)","Description":""},
+				{"Value":"35","Name":"Vehicle and Naval Factory","Description":""},
+				{"Value":"36","Name":"Non-defensive Structures","Description":""}
+			]
+		},
+		{
+			"Number":"10016","ActionName":"Phobos: Attack far high threat repeat 2","ParameterValue":"n","ParameterName":"AITargetTypes of Rules.ini","Description":"Ends when a team member kill the designated target. Parameter is 0-based index of AITargetTypes in rulesmd.ini"
+		},
+		{
+			"Number":"10017","ActionName":"Phobos: Attack far high threat once 2","ParameterValue":"n","ParameterName":"AITargetTypes of Rules.ini","Description":"Ends when a team member kill the designated target. Parameter is 0-based index of AITargetTypes in rulesmd.ini"
+		},
+		{
+			"Number":"10050","ActionName":"Phobos: Move to near high threat enemy","ParameterValue":"v","ParameterName":"Target category","Description":"",
+			"ParameterValues":[
+				{"Value":"0","Name":"<not used>","Description":""},
+				{"Value":"1","Name":"Anything","Description":""},
+				{"Value":"2","Name":"Building without deployed flags","Description":""},
+				{"Value":"3","Name":"Ore Miners","Description":""},
+				{"Value":"4","Name":"Infantry","Description":""},
+				{"Value":"5","Name":"Vehicles/Aircraft/deployed units","Description":""},
+				{"Value":"6","Name":"Factories","Description":""},
+				{"Value":"7","Name":"Base Defenses","Description":""},
+				{"Value":"8","Name":"House Threats or near Team Leader","Description":""},
+				{"Value":"9","Name":"Power Plants","Description":""},
+				{"Value":"10","Name":"Occupied Building","Description":""},
+				{"Value":"11","Name":"Tech Buildings","Description":""},
+				{"Value":"12","Name":"Refinery/ResourceGatherer","Description":""},
+				{"Value":"13","Name":"Mind Controller","Description":""},
+				{"Value":"14","Name":"Air Units/Infantry/Aircrafts","Description":""},
+				{"Value":"15","Name":"Naval (Anything on water)","Description":""},
+				{"Value":"16","Name":"Disruptors (Cloak/Jammer/GapGen)","Description":""},
+				{"Value":"17","Name":"Ground Vehicles","Description":""},
+				{"Value":"18","Name":"Economy (with recources)","Description":""},
+				{"Value":"19","Name":"Barracks","Description":""},
+				{"Value":"20","Name":"Vehicle Factory","Description":""},
+				{"Value":"21","Name":"Aircraft Factory","Description":""},
+				{"Value":"22","Name":"Radar/SpySat","Description":""},
+				{"Value":"23","Name":"Tech Lab","Description":""},
+				{"Value":"24","Name":"Naval Factory","Description":""},
+				{"Value":"25","Name":"Super Weapon	Building","Description":""},
+				{"Value":"26","Name":"Construction Yard","Description":""},
+				{"Value":"27","Name":"Neutrals","Description":""},
+				{"Value":"28","Name":"Cloak/Gap Generators","Description":""},
+				{"Value":"29","Name":"Radar Jammer","Description":""},
+				{"Value":"30","Name":"Inhibitors","Description":""},
+				{"Value":"31","Name":"Naval Units (not Buildings)","Description":""},
+				{"Value":"32","Name":"Anything except Buildings","Description":""},
+				{"Value":"33","Name":"Capturable Buildings","Description":""},
+				{"Value":"34","Name":"Area Threats (in Team Leader range)","Description":""},
+				{"Value":"35","Name":"Vehicle and Naval Factory","Description":""},
+				{"Value":"36","Name":"Non-defensive Structures","Description":""}
+			]
+		},
+		{
+			"Number":"10051","ActionName":"Phobos: Move to near high threat enemy 2","ParameterValue":"n","ParameterName":"AITargetTypes of Rules.ini","Description":"Parameter is 0-based index of AITargetTypes in rulesmd.ini"
+		},
+		{
+			"Number":"10052","ActionName":"Phobos: Move to near enemy 2","ParameterValue":"n","ParameterName":"AITargetTypes of Rules.ini","Description":"Picks 1 random target from the selected list. Parameter is 0-based index of AITargetTypes in rulesmd.ini"
+		},
+		{
+			"Number":"10053","ActionName":"Phobos: Move to near friendly","ParameterValue":"v","ParameterName":"Target category","Description":"",
+			"ParameterValues":[
+				{"Value":"0","Name":"<not used>","Description":""},
+				{"Value":"1","Name":"Anything","Description":""},
+				{"Value":"2","Name":"Building without deployed flags","Description":""},
+				{"Value":"3","Name":"Ore Miners","Description":""},
+				{"Value":"4","Name":"Infantry","Description":""},
+				{"Value":"5","Name":"Vehicles/Aircraft/deployed units","Description":""},
+				{"Value":"6","Name":"Factories","Description":""},
+				{"Value":"7","Name":"Base Defenses","Description":""},
+				{"Value":"8","Name":"House Threats or near Team Leader","Description":""},
+				{"Value":"9","Name":"Power Plants","Description":""},
+				{"Value":"10","Name":"Occupied Building","Description":""},
+				{"Value":"11","Name":"Tech Buildings","Description":""},
+				{"Value":"12","Name":"Refinery/ResourceGatherer","Description":""},
+				{"Value":"13","Name":"Mind Controller","Description":""},
+				{"Value":"14","Name":"Air Units/Infantry/Aircrafts","Description":""},
+				{"Value":"15","Name":"Naval (Anything on water)","Description":""},
+				{"Value":"16","Name":"Disruptors (Cloak/Jammer/GapGen)","Description":""},
+				{"Value":"17","Name":"Ground Vehicles","Description":""},
+				{"Value":"18","Name":"Economy (with recources)","Description":""},
+				{"Value":"19","Name":"Barracks","Description":""},
+				{"Value":"20","Name":"Vehicle Factory","Description":""},
+				{"Value":"21","Name":"Aircraft Factory","Description":""},
+				{"Value":"22","Name":"Radar/SpySat","Description":""},
+				{"Value":"23","Name":"Tech Lab","Description":""},
+				{"Value":"24","Name":"Naval Factory","Description":""},
+				{"Value":"25","Name":"Super Weapon	Building","Description":""},
+				{"Value":"26","Name":"Construction Yard","Description":""},
+				{"Value":"27","Name":"Neutrals","Description":""},
+				{"Value":"28","Name":"Cloak/Gap Generators","Description":""},
+				{"Value":"29","Name":"Radar Jammer","Description":""},
+				{"Value":"30","Name":"Inhibitors","Description":""},
+				{"Value":"31","Name":"Naval Units (not Buildings)","Description":""},
+				{"Value":"32","Name":"Anything except Buildings","Description":""},
+				{"Value":"33","Name":"Capturable Buildings","Description":""},
+				{"Value":"34","Name":"Area Threats (in Team Leader range)","Description":""},
+				{"Value":"35","Name":"Vehicle and Naval Factory","Description":""},
+				{"Value":"36","Name":"Non-defensive Structures","Description":""}
+			]
+		},
+		{
+			"Number":"10054","ActionName":"Phobos: Move to near friendly 2","ParameterValue":"n","ParameterName":"AITargetTypes of Rules.ini","Description":"Parameter is 0-based index of AITargetTypes in rulesmd.ini"
+		},
+		{
+			"Number":"10055","ActionName":"Phobos: Move to near friendly 3","ParameterValue":"n","ParameterName":"AITargetTypes of Rules.ini","Description":"Picks 1 random target from the selected list. Parameter is 0-based index of AITargetTypes in rulesmd.ini"
+		},
+		{
+			"Number":"10056","ActionName":"Phobos: Move to far high threat enemy","ParameterValue":"v","ParameterName":"Target category","Description":"",
+			"ParameterValues":[
+				{"Value":"0","Name":"<not used>","Description":""},
+				{"Value":"1","Name":"Anything","Description":""},
+				{"Value":"2","Name":"Building without deployed flags","Description":""},
+				{"Value":"3","Name":"Ore Miners","Description":""},
+				{"Value":"4","Name":"Infantry","Description":""},
+				{"Value":"5","Name":"Vehicles/Aircraft/deployed units","Description":""},
+				{"Value":"6","Name":"Factories","Description":""},
+				{"Value":"7","Name":"Base Defenses","Description":""},
+				{"Value":"8","Name":"House Threats or near Team Leader","Description":""},
+				{"Value":"9","Name":"Power Plants","Description":""},
+				{"Value":"10","Name":"Occupied Building","Description":""},
+				{"Value":"11","Name":"Tech Buildings","Description":""},
+				{"Value":"12","Name":"Refinery/ResourceGatherer","Description":""},
+				{"Value":"13","Name":"Mind Controller","Description":""},
+				{"Value":"14","Name":"Air Units/Infantry/Aircrafts","Description":""},
+				{"Value":"15","Name":"Naval (Anything on water)","Description":""},
+				{"Value":"16","Name":"Disruptors (Cloak/Jammer/GapGen)","Description":""},
+				{"Value":"17","Name":"Ground Vehicles","Description":""},
+				{"Value":"18","Name":"Economy (with recources)","Description":""},
+				{"Value":"19","Name":"Barracks","Description":""},
+				{"Value":"20","Name":"Vehicle Factory","Description":""},
+				{"Value":"21","Name":"Aircraft Factory","Description":""},
+				{"Value":"22","Name":"Radar/SpySat","Description":""},
+				{"Value":"23","Name":"Tech Lab","Description":""},
+				{"Value":"24","Name":"Naval Factory","Description":""},
+				{"Value":"25","Name":"Super Weapon	Building","Description":""},
+				{"Value":"26","Name":"Construction Yard","Description":""},
+				{"Value":"27","Name":"Neutrals","Description":""},
+				{"Value":"28","Name":"Cloak/Gap Generators","Description":""},
+				{"Value":"29","Name":"Radar Jammer","Description":""},
+				{"Value":"30","Name":"Inhibitors","Description":""},
+				{"Value":"31","Name":"Naval Units (not Buildings)","Description":""},
+				{"Value":"32","Name":"Anything except Buildings","Description":""},
+				{"Value":"33","Name":"Capturable Buildings","Description":""},
+				{"Value":"34","Name":"Area Threats (in Team Leader range)","Description":""},
+				{"Value":"35","Name":"Vehicle and Naval Factory","Description":""},
+				{"Value":"36","Name":"Non-defensive Structures","Description":""}
+			]
+		},
+		{
+			"Number":"10057","ActionName":"Phobos: Move to far high threat enemy 2","ParameterValue":"n","ParameterName":"AITargetTypes of Rules.ini","Description":"Parameter is 0-based index of AITargetTypes in rulesmd.ini"
+		},
+		{
+			"Number":"10058","ActionName":"Phobos: Move to far enemy 2","ParameterValue":"n","ParameterName":"AITargetTypes of Rules.ini","Description":"Picks 1 random target from the selected list. Parameter is 0-based index of AITargetTypes in rulesmd.ini"
+		},
+		{
+			"Number":"10059","ActionName":"Phobos: Move to far friendly","ParameterValue":"v","ParameterName":"Target category","Description":"",
+			"ParameterValues":[
+				{"Value":"0","Name":"<not used>","Description":""},
+				{"Value":"1","Name":"Anything","Description":""},
+				{"Value":"2","Name":"Building without deployed flags","Description":""},
+				{"Value":"3","Name":"Ore Miners","Description":""},
+				{"Value":"4","Name":"Infantry","Description":""},
+				{"Value":"5","Name":"Vehicles/Aircraft/deployed units","Description":""},
+				{"Value":"6","Name":"Factories","Description":""},
+				{"Value":"7","Name":"Base Defenses","Description":""},
+				{"Value":"8","Name":"House Threats or near Team Leader","Description":""},
+				{"Value":"9","Name":"Power Plants","Description":""},
+				{"Value":"10","Name":"Occupied Building","Description":""},
+				{"Value":"11","Name":"Tech Buildings","Description":""},
+				{"Value":"12","Name":"Refinery/ResourceGatherer","Description":""},
+				{"Value":"13","Name":"Mind Controller","Description":""},
+				{"Value":"14","Name":"Air Units/Infantry/Aircrafts","Description":""},
+				{"Value":"15","Name":"Naval (Anything on water)","Description":""},
+				{"Value":"16","Name":"Disruptors (Cloak/Jammer/GapGen)","Description":""},
+				{"Value":"17","Name":"Ground Vehicles","Description":""},
+				{"Value":"18","Name":"Economy (with recources)","Description":""},
+				{"Value":"19","Name":"Barracks","Description":""},
+				{"Value":"20","Name":"Vehicle Factory","Description":""},
+				{"Value":"21","Name":"Aircraft Factory","Description":""},
+				{"Value":"22","Name":"Radar/SpySat","Description":""},
+				{"Value":"23","Name":"Tech Lab","Description":""},
+				{"Value":"24","Name":"Naval Factory","Description":""},
+				{"Value":"25","Name":"Super Weapon	Building","Description":""},
+				{"Value":"26","Name":"Construction Yard","Description":""},
+				{"Value":"27","Name":"Neutrals","Description":""},
+				{"Value":"28","Name":"Cloak/Gap Generators","Description":""},
+				{"Value":"29","Name":"Radar Jammer","Description":""},
+				{"Value":"30","Name":"Inhibitors","Description":""},
+				{"Value":"31","Name":"Naval Units (not Buildings)","Description":""},
+				{"Value":"32","Name":"Anything except Buildings","Description":""},
+				{"Value":"33","Name":"Capturable Buildings","Description":""},
+				{"Value":"34","Name":"Area Threats (in Team Leader range)","Description":""},
+				{"Value":"35","Name":"Vehicle and Naval Factory","Description":""},
+				{"Value":"36","Name":"Non-defensive Structures","Description":""}
+			]
+		},
+		{
+			"Number":"10060","ActionName":"Phobos: Move to far friendly 2","ParameterValue":"n","ParameterName":"AITargetTypes of Rules.ini","Description":"Parameter is 0-based index of AITargetTypes in rulesmd.ini"
+		},
+		{
+			"Number":"10061","ActionName":"Phobos: Move to far friendly 3","ParameterValue":"n","ParameterName":"AITargetTypes of Rules.ini","Description":"Picks 1 random target from the selected list. Parameter is 0-based index of AITargetTypes in rulesmd.ini"
+		},
+		
+		{
+			"Number":"10100","ActionName":"Phobos: Timed Area Guard","ParameterValue":"n","ParameterName":"time in ingame seconds","Description":"Puts the TaskForce into Area Guard mode for the given units of time. Unlike the original timed Guard script action (5,n) that just stays in place doing a basic guard operation this action has a more active role attacking nearby invaders or defending units that needs protection."
+		},
+		{
+			"Number":"10101","ActionName":"Phobos: Wait Until Ammo is Full","ParameterValue":"0","ParameterName":"","Description":"If the TaskForce contains unit(s) that use ammo then the the script will not continue until all these units have fully refilled the ammo."
+		},
+		{
+			"Number":"10102","ActionName":"Phobos: Regroup Around Team Leader","ParameterValue":"0","ParameterName":"","Description":"Puts the TaskForce into Area Guard mode for the given amount of time around the Team Leader (this unit remains almost immobile until the action ends). The default radius around the leader is General section > CloseEnough and the units will not leave that area."
+		},
+		{
+			"Number":"10103","ActionName":"Phobos: Load onto Transports","ParameterValue":"0","ParameterName":"","Description":"If the TaskForce contains unit(s) that can be carried by the transports of the same TaskForce then this action will make the units enter the transports. In single player missions the next action must be 'Wait until fully loaded' (action 43) or the script will not continue."
+		},
+		{
+			"Number":"12000","ActionName":"Phobos: Wait if No Target Found","ParameterValue":"n","ParameterName":"number of retries","Description":"When executed before a new Attack ScriptType actions like Generic Target Type Attack actions and AITargetTypes Attack actions the TeamType will remember that must wait 1 second if no target was selected. The second parameter is a positive value that specifies how much retries the Attack will do when no target was found before new Attack ScriptType Action is discarded and the script execution jumps to the next line. The value 0 means infinite retries."
+		},
+		{
+			"Number":"12001","ActionName":"Phobos: Modify Target Distance","ParameterValue":"n","ParameterName":"Distance","Description":"By default Moving Team to techno location actions ends when the Team Leader reaches a distance declared in rulesmd.ini called CloseEnough. When this action is executed before the actions Moving Team to techno location overwrites CloseEnough value. This action works only the first time and CloseEnough will be used again the next Movement action."
+		},
+		{
+			"Number":"12002","ActionName":"Phobos: Set Move Action End Mode","ParameterValue":"v","ParameterName":"Move completion","Description":"Sets how the Movement actions ends and jumps to the next line. This action works only the first time and CloseEnough will be used for any next Movement action.",
+			"ParameterValues":[
+				{"Value":"0","Name":"Leader reaches minimum distance","Description":""},
+				{"Value":"1","Name":"One unit reaches minimum distance","Description":""},
+				{"Value":"2","Name":"All members reach minimum distance","Description":""}
+			]
+		},
+		{
+			"Number":"14000","ActionName":"Phobos: Teams Trigger Weight Reward","ParameterValue":"n","ParameterName":"Weight reward","Description":"When executed before a new Attack ScriptType actions like Target Type Attack actions and AITargetTypes Attack actions the reward increases the current weight of the AI Trigger when the TeamType Target was killed by any of the Team members. The current weights remain within the minimum and maximum weight limits of the AI Trigger."
+		},
+		{
+			"Number":"14001","ActionName":"Phobos: Increase AI Trigger Weight","ParameterValue":"n","ParameterName":"Weight increase","Description":"When executed this increases the current weight of the AI Trigger. The current weights remain within the minimum and maximum weight limits of the AI Trigger. Take note that all TeamTypes of the same AI Trigger will update the AI Trigger Current Weight sooner or later."
+		},
+		{
+			"Number":"14002","ActionName":"Phobos: Decrease AI Trigger Weight","ParameterValue":"n","ParameterName":"Weight decrease","Description":"When executed this decreases the current weight of the AI Trigger. The current weights remain within the minimum and maximum weight limits of the AI Trigger. Take note that all TeamTypes of the same AI Trigger will update the AI Trigger Current Weight sooner or later."
+		},
+		{
+			"Number":"14003","ActionName":"Phobos: Unregister Team Success","ParameterValue":"0","ParameterName":"","Description":"The opposite effect of the script action Register Success. The Team failed."
+		},
+		{
+			"Number":"16000","ActionName":"Phobos: Start Timed Jump to Same Line","ParameterValue":"n","ParameterName":"Ingame seconds","Description":"When the timer ends the current script action ends and start again the same script action. The timer jump repeats again (infinite loop) until is stopped with action 16002 or the team is destroyed. Paramer is in ingame seconds."
+		},
+		{
+			"Number":"16001","ActionName":"Phobos: Start Timed Jump to Next Line","ParameterValue":"n","ParameterName":"Ingame seconds","Description":"When the timer ends the current script action ends and start the next one in the script type list. Paramer is in ingame seconds."
+		},
+		{
+			"Number":"16002","ActionName":"Phobos: Stop the Timed Jumps","ParameterValue":"0","ParameterName":"","Description":"If the Timed Jumps were activated this action stop the process."
+		},
+		{
+			"Number":"16003","ActionName":"Phobos: Randomly Skip Next Action","ParameterValue":"n","ParameterName":"Threshold","Description":"When executed this action picks a random value between 1 and 100. If the value is equal or below the parameter then the next action will be skipped. If the parameter is 0 means that the next action will never be skipped and 100 means they always will be skipped."
+		},
+		{
+			"Number":"16004","ActionName":"Phobos: Pick a Random Script","ParameterValue":"n","ParameterName":"AIScriptsList of Rules.ini","Description":"When executed this action picks a random Script Type and replaces the current script by the new picked one. The parameter is a 0-based index from the new section AIScriptsList in rulesmd.ini."
 		}
+		
 	]
 }

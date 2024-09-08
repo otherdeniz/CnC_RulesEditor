@@ -11,6 +11,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         private RulesRootModel _rulesRootModel = null!;
         private SelectTechnoTypes _technoTypes;
         private int _currentPage = 1;
+        private string _searchText = string.Empty;
+        private int _filterTechLevel = -1;
 
         public SelectUnitForm()
         {
@@ -94,6 +96,20 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
 
         private void AddTechnosGroup(string title, List<GameEntityModel> entities, ref int skip, ref int take, ref int totalCount)
         {
+            if (_searchText != string.Empty)
+            {
+                entities = entities.Where(e =>
+                        e.EntityKey.Contains(_searchText, StringComparison.InvariantCultureIgnoreCase)
+                        || e.EntityName.Contains(_searchText, StringComparison.InvariantCultureIgnoreCase))
+                    .ToList();
+            }
+            if (_filterTechLevel > -1)
+            {
+                entities = entities.Where(e =>
+                        int.TryParse(e.FileSection.GetValue("TechLevel")?.Value, out var techLevel)
+                        && techLevel >= _filterTechLevel)
+                    .ToList();
+            }
             totalCount += entities.Count;
             if (take == 0) return;
             if (entities.Count <= skip)
@@ -161,6 +177,35 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         private void SelectUnitForm_Load(object sender, EventArgs e)
         {
             DarkTitleBarHelper.UseImmersiveDarkMode(Handle, ThemeManager.Instance.CurrentTheme.WindowUseDarkHeader);
+        }
+
+        private void buttonResetSearch_Click(object sender, EventArgs e)
+        {
+            textBoxSearch.Text = string.Empty;
+        }
+
+        private void textBoxSearch_TextChanged(object sender, EventArgs e)
+        {
+
+            if (textBoxSearch.Text.Length > 1)
+            {
+                _searchText = textBoxSearch.Text;
+                LoadPage(_currentPage);
+                buttonResetSearch.Enabled = true;
+                return;
+            }
+            if (_searchText != string.Empty)
+            {
+                _searchText = string.Empty;
+                LoadPage(_currentPage);
+            }
+            buttonResetSearch.Enabled = false;
+        }
+
+        private void numericTechLevel_ValueChanged(object sender, EventArgs e)
+        {
+            _filterTechLevel = Convert.ToInt32(numericTechLevel.Value);
+            LoadPage(_currentPage);
         }
 
     }

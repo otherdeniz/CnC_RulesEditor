@@ -7,12 +7,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 {
     public class AiScriptKeyValueModel
     {
-        private static readonly Regex KeyValueRegex = new Regex(@"(\d+),(\d+)", RegexOptions.Compiled);
+        private readonly AiRootModel _aiRootModel;
+        private static readonly Regex KeyValueRegex = new Regex(@"(\d+),(-?\d+)", RegexOptions.Compiled);
         private readonly Action? _valueChangedAction;
 
         public AiScriptKeyValueModel(GameEntityModel entityModel, string key, Action? valueChangedAction)
         {
             EntityModel = entityModel;
+            _aiRootModel = (AiRootModel)EntityModel.RootModel;
             Key = key;
             ReadValue();
             _valueChangedAction = valueChangedAction;
@@ -105,10 +107,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             ParameterName = string.Empty;
             Parameter2 = string.Empty;
             var gameKey = EntityModel.RootModel.FileType.GameDefinition.GameKey;
-            var actionDefinition = AistructureFile.Instance
+            var actionDefinition = _aiRootModel.Aistructure
                 .GetScriptActionsFiltered(gameKey)
                 .FirstOrDefault(a => a.Number == ActionValue);
-            if (actionDefinition == null) return;
+            if (actionDefinition == null)
+            {
+                Action = ActionValue ?? string.Empty;
+                Parameter = ParameterValue ?? string.Empty;
+                return;
+            }
             Action = actionDefinition.ActionName;
             if (!int.TryParse(ParameterValue, out var parameterNumber) || actionDefinition.ParameterValue == "0") return;
             ParameterName = actionDefinition.ParameterName;
@@ -128,7 +135,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 }
                 case "BuildingTypes":
                 {
-                    var resolvedBuildingParameter = ResolveBuildingParameter(EntityModel.RootModel.RulesModel,
+                    var resolvedBuildingParameter = ResolveBuildingParameter(_aiRootModel,
                         parameterNumber, CommentValue);
                     if (resolvedBuildingParameter.Building != null 
                         && resolvedBuildingParameter.Parameter2 != null)
@@ -179,9 +186,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
         }
 
         public static (GameEntityModel? Building, ScriptBuildingParameter2Definition? Parameter2) ResolveBuildingParameter(
-            RulesRootModel rulesRootModel, int parameterValue, string? comment)
+            AiRootModel aiRootModel, int parameterValue, string? comment)
         {
-            var parameter2Definition = AistructureFile.Instance.ScriptBuildingParameter2
+            var parameter2Definition = aiRootModel.Aistructure.ScriptBuildingParameter2
                 .LastOrDefault(p => p.AddValue <= parameterValue);
             if (parameter2Definition != null)
             {
@@ -190,20 +197,20 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 if (!string.IsNullOrEmpty(comment))
                 {
                     buildingEntity =
-                        rulesRootModel.BuildingEntities.FirstOrDefault(b =>
+                        aiRootModel.RulesModel.BuildingEntities.FirstOrDefault(b =>
                             b.EntityKey == comment);
                     //TODO: check index and re-write value if miss-matches
                 }
                 if (buildingEntity == null)
                 {
                     var buildingIndex = parameterValue - parameter2Definition.AddValue;
-                    var buildingKeyValues = rulesRootModel.DefaultFile
+                    var buildingKeyValues = aiRootModel.RulesModel.DefaultFile
                         .GetSection("BuildingTypes")?.KeyValues;
                     if (buildingKeyValues != null
                         && buildingIndex >= 0
                         && buildingIndex < buildingKeyValues.Count)
                     {
-                        buildingEntity = rulesRootModel.BuildingEntities.FirstOrDefault(b =>
+                        buildingEntity = aiRootModel.RulesModel.BuildingEntities.FirstOrDefault(b =>
                             b.EntityKey == buildingKeyValues[buildingIndex].Value);
                     }
                 }

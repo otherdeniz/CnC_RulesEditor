@@ -21,6 +21,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             panelParamNumber.Dock = DockStyle.Fill;
             paramValuesGrid.Dock = DockStyle.Fill;
             panelParamBuilding.Dock = DockStyle.Fill;
+            panelCustomAction.Dock = DockStyle.Fill;
             ThemeManager.Instance.UseTheme(this);
         }
 
@@ -45,7 +46,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             _actionValue = _editItem.ActionValue;
             _parameterValue = _editItem.ParameterValue;
             _commentValue = _editItem.CommentValue;
-            AistructureFile.Instance.ScriptBuildingParameter2.ForEach(p =>
+            _aiRootModel.Aistructure.ScriptBuildingParameter2.ForEach(p =>
                 ultraComboBuildingTarget.Items.Add(new ValueListItem(p)));
             LoadActionsGrid(_actionValue);
         }
@@ -61,9 +62,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         {
             _doEvents = false;
             var gameKey = _aiRootModel.FileType.GameDefinition.GameKey;
-            var actionDefinitionList = AistructureFile.Instance.GetScriptActionsFiltered(gameKey).ToList();
+            var actionDefinitionList = _aiRootModel.Aistructure.GetScriptActionsFiltered(gameKey)
+                .Union(new[]{new ScriptActionDefinition
+                {
+                    Number = "?",
+                    ActionName = "Custom Action",
+                    ParameterValue = "?",
+                    ParameterName = "Custom Parameter"
+                }}).ToList();
             actionsGrid.DataSource = actionDefinitionList;
-            actionsGrid.DisplayLayout.Bands[0].Columns["Number"].PerformAutoResize();
+            actionsGrid.DisplayLayout.Bands[0].Columns["Number"].PerformAutoResize(PerformAutoSizeType.AllRowsInBand);
             actionsGrid.DisplayLayout.Bands[0].Columns["ActionName"].PerformAutoResize();
             actionsGrid.DisplayLayout.Bands[0].Columns["ParameterName"].PerformAutoResize();
             actionsGrid.DisplayLayout.Bands[0].Columns["Description"].CellMultiLine = DefaultableBoolean.True;
@@ -71,6 +79,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             if (selectedAction != null)
             {
                 var selectedIndex = actionDefinitionList!.FindIndex(v => v.Number == selectedAction);
+                if (selectedIndex == -1)
+                {
+                    selectedIndex = actionDefinitionList!.FindIndex(v => v.Number == "?");
+                }
                 if (selectedIndex > -1)
                 {
                     var selectedRow = actionsGrid.Rows[selectedIndex];
@@ -88,6 +100,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             panelParamNumber.Visible = false;
             paramValuesGrid.Visible = false;
             panelParamBuilding.Visible = false;
+            panelCustomAction.Visible = false;
             buttonOk.Enabled = false;
             switch (scriptActionDefinition.ParameterValue)
             {
@@ -110,17 +123,33 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                     ultraComboBuildingTarget.SelectedIndex = -1;
                     if (int.TryParse(_parameterValue, out var buildingParameterNumber))
                     {
-                        var resolvedBuildingParameter = AiScriptKeyValueModel.ResolveBuildingParameter(_aiRootModel.RulesModel,
+                        var resolvedBuildingParameter = AiScriptKeyValueModel.ResolveBuildingParameter(_aiRootModel,
                             buildingParameterNumber, _commentValue);
                         if (resolvedBuildingParameter.Building != null
                             && resolvedBuildingParameter.Parameter2 != null)
                         {
                             smallEntityBuilding.EntityModel = resolvedBuildingParameter.Building;
                             ultraComboBuildingTarget.SelectedIndex =
-                                AistructureFile.Instance.ScriptBuildingParameter2.IndexOf(resolvedBuildingParameter.Parameter2);
+                                _aiRootModel.Aistructure.ScriptBuildingParameter2.IndexOf(resolvedBuildingParameter.Parameter2);
                         }
                     }
                     panelParamBuilding.Visible = true;
+                    break;
+                case "?":
+                    if (!int.TryParse(_actionValue, out var customActionNumber))
+                    {
+                        customActionNumber = 0;
+                        _actionValue = customActionNumber.ToString("0");
+                    }
+                    if (!int.TryParse(_parameterValue, out var customParameterNumber))
+                    {
+                        customParameterNumber = 0;
+                        _parameterValue = customParameterNumber.ToString("0");
+                    }
+                    numericCustomAction.Value = customActionNumber;
+                    numericCustomParameter.Value = customParameterNumber;
+                    panelCustomAction.Visible = true;
+                    buttonOk.Enabled = true;
                     break;
             }
             _doEvents = true;
@@ -151,15 +180,18 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             if (!_doEvents || actionsGrid.Selected.Rows.Count == 0) return;
             if (actionsGrid.Selected.Rows[0].ListObject is ScriptActionDefinition actionDefinition)
             {
-                _actionValue = actionDefinition.Number;
-                if (actionDefinition.ParameterValue == "0")
+                if (actionDefinition.Number != "?")
                 {
-                    _parameterValue = "0";
-                    buttonOk_Click(this, EventArgs.Empty);
-                    return;
+                    _actionValue = actionDefinition.Number;
+                    if (actionDefinition.ParameterValue == "0")
+                    {
+                        _parameterValue = "0";
+                        buttonOk_Click(this, EventArgs.Empty);
+                        return;
+                    }
+                    _parameterValue = null;
+                    _commentValue = null;
                 }
-                _parameterValue = null;
-                _commentValue = null;
                 OnActionSelect(actionDefinition);
             }
         }
@@ -178,6 +210,18 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
         {
             if (!_doEvents) return;
             _parameterValue = numericParamValue.Value.ToString("0");
+        }
+
+        private void numericCustomAction_ValueChanged(object sender, EventArgs e)
+        {
+            if (!_doEvents) return;
+            _actionValue = numericCustomAction.Value.ToString("0");
+        }
+
+        private void numericCustomParameter_ValueChanged(object sender, EventArgs e)
+        {
+            if (!_doEvents) return;
+            _parameterValue = numericCustomParameter.Value.ToString("0");
         }
 
         private void SetBuildingParameter()

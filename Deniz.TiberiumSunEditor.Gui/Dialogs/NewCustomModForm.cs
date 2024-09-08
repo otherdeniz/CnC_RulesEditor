@@ -7,6 +7,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
 {
     public partial class NewCustomModForm : Form
     {
+        private static readonly string[] FilePatterns = new[] { "rules*.ini", "art*.ini", "ai*.ini" };
         private const string CommandLineArgumentInheritance = "Inheritance";
         private List<GameDefinition> _gameDefinitions = null!;
         private Image? _selectedImage;
@@ -286,7 +287,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             if (folderBrowserDialog.ShowDialog(this) == DialogResult.OK)
             {
                 var gameTypeDetector = new GameTypeDetector(folderBrowserDialog.SelectedPath);
-                var filesToCopyAsDefault = gameTypeDetector.CheckBaseFilesToCreateDefaultVersions(new[] { "rules*.ini", "art*.ini" });
+                var filesToCopyAsDefault = gameTypeDetector.CheckBaseFilesToCreateDefaultVersions(FilePatterns);
                 if (filesToCopyAsDefault.Any())
                 {
                     if (MessageBox.Show("The following files where found in the games 'INI\\Base'-folder:" + Environment.NewLine +
@@ -306,7 +307,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
                 }
                 else
                 {
-                    var filesToMove = gameTypeDetector.CheckFilesToMoveToIniFolder(new[] { "rules*.ini", "art*.ini" });
+                    var filesToMove = gameTypeDetector.CheckFilesToMoveToIniFolder(FilePatterns);
                     if (filesToMove.Any())
                     {
                         if (MessageBox.Show("The following files where found in the games root-folder:" + Environment.NewLine +

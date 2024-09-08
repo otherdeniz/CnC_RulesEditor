@@ -24,6 +24,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             File = iniFile;
             DefaultFile = defaultFileOverwrite ?? rulesRootModel.FileType.GameDefinition.LoadDefaultAiFile();
             Aistructure = AistructureFile.Instance;
+            if (rulesRootModel.UseAres)
+            {
+                Aistructure = AistructureFile.InstanceAres.MergeWith(Aistructure);
+            }
             if (rulesRootModel.UsePhobos)
             {
                 Aistructure = AistructureFile.InstancePhobos.MergeWith(Aistructure);

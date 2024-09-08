@@ -6,9 +6,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 public class AistructureFile : JsonFileBase
 {
     private static AistructureFile? _instance;
+    private static AistructureFile? _instanceAres;
     private static AistructureFile? _instancePhobos;
 
     public static AistructureFile Instance => _instance ??= LoadFile("Aistructure.json");
+    public static AistructureFile InstanceAres => _instanceAres ??= LoadFile("AistructureAres.json");
     public static AistructureFile InstancePhobos => _instancePhobos ??= LoadFile("AistructurePhobos.json");
 
     protected static AistructureFile LoadFile(string fileName)

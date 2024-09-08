@@ -38,6 +38,11 @@
             label3 = new Label();
             label2 = new Label();
             groupBoxParam = new GroupBox();
+            panelCustomAction = new Panel();
+            numericCustomParameter = new NumericUpDown();
+            label6 = new Label();
+            numericCustomAction = new NumericUpDown();
+            label5 = new Label();
             panelParamNumber = new Panel();
             numericParamValue = new NumericUpDown();
             label4 = new Label();
@@ -52,6 +57,9 @@
             buttonCancel = new Button();
             ((System.ComponentModel.ISupportInitialize)ultraComboBuildingTarget).BeginInit();
             groupBoxParam.SuspendLayout();
+            panelCustomAction.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericCustomParameter).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericCustomAction).BeginInit();
             panelParamNumber.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericParamValue).BeginInit();
             panelParamBuilding.SuspendLayout();
@@ -102,6 +110,7 @@
             // 
             // groupBoxParam
             // 
+            groupBoxParam.Controls.Add(panelCustomAction);
             groupBoxParam.Controls.Add(panelParamNumber);
             groupBoxParam.Controls.Add(panelParamBuilding);
             groupBoxParam.Controls.Add(paramValuesGrid);
@@ -113,11 +122,60 @@
             groupBoxParam.TabStop = false;
             groupBoxParam.Text = "Parameter";
             // 
+            // panelCustomAction
+            // 
+            panelCustomAction.Controls.Add(numericCustomParameter);
+            panelCustomAction.Controls.Add(label6);
+            panelCustomAction.Controls.Add(numericCustomAction);
+            panelCustomAction.Controls.Add(label5);
+            panelCustomAction.Location = new Point(930, 22);
+            panelCustomAction.Name = "panelCustomAction";
+            panelCustomAction.Size = new Size(224, 97);
+            panelCustomAction.TabIndex = 10;
+            panelCustomAction.Visible = false;
+            // 
+            // numericCustomParameter
+            // 
+            numericCustomParameter.Location = new Point(97, 39);
+            numericCustomParameter.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            numericCustomParameter.Minimum = new decimal(new int[] { 99999, 0, 0, int.MinValue });
+            numericCustomParameter.Name = "numericCustomParameter";
+            numericCustomParameter.Size = new Size(109, 23);
+            numericCustomParameter.TabIndex = 1;
+            numericCustomParameter.ValueChanged += numericCustomParameter_ValueChanged;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(14, 41);
+            label6.Name = "label6";
+            label6.Size = new Size(64, 15);
+            label6.TabIndex = 0;
+            label6.Text = "Parameter:";
+            // 
+            // numericCustomAction
+            // 
+            numericCustomAction.Location = new Point(97, 10);
+            numericCustomAction.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            numericCustomAction.Name = "numericCustomAction";
+            numericCustomAction.Size = new Size(109, 23);
+            numericCustomAction.TabIndex = 0;
+            numericCustomAction.ValueChanged += numericCustomAction_ValueChanged;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(14, 12);
+            label5.Name = "label5";
+            label5.Size = new Size(45, 15);
+            label5.TabIndex = 0;
+            label5.Text = "Action:";
+            // 
             // panelParamNumber
             // 
             panelParamNumber.Controls.Add(numericParamValue);
             panelParamNumber.Controls.Add(label4);
-            panelParamNumber.Location = new Point(6, 22);
+            panelParamNumber.Location = new Point(19, 22);
             panelParamNumber.Name = "panelParamNumber";
             panelParamNumber.Size = new Size(224, 97);
             panelParamNumber.TabIndex = 10;
@@ -126,6 +184,8 @@
             // numericParamValue
             // 
             numericParamValue.Location = new Point(85, 10);
+            numericParamValue.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            numericParamValue.Minimum = new decimal(new int[] { 99999, 0, 0, int.MinValue });
             numericParamValue.Name = "numericParamValue";
             numericParamValue.Size = new Size(106, 23);
             numericParamValue.TabIndex = 1;
@@ -146,7 +206,7 @@
             panelParamBuilding.Controls.Add(smallEntityBuilding);
             panelParamBuilding.Controls.Add(label2);
             panelParamBuilding.Controls.Add(label3);
-            panelParamBuilding.Location = new Point(560, 22);
+            panelParamBuilding.Location = new Point(538, 22);
             panelParamBuilding.Name = "panelParamBuilding";
             panelParamBuilding.Size = new Size(359, 94);
             panelParamBuilding.TabIndex = 9;
@@ -172,7 +232,7 @@
             paramValuesGrid.DisplayLayout.ViewStyle = Infragistics.Win.UltraWinGrid.ViewStyle.SingleBand;
             paramValuesGrid.DisplayLayout.ViewStyleBand = Infragistics.Win.UltraWinGrid.ViewStyleBand.OutlookGroupBy;
             paramValuesGrid.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            paramValuesGrid.Location = new Point(274, 22);
+            paramValuesGrid.Location = new Point(266, 22);
             paramValuesGrid.Margin = new Padding(4, 3, 4, 3);
             paramValuesGrid.Name = "paramValuesGrid";
             paramValuesGrid.Size = new Size(242, 94);
@@ -291,6 +351,10 @@
             Load += AiScriptEditForm_Load;
             ((System.ComponentModel.ISupportInitialize)ultraComboBuildingTarget).EndInit();
             groupBoxParam.ResumeLayout(false);
+            panelCustomAction.ResumeLayout(false);
+            panelCustomAction.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericCustomParameter).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericCustomAction).EndInit();
             panelParamNumber.ResumeLayout(false);
             panelParamNumber.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numericParamValue).EndInit();
@@ -322,5 +386,10 @@
         private Panel panelOkCancel;
         private Button buttonOk;
         private Button buttonCancel;
+        private Panel panelCustomAction;
+        private NumericUpDown numericCustomParameter;
+        private Label label6;
+        private NumericUpDown numericCustomAction;
+        private Label label5;
     }
 }
