@@ -363,8 +363,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
 
         public int? GetMaxKeyValue()
         {
-            return KeyValues.Any() 
-                ? KeyValues.Max(k => int.TryParse(k.Key, out var number) ? number : 0)
+            var numberValues = KeyValues
+                .Select(k => int.TryParse(k.Key, out var number) ? (int?)number : null)
+                .Where(v => v.HasValue)
+                .ToArray();
+            return numberValues.Any() 
+                ? numberValues.Max()
                 : null;
         }
 
