@@ -28,7 +28,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             foreach (var searchPattern in searchPatterns)
             {
                 var iniFiles = Directory.GetFiles(GameDirectory, searchPattern)
-                    .Select(p => Path.GetFileName(p));
+                    .Select(p => Path.GetFileName(p)!);
                 foreach (var iniFile in iniFiles)
                 {
                     if (!File.Exists(Path.Combine(iniPath, iniFile)))
@@ -49,8 +49,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                 foreach (var searchPattern in searchPatterns)
                 {
                     var iniFiles = Directory.GetFiles(iniBasePath, searchPattern)
-                        .Select(p => Path.GetFileName(p));
-                    foreach (var iniFile in iniFiles)
+                        .Select(p => Path.GetFileName(p)!);
+                    foreach (var iniFile in iniFiles.Where(f => !f.Contains("-default", StringComparison.InvariantCultureIgnoreCase)))
                     {
                         if (!File.Exists(Path.Combine(iniBasePath, 
                                 Path.GetFileNameWithoutExtension(iniFile) + "-default.ini")))
