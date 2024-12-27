@@ -39,16 +39,16 @@
             // 
             panelBottom.Controls.Add(buttonClose);
             panelBottom.Dock = DockStyle.Bottom;
-            panelBottom.Location = new Point(0, 499);
+            panelBottom.Location = new Point(0, 618);
             panelBottom.Name = "panelBottom";
-            panelBottom.Size = new Size(819, 43);
+            panelBottom.Size = new Size(984, 43);
             panelBottom.TabIndex = 2;
             // 
             // buttonClose
             // 
             buttonClose.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonClose.Image = (Image)resources.GetObject("buttonClose.Image");
-            buttonClose.Location = new Point(717, 9);
+            buttonClose.Location = new Point(882, 9);
             buttonClose.Name = "buttonClose";
             buttonClose.Size = new Size(90, 26);
             buttonClose.TabIndex = 1;
@@ -65,7 +65,7 @@
             rulesEdit.Margin = new Padding(4, 3, 4, 3);
             rulesEdit.Name = "rulesEdit";
             rulesEdit.ReadonlyMode = true;
-            rulesEdit.Size = new Size(819, 499);
+            rulesEdit.Size = new Size(984, 618);
             rulesEdit.TabIndex = 3;
             rulesEdit.TitleVisible = false;
             // 
@@ -74,7 +74,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = buttonClose;
-            ClientSize = new Size(819, 542);
+            ClientSize = new Size(984, 661);
             Controls.Add(rulesEdit);
             Controls.Add(panelBottom);
             Icon = (Icon)resources.GetObject("$this.Icon");

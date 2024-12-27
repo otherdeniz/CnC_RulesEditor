@@ -39,16 +39,16 @@ partial class ShowArtChangesForm
         // 
         panelBottom.Controls.Add(buttonClose);
         panelBottom.Dock = DockStyle.Bottom;
-        panelBottom.Location = new Point(0, 499);
+        panelBottom.Location = new Point(0, 618);
         panelBottom.Name = "panelBottom";
-        panelBottom.Size = new Size(819, 43);
+        panelBottom.Size = new Size(984, 43);
         panelBottom.TabIndex = 2;
         // 
         // buttonClose
         // 
         buttonClose.Anchor = AnchorStyles.Top | AnchorStyles.Right;
         buttonClose.Image = (Image)resources.GetObject("buttonClose.Image");
-        buttonClose.Location = new Point(717, 9);
+        buttonClose.Location = new Point(882, 9);
         buttonClose.Name = "buttonClose";
         buttonClose.Size = new Size(90, 26);
         buttonClose.TabIndex = 1;
@@ -64,7 +64,7 @@ partial class ShowArtChangesForm
         artEdit.Location = new Point(0, 0);
         artEdit.Name = "artEdit";
         artEdit.ReadonlyMode = true;
-        artEdit.Size = new Size(819, 499);
+        artEdit.Size = new Size(984, 618);
         artEdit.TabIndex = 3;
         artEdit.TitleVisible = false;
         // 
@@ -73,7 +73,7 @@ partial class ShowArtChangesForm
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         CancelButton = buttonClose;
-        ClientSize = new Size(819, 542);
+        ClientSize = new Size(984, 661);
         Controls.Add(artEdit);
         Controls.Add(panelBottom);
         Icon = (Icon)resources.GetObject("$this.Icon");
