@@ -55,6 +55,7 @@
             ButtonCloseValue = new Button();
             panelCenter = new Panel();
             panelAddNew = new Panel();
+            buttonAddValue = new Button();
             ultraComboAddValue = new Infragistics.Win.UltraWinEditors.UltraComboEditor();
             labelAddValue = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureThumbnail).BeginInit();
@@ -370,6 +371,7 @@
             // 
             // panelAddNew
             // 
+            panelAddNew.Controls.Add(buttonAddValue);
             panelAddNew.Controls.Add(ultraComboAddValue);
             panelAddNew.Controls.Add(labelAddValue);
             panelAddNew.Dock = DockStyle.Bottom;
@@ -378,9 +380,21 @@
             panelAddNew.Size = new Size(747, 39);
             panelAddNew.TabIndex = 7;
             // 
+            // buttonAddValue
+            // 
+            buttonAddValue.Enabled = false;
+            buttonAddValue.Location = new Point(240, 6);
+            buttonAddValue.Name = "buttonAddValue";
+            buttonAddValue.Size = new Size(107, 25);
+            buttonAddValue.TabIndex = 2;
+            buttonAddValue.Text = "Insert (Enter)";
+            buttonAddValue.UseVisualStyleBackColor = true;
+            buttonAddValue.Click += buttonAddValue_Click;
+            // 
             // ultraComboAddValue
             // 
-            ultraComboAddValue.DropDownStyle = Infragistics.Win.DropDownStyle.DropDownList;
+            ultraComboAddValue.AutoCompleteMode = Infragistics.Win.AutoCompleteMode.Suggest;
+            ultraComboAddValue.AutoSuggestFilterMode = Infragistics.Win.AutoSuggestFilterMode.StartsWith;
             ultraComboAddValue.Location = new Point(59, 6);
             ultraComboAddValue.MaxDropDownItems = 10;
             ultraComboAddValue.Name = "ultraComboAddValue";
@@ -390,6 +404,7 @@
             ultraComboAddValue.Size = new Size(175, 25);
             ultraComboAddValue.TabIndex = 1;
             ultraComboAddValue.ValueChanged += ultraComboAddValue_ValueChanged;
+            ultraComboAddValue.KeyDown += ultraComboAddValue_KeyDown;
             // 
             // labelAddValue
             // 
@@ -457,5 +472,6 @@
         private Label labelUsedBy;
         private LookupColorControl lookupColor;
         private Button ButtonDelete;
+        private Button buttonAddValue;
     }
 }

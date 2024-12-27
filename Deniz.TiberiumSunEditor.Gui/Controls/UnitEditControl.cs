@@ -291,6 +291,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 .ToList();
             ultraComboAddValue.Items.Clear();
             ultraComboAddValue.Items.AddRange(allValueKeys.Select(k => new ValueListItem(k, k.Key)).ToArray());
+            ultraComboAddValue.Value = null;
         }
 
         private void LookupEntityValue(EntityValueModel valueModel, UltraGridRow row, bool isColor)
@@ -613,19 +614,48 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void ultraComboAddValue_ValueChanged(object sender, EventArgs e)
         {
+            buttonAddValue.Enabled = !string.IsNullOrEmpty(ultraComboAddValue.Value as string);
+            if (ultraComboAddValue.Value is IGrouping<string, IniFileLineKeyValue>)
+            {
+                buttonAddValue_Click(sender, e);
+            }
+        }
+
+        private void ultraComboAddValue_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                buttonAddValue_Click(sender, e);
+            }
+        }
+
+        private void buttonAddValue_Click(object sender, EventArgs e)
+        {
             if (EntityModel == null) return;
+            string? description = null;
+            string? key = null;
             if (ultraComboAddValue.SelectedItem?.DataValue is IGrouping<string, IniFileLineKeyValue> selectedKey)
+            {
+                key = selectedKey.Key;
+                description = $"Existing values: {string.Join(",", selectedKey.Select(v => v.Value).Distinct())}";
+            }
+            else if (ultraComboAddValue.Value is string customKey)
+            {
+                key = customKey;
+            }
+
+            if (key != null)
             {
                 EntityModel.EntityValueList.Add(new EntityValueModel(
                     EntityModel,
                     "9) Other values",
                     EntityModel.FileSection,
                     EntityModel.DefaultSection,
-                    selectedKey.Key,
+                    key,
                     new UnitValueDefinition
                     {
-                        Key = selectedKey.Key,
-                        Description = $"Existing values: {string.Join(",", selectedKey.Select(v => v.Value).Distinct())}"
+                        Key = key,
+                        Description = description
                     }));
                 LoadValueGrid();
                 LoadAddNewKeys();

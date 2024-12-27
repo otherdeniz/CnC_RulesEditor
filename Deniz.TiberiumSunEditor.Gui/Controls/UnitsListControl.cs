@@ -156,7 +156,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             if (_entities.Any())
             {
                 var entityType = _entities[0].EntityType;
-                _entityGroups = UserSettingsFile.Instance.EntityGroups.Where(g => g.EntityType == entityType).ToList();
+                _entityGroups = UserSettingsFile.Instance.EntityGroups
+                    .Where(g => g.EntityType == entityType)
+                    .OrderBy(g => g.GroupName)
+                    .ToList();
                 _keyEntityGroups = _entityGroups.SelectMany(g => g.Keys.Select(k => new { Key = k, Group = g }))
                     .ToDictionary(k => k.Key, v => v.Group);
             }
@@ -235,6 +238,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 }
                 unitPicker.InitGroups(_entityGroups, entityGroupSetting);
                 _unitPickerControls.Add(unitPicker);
+            }
+            //order custom groups
+            foreach (var groupControl in ultraPanelScroll.ClientArea.Controls
+                         .OfType<UnitPickerGroupControl>()
+                         .OrderBy(g => g.EntityGroupSetting.GroupName))
+            {
+                ultraPanelScroll.ClientArea.Controls.SetChildIndex(groupControl, 1);
             }
             toolStripLabelTotal.Text = $"{_orderedEntities.Count:#,##0} Items";
             if (_orderedEntities.Count > PageSize)
