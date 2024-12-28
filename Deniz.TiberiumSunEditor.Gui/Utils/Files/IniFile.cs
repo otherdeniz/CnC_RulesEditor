@@ -482,6 +482,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
 
         public event EventHandler? ValueChanged;
 
+        [Browsable(false)]
         public IniFileSection Section { get; }
 
         public string Key { get; }
