@@ -11,7 +11,9 @@
 		{"Key":"AILegalTarget","Description":"Can this object be the target of an attack or move command by the computer?","Default":"yes"},
 		{"Key":"ImmuneToEMP","Description":"Is this object immune to EMP (electromagnetic pulse) effects? Powered buildings, vehicles and cyborgs are typically disabled by EMP, unless this is set for them.","Default":"no"},
 		{"Key":"CanPassiveAcquire","Description":"Can this object acquire targets that are within its weapons range and attack them automatically?","Default":"yes"},
-		{"Key":"CanRetaliate","Description":"Can this object retaliate when hit by enemy fire?","Default":"yes"}
+		{"Key":"CanRetaliate","Description":"Can this object retaliate when hit by enemy fire?","Default":"yes"},
+		{"Key":"RequiredHouses","Description":"Houses that can build this","LookupType":"Houses"},
+		{"Key":"ForbiddenHouses","Description":"Houses that can NOT build this","LookupType":"Houses"}
 	],
 	
 	"AllMovingUnits": [
