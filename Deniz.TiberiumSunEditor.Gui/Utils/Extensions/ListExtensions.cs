@@ -15,5 +15,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Extensions
             var itemsToRemove = list.Where(match).ToList();
             itemsToRemove.ForEach(r => list.Remove(r));
         }
+
+        public static TItem LastEx<TItem>(this IEnumerable<TItem> items)
+        {
+            if (items is IList<TItem> itemsList)
+            {
+                return itemsList[itemsList.Count - 1];
+            }
+            return items.Last();
+        }
     }
 }

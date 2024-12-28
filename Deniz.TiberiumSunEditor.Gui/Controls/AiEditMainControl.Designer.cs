@@ -52,6 +52,7 @@
             ultraTabPageControl5 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
             entitiesListTeams = new EntitiesListControl();
             panelTitle = new Panel();
+            fileChangedControl = new FileChangedControl();
             labelOriginalPath = new Label();
             labelOriginalTitle = new Label();
             labelFilePath = new Label();
@@ -173,6 +174,7 @@
             // 
             // panelTitle
             // 
+            panelTitle.Controls.Add(fileChangedControl);
             panelTitle.Controls.Add(labelOriginalPath);
             panelTitle.Controls.Add(labelOriginalTitle);
             panelTitle.Controls.Add(labelFilePath);
@@ -186,6 +188,16 @@
             panelTitle.Padding = new Padding(2);
             panelTitle.Size = new Size(967, 23);
             panelTitle.TabIndex = 4;
+            // 
+            // fileChangedControl
+            // 
+            fileChangedControl.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            fileChangedControl.Dock = DockStyle.Right;
+            fileChangedControl.Location = new Point(665, 2);
+            fileChangedControl.Name = "fileChangedControl";
+            fileChangedControl.Size = new Size(300, 19);
+            fileChangedControl.TabIndex = 11;
+            fileChangedControl.ReloadFile += fileChangedControl_ReloadFile;
             // 
             // labelOriginalPath
             // 
@@ -357,5 +369,6 @@
         private Label labelOriginalTitle;
         private Label labelFilePath;
         private Label labelFileTitle;
+        private FileChangedControl fileChangedControl;
     }
 }

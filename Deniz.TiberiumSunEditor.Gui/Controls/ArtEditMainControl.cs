@@ -20,6 +20,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             InitializeComponent();
         }
 
+        public event EventHandler<EventArgs>? ReloadFile;
+
+        [Browsable(false)]
         public ArtRootModel Model { get; private set; } = null!;
 
         [DefaultValue(true)]
@@ -122,6 +125,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             Model = model;
             labelType.Text = model.FileType.TypeLabel;
             labelName.Text = model.FileType.Title;
+            fileChangedControl.BindFile(model.File);
             UpdateHeaderFilePath();
             if (model.DefaultFile.OriginalFullPath != null)
             {
@@ -240,7 +244,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     {
                         var entitiesTypesSection = Model.File.GetSection(entityTypes)
                                                    ?? Model.File.AddSection(entityTypes);
-                        var typeKey = entitiesTypesSection.GetMaxKeyValue() + 1 
+                        var typeKey = entitiesTypesSection.GetMaxKeyValue() + 1
                                       ?? (Model.FileType.BaseType == FileBaseType.Rules ? 0 : 900);
                         entitiesTypesSection.SetValue(typeKey.ToString(), newKey);
                     }
@@ -260,6 +264,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private void filterControl_FilterChanged(object sender, EventArgs e)
         {
             ReloadModels();
+        }
+
+        private void fileChangedControl_ReloadFile(object sender, EventArgs e)
+        {
+            ReloadFile?.Invoke(this, e);
         }
     }
 }

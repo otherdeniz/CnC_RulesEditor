@@ -24,6 +24,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             _ultraTabTeams = mainTab.Tabs["Teams"];
         }
 
+        public event EventHandler<EventArgs>? ReloadFile;
+
+        [Browsable(false)]
         public AiRootModel Model { get; private set; } = null!;
 
         [DefaultValue(true)]
@@ -78,6 +81,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             Model = model;
             labelType.Text = model.FileType.TypeLabel;
             labelName.Text = model.FileType.Title;
+            fileChangedControl.BindFile(model.File);
             UpdateHeaderFilePath();
             if (model.DefaultFile.OriginalFullPath != null)
             {
@@ -156,6 +160,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 entitiesListTaskForces.LoadListModel(Model, Model.TaskForceEntities,
                     selectKey: newEntityListItem.EntityModel.EntityKey);
             }
+        }
+
+        private void fileChangedControl_ReloadFile(object sender, EventArgs e)
+        {
+            ReloadFile?.Invoke(this, e);
         }
     }
 }

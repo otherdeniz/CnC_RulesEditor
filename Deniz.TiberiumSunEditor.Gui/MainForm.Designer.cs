@@ -340,7 +340,7 @@
             appearance149.Image = resources.GetObject("appearance149.Image");
             stateButtonTool113.SharedPropsInternal.AppearancesSmall.Appearance = appearance149;
             stateButtonTool113.SharedPropsInternal.Caption = "Filter";
-            stateButtonTool113.SharedPropsInternal.DisplayStyle = Infragistics.Win.UltraWinToolbars.ToolDisplayStyle.DefaultForToolType;
+            stateButtonTool113.SharedPropsInternal.DisplayStyle = Infragistics.Win.UltraWinToolbars.ToolDisplayStyle.ImageAndText;
             stateButtonTool113.SharedPropsInternal.Enabled = false;
             appearance150.Image = resources.GetObject("appearance150.Image");
             popupMenuTool121.SharedPropsInternal.AppearancesSmall.Appearance = appearance150;

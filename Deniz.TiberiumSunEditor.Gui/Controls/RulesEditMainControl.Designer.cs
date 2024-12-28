@@ -92,6 +92,7 @@
             mainTab = new Infragistics.Win.UltraWinTabControl.UltraTabControl();
             ultraTabSharedControlsPage1 = new Infragistics.Win.UltraWinTabControl.UltraTabSharedControlsPage();
             panelTitle = new Panel();
+            fileChangedControl = new FileChangedControl();
             labelOriginalPath = new Label();
             labelOriginalTitle = new Label();
             labelFilePath = new Label();
@@ -468,7 +469,7 @@
             checkBoxPhobosShowEmpty.AutoSize = true;
             checkBoxPhobosShowEmpty.Location = new Point(6, 3);
             checkBoxPhobosShowEmpty.Name = "checkBoxPhobosShowEmpty";
-            checkBoxPhobosShowEmpty.Size = new Size(124, 19);
+            checkBoxPhobosShowEmpty.Size = new Size(125, 19);
             checkBoxPhobosShowEmpty.TabIndex = 1;
             checkBoxPhobosShowEmpty.Text = "Show empty Types";
             checkBoxPhobosShowEmpty.UseVisualStyleBackColor = true;
@@ -576,6 +577,7 @@
             // 
             // panelTitle
             // 
+            panelTitle.Controls.Add(fileChangedControl);
             panelTitle.Controls.Add(labelOriginalPath);
             panelTitle.Controls.Add(labelOriginalTitle);
             panelTitle.Controls.Add(labelFilePath);
@@ -589,6 +591,16 @@
             panelTitle.Padding = new Padding(2);
             panelTitle.Size = new Size(1173, 23);
             panelTitle.TabIndex = 2;
+            // 
+            // fileChangedControl
+            // 
+            fileChangedControl.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            fileChangedControl.Dock = DockStyle.Right;
+            fileChangedControl.Location = new Point(871, 2);
+            fileChangedControl.Name = "fileChangedControl";
+            fileChangedControl.Size = new Size(300, 19);
+            fileChangedControl.TabIndex = 6;
+            fileChangedControl.ReloadFile += fileChangedControl_ReloadFile;
             // 
             // labelOriginalPath
             // 
@@ -757,5 +769,6 @@
         private Label labelOriginalTitle;
         private Label labelFilePath;
         private Label labelFileTitle;
+        private FileChangedControl fileChangedControl;
     }
 }

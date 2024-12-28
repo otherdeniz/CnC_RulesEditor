@@ -114,7 +114,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
                         {
                             newKey = (i + 1).ToString();
                         }
-                        lines[i] = new IniFileLineKeyValue(newKey, lines[i].Value, lines[i].Comment, true);
+                        lines[i] = new IniFileLineKeyValue(EntityModel!.FileSection, newKey, lines[i].Value, lines[i].Comment, true);
                     }
                     if (nameLine != null)
                     {
@@ -142,7 +142,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
                         {
                             newKey = (i - 1).ToString();
                         }
-                        lines[i] = new IniFileLineKeyValue(newKey, lines[i].Value, lines[i].Comment, true);
+                        lines[i] = new IniFileLineKeyValue(EntityModel!.FileSection, newKey, lines[i].Value, lines[i].Comment, true);
                     }
                     if (nameLine != null)
                     {
@@ -160,7 +160,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit
                         .Where(l => l.Key != keyValueModel.Key && int.TryParse(l.Key, out _)).ToList();
                     for (var i = 0; i < lines.Count; i++)
                     {
-                        lines[i] = new IniFileLineKeyValue(i.ToString(), lines[i].Value, lines[i].Comment, true);
+                        lines[i] = new IniFileLineKeyValue(EntityModel!.FileSection, i.ToString(), lines[i].Value, lines[i].Comment, true);
                     }
                     if (nameLine != null)
                     {

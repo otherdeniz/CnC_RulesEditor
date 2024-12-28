@@ -131,6 +131,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                         {
                             labelControl.ForeColor = CurrentTheme.LinkTextColor;
                         }
+                        else if (labelControl.Tag as string == "MODIFIED")
+                        {
+                            labelControl.ForeColor = CurrentTheme.ModifiedTextColor;
+                        }
                         break;
                     case TextBox textBoxControl:
                         if (!textBoxControl.ReadOnly)

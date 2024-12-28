@@ -18,12 +18,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private string _searchText = "";
         private AiEditMainControl? _aiEditSubControl;
 
-        public RulesRootModel Model { get; private set; } = null!;
-
         public RulesEditMainControl()
         {
             InitializeComponent();
         }
+
+        public event EventHandler<EventArgs>? ReloadFile;
+
+        [Browsable(false)]
+        public RulesRootModel Model { get; private set; } = null!;
 
         [DefaultValue(true)]
         public bool TitleVisible
@@ -156,6 +159,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             Model = model;
             labelType.Text = fileTypeOverride ?? model.FileType.TypeLabel;
             labelName.Text = nameOverride ?? model.FileType.Title;
+            fileChangedControl.BindFile(model.File);
             UpdateHeaderFilePath();
             if (model.DefaultFile.OriginalFullPath != null)
             {
@@ -196,8 +200,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         public void UpdateHeaderFilePath(string? saveLocation = null)
         {
-            labelFilePath.Text = saveLocation 
-                                 ?? Model.File.OriginalFullPath 
+            labelFilePath.Text = saveLocation
+                                 ?? Model.File.OriginalFullPath
                                  ?? "new";
         }
 
@@ -328,11 +332,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             unitsListControl.SelectKey(copy.NewKey);
         }
 
-        private void DeleteEntity(EntityDeleteEventArgs delete, 
+        private void DeleteEntity(EntityDeleteEventArgs delete,
             string? entityTypes)
         {
             var usedByEntityModels = Model.LookupEntities.Values.SelectMany(l => l)
-                .Where(e => e.EntityKey != delete.EntityModel.EntityKey 
+                .Where(e => e.EntityKey != delete.EntityModel.EntityKey
                             && e.FileSection.KeyValues.Any(k =>
                     k.Value.Split(",").Any(v => v == delete.EntityModel.EntityKey)))
                 .ToList();
@@ -341,7 +345,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 if (MessageBox.Show(
                         $"The Entity '{delete.EntityModel.EntityKey}' has {usedByEntityModels.Count:#} usages. " +
                         "They will all be set to [empty] if you continue." + Environment.NewLine +
-                        "Do you want to continue?", "Reset usages?", 
+                        "Do you want to continue?", "Reset usages?",
                         MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
                 {
                     return;
@@ -530,5 +534,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             ReloadModels();
         }
 
+        private void fileChangedControl_ReloadFile(object sender, EventArgs e)
+        {
+            ReloadFile?.Invoke(this, e);
+        }
     }
 }

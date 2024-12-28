@@ -40,26 +40,9 @@ namespace Deniz.TiberiumSunEditor.Gui
         {
             if (openFileDialog.ShowDialog(this) == DialogResult.OK)
             {
-                var iniFile = IniFile.Load(openFileDialog.FileName);
-                var fileType = ParseFileType(iniFile);
+                var fileType = OpenFile(openFileDialog.FileName);
                 if (fileType != null)
                 {
-                    if (fileType.BaseType == FileBaseType.Art)
-                    {
-                        var rulesFile = fileType.GameDefinition.LoadCurrentRulesFile();
-                        LoadArtFile(iniFile, fileType, rulesFile);
-                    }
-                    else if(fileType.BaseType == FileBaseType.Ai)
-                    {
-                        var rulesFile = fileType.GameDefinition.LoadCurrentRulesFile();
-                        LoadAiFile(iniFile, fileType, rulesFile);
-                    }
-                    else
-                    {
-                        LoadRulesFile(iniFile, fileType);
-                    }
-                    mainToolbarsManager.Tools["SaveFile"].SharedProps.Caption = $"Save File ({openFileDialog.FileName})";
-                    mainToolbarsManager.Tools["SaveFile"].SharedProps.Enabled = true;
                     UserSettingsFile.Instance.AddRecentFile(openFileDialog.FileName, fileType);
                     InitializeRecentFilesMenu();
                 }
@@ -69,8 +52,13 @@ namespace Deniz.TiberiumSunEditor.Gui
         private void ButtonOpenRecent(string fileName)
         {
             var recentFile = UserSettingsFile.Instance.GetRecentFiles().First(f => f.Setting.FilePath == fileName);
-            var iniFile = IniFile.Load(recentFile.Setting.FilePath);
-            var fileType = ParseFileType(iniFile, recentFile.Definition);
+            OpenFile(recentFile.Setting.FilePath, recentFile.Definition);
+        }
+
+        private FileTypeModel? OpenFile(string filePath, GameDefinition? overrideGameDefinition = null)
+        {
+            var iniFile = IniFile.Load(filePath);
+            var fileType = ParseFileType(iniFile, overrideGameDefinition);
             if (fileType != null)
             {
                 if (fileType.BaseType == FileBaseType.Art)
@@ -87,9 +75,10 @@ namespace Deniz.TiberiumSunEditor.Gui
                 {
                     LoadRulesFile(iniFile, fileType);
                 }
-                mainToolbarsManager.Tools["SaveFile"].SharedProps.Caption = $"Save File ({fileName})";
+                mainToolbarsManager.Tools["SaveFile"].SharedProps.Caption = $"Save File ({filePath})";
                 mainToolbarsManager.Tools["SaveFile"].SharedProps.Enabled = true;
             }
+            return fileType;
         }
 
         private void ButtonSaveInGame()
@@ -152,20 +141,9 @@ namespace Deniz.TiberiumSunEditor.Gui
 
         private void ButtonSaveFile()
         {
-            if (_editRulesMainControl?.Model.File.OriginalFullPath != null)
-            {
-                _editRulesMainControl.Model.File.SaveAs(_editRulesMainControl.Model.File.OriginalFullPath);
-            }
-
-            if (_editArtMainControl?.Model.File.OriginalFullPath != null)
-            {
-                _editArtMainControl.Model.File.SaveAs(_editArtMainControl.Model.File.OriginalFullPath);
-            }
-
-            if (_editAiMainControl?.Model.File.OriginalFullPath != null)
-            {
-                _editAiMainControl.Model.File.SaveAs(_editAiMainControl.Model.File.OriginalFullPath);
-            }
+            _editRulesMainControl?.Model.File.Save();
+            _editArtMainControl?.Model.File.Save();
+            _editAiMainControl?.Model.File.Save();
         }
 
         private void ButtonSaveAs()
@@ -578,6 +556,11 @@ namespace Deniz.TiberiumSunEditor.Gui
                     Dock = DockStyle.Fill,
                     FilterVisible = _filterEnabled
                 };
+                _editRulesMainControl.ReloadFile += (sender, args) =>
+                {
+                    MessageBox.Show("Auto-Reload of compared files not supported. Please Re-Open manually", "Not supported", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                };
                 ThemeManager.Instance.UseTheme(_editRulesMainControl);
                 _editRulesMainControl.LoadModel(rulesRootModel);
                 panelMain.Controls.Add(_editRulesMainControl);
@@ -593,6 +576,11 @@ namespace Deniz.TiberiumSunEditor.Gui
                 {
                     Dock = DockStyle.Fill,
                     FilterVisible = _filterEnabled
+                };
+                _editArtMainControl.ReloadFile += (sender, args) =>
+                {
+                    MessageBox.Show("Auto-Reload of compared files not supported. Please Re-Open manually", "Not supported",
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 };
                 ThemeManager.Instance.UseTheme(_editArtMainControl);
                 _editArtMainControl.LoadModel(artRootModel);
@@ -638,6 +626,13 @@ namespace Deniz.TiberiumSunEditor.Gui
             {
                 Dock = DockStyle.Fill,
                 FilterVisible = _filterEnabled
+            };
+            _editRulesMainControl.ReloadFile += (sender, args) =>
+            {
+                if (!string.IsNullOrEmpty(rulesFile.OriginalFullPath))
+                {
+                    OpenFile(rulesFile.OriginalFullPath, fileType.GameDefinition);
+                }
             };
             ThemeManager.Instance.UseTheme(_editRulesMainControl);
             _editRulesMainControl.LoadModel(rootModel);
@@ -686,6 +681,13 @@ namespace Deniz.TiberiumSunEditor.Gui
                 Dock = DockStyle.Fill,
                 FilterVisible = _filterEnabled
             };
+            _editArtMainControl.ReloadFile += (sender, args) =>
+            {
+                if (!string.IsNullOrEmpty(rulesFile.OriginalFullPath))
+                {
+                    OpenFile(rulesFile.OriginalFullPath, fileType.GameDefinition);
+                }
+            };
             ThemeManager.Instance.UseTheme(_editArtMainControl);
             _editArtMainControl.LoadModel(artRootModel);
             panelMain.Controls.Add(_editArtMainControl);
@@ -727,6 +729,13 @@ namespace Deniz.TiberiumSunEditor.Gui
             {
                 Dock = DockStyle.Fill
                 //FilterVisible = _filterEnabled
+            };
+            _editAiMainControl.ReloadFile += (sender, args) =>
+            {
+                if (!string.IsNullOrEmpty(rulesFile.OriginalFullPath))
+                {
+                    OpenFile(rulesFile.OriginalFullPath, fileType.GameDefinition);
+                }
             };
             ThemeManager.Instance.UseTheme(_editAiMainControl);
             _editAiMainControl.LoadModel(aiRootModel);
