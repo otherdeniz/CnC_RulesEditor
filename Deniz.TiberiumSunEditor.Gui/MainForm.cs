@@ -41,7 +41,8 @@ namespace Deniz.TiberiumSunEditor.Gui
             if (openFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 var fileType = OpenFile(openFileDialog.FileName);
-                if (fileType != null)
+                if (fileType != null 
+                    && fileType.BaseType != FileBaseType.Unknown)
                 {
                     UserSettingsFile.Instance.AddRecentFile(openFileDialog.FileName, fileType);
                     InitializeRecentFilesMenu();
@@ -829,11 +830,20 @@ namespace Deniz.TiberiumSunEditor.Gui
 
         private void LoadUserSettings()
         {
+            _doEvents = false;
             ((StateButtonTool)mainToolbarsManager.Tools["SettingOpeningSound"]).Checked = 
                 UserSettingsFile.Instance.SettingPlayOpeningSound;
 
             ((StateButtonTool)mainToolbarsManager.Tools["SettingCheckUpdates"]).Checked =
                 UserSettingsFile.Instance.SettingAutoUpdate;
+
+            ((StateButtonTool)mainToolbarsManager.Tools["SettingsPickerColumns2"]).Checked =
+                UserSettingsFile.Instance.SettingUnitPickerColumns == 2;
+            ((StateButtonTool)mainToolbarsManager.Tools["SettingsPickerColumns3"]).Checked =
+                UserSettingsFile.Instance.SettingUnitPickerColumns == 3;
+            ((StateButtonTool)mainToolbarsManager.Tools["SettingsPickerColumns4"]).Checked =
+                UserSettingsFile.Instance.SettingUnitPickerColumns == 4;
+            _doEvents = true;
         }
 
         private void mainToolbarsManager_ToolClick(object sender, ToolClickEventArgs e)
@@ -945,6 +955,21 @@ namespace Deniz.TiberiumSunEditor.Gui
                         !UserSettingsFile.Instance.SettingAutoUpdate;
                     UserSettingsFile.Instance.Save();
                     ((StateButtonTool)e.Tool).Checked = UserSettingsFile.Instance.SettingAutoUpdate;
+                    break;
+                case "SettingsPickerColumns2":
+                    UserSettingsFile.Instance.SettingUnitPickerColumns = 2;
+                    UserSettingsFile.Instance.Save();
+                    LoadUserSettings();
+                    break;
+                case "SettingsPickerColumns3":
+                    UserSettingsFile.Instance.SettingUnitPickerColumns = 3;
+                    UserSettingsFile.Instance.Save();
+                    LoadUserSettings();
+                    break;
+                case "SettingsPickerColumns4":
+                    UserSettingsFile.Instance.SettingUnitPickerColumns = 4;
+                    UserSettingsFile.Instance.Save();
+                    LoadUserSettings();
                     break;
                 case "OnlyFavoriteValues":
                     ShowOnlyFavoriteValues = !ShowOnlyFavoriteValues;

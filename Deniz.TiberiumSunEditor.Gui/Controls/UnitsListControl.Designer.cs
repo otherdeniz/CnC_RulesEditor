@@ -1,4 +1,6 @@
-﻿namespace Deniz.TiberiumSunEditor.Gui.Controls
+﻿using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
+
+namespace Deniz.TiberiumSunEditor.Gui.Controls
 {
     partial class UnitsListControl
     {
@@ -6,19 +8,6 @@
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-
-        /// <summary> 
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
 
         #region Component Designer generated code
 

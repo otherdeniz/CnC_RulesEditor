@@ -4,12 +4,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
 {
     public class CategorizedValueDefinition
     {
-        public static List<CategorizedValueDefinition> EmptyList = new();
+        public static readonly List<CategorizedValueDefinition> EmptyList = new();
 
         public CategorizedValueDefinition(UnitValueDefinition unitValueDefinition, string category)
         {
             UnitValueDefinition = unitValueDefinition;
-            Category = category;
+            Category = string.IsNullOrEmpty(unitValueDefinition.Category) 
+                ? category
+                : unitValueDefinition.Category;
         }
 
         public UnitValueDefinition UnitValueDefinition { get; }

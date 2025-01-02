@@ -20,6 +20,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private int _currentPage = 1;
         private bool _showOnlyFavoriteUnits;
         private bool _doEvents;
+        private bool _isRuntimeMode;
         private List<EntityGroupSetting> _entityGroups = new();
         private Dictionary<string, EntityGroupSetting> _keyEntityGroups = new();
         private readonly Dictionary<string, UnitPickerGroupControl> _groupControls = new();
@@ -457,12 +458,41 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             toolStripAdd.Visible = (CanAddUnlisted || CanAddEmpty)
                                    && !ReadonlyMode
                                    && CCGameRepository.Instance.IsLoaded;
+            if (!DesignMode)
+            {
+                _isRuntimeMode = true;
+                UserSettingsFile.Instance.SettingUnitPickerColumnsChanged += OnSettingUnitPickerColumnsChanged;
+                OnSettingUnitPickerColumnsChanged(sender, e);
+            }
+        }
+
+        private void OnSettingUnitPickerColumnsChanged(object? sender, EventArgs e)
+        {
+            panelLeft.Width = UserSettingsFile.Instance.SettingUnitPickerColumns * 112 + 16;
         }
 
         private void checkBoxOnlyModified_CheckedChanged(object sender, EventArgs e)
         {
             if (!_doEvents) return;
             LoadUnits();
+        }
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            if (_isRuntimeMode)
+            {
+                _isRuntimeMode = false;
+                UserSettingsFile.Instance.SettingUnitPickerColumnsChanged -= OnSettingUnitPickerColumnsChanged;
+            }
+            base.Dispose(disposing);
         }
 
     }

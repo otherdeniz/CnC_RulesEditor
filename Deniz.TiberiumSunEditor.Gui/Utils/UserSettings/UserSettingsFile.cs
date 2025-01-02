@@ -29,8 +29,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
         private UserFavoriteSettings? _sectionsSettings;
         private UserFavoriteSettings? _commonValuesSettings;
         private UserFavoriteSettings? _unitValuesSettings;
+        private int _settingUnitPickerColumns = 2;
 
         public static event EventHandler? ExternalChanged;
+        public event EventHandler? SettingUnitPickerColumnsChanged;
 
         public List<string> FavoriteSections { get; set; } = new();
 
@@ -43,6 +45,17 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
         public bool SettingPlayOpeningSound { get; set; } = true;
 
         public bool SettingAutoUpdate { get; set; } = true;
+
+        public int SettingUnitPickerColumns
+        {
+            get => _settingUnitPickerColumns;
+            set
+            {
+                if (_settingUnitPickerColumns == value) return;
+                _settingUnitPickerColumns = value;
+                SettingUnitPickerColumnsChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
 
         public List<GamePathSetting> GamePaths { get; set; } = new();
 
