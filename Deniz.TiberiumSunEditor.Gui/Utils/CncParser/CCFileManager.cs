@@ -1,3 +1,5 @@
+using Deniz.TiberiumSunEditor.Gui.Utils.Exceptions;
+
 namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
 {
     public class CCFileManager
@@ -99,12 +101,19 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
             {
                 var fileName = Path.GetFileName(filePath);
                 if (fileName.Contains("movie")) continue;
-                var mixFile = new MixFile(fileName);
-                mixFile.Parse(filePath);
-                AddMix(mixFile);
-                if (loadRecursive)
+                try
                 {
-                    LoadMixFileRecursive(mixFile);
+                    var mixFile = new MixFile(fileName);
+                    mixFile.Parse(filePath);
+                    AddMix(mixFile);
+                    if (loadRecursive)
+                    {
+                        LoadMixFileRecursive(mixFile);
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new RuntimeException($"could not load Mix-File {filePath}, Message: {e.Message}", e);
                 }
             }
         }
