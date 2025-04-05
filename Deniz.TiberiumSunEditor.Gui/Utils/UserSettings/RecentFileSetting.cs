@@ -1,6 +1,4 @@
-﻿using Deniz.TiberiumSunEditor.Gui.Model;
-
-namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
+﻿namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
 {
     public class RecentFileSetting
     {

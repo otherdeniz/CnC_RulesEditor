@@ -52,7 +52,8 @@ namespace Deniz.TiberiumSunEditor.Gui
 
         private void ButtonOpenRecent(string fileName)
         {
-            var recentFile = UserSettingsFile.Instance.GetRecentFiles().First(f => f.Setting.FilePath == fileName);
+            var recentFile = UserSettingsFile.Instance.OpenRecentFile(fileName);
+            InitializeRecentFilesMenu();
             OpenFile(recentFile.Setting.FilePath, recentFile.Definition);
         }
 

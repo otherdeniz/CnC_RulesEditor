@@ -38,6 +38,7 @@
             linkLabelDiscord = new LinkLabel();
             linkLabelCncnet = new LinkLabel();
             linkLabelGithub = new LinkLabel();
+            linkLabel1 = new LinkLabel();
             linkLabelRelease = new LinkLabel();
             label9 = new Label();
             labelDownloads = new Label();
@@ -45,6 +46,7 @@
             labelVersion = new Label();
             label7 = new Label();
             label5 = new Label();
+            label14 = new Label();
             label4 = new Label();
             label3 = new Label();
             label8 = new Label();
@@ -56,8 +58,6 @@
             label12 = new Label();
             label10 = new Label();
             label11 = new Label();
-            label14 = new Label();
-            linkLabel1 = new LinkLabel();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel1.SuspendLayout();
@@ -177,6 +177,17 @@
             linkLabelGithub.Text = "github.com/otherdeniz/CnC_RulesEditor";
             linkLabelGithub.LinkClicked += linkLabel_LinkClicked;
             // 
+            // linkLabel1
+            // 
+            linkLabel1.AutoSize = true;
+            linkLabel1.Location = new Point(116, 60);
+            linkLabel1.Name = "linkLabel1";
+            linkLabel1.Size = new Size(134, 15);
+            linkLabel1.TabIndex = 2;
+            linkLabel1.TabStop = true;
+            linkLabel1.Text = "ruleseditor.denizesen.ch";
+            linkLabel1.LinkClicked += linkLabel_LinkClicked;
+            // 
             // linkLabelRelease
             // 
             linkLabelRelease.AutoSize = true;
@@ -209,20 +220,18 @@
             // labelReleaseDate
             // 
             labelReleaseDate.AutoSize = true;
-            labelReleaseDate.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             labelReleaseDate.Location = new Point(116, 41);
             labelReleaseDate.Name = "labelReleaseDate";
-            labelReleaseDate.Size = new Size(55, 15);
+            labelReleaseDate.Size = new Size(49, 15);
             labelReleaseDate.TabIndex = 0;
             labelReleaseDate.Text = "0.0.0000";
             // 
             // labelVersion
             // 
             labelVersion.AutoSize = true;
-            labelVersion.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             labelVersion.Location = new Point(116, 22);
             labelVersion.Name = "labelVersion";
-            labelVersion.Size = new Size(41, 15);
+            labelVersion.Size = new Size(37, 15);
             labelVersion.TabIndex = 0;
             labelVersion.Text = "v0.0.0";
             // 
@@ -243,6 +252,15 @@
             label5.Size = new Size(86, 15);
             label5.TabIndex = 0;
             label5.Text = "Cncnet Forum:";
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new Point(9, 60);
+            label14.Name = "label14";
+            label14.Size = new Size(69, 15);
+            label14.TabIndex = 0;
+            label14.Text = "Homepage:";
             // 
             // label4
             // 
@@ -265,20 +283,18 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label8.Location = new Point(9, 41);
             label8.Name = "label8";
-            label8.Size = new Size(83, 15);
+            label8.Size = new Size(76, 15);
             label8.TabIndex = 0;
             label8.Text = "Release Date:";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label1.Location = new Point(9, 22);
             label1.Name = "label1";
-            label1.Size = new Size(88, 15);
+            label1.Size = new Size(82, 15);
             label1.TabIndex = 0;
             label1.Text = "Latest Version:";
             // 
@@ -354,28 +370,6 @@
             label11.Size = new Size(172, 15);
             label11.TabIndex = 0;
             label11.Text = "[WH]ela, RAmpastring, Kerbiter";
-            // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label14.Location = new Point(9, 60);
-            label14.Name = "label14";
-            label14.Size = new Size(71, 15);
-            label14.TabIndex = 0;
-            label14.Text = "Homepage:";
-            // 
-            // linkLabel1
-            // 
-            linkLabel1.AutoSize = true;
-            linkLabel1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            linkLabel1.Location = new Point(116, 60);
-            linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(142, 15);
-            linkLabel1.TabIndex = 2;
-            linkLabel1.TabStop = true;
-            linkLabel1.Text = "ruleseditor.denizesen.ch";
-            linkLabel1.LinkClicked += linkLabel_LinkClicked;
             // 
             // AboutForm
             // 

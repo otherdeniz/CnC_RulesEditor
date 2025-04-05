@@ -77,6 +77,19 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
         public UserFavoriteSettings UnitValuesSettings => _unitValuesSettings
             ??= new UserFavoriteSettings(FavoriteUnitValues);
 
+        public (RecentFileSetting Setting, GameDefinition Definition) OpenRecentFile(string fileName)
+        {
+            var recentFile = GetRecentFiles().First(f => f.Setting.FilePath == fileName);
+            if (RecentFiles[0].FilePath != recentFile.Setting.FilePath)
+            {
+                // put on Top
+                RecentFiles.RemoveAll(f => f.FilePath == recentFile.Setting.FilePath);
+                RecentFiles.Insert(0, recentFile.Setting);
+                Save();
+            }
+            return recentFile;
+        }
+
         public List<(RecentFileSetting Setting, GameDefinition Definition)> GetRecentFiles()
         {
             var recentFiles = new List<(RecentFileSetting Setting, GameDefinition Definition)>();
@@ -145,5 +158,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
                 Save();
             }
         }
+
     }
 }

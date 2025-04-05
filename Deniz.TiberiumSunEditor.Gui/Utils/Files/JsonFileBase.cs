@@ -6,28 +6,20 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
 {
     public abstract class JsonFileBase
     {
-        private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
+        private static readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto,
             TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             NullValueHandling = NullValueHandling.Ignore,
-#if DEBUG
             Formatting = Formatting.Indented
-#endif
         };
 
-        private readonly object _saveLock = new();
+        private readonly object _saveLock = new object();
 
         protected virtual string? FilePath { get; set; }
 
         protected FileChangeWatcher? ChangeWatcher { get; set; }
-
-        //protected static TDatType Load<TDatType>(string dataRoot, bool saveOnCreate = true) where TDatType : DatFileBase, new()
-        //{
-        //    var datFilePath = GetDatFilePath(dataRoot, typeof(TDatType));
-        //    return Load<TDatType>(datFilePath, saveOnCreate);
-        //}
 
         protected static TDatType Load<TDatType>(string datFilePath, bool saveOnCreate = true) where TDatType : JsonFileBase, new()
         {
@@ -38,7 +30,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
                     using (var fileReader = new StreamReader(fileStream, Encoding.UTF8))
                     {
                         var fileJson = fileReader.ReadToEnd();
-                        var data = JsonConvert.DeserializeObject<TDatType>(fileJson, SerializerSettings);
+                        var data = JsonConvert.DeserializeObject<TDatType>(fileJson, _serializerSettings);
                         if (data == null)
                         {
                             throw new RuntimeException($"Load of file '{datFilePath}' failed");
@@ -62,16 +54,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
 
         protected static TDatType Load<TDatType>(Stream fileStream) where TDatType : JsonFileBase, new()
         {
-            using (var fileReader = new StreamReader(fileStream, Encoding.UTF8))
+            using var fileReader = new StreamReader(fileStream, Encoding.UTF8);
+            var fileJson = fileReader.ReadToEnd();
+            var data = JsonConvert.DeserializeObject<TDatType>(fileJson, _serializerSettings);
+            if (data == null)
             {
-                var fileJson = fileReader.ReadToEnd();
-                var data = JsonConvert.DeserializeObject<TDatType>(fileJson, SerializerSettings);
-                if (data == null)
-                {
-                    throw new RuntimeException("Load of Stream failed");
-                }
-                return data;
+                throw new RuntimeException("Load of Stream failed");
             }
+            return data;
         }
 
         protected static string GetDatFilePath(string dataRoot, Type datType)
@@ -106,7 +96,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
                         var utf8WithoutBom = new UTF8Encoding(false);
                         using (var fileWriter = new StreamWriter(fileStream, utf8WithoutBom, leaveOpen: true))
                         {
-                            fileWriter.Write(JsonConvert.SerializeObject(this, SerializerSettings));
+                            fileWriter.Write(JsonConvert.SerializeObject(this, _serializerSettings));
                             fileWriter.Flush();
                         }
 
