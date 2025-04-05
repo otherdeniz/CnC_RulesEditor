@@ -56,6 +56,8 @@
             label12 = new Label();
             label10 = new Label();
             label11 = new Label();
+            label14 = new Label();
+            linkLabel1 = new LinkLabel();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel1.SuspendLayout();
@@ -72,7 +74,7 @@
             groupBox1.Dock = DockStyle.Left;
             groupBox1.Location = new Point(0, 0);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(104, 145);
+            groupBox1.Size = new Size(104, 161);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Author";
@@ -112,7 +114,7 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(8, 8);
             panel1.Name = "panel1";
-            panel1.Size = new Size(655, 145);
+            panel1.Size = new Size(655, 161);
             panel1.TabIndex = 1;
             // 
             // groupBox2
@@ -120,6 +122,7 @@
             groupBox2.Controls.Add(linkLabelDiscord);
             groupBox2.Controls.Add(linkLabelCncnet);
             groupBox2.Controls.Add(linkLabelGithub);
+            groupBox2.Controls.Add(linkLabel1);
             groupBox2.Controls.Add(linkLabelRelease);
             groupBox2.Controls.Add(label9);
             groupBox2.Controls.Add(labelDownloads);
@@ -127,6 +130,7 @@
             groupBox2.Controls.Add(labelVersion);
             groupBox2.Controls.Add(label7);
             groupBox2.Controls.Add(label5);
+            groupBox2.Controls.Add(label14);
             groupBox2.Controls.Add(label4);
             groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(label8);
@@ -134,7 +138,7 @@
             groupBox2.Dock = DockStyle.Fill;
             groupBox2.Location = new Point(104, 0);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(551, 145);
+            groupBox2.Size = new Size(551, 161);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "Application";
@@ -142,7 +146,7 @@
             // linkLabelDiscord
             // 
             linkLabelDiscord.AutoSize = true;
-            linkLabelDiscord.Location = new Point(116, 117);
+            linkLabelDiscord.Location = new Point(116, 137);
             linkLabelDiscord.Name = "linkLabelDiscord";
             linkLabelDiscord.Size = new Size(98, 15);
             linkLabelDiscord.TabIndex = 2;
@@ -154,7 +158,7 @@
             // linkLabelCncnet
             // 
             linkLabelCncnet.AutoSize = true;
-            linkLabelCncnet.Location = new Point(116, 98);
+            linkLabelCncnet.Location = new Point(116, 118);
             linkLabelCncnet.Name = "linkLabelCncnet";
             linkLabelCncnet.Size = new Size(384, 15);
             linkLabelCncnet.TabIndex = 2;
@@ -165,7 +169,7 @@
             // linkLabelGithub
             // 
             linkLabelGithub.AutoSize = true;
-            linkLabelGithub.Location = new Point(116, 79);
+            linkLabelGithub.Location = new Point(116, 99);
             linkLabelGithub.Name = "linkLabelGithub";
             linkLabelGithub.Size = new Size(222, 15);
             linkLabelGithub.TabIndex = 2;
@@ -176,7 +180,7 @@
             // linkLabelRelease
             // 
             linkLabelRelease.AutoSize = true;
-            linkLabelRelease.Location = new Point(116, 60);
+            linkLabelRelease.Location = new Point(116, 79);
             linkLabelRelease.Name = "linkLabelRelease";
             linkLabelRelease.Size = new Size(268, 15);
             linkLabelRelease.TabIndex = 2;
@@ -187,7 +191,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(216, 117);
+            label9.Location = new Point(216, 137);
             label9.Name = "label9";
             label9.Size = new Size(99, 15);
             label9.TabIndex = 0;
@@ -205,25 +209,27 @@
             // labelReleaseDate
             // 
             labelReleaseDate.AutoSize = true;
+            labelReleaseDate.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             labelReleaseDate.Location = new Point(116, 41);
             labelReleaseDate.Name = "labelReleaseDate";
-            labelReleaseDate.Size = new Size(49, 15);
+            labelReleaseDate.Size = new Size(55, 15);
             labelReleaseDate.TabIndex = 0;
             labelReleaseDate.Text = "0.0.0000";
             // 
             // labelVersion
             // 
             labelVersion.AutoSize = true;
+            labelVersion.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             labelVersion.Location = new Point(116, 22);
             labelVersion.Name = "labelVersion";
-            labelVersion.Size = new Size(37, 15);
+            labelVersion.Size = new Size(41, 15);
             labelVersion.TabIndex = 0;
             labelVersion.Text = "v0.0.0";
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(9, 117);
+            label7.Location = new Point(9, 137);
             label7.Name = "label7";
             label7.Size = new Size(97, 15);
             label7.TabIndex = 0;
@@ -232,7 +238,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(9, 98);
+            label5.Location = new Point(9, 118);
             label5.Name = "label5";
             label5.Size = new Size(86, 15);
             label5.TabIndex = 0;
@@ -241,7 +247,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(9, 79);
+            label4.Location = new Point(9, 99);
             label4.Name = "label4";
             label4.Size = new Size(86, 15);
             label4.TabIndex = 0;
@@ -250,7 +256,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(9, 60);
+            label3.Location = new Point(9, 79);
             label3.Name = "label3";
             label3.Size = new Size(74, 15);
             label3.TabIndex = 0;
@@ -259,18 +265,20 @@
             // label8
             // 
             label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label8.Location = new Point(9, 41);
             label8.Name = "label8";
-            label8.Size = new Size(76, 15);
+            label8.Size = new Size(83, 15);
             label8.TabIndex = 0;
             label8.Text = "Release Date:";
             // 
             // label1
             // 
             label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label1.Location = new Point(9, 22);
             label1.Name = "label1";
-            label1.Size = new Size(82, 15);
+            label1.Size = new Size(88, 15);
             label1.TabIndex = 0;
             label1.Text = "Latest Version:";
             // 
@@ -278,9 +286,9 @@
             // 
             groupBox3.Controls.Add(textBoxLicense);
             groupBox3.Dock = DockStyle.Fill;
-            groupBox3.Location = new Point(8, 215);
+            groupBox3.Location = new Point(8, 231);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(655, 279);
+            groupBox3.Size = new Size(655, 263);
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             groupBox3.Text = "License";
@@ -294,7 +302,7 @@
             textBoxLicense.Name = "textBoxLicense";
             textBoxLicense.ReadOnly = true;
             textBoxLicense.ScrollBars = ScrollBars.Both;
-            textBoxLicense.Size = new Size(649, 257);
+            textBoxLicense.Size = new Size(649, 241);
             textBoxLicense.TabIndex = 0;
             // 
             // groupBoxCredits
@@ -304,7 +312,7 @@
             groupBoxCredits.Controls.Add(label10);
             groupBoxCredits.Controls.Add(label11);
             groupBoxCredits.Dock = DockStyle.Top;
-            groupBoxCredits.Location = new Point(8, 153);
+            groupBoxCredits.Location = new Point(8, 169);
             groupBoxCredits.Name = "groupBoxCredits";
             groupBoxCredits.Size = new Size(655, 62);
             groupBoxCredits.TabIndex = 3;
@@ -346,6 +354,28 @@
             label11.Size = new Size(172, 15);
             label11.TabIndex = 0;
             label11.Text = "[WH]ela, RAmpastring, Kerbiter";
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label14.Location = new Point(9, 60);
+            label14.Name = "label14";
+            label14.Size = new Size(71, 15);
+            label14.TabIndex = 0;
+            label14.Text = "Homepage:";
+            // 
+            // linkLabel1
+            // 
+            linkLabel1.AutoSize = true;
+            linkLabel1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            linkLabel1.Location = new Point(116, 60);
+            linkLabel1.Name = "linkLabel1";
+            linkLabel1.Size = new Size(142, 15);
+            linkLabel1.TabIndex = 2;
+            linkLabel1.TabStop = true;
+            linkLabel1.Text = "ruleseditor.denizesen.ch";
+            linkLabel1.LinkClicked += linkLabel_LinkClicked;
             // 
             // AboutForm
             // 
@@ -403,5 +433,7 @@
         private Label label12;
         private Label label10;
         private Label label11;
+        private LinkLabel linkLabel1;
+        private Label label14;
     }
 }
