@@ -1,5 +1,4 @@
 # C&amp;C Rules Editor by otherdeniz
-[![Download][download-img]][download]
 
 ![Screenshot](https://github.com/otherdeniz/CnC_RulesEditor/raw/master/Screenshots/Buildings-TS.png "Tiberian Sun Buildings Screenshot")
 
