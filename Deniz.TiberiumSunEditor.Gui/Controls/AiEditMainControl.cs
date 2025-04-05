@@ -136,13 +136,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             _ultraTabTeams.Visible = entitiesListTeams.LoadListModel(Model, Model.TeamEntities)
                                      || _searchText == string.Empty && !_readonlyMode;
             mainTab.Tabs["Infantry"].Visible = ShowUnitTaskForceTabs
-                                               && (unitsListInfantry.LoadModel(Model.RulesModel.InfantryEntities)
+                                               && (unitsListInfantry.LoadModel(Model, Model.RulesModel.InfantryEntities)
                                                    || _searchText == string.Empty && !_readonlyMode);
             mainTab.Tabs["Vehicles"].Visible = ShowUnitTaskForceTabs
-                                               && (unitsListVehicles.LoadModel(Model.RulesModel.VehicleEntities)
+                                               && (unitsListVehicles.LoadModel(Model, Model.RulesModel.VehicleEntities)
                                                    || _searchText == string.Empty && !_readonlyMode);
             mainTab.Tabs["Aircrafts"].Visible = ShowUnitTaskForceTabs
-                                                && (unitsListAircrafts.LoadModel(Model.RulesModel.AircraftEntities)
+                                                && (unitsListAircrafts.LoadModel(Model, Model.RulesModel.AircraftEntities)
                                                     || _searchText == string.Empty && !_readonlyMode);
         }
 

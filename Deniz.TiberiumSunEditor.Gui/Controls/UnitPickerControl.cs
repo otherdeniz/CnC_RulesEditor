@@ -216,7 +216,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void AddToGroup(string groupName)
         {
-            UserSettingsFile.Instance.AddEntityToGroup(EntityModel!.EntityType, UnitKey, groupName);
+            UserSettingsFile.Instance.AddEntityToGroup(EntityModel!.RootModel.FileType.GameDefinition.GetModKeyOrGameKey(), 
+                EntityModel!.EntityType, UnitKey, groupName);
             GroupChanged?.Invoke(this, EventArgs.Empty);
         }
 
@@ -227,7 +228,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void popupButtonRemoveFromGroup_Click(object sender, EventArgs e)
         {
-            UserSettingsFile.Instance.RemoveEntityFromGroups(EntityModel!.EntityType, UnitKey);
+            UserSettingsFile.Instance.RemoveEntityFromGroups(EntityModel!.RootModel.FileType.GameDefinition.GetModKeyOrGameKey(),
+                EntityModel!.EntityType, UnitKey);
             GroupChanged?.Invoke(this, EventArgs.Empty);
         }
 

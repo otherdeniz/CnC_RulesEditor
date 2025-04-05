@@ -163,12 +163,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         public void ReloadModels()
         {
             AnimationsAsyncLoader.Instance.Stop(true, false);
-            mainTab.Tabs["Buildings"].Visible = unitsBuildings.LoadModel(Model.BuildingEntities, filterControl.CurrentFilter);
-            mainTab.Tabs["Infantry"].Visible = unitsInfantry.LoadModel(Model.InfantryEntities, filterControl.CurrentFilter);
-            mainTab.Tabs["Vehicles"].Visible = unitsVehicles.LoadModel(Model.VehicleEntities, filterControl.CurrentFilter);
-            mainTab.Tabs["Aircrafts"].Visible = unitsAircrafts.LoadModel(Model.AircraftEntities, filterControl.CurrentFilter);
-            mainTab.Tabs["Projectiles"].Visible = unitsProjectiles.LoadModel(Model.ProjectileEntities, filterControl.CurrentFilter);
-            mainTab.Tabs["Animations"].Visible = unitsAnimations.LoadModel(Model.AnimationEntities, filterControl.CurrentFilter);
+            mainTab.Tabs["Buildings"].Visible = unitsBuildings.LoadModel(Model, Model.BuildingEntities, filterControl.CurrentFilter);
+            mainTab.Tabs["Infantry"].Visible = unitsInfantry.LoadModel(Model, Model.InfantryEntities, filterControl.CurrentFilter);
+            mainTab.Tabs["Vehicles"].Visible = unitsVehicles.LoadModel(Model, Model.VehicleEntities, filterControl.CurrentFilter);
+            mainTab.Tabs["Aircrafts"].Visible = unitsAircrafts.LoadModel(Model, Model.AircraftEntities, filterControl.CurrentFilter);
+            mainTab.Tabs["Projectiles"].Visible = unitsProjectiles.LoadModel(Model, Model.ProjectileEntities, filterControl.CurrentFilter);
+            mainTab.Tabs["Animations"].Visible = unitsAnimations.LoadModel(Model, Model.AnimationEntities, filterControl.CurrentFilter);
             var hasPhobos = false;
             tabPhobos.Tabs.Clear();
             tabPhobos.Controls.OfType<UltraTabPageControl>().ToList().ForEach(c =>
@@ -199,7 +199,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                         Cursor = Cursors.Default;
                     };
                     ThemeManager.Instance.UseTheme(unitListConrol);
-                    var hasEntries = unitListConrol.LoadModel(additionalGameEntities.Entities);
+                    var hasEntries = unitListConrol.LoadModel(Model, additionalGameEntities.Entities);
                     var isFiltered = !string.IsNullOrEmpty(_searchText);
                     if (hasEntries || !(_readonlyMode || isFiltered))
                     {

@@ -69,6 +69,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
 
         public List<SideDefinition> Sides { get; set; } = new();
 
+        public string GetModKeyOrGameKey()
+        {
+            return _customMod?.Key ?? GameKey;
+        }
+
         public string? GetUserGamePath()
         {
             return _customMod?.GamePath

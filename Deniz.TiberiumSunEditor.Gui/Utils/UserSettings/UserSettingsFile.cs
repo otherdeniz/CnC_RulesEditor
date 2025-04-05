@@ -98,9 +98,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
             {
                 RecentFiles.Insert(0, new RecentFileSetting
                 {
-                    GameKey = fileType.GameDefinition.IsCustomMod 
-                        ? fileType.GameDefinition.CustomMod!.Key 
-                        : fileType.GameDefinition.GameKey,
+                    GameKey = fileType.GameDefinition.GetModKeyOrGameKey(),
                     FileType = fileType.BaseType.ToString(),
                     FilePath = filePath
                 });
@@ -112,14 +110,17 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
             }
         }
 
-        public void AddEntityToGroup(string entityType, string entityKey, string groupName)
+        public void AddEntityToGroup(string gameKey, string entityType, string entityKey, string groupName)
         {
-            RemoveEntityFromGroups(entityType, entityKey);
-            var addToGroup = EntityGroups.FirstOrDefault(g => g.EntityType == entityType && g.GroupName == groupName);
+            RemoveEntityFromGroups(gameKey, entityType, entityKey);
+            var addToGroup = EntityGroups.FirstOrDefault(g => g.EntityType == entityType
+                                                              && g.GameKey == gameKey
+                                                              && g.GroupName == groupName);
             if (addToGroup == null)
             {
                 addToGroup = new EntityGroupSetting
                 {
+                    GameKey = gameKey,
                     EntityType = entityType,
                     GroupName = groupName
                 };
@@ -129,9 +130,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
             Save();
         }
 
-        public void RemoveEntityFromGroups(string entityType, string entityKey)
+        public void RemoveEntityFromGroups(string gameKey, string entityType, string entityKey)
         {
-            var removeFromGroup = EntityGroups.FirstOrDefault(g => g.EntityType == entityType && g.Keys.Any(k => k == entityKey));
+            var removeFromGroup = EntityGroups.FirstOrDefault(g => g.EntityType == entityType
+                                                                   && g.GameKey == gameKey
+                                                                   && g.Keys.Any(k => k == entityKey));
             if (removeFromGroup != null)
             {
                 removeFromGroup.Keys.Remove(entityKey);

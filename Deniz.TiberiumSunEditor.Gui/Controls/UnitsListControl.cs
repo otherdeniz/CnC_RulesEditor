@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using Deniz.TiberiumSunEditor.Gui.Controls.EntityEdit;
 using Deniz.TiberiumSunEditor.Gui.Model;
+using Deniz.TiberiumSunEditor.Gui.Model.Interface;
 using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
 
@@ -8,7 +9,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 {
     public partial class UnitsListControl : UserControl
     {
-        private const int PageSize = 250;
+        private const int PAGE_SIZE = 250;
+
+        private IRootModel _rootModel = null!;
         private List<GameEntityModel> _entities = null!;
         private List<GameEntityModel> _orderedEntities = null!;
         private FilterModel? _filter;
@@ -132,9 +135,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         [Browsable(false)]
         public string SearchText { get; set; } = "";
 
-        public bool LoadModel(List<GameEntityModel> entities, 
+        public bool LoadModel(IRootModel rootModel,
+            List<GameEntityModel> entities, 
             FilterModel? filter = null)
         {
+            _rootModel = rootModel;
             _entities = entities;
             _filter = filter;
             _doEvents = false;
@@ -157,8 +162,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             if (_entities.Any())
             {
                 var entityType = _entities[0].EntityType;
+                var gameKey = _rootModel.FileType.GameDefinition.GetModKeyOrGameKey();
                 _entityGroups = UserSettingsFile.Instance.EntityGroups
-                    .Where(g => g.EntityType == entityType)
+                    .Where(g => g.EntityType == entityType 
+                                && g.GameKey == gameKey)
                     .OrderBy(g => g.GroupName)
                     .ToList();
                 _keyEntityGroups = _entityGroups.SelectMany(g => g.Keys.Select(k => new { Key = k, Group = g }))
@@ -209,7 +216,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 c.Dispose();
             });
             // add controls
-            foreach (var entityModel in _orderedEntities.Skip(PageSize * (pageNumber - 1)).Take(PageSize))
+            foreach (var entityModel in _orderedEntities.Skip(PAGE_SIZE * (pageNumber - 1)).Take(PAGE_SIZE))
             {
                 var unitPicker = new UnitPickerControl
                 {
@@ -248,15 +255,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 ultraPanelScroll.ClientArea.Controls.SetChildIndex(groupControl, 1);
             }
             toolStripLabelTotal.Text = $"{_orderedEntities.Count:#,##0} Items";
-            if (_orderedEntities.Count > PageSize)
+            if (_orderedEntities.Count > PAGE_SIZE)
             {
-                var fromItem = PageSize * (pageNumber - 1) + 1;
-                var toItem = PageSize * pageNumber > _orderedEntities.Count
+                var fromItem = PAGE_SIZE * (pageNumber - 1) + 1;
+                var toItem = PAGE_SIZE * pageNumber > _orderedEntities.Count
                     ? _orderedEntities.Count
-                    : PageSize * pageNumber;
+                    : PAGE_SIZE * pageNumber;
                 toolStripLabelItem.Text = $"{fromItem:#,000} - {toItem:#,000}";
                 toolStripButtonPrev.Enabled = pageNumber > 1;
-                toolStripButtonNext.Enabled = PageSize * pageNumber < _orderedEntities.Count;
+                toolStripButtonNext.Enabled = PAGE_SIZE * pageNumber < _orderedEntities.Count;
                 toolStripLabelItem.Visible = true;
                 toolStripButtonPrev.Visible = true;
                 toolStripButtonNext.Visible = true;

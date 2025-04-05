@@ -4,6 +4,11 @@
     {
         public static readonly string NewGroupName = "new group";
 
+        /// <summary>
+        /// GameKey or Mod-Key
+        /// </summary>
+        public string GameKey { get; set; } = string.Empty;
+
         public string EntityType { get; set; } = string.Empty;
 
         public string GroupName { get; set; } = NewGroupName;
