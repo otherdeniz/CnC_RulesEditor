@@ -144,7 +144,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             ButtonDelete.Enabled = !entityModel.FileSection.IsEmpty
                                    && (entityModel.RootModel.FileType.BaseType != FileBaseType.Rules
                                        || entityModel.DefaultSection == null);
-            ButtonCloseValue_Click(this, EventArgs.Empty);
+            ResetValueChooser();
             RefreshModifications();
             RefreshUsedByLabel();
             RefreshIsFavorite();
@@ -565,6 +565,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 RefreshValueAppearance(valueCell, valueModel);
             }
+
+            ResetValueChooser();
+        }
+
+        private void ResetValueChooser()
+        {
             panelValueChooser.Visible = false;
             _lookupEntityValue = null;
             _lookupEntityRow = null;
@@ -606,6 +612,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         {
             if (EntityModel == null) return;
             TakeValuesForm.ExecuteShow(this.ParentForm!, EntityModel);
+            ResetValueChooser();
             LoadValueGrid();
             RefreshModifications();
             UnitModificationsChanged?.Invoke(this, EventArgs.Empty);
