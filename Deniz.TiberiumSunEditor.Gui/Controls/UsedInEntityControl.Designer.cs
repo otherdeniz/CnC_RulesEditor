@@ -42,9 +42,11 @@
             labelTags.AutoSize = true;
             labelTags.Location = new Point(159, 17);
             labelTags.Name = "labelTags";
-            labelTags.Size = new Size(61, 15);
+            labelTags.Size = new Size(63, 15);
             labelTags.TabIndex = 9;
             labelTags.Text = "Tag1, Tag2";
+            labelTags.Click += labelTags_Click;
+            labelTags.MouseEnter += labelTags_MouseEnter;
             // 
             // label3
             // 
@@ -55,6 +57,8 @@
             label3.Size = new Size(48, 15);
             label3.TabIndex = 12;
             label3.Text = "used in:";
+            label3.Click += label3_Click;
+            label3.MouseEnter += label3_MouseEnter;
             // 
             // labelKey
             // 
@@ -64,6 +68,8 @@
             labelKey.Size = new Size(109, 15);
             labelKey.TabIndex = 10;
             labelKey.Text = "Key";
+            labelKey.Click += labelKey_Click;
+            labelKey.MouseEnter += labelKey_MouseEnter;
             // 
             // labelName
             // 
@@ -72,6 +78,8 @@
             labelName.Size = new Size(109, 15);
             labelName.TabIndex = 11;
             labelName.Text = "Name";
+            labelName.Click += labelName_Click;
+            labelName.MouseEnter += labelName_MouseEnter;
             // 
             // pictureThumbnail
             // 
@@ -85,6 +93,8 @@
             pictureThumbnail.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureThumbnail.TabIndex = 8;
             pictureThumbnail.TabStop = false;
+            pictureThumbnail.Click += pictureThumbnail_Click;
+            pictureThumbnail.MouseEnter += pictureThumbnail_MouseEnter;
             // 
             // UsedInEntityControl
             // 
@@ -96,6 +106,7 @@
             Controls.Add(labelKey);
             Controls.Add(labelName);
             Controls.Add(pictureThumbnail);
+            Cursor = Cursors.Hand;
             Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             MinimumSize = new Size(300, 35);
             Name = "UsedInEntityControl";

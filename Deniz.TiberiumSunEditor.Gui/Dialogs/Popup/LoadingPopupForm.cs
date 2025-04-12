@@ -9,6 +9,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs.Popup
         public LoadingPopupForm()
         {
             InitializeComponent();
+            ThemeManager.Instance.UseTheme(this);
         }
 
         public static LoadingPopupForm ShowPopup(Form parent)

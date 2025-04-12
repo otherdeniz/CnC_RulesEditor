@@ -6,24 +6,25 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs.Popup
 {
     public partial class UsedByPopupForm : PopupFormBase
     {
+        private readonly List<UsedInEntityControl> _allEntityControls = new List<UsedInEntityControl>();
+
         public UsedByPopupForm()
         {
             InitializeComponent();
+            ThemeManager.Instance.UseTheme(this);
         }
 
-        public void LoadUsedByEntities(List<GameEntityModel> usedByEntityModels, string usesKey)
+        public void LoadUsedByEntities(Form mainForm, List<GameEntityModel> usedByEntityModels, string usesKey)
         {
             // clear controls
-            var controlsToDispose = Controls
-                .OfType<GroupBox>().ToList();
+            var controlsToDispose = panelContent.Controls.OfType<GroupBox>().ToList();
             controlsToDispose.ForEach(c =>
             {
-                Controls.Remove(c);
+                panelContent.Controls.Remove(c);
                 c.Dispose();
             });
             // add conrols
             foreach (var entityGroup in usedByEntityModels
-                         .Take(25) // max entries
                          .GroupBy(e => e.EntityType)
                          .OrderByDescending(g => g.Key))
             {
@@ -47,11 +48,50 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs.Popup
                     usedInControl.Size = new Size(350, 35);
                     usedInControl.TabIndex = 0;
                     usedInControl.LoadEntity(entityModel, usesKey);
+                    usedInControl.Click += (sender, args) =>
+                    {
+                        QuickEditForm.ExecueShow(mainForm, entityModel.RootModel, entityModel.EntityKey);
+                        ForceClose();
+                    };
+                    usedInControl.MouseEnter += (sender, args) => MouseEnterEntry(usedInControl);
                     groupBoxControl.Controls.Add(usedInControl);
+                    _allEntityControls.Add(usedInControl);
                 }
-                Controls.Add(groupBoxControl);
+                panelContent.Controls.Add(groupBoxControl);
             }
 
+            Height = panelContent.Height > MaximumSize.Height 
+                ? MaximumSize.Height 
+                : panelContent.Height;
+        }
+
+        private void MouseEnterEntry(UsedInEntityControl activateControl)
+        {
+            foreach (var entityControl in _allEntityControls)
+            {
+                if (entityControl == activateControl)
+                {
+                    entityControl.BackColor = ThemeManager.Instance.CurrentTheme.HotTrackBackColor;
+                    entityControl.ForeColor = ThemeManager.Instance.CurrentTheme.HotTrackTextColor;
+                }
+                else
+                {
+                    entityControl.BackColor = ThemeManager.Instance.CurrentTheme.ControlsBackColor;
+                    entityControl.ForeColor = ThemeManager.Instance.CurrentTheme.ControlsTextColor;
+                }
+            }
+        }
+
+        private void UsedByPopupForm_Load(object sender, EventArgs e)
+        {
+            var syncContext = SynchronizationContext.Current;
+            Task.Run(() =>
+            {
+                syncContext?.Post(args =>
+                {
+                    panelScrolling.AutoScroll = true;
+                }, null);
+            });
         }
     }
 }

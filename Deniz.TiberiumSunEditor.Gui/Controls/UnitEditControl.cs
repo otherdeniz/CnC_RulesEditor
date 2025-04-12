@@ -673,17 +673,19 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private void labelUsedBy_MouseEnter(object sender, EventArgs e)
         {
             if (_usedByEntityModels == null || EntityModel == null) return;
+            _usedByPopupForm?.ForceClose();
             _usedByPopupForm = new UsedByPopupForm
             {
                 Location = labelUsedBy.PointToScreen(new Point(0, labelUsedBy.Height + 5))
             };
-            _usedByPopupForm.LoadUsedByEntities(_usedByEntityModels, EntityModel.EntityKey);
+            _usedByPopupForm.FormClosed += (o, args) => _usedByPopupForm = null;
+            _usedByPopupForm.LoadUsedByEntities(this.ParentForm!, _usedByEntityModels, EntityModel.EntityKey);
             _usedByPopupForm.Show(ParentForm);
         }
 
         private void labelUsedBy_MouseLeave(object sender, EventArgs e)
         {
-            _usedByPopupForm?.Close();
+            _usedByPopupForm?.MayClose();
         }
 
     }

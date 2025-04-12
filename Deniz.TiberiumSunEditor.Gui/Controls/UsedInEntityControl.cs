@@ -30,5 +30,55 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                                          ?? BitmapRepository.Instance.BlankImage;
             }
         }
+
+        private void pictureThumbnail_MouseEnter(object sender, EventArgs e)
+        {
+            OnMouseEnter(e);
+        }
+
+        private void labelKey_MouseEnter(object sender, EventArgs e)
+        {
+            OnMouseEnter(e);
+        }
+
+        private void labelName_MouseEnter(object sender, EventArgs e)
+        {
+            OnMouseEnter(e);
+        }
+
+        private void label3_MouseEnter(object sender, EventArgs e)
+        {
+            OnMouseEnter(e);
+        }
+
+        private void labelTags_MouseEnter(object sender, EventArgs e)
+        {
+            OnMouseEnter(e);
+        }
+
+        private void pictureThumbnail_Click(object sender, EventArgs e)
+        {
+            OnClick(e);
+        }
+
+        private void labelKey_Click(object sender, EventArgs e)
+        {
+            OnClick(e);
+        }
+
+        private void labelName_Click(object sender, EventArgs e)
+        {
+            OnClick(e);
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+            OnClick(e);
+        }
+
+        private void labelTags_Click(object sender, EventArgs e)
+        {
+            OnClick(e);
+        }
     }
 }

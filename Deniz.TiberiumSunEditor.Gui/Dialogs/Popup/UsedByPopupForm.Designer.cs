@@ -29,8 +29,13 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
-            usedInEntityControl1 = new Controls.UsedInEntityControl();
+            usedInEntityControl1 = new Deniz.TiberiumSunEditor.Gui.Controls.UsedInEntityControl();
+            panelScrolling = new Infragistics.Win.Misc.UltraPanel();
+            panelContent = new Panel();
             groupBox1.SuspendLayout();
+            panelScrolling.ClientArea.SuspendLayout();
+            panelScrolling.SuspendLayout();
+            panelContent.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
@@ -42,7 +47,7 @@
             groupBox1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             groupBox1.Location = new Point(0, 0);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(403, 57);
+            groupBox1.Size = new Size(350, 57);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "VehicleTypes";
@@ -55,28 +60,58 @@
             usedInEntityControl1.Location = new Point(3, 19);
             usedInEntityControl1.MinimumSize = new Size(300, 35);
             usedInEntityControl1.Name = "usedInEntityControl1";
-            usedInEntityControl1.Size = new Size(397, 35);
+            usedInEntityControl1.Size = new Size(344, 35);
             usedInEntityControl1.TabIndex = 0;
+            // 
+            // panelScrolling
+            // 
+            // 
+            // panelScrolling.ClientArea
+            // 
+            panelScrolling.ClientArea.Controls.Add(panelContent);
+            panelScrolling.Dock = DockStyle.Fill;
+            panelScrolling.Location = new Point(0, 0);
+            panelScrolling.Name = "panelScrolling";
+            panelScrolling.Size = new Size(350, 289);
+            panelScrolling.TabIndex = 1;
+            // 
+            // panelContent
+            // 
+            panelContent.AutoSize = true;
+            panelContent.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            panelContent.Controls.Add(groupBox1);
+            panelContent.Dock = DockStyle.Top;
+            panelContent.Location = new Point(0, 0);
+            panelContent.Name = "panelContent";
+            panelContent.Size = new Size(350, 57);
+            panelContent.TabIndex = 1;
             // 
             // UsedByPopupForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            AutoSize = true;
-            AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            ClientSize = new Size(403, 289);
-            Controls.Add(groupBox1);
+            AutoScroll = true;
+            ClientSize = new Size(350, 289);
+            Controls.Add(panelScrolling);
+            MaximumSize = new Size(450, 800);
             MinimumSize = new Size(350, 1);
             Name = "UsedByPopupForm";
             Text = "UsedByPopupForm";
+            Load += UsedByPopupForm_Load;
             groupBox1.ResumeLayout(false);
+            panelScrolling.ClientArea.ResumeLayout(false);
+            panelScrolling.ClientArea.PerformLayout();
+            panelScrolling.ResumeLayout(false);
+            panelContent.ResumeLayout(false);
+            panelContent.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
         private GroupBox groupBox1;
         private Controls.UsedInEntityControl usedInEntityControl1;
+        private Infragistics.Win.Misc.UltraPanel panelScrolling;
+        private Panel panelContent;
     }
 }
