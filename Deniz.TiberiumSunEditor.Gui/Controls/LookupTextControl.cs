@@ -10,7 +10,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
     public partial class LookupTextControl : UserControl
     {
         private readonly string[] _allTechoTypes = new string[]
-            { "BuildingTypes", "InantryTypes", "VehicleTypes", "AircraftTypes" };
+            { "BuildingTypes", "InfantryTypes", "VehicleTypes", "AircraftTypes" };
         private IValueModel _valueModel = null!;
         private IRootModel _rootModel = null!;
         private List<LookupTextValueModel>? _textValuesModel;
