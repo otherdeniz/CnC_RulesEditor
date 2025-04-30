@@ -1,0 +1,29 @@
+{
+	"Animations": [
+		{"Key": "Weapon", "Description": "(weapon) The weapon used to deliver animation damage. If set, creates a projectile and detonates it immediately. The damage delivered is defined by the animation, not the weapon. Note The weapon has to be known to the game already, otherwise it cannot be parsed correctly. It is recommended to add it to the WeaponTypes list. Note Currently, the created projectile is neither owned by the player who created the animation nor the owner of the unit or structure the animation is attached to. While damage delivered using Warhead at least knows about the player who created the animation for scoring purposes, weapon damage does not pass on this information. This might change in the future."},
+		{"Key": "Damage.Delay", "Description": "(integer - animation frames) The delay between two applications of animation damage. Requires Damage greater than or equal to 1.0. A value of 0 disables the delay. Defaults to 0. Note Mind that this value is measured in animation frames: depending on Rate, the animation might not advance to the next animation frame every game frame."},
+		{"Key": "CustomPalette", "Description": "(filename with .pal extension) Specifies the palette used to draw this animation/projectile."},
+		{"Key": "MakeInfantryOwner", "Description": "(enumeration invoker|killer|victim|civilian|special|neutral|random) Specifies which house will own the resulting InfantryType that gets created after this animation has played. The animation\u2019s remappable colors will be shown in that house\u2019s color, if not noted otherwise. Defaults to invoker. Note If you are creating a chain of animations using the Next= tag then MakeInfantry= goes on the last animation whereas MakeInfantryOwner= goes on the first animation - that is, the animation that was initially invoked."},
+		{"Key": "Scorch", "Description": "(boolean) Whether a new [AudioVisual]\u25baSmallFire animation should be attached to the same object this animation is attached to when expiring. Does not spawn on water, beach, ice, or rock terrain. For a complete description of behavior and requirements, refer to Scorch on ModEnc Defaults to no. Note Do not set Scorch=yes on [AudioVisual]\u25baSmallFire, because this would create a loop: if the animation expires, a new animation of the same type is created and attached to the same object. It also causes trees on fire to never burn down."},
+		{"Key": "Flamer", "Description": "(boolean) Whether new [AudioVisual]\u25baSmallFire and [AudioVisual]\u25baLargeFire animations should be randomly created close to the location of this animation when expiring. For a complete description of behavior and requirements, refer to Flamer on ModEnc. Defaults to no."}
+	],
+
+	"UnitArt": [
+		{"Key": "CameoPalette", "Description": "(filename, *including* the .pal extension) Specifies the palette to use for the unit\u2019s cameo ( Cameo and AltCameo must use the same palette), in the format \u201cfilename.pal\u201d. Defaults to cameo.pal."}
+	],
+
+	"DrivingVehicleUnits": [
+		{"Key": "Facings", "Description": "(integer) The number of facings used for SHP based units. Supports powers of 2 equal to or larger than 8. Values less than 8 result in only the first frame being used. Defaults to 8."}
+	],
+
+	"Image": [
+		{"Key": "CameoPCX", "Description": "(filename, *including* the .pcx extension) Specifies the filename containing the unit\u2019s cameo, in the format \u201cfilename.pcx\u201d."},
+		{"Key": "AltCameoPCX", "Description": "(filename, *including* the .pcx extension) Specifies the filename containing the unit\u2019s alternate (promoted) cameo, in the format \u201cfilename.pcx\u201d."}
+	],
+
+	"BuildingImage": [
+		{"Key": "DockUnloadCell", "Description": "(2 integers - cell offset) The cell a harvester will dock on when unloading on this refinery. The cell is required to be passable. Defaults to 3,1."},
+		{"Key": "DockUnloadFacing", "Description": "(integer - facing32) The facing a harvester will turn to when docking on this refinery. Defaults to 8 (east)."}
+	]
+
+}
