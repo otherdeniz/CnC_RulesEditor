@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Beginner tutorial for C&C Rules Editor - Learn how to mod Command & Conquer games step by step">
+    <title>Beginner Tutorial - C&C Rules Editor</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1><a href="index.html">C&C Rules Editor</a></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="tutorial.html">Beginner Tutorial</a></li>
+                    <li><a href="download.html">Download</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Beginner Tutorial</h2>
+            <p>Learn how to use C&C Rules Editor to mod your favorite Command & Conquer games</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Getting Started -->
+        <section id="getting-started">
+            <h2>Getting Started</h2>
+            
+            <div class="tutorial-steps">
+                <div class="tutorial-step">
+                    <h3>Setup Game Folders</h3>
+                    <p>
+                        Before you start working with the Editor, you should set the Game-Path of the C&C Edition you want to edit 
+                        by pressing the "Games" button. There you can also add any Custom Mod Folder by pressing "Add custom Mod".
+                    </p>
+                    <p>
+                        If you add a custom Mod, the Editor takes a Snapshot of the original ini-Files. 
+                        More info about <a href="#original-files">Original files handling</a>.
+                    </p>
+                    <ul>
+                        <li>Launch <code>Deniz.TiberiumSunEditor.Gui.exe</code></li>
+                        <li>Go to <code>Games</code> menu</li>
+                        <li>Choose your C&C game (Tiberian Sun, Red Alert 2, etc.)</li>
+                        <li>Browse to your game installation folder</li>
+                    </ul>
+                </div>
+
+                <div class="tutorial-step">
+                    <h3>Locate the Game Files</h3>
+                    <p>Find your C&C installation folder.</p>
+                    <p><strong>Example paths:</strong></p>
+                    <ul>
+                        <li><code>C:\Westwood\Tiberian Sun\</code></li>
+                        <li>Or the folder where your mod is installed (if using a standalone mod)</li>
+                    </ul>
+                    <p><strong>Locate the following files:</strong></p>
+                    <ul>
+                        <li><strong>rules.ini</strong> – controls game logic, unit stats, weapons, building behavior, etc.</li>
+                        <li><strong>art.ini</strong> – handles graphical definitions like SHP animations, voxel models, and effects</li>
+                        <li><strong>ai.ini</strong> – handles the artificial intelligence</li>
+                    </ul>
+                    <p>
+                        If these files don't exist, the game might be reading from a .mix archive. 
+                        You can create a new file in the C&C Rules Editor or you can extract them using tools like XCC Mixer.
+                    </p>
+                </div>
+
+                <div class="tutorial-step">
+                    <h3>Understand File Structure Basics</h3>
+                    
+                    <h4>rules.ini Sections:</h4>
+                    <ul>
+                        <li><code>[General]</code> – Game-wide settings</li>
+                        <li><code>[VehicleTypes]</code> – List of vehicles (same pattern for infantry/buildings)</li>
+                        <li><code>[GDI]</code>, <code>[Nod]</code> – Faction-specific settings</li>
+                        <li><code>[XXX]</code> – Individual unit/structure definitions</li>
+                    </ul>
+
+                    <p><strong>Example unit:</strong></p>
+                    <pre><code>[GDIAPC]
+Name=APC
+Image=APC
+Armor=light
+Primary=Minigun
+Cost=600</code></pre>
+
+                    <h4>art.ini Sections:</h4>
+                    <ul>
+                        <li><code>[XXX]</code> – Matches the Image= tag from rules.ini</li>
+                        <li>Defines graphical settings like voxel files, animations, shadows</li>
+                    </ul>
+
+                    <p><strong>Example:</strong></p>
+                    <pre><code>[APC]
+Voxel=yes
+Remapable=yes</code></pre>
+                </div>
+
+                <div class="tutorial-step">
+                    <h3>Save and Test</h3>
+                    <ul>
+                        <li>Save the INI files in the game-folder</li>
+                        <li>Launch the game</li>
+                        <li>Play a skirmish or custom mission to test your changes</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Opening Files -->
+        <section id="opening-files">
+            <h2>Opening Files</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>New File</h3>
+                    <ul>
+                        <li><code>File → New → [Game Name]</code></li>
+                        <li>Creates a fresh rules.ini based on game defaults</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>Open Existing</h3>
+                    <ul>
+                        <li><code>File → Open</code> (Ctrl+O)</li>
+                        <li>Select rules.ini, art.ini, or ai.ini</li>
+                        <li>Editor auto-detects game type</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>Recent Files</h3>
+                    <ul>
+                        <li><code>File → Recent Files</code></li>
+                        <li>Quick access to previously opened files</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Creating New Units -->
+        <section id="creating-units">
+            <h2>Creating New Units</h2>
+            
+            <div class="tutorial-steps">
+                <div class="tutorial-step">
+                    <h3>Method 1: Add Empty</h3>
+                    <ol>
+                        <li>Click <code>Edit → Add Empty Unit</code></li>
+                        <li>Select unit type (Building, Infantry, Vehicle, Aircraft)</li>
+                        <li>Enter unique ID (e.g., "MYUNIT")</li>
+                        <li>Enter display name</li>
+                        <li>Click OK</li>
+                        <li>Edit properties manually</li>
+                    </ol>
+                </div>
+
+                <div class="tutorial-step">
+                    <h3>Method 2: Copy Existing</h3>
+                    <ol>
+                        <li>Select a unit to copy</li>
+                        <li>Click <code>Edit → Create Copy</code></li>
+                        <li>Enter new ID</li>
+                        <li>Enter new name</li>
+                        <li>Click OK</li>
+                        <li>Modify as needed</li>
+                    </ol>
+                </div>
+
+                <div class="tutorial-step">
+                    <h3>Method 3: Insert Snippet</h3>
+                    <ol>
+                        <li>Click <code>Edit → Insert Snippet</code></li>
+                        <li>Browse snippet categories</li>
+                        <li>Select pre-configured unit</li>
+                        <li>Enter unique ID</li>
+                        <li>Click OK</li>
+                        <li>Customize values</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="feature-card mt-2">
+                <h3>Best Practices</h3>
+                <ul>
+                    <li><strong>Use descriptive IDs</strong> (e.g., "HTANK" not "UNIT1")</li>
+                    <li><strong>Keep IDs short</strong> (max 24 characters)</li>
+                    <li><strong>No spaces in IDs</strong> (use underscores if needed)</li>
+                    <li><strong>Start with letter</strong> (not number)</li>
+                    <li><strong>Check for conflicts</strong> (ID must be unique)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Editing Entities -->
+        <section id="editing-entities">
+            <h2>Editing Entities</h2>
+            
+            <h3>Selecting an Entity</h3>
+            <ol>
+                <li>Browse the list on the left</li>
+                <li>Click on any unit/building/weapon</li>
+                <li>Properties appear on the right</li>
+            </ol>
+
+            <h3>Modifying Values</h3>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Text Fields</h4>
+                    <ul>
+                        <li>Click in the field</li>
+                        <li>Type new value</li>
+                        <li>Press Enter or Tab</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h4>Dropdowns</h4>
+                    <ul>
+                        <li>Click dropdown arrow</li>
+                        <li>Select from list</li>
+                        <li>Or type to search</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h4>Lookups (References)</h4>
+                    <ul>
+                        <li>Click <code>[...]</code> button</li>
+                        <li>Select from entity list</li>
+                        <li>Or type entity name</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h4>Colors</h4>
+                    <ul>
+                        <li>Click color box</li>
+                        <li>Use color picker</li>
+                        <li>Or enter RGB values</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Common Properties</h3>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>All Units</h4>
+                    <ul>
+                        <li><code>Name</code> - Display name</li>
+                        <li><code>Cost</code> - Build cost in credits</li>
+                        <li><code>Strength</code> - Hit points</li>
+                        <li><code>Armor</code> - Armor type</li>
+                        <li><code>Primary</code> - Primary weapon</li>
+                        <li><code>Secondary</code> - Secondary weapon</li>
+                        <li><code>Speed</code> - Movement speed</li>
+                        <li><code>Owner</code> - Which sides can build it</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h4>Buildings</h4>
+                    <ul>
+                        <li><code>Power</code> - Power generation/consumption</li>
+                        <li><code>BuildCat</code> - Build category</li>
+                        <li><code>Adjacent</code> - Adjacency bonus</li>
+                        <li><code>Factory</code> - Production type</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h4>Weapons</h4>
+                    <ul>
+                        <li><code>Damage</code> - Base damage</li>
+                        <li><code>ROF</code> - Rate of fire</li>
+                        <li><code>Range</code> - Attack range</li>
+                        <li><code>Projectile</code> - Projectile type</li>
+                        <li><code>Warhead</code> - Warhead type</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h4>Warheads</h4>
+                    <ul>
+                        <li><code>Verses</code> - Armor effectiveness</li>
+                        <li><code>InfDeath</code> - Infantry death animation</li>
+                        <li><code>Spread</code> - Splash damage radius</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Working with Weapons -->
+        <section id="weapons">
+            <h2>Working with Weapons</h2>
+            
+            <div class="tutorial-steps">
+                <div class="tutorial-step">
+                    <h3>Creating a Weapon</h3>
+                    <ol>
+                        <li>Go to <strong>Weapons</strong> tab</li>
+                        <li>Click <code>Add Empty Unit</code></li>
+                        <li>Enter weapon ID (e.g., "MyGun")</li>
+                        <li>Set properties:
+                            <ul>
+                                <li><code>Damage</code> - How much damage</li>
+                                <li><code>ROF</code> - How fast it fires (lower = faster)</li>
+                                <li><code>Range</code> - How far it shoots</li>
+                                <li><code>Projectile</code> - What it looks like</li>
+                                <li><code>Warhead</code> - What damage type</li>
+                                <li><code>Speed</code> - Projectile speed</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="tutorial-step">
+                    <h3>Creating a Warhead</h3>
+                    <ol>
+                        <li>Go to <strong>Warheads</strong> tab</li>
+                        <li>Click <code>Add Empty Unit</code></li>
+                        <li>Enter warhead ID (e.g., "MyWarhead")</li>
+                        <li>Set properties:
+                            <ul>
+                                <li><code>Verses</code> - Damage vs armor types (comma-separated percentages)</li>
+                                <li><code>Spread</code> - Splash damage radius</li>
+                                <li><code>Wall</code> - Can destroy walls</li>
+                                <li><code>Wood</code> - Can destroy trees</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="tutorial-step">
+                    <h3>Assigning to Unit</h3>
+                    <ol>
+                        <li>Select your unit</li>
+                        <li>Find <code>Primary</code> or <code>Secondary</code> property</li>
+                        <li>Click dropdown</li>
+                        <li>Select your weapon</li>
+                        <li>Save</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Saving Your Work -->
+        <section id="saving">
+            <h2>Saving Your Work</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Save to File</h3>
+                    <p><strong>Save:</strong></p>
+                    <ul>
+                        <li><code>File → Save</code> (Ctrl+S)</li>
+                        <li>Overwrites current file</li>
+                    </ul>
+                    <p><strong>Save As:</strong></p>
+                    <ul>
+                        <li><code>File → Save As</code> (Ctrl+Shift+S)</li>
+                        <li>Choose new location/name</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>Save to Game</h3>
+                    <p><strong>Direct Save:</strong></p>
+                    <ul>
+                        <li><code>File → Save in Game</code></li>
+                        <li>Saves directly to game folder</li>
+                        <li>Automatically uses correct filename</li>
+                        <li>Game will use modified rules</li>
+                    </ul>
+                    <p><strong>Manual Save:</strong></p>
+                    <ul>
+                        <li>Save to any location</li>
+                        <li>Copy rules.ini to game folder manually</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>Multiplayer</h3>
+                    <p>To play modified games online:</p>
+                    <ol>
+                        <li>Save your rules.ini</li>
+                        <li>Share file with all players</li>
+                        <li>All players copy to game folder</li>
+                        <li>Everyone must have identical rules.ini</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Game Assets -->
+        <section id="game-assets">
+            <h2>Game Assets</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Viewing Cameos</h3>
+                    <ul>
+                        <li>Select any unit</li>
+                        <li>Cameo appears in editor (if available)</li>
+                        <li>Loaded from game's MIX files</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>Playing Animations</h3>
+                    <ol>
+                        <li>Select unit</li>
+                        <li>Click <code>[Play Animation]</code> button</li>
+                        <li>Animation plays in popup window</li>
+                        <li>Shows unit's SHP file</li>
+                    </ol>
+                </div>
+                <div class="feature-card">
+                    <h3>Playing Sounds</h3>
+                    <ol>
+                        <li>Select unit</li>
+                        <li>Click <code>[Play Sound]</code> button</li>
+                        <li>Sound plays from game files</li>
+                        <li>Uses Sound.ini references</li>
+                    </ol>
+                </div>
+                <div class="feature-card">
+                    <h3>MIX Browser</h3>
+                    <ol>
+                        <li>Click <code>Tools → MIX Browser</code></li>
+                        <li>Browse game archives</li>
+                        <li>Preview files: Images (SHP, PCX), Sounds (AUD, WAV), Text (INI, TXT)</li>
+                        <li>Extract files if needed</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Original Files Handling -->
+        <section id="original-files">
+            <h2>Original Files Handling</h2>
+            <p>
+                The Rules Editor always shows the "original" values in a separate column. It takes these original values 
+                from the original file (you can see the path to the original file under the menu bar of the Rules Editor).
+            </p>
+            <p>
+                When you add a custom mod, the editor automatically creates a snapshot of the original INI files. 
+                This allows you to:
+            </p>
+            <ul>
+                <li>Compare your changes against the original values</li>
+                <li>Reset values to their original state</li>
+                <li>Track what has been modified</li>
+                <li>Understand the default game balance</li>
+            </ul>
+        </section>
+
+        <!-- Tips and Tricks -->
+        <section id="tips">
+            <h2>Tips and Tricks</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Favorites System</h3>
+                    <ul>
+                        <li>Right-click unit in list → "Add to Favorites"</li>
+                        <li>Right-click property name → "Add to Favorites"</li>
+                        <li>Click ☆ button to filter favorites</li>
+                        <li>Show only favorite properties in value grid</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>Search and Filter</h3>
+                    <ul>
+                        <li>Type in search box for real-time filtering</li>
+                        <li>Use "Filter by Parent" dropdown</li>
+                        <li>Filter by faction/side</li>
+                        <li>Search in unit ID, name, or description</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>Balance Tools</h3>
+                    <ul>
+                        <li>Use <code>Tools → Balance Tool</code> to compare units</li>
+                        <li>View cost efficiency and damage per second</li>
+                        <li>Export balance reports</li>
+                        <li>Make data-driven balancing decisions</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>Keyboard Shortcuts</h3>
+                    <ul>
+                        <li><code>Ctrl+O</code> - Open file</li>
+                        <li><code>Ctrl+S</code> - Save</li>
+                        <li><code>Ctrl+Shift+S</code> - Save As</li>
+                        <li><code>Ctrl+F</code> - Search</li>
+                        <li><code>Ctrl+C</code> - Copy unit</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="einstein-quote">
+                    <h3>Albert Einstein:</h3>
+                    <p>I have no special talents.</p>
+                    <p>I am only passionately curious.</p>
+                </div>
+                <ul>
+                    <li><a href="https://github.com/otherdeniz/CnC_RulesEditor" target="_blank">GitHub</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>C&C Rules Editor Links</h3>
+                <ul>
+                    <li><a href="https://forums.cncnet.org/topic/12869-tiberian-sun-rules-editor-version-2024/" target="_blank">Cncnet Forum – CnC Rules Editor</a></li>
+                    <li><a href="https://github.com/otherdeniz/CnC_RulesEditor" target="_blank">Github Project – CnC Rules Editor</a></li>
+                    <li><a href="https://discord.gg/cncmodding" target="_blank">Discord – C&C Mod Haven #cnc-rules-editor</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Other C&C Resources</h3>
+                <ul>
+                    <li><a href="https://cncnet.org/" target="_blank">CNCNET</a></li>
+                    <li><a href="https://www.moddb.com/games/cc-tiberian-sun" target="_blank">ModDB - Tiberian Sun</a></li>
+                    <li><a href="https://www.moddb.com/games/cc-red-alert-2" target="_blank">ModDB - Red Alert 2</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Made by [WH]Otherdeniz</p>
+            <p>© 2024 C&C Rules Editor. Licensed under GNU General Public License v3.0</p>
+        </div>
+    </footer>
+</body>
+</html>
