@@ -3,6 +3,8 @@
 ![Screenshot](https://github.com/otherdeniz/CnC_RulesEditor/raw/master/Screenshots/Buildings-TS.png "Tiberian Sun Buildings Screenshot")
 
 Homepage: https://ruleseditor.denizesen.ch
+Documentation: **[README_DOCS.md](README_DOCS.md)**
+Architecture Diagrams: **[ARCHITECTURE_DIAGRAMS.md](ARCHITECTURE_DIAGRAMS.md)**
 
 ## What it is
 

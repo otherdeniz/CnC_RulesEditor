@@ -1084,5 +1084,5 @@ RulesEditor/
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** 2024  
-**Application Version:** 2.6.60
+**Last Updated:** 2025-10-09  
+**For Application Version:** 2.6.60
