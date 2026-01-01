@@ -191,7 +191,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             var sidesEntityKeys = (File.GetSection("Sides")?.KeyValues.SelectMany(k => k.Value.Split(",")).ToList()
                                    ?? new List<string>())
                 .Union(DefaultFile.GetSection("Sides")?.KeyValues.SelectMany(k => k.Value.Split(",")).ToList()
-                       ?? new List<string>());
+                       ?? new List<string>())
+                .DistinctBy(k => k);
             SideEntities = GetGameEntities("Sides", sidesEntityKeys,
                 Datastructure.Sides.Select(u =>
                         new CategorizedValueDefinition(u, "1) Side"))
@@ -256,8 +257,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 Datastructure.Projectiles.Select(u =>
                         new CategorizedValueDefinition(u, "1) Projectiles"))
                     .ToList());
-            var housesSection = DefaultFile.GetSection("Houses") ?? DefaultFile.GetSection("Countries");
-            Houses = housesSection?.KeyValues.Select(k => k.Value).Distinct().ToList()
+            var housesSection = DefaultFile.GetSection("Houses") 
+                                ?? DefaultFile.GetSection("Countries");
+            Houses = housesSection?.KeyValues.Select(k => k.Value)
+                         .Union(File.GetSection(housesSection.SectionName)?.KeyValues.Select(k => k.Value) ?? new List<string>())
+                         .Distinct()
+                         .ToList()
                      ?? new List<string>() { "GDI", "Nod" };
             Animations = DefaultFile.GetSection("Animations")?.KeyValues.Select(k => k.Value).ToList()
                          ?? this.GetAllPossibleValues("Warheads", "AnimList", false);
