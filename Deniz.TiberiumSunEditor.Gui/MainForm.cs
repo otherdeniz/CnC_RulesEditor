@@ -686,7 +686,8 @@ namespace Deniz.TiberiumSunEditor.Gui
             _editArtMainControl = new ArtEditMainControl()
             {
                 Dock = DockStyle.Fill,
-                FilterVisible = _filterEnabled
+                FilterVisible = _filterEnabled,
+                IniEditorVisible = _iniEditorEnabled
             };
             _editArtMainControl.ReloadFile += (sender, args) =>
             {
@@ -706,7 +707,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["Filter"].SharedProps.Enabled = true;
-            mainToolbarsManager.Tools["INI-Editor"].SharedProps.Enabled = false;
+            mainToolbarsManager.Tools["INI-Editor"].SharedProps.Enabled = true;
             var relativeFolder = string.IsNullOrEmpty(_editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
                 ? "root"
                 : _editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder;
@@ -842,6 +843,10 @@ namespace Deniz.TiberiumSunEditor.Gui
             if (_editRulesMainControl != null)
             {
                 _editRulesMainControl.IniEditorVisible = _iniEditorEnabled;
+            }
+            else if (_editArtMainControl != null)
+            {
+                _editArtMainControl.IniEditorVisible = _iniEditorEnabled;
             }
 
             _doEvents = false;

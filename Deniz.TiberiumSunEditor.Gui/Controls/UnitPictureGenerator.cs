@@ -47,7 +47,14 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             BackColor = isSelected
                 ? ThemeManager.Instance.CurrentTheme.HotTrackBackColor
                 : ThemeManager.Instance.CurrentTheme.ControlsBackColor;
-            pictureThumbnail.Image = thumbnailImage;
+            try
+            {
+                pictureThumbnail.Image = thumbnailImage;
+            }
+            catch (Exception)
+            {
+                // picture sync-error, just skip
+            }
             labelKey.BackColor = BackColor;
             labelKey.Text = entityModel.EntityKey;
             labelName.BackColor = BackColor;

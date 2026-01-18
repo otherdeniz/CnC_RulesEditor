@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using Deniz.TiberiumSunEditor.Gui.Utils;
+﻿using Deniz.TiberiumSunEditor.Gui.Utils;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 using ICSharpCode.TextEditor.Document;
 using System.Text;
@@ -28,21 +27,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             _file = file;
             _afterIniChangedAction = afterIniChanged;
             textEditorIni.Text = file.SaveAsString();
-            file.ValueChanged += (sender, args) =>
-            {
-                _doEvents = false;
-                try
-                {
-                    var firstLine = textEditorIni.ActiveTextAreaControl.TextArea.TextView.FirstVisibleLine;
-                    textEditorIni.Text = file.SaveAsString();
-                    textEditorIni.ActiveTextAreaControl.TextArea.TextView.FirstVisibleLine = firstLine;
-                }
-                catch (Exception e)
-                {
-                    //disposed control
-                }
-                _doEvents = true;
-            };
+            file.ValueChanged += (sender, args) => OnFileChanged(file);
+            file.SectionChanged += (sender, args) => OnFileChanged(file);
             ApplyIniSyntaxHighligthing();
             file.SectionTracked += (sender, args) =>
             {
@@ -59,6 +45,22 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             _doEvents = true;
         }
 
+        private void OnFileChanged(IniFile file)
+        {
+            _doEvents = false;
+            try
+            {
+                var firstLine = textEditorIni.ActiveTextAreaControl.TextArea.TextView.FirstVisibleLine;
+                textEditorIni.Text = file.SaveAsString();
+                textEditorIni.ActiveTextAreaControl.TextArea.TextView.FirstVisibleLine = firstLine;
+            }
+            catch (Exception e)
+            {
+                //disposed control
+            }
+            _doEvents = true;
+        }
+
         public void ApplyIniSyntaxHighligthing(bool force = false)
         {
             if (_syntaxModeApplyed && !force) return;
@@ -69,6 +71,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
             // Apply to the editor  
             textEditorIni.SetHighlighting(ThemeManager.Instance.CurrentTheme.SyntaxMode);
+            textEditorIni.BackColor = ThemeManager.Instance.CurrentTheme.ControlsBackColor;
+            ThemeManager.Instance.UseTheme(groupTextEditor);
             _syntaxModeApplyed = true;
         }
 
@@ -86,7 +90,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void LockMainControl()
         {
-            if (LockPanel != null)
+            if (LockPanel != null && _lockScreen == null)
             {
                 var controlPrintScreenBitmap = GetPrintScreenOfControl(LockPanel);
                 controlPrintScreenBitmap = controlPrintScreenBitmap.SetBitmapOpacity(50);

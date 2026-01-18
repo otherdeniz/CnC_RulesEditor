@@ -229,6 +229,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
                     targetSection.SetValue(sourceKeyValue.Key, sourceKeyValue.Value, sourceKeyValue.Comment);
                 }
             }
+            // remove deleted sections
+            foreach (var deletedSection in Sections.Where(s => !string.IsNullOrEmpty(s.SectionName) 
+                                                  && !sourceFile.Sections.Any(s2 => s2.SectionName == s.SectionName))
+                         .ToList())
+            {
+                RemoveSection(deletedSection.SectionName);
+            }
         }
 
         public IniFileSection AddSection(string name, bool keepWhenEmpty = false)
@@ -270,7 +277,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
 
         public void TrackSectionInEditor(IniFileSection section)
         {
-            SectionTracked?.Invoke(this, new IniFileSectionEventArgs(section));
+            if (!section.IsEmpty)
+            {
+                SectionTracked?.Invoke(this, new IniFileSectionEventArgs(section));
+            }
         }
 
         public IniFileSection? GetSection(string? name)
