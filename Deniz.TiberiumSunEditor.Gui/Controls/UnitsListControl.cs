@@ -145,7 +145,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             _doEvents = false;
             checkBoxOnlyModified.Checked = false;
             _doEvents = true;
-            return LoadUnits();
+            return LoadUnits(true);
         }
 
         public void SelectKey(string key)
@@ -157,7 +157,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
         }
 
-        private bool LoadUnits()
+        private bool LoadUnits(bool preserveSelection = false)
         {
             if (_entities.Any())
             {
@@ -189,13 +189,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                     .ThenBy(e => e.Favorite ? 0 : 1)
                     .ThenBy(e => e.EntityKey);
             _orderedEntities = orderedList.ToList();
-            LoadPage(1);
+            LoadPage(preserveSelection ? _currentPage : 1, preserveSelection);
             return filteredList.Any();
         }
 
-        private void LoadPage(int pageNumber)
+        private void LoadPage(int pageNumber, bool preserveSelection = false)
         {
             _currentPage = pageNumber;
+            var preserveSelectedKey = preserveSelection 
+                ? _selectedUnitPickerControl?.UnitKey 
+                : null;
             _selectedUnitPickerControl = null;
             _unitPickerControls.Clear();
             unitEdit.ClearModel();
@@ -275,6 +278,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 toolStripButtonNext.Visible = false;
             }
             ultraPanelScroll.Visible = true;
+            if (preserveSelectedKey != null)
+            {
+                SelectKey(preserveSelectedKey);
+            }
         }
 
         public void RefreshInfoNumber(string entityKey)
@@ -411,6 +418,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 unitEdit.LoadModel(entityModel);
                 unitEdit.Visible = true;
             }
+            entityModel.FileSection.TrackInEditor();
         }
 
         private void buttonAddUnit_Click(object sender, EventArgs e)

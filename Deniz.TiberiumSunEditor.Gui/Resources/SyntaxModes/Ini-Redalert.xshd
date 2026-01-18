@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<SyntaxDefinition name="INI" extensions=".ini">
+  <RuleSets>
+    <RuleSet ignorecase="false">
+      <!-- Delimiters split tokens so that '=' can be treated as a separate word -->
+      <Delimiters>=[];#&lt;&gt;~!%^*()-+|\{}:"' ,	.?</Delimiters>
+
+      <!-- Comments: ; or # until end of line -->
+      <Span name="CommentSemicolon" color="Green" stopateol="true">
+        <Begin>;</Begin>
+      </Span>
+
+      <Span name="CommentHash" color="Green" stopateol="true">
+        <Begin>#</Begin>
+      </Span>
+
+      <!-- Sections: [SectionName] -->
+      <Span name="Section" color="Red" stopateol="false">
+        <Begin>[</Begin>
+        <End>]</End>
+      </Span>
+
+      <!-- The '=' character, colored blue -->
+      <KeyWords name="EqualsSign" bold="false" italic="false" color="Blue">
+        <Key word="="/>
+      </KeyWords>
+    </RuleSet>
+  </RuleSets>
+</SyntaxDefinition>

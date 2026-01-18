@@ -1,0 +1,5 @@
+<SyntaxModes version="1.0">
+	<Mode file       = "Ini-Light.xshd"
+	      name       = "INI-Light"
+	      extensions = ".inilight"/>
+</SyntaxModes>

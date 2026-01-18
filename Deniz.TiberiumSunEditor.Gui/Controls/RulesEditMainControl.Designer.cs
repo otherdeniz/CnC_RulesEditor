@@ -100,6 +100,9 @@
             labelName = new Label();
             labelType = new Label();
             filterControl = new FilterControl();
+            iniTextEditorControl = new IniTextEditorControl();
+            panelTabs = new Panel();
+            iniEditorSplitter = new Splitter();
             ultraTabPageControl1.SuspendLayout();
             ultraTabPageControl10.SuspendLayout();
             ultraTabPageControl8.SuspendLayout();
@@ -125,22 +128,23 @@
             ((System.ComponentModel.ISupportInitialize)mainTab).BeginInit();
             mainTab.SuspendLayout();
             panelTitle.SuspendLayout();
+            panelTabs.SuspendLayout();
             SuspendLayout();
             // 
             // ultraTabPageControl1
             // 
             ultraTabPageControl1.Controls.Add(valuesEditCommon);
-            ultraTabPageControl1.Location = new Point(2, 30);
+            ultraTabPageControl1.Location = new Point(2, 56);
             ultraTabPageControl1.Margin = new Padding(4, 3, 4, 3);
             ultraTabPageControl1.Name = "ultraTabPageControl1";
-            ultraTabPageControl1.Size = new Size(1169, 396);
+            ultraTabPageControl1.Size = new Size(747, 370);
             // 
             // valuesEditCommon
             // 
             valuesEditCommon.Dock = DockStyle.Fill;
             valuesEditCommon.Location = new Point(0, 0);
             valuesEditCommon.Name = "valuesEditCommon";
-            valuesEditCommon.Size = new Size(1169, 396);
+            valuesEditCommon.Size = new Size(747, 370);
             valuesEditCommon.TabIndex = 0;
             // 
             // ultraTabPageControl10
@@ -148,14 +152,14 @@
             ultraTabPageControl10.Controls.Add(valuesEditTiberium);
             ultraTabPageControl10.Location = new Point(-10000, -10000);
             ultraTabPageControl10.Name = "ultraTabPageControl10";
-            ultraTabPageControl10.Size = new Size(1169, 396);
+            ultraTabPageControl10.Size = new Size(747, 370);
             // 
             // valuesEditTiberium
             // 
             valuesEditTiberium.Dock = DockStyle.Fill;
             valuesEditTiberium.Location = new Point(0, 0);
             valuesEditTiberium.Name = "valuesEditTiberium";
-            valuesEditTiberium.Size = new Size(1169, 396);
+            valuesEditTiberium.Size = new Size(747, 370);
             valuesEditTiberium.TabIndex = 2;
             // 
             // ultraTabPageControl8
@@ -163,14 +167,14 @@
             ultraTabPageControl8.Controls.Add(valuesEditAi);
             ultraTabPageControl8.Location = new Point(-10000, -10000);
             ultraTabPageControl8.Name = "ultraTabPageControl8";
-            ultraTabPageControl8.Size = new Size(1169, 396);
+            ultraTabPageControl8.Size = new Size(747, 370);
             // 
             // valuesEditAi
             // 
             valuesEditAi.Dock = DockStyle.Fill;
             valuesEditAi.Location = new Point(0, 0);
             valuesEditAi.Name = "valuesEditAi";
-            valuesEditAi.Size = new Size(1169, 396);
+            valuesEditAi.Size = new Size(747, 370);
             valuesEditAi.TabIndex = 1;
             // 
             // ultraTabPageControl11
@@ -178,14 +182,14 @@
             ultraTabPageControl11.Controls.Add(valuesEditAudioVisual);
             ultraTabPageControl11.Location = new Point(-10000, -10000);
             ultraTabPageControl11.Name = "ultraTabPageControl11";
-            ultraTabPageControl11.Size = new Size(1169, 396);
+            ultraTabPageControl11.Size = new Size(747, 370);
             // 
             // valuesEditAudioVisual
             // 
             valuesEditAudioVisual.Dock = DockStyle.Fill;
             valuesEditAudioVisual.Location = new Point(0, 0);
             valuesEditAudioVisual.Name = "valuesEditAudioVisual";
-            valuesEditAudioVisual.Size = new Size(1169, 396);
+            valuesEditAudioVisual.Size = new Size(747, 370);
             valuesEditAudioVisual.TabIndex = 2;
             // 
             // ultraTabPageControl13
@@ -193,7 +197,7 @@
             ultraTabPageControl13.Controls.Add(unitsSides);
             ultraTabPageControl13.Location = new Point(-10000, -10000);
             ultraTabPageControl13.Name = "ultraTabPageControl13";
-            ultraTabPageControl13.Size = new Size(1169, 396);
+            ultraTabPageControl13.Size = new Size(747, 370);
             // 
             // unitsSides
             // 
@@ -202,7 +206,7 @@
             unitsSides.Location = new Point(0, 0);
             unitsSides.Margin = new Padding(4, 3, 4, 3);
             unitsSides.Name = "unitsSides";
-            unitsSides.Size = new Size(1169, 396);
+            unitsSides.Size = new Size(747, 370);
             unitsSides.TabIndex = 0;
             unitsSides.Tag = "PLAIN";
             // 
@@ -212,7 +216,7 @@
             ultraTabPageControl2.Location = new Point(-10000, -10000);
             ultraTabPageControl2.Margin = new Padding(4, 3, 4, 3);
             ultraTabPageControl2.Name = "ultraTabPageControl2";
-            ultraTabPageControl2.Size = new Size(1169, 396);
+            ultraTabPageControl2.Size = new Size(747, 370);
             // 
             // unitsBuildings
             // 
@@ -223,7 +227,7 @@
             unitsBuildings.Location = new Point(0, 0);
             unitsBuildings.Margin = new Padding(5, 3, 5, 3);
             unitsBuildings.Name = "unitsBuildings";
-            unitsBuildings.Size = new Size(1169, 396);
+            unitsBuildings.Size = new Size(747, 370);
             unitsBuildings.TabIndex = 0;
             unitsBuildings.Tag = "PLAIN";
             unitsBuildings.UnitCreateCopy += unitsBuildings_UnitCreateCopy;
@@ -236,7 +240,7 @@
             ultraTabPageControl3.Location = new Point(-10000, -10000);
             ultraTabPageControl3.Margin = new Padding(4, 3, 4, 3);
             ultraTabPageControl3.Name = "ultraTabPageControl3";
-            ultraTabPageControl3.Size = new Size(1169, 396);
+            ultraTabPageControl3.Size = new Size(747, 370);
             // 
             // unitsInfantry
             // 
@@ -247,7 +251,7 @@
             unitsInfantry.Location = new Point(0, 0);
             unitsInfantry.Margin = new Padding(5, 3, 5, 3);
             unitsInfantry.Name = "unitsInfantry";
-            unitsInfantry.Size = new Size(1169, 396);
+            unitsInfantry.Size = new Size(747, 370);
             unitsInfantry.TabIndex = 1;
             unitsInfantry.Tag = "PLAIN";
             unitsInfantry.UnitCreateCopy += unitsInfantry_UnitCreateCopy;
@@ -260,7 +264,7 @@
             ultraTabPageControl5.Location = new Point(-10000, -10000);
             ultraTabPageControl5.Margin = new Padding(4, 3, 4, 3);
             ultraTabPageControl5.Name = "ultraTabPageControl5";
-            ultraTabPageControl5.Size = new Size(1169, 396);
+            ultraTabPageControl5.Size = new Size(747, 370);
             // 
             // unitsVehicles
             // 
@@ -271,7 +275,7 @@
             unitsVehicles.Location = new Point(0, 0);
             unitsVehicles.Margin = new Padding(5, 3, 5, 3);
             unitsVehicles.Name = "unitsVehicles";
-            unitsVehicles.Size = new Size(1169, 396);
+            unitsVehicles.Size = new Size(747, 370);
             unitsVehicles.TabIndex = 1;
             unitsVehicles.Tag = "PLAIN";
             unitsVehicles.UnitCreateCopy += unitsVehicles_UnitCreateCopy;
@@ -284,7 +288,7 @@
             ultraTabPageControl6.Location = new Point(-10000, -10000);
             ultraTabPageControl6.Margin = new Padding(4, 3, 4, 3);
             ultraTabPageControl6.Name = "ultraTabPageControl6";
-            ultraTabPageControl6.Size = new Size(1169, 396);
+            ultraTabPageControl6.Size = new Size(747, 370);
             // 
             // unitsAircrafts
             // 
@@ -295,7 +299,7 @@
             unitsAircrafts.Location = new Point(0, 0);
             unitsAircrafts.Margin = new Padding(5, 3, 5, 3);
             unitsAircrafts.Name = "unitsAircrafts";
-            unitsAircrafts.Size = new Size(1169, 396);
+            unitsAircrafts.Size = new Size(747, 370);
             unitsAircrafts.TabIndex = 2;
             unitsAircrafts.Tag = "PLAIN";
             unitsAircrafts.UnitCreateCopy += unitsAircrafts_UnitCreateCopy;
@@ -308,7 +312,7 @@
             ultraTabPageControl4.Location = new Point(-10000, -10000);
             ultraTabPageControl4.Margin = new Padding(4, 3, 4, 3);
             ultraTabPageControl4.Name = "ultraTabPageControl4";
-            ultraTabPageControl4.Size = new Size(1169, 396);
+            ultraTabPageControl4.Size = new Size(747, 370);
             // 
             // unitsWeapons
             // 
@@ -319,7 +323,7 @@
             unitsWeapons.Margin = new Padding(5, 3, 5, 3);
             unitsWeapons.Name = "unitsWeapons";
             unitsWeapons.OrderByThumbnail = false;
-            unitsWeapons.Size = new Size(1169, 396);
+            unitsWeapons.Size = new Size(747, 370);
             unitsWeapons.TabIndex = 3;
             unitsWeapons.Tag = "PLAIN";
             unitsWeapons.UnitCreateCopy += unitsWeapons_UnitCreateCopy;
@@ -330,7 +334,7 @@
             ultraTabPageControl14.Controls.Add(unitsProjectiles);
             ultraTabPageControl14.Location = new Point(-10000, -10000);
             ultraTabPageControl14.Name = "ultraTabPageControl14";
-            ultraTabPageControl14.Size = new Size(1169, 396);
+            ultraTabPageControl14.Size = new Size(747, 370);
             // 
             // unitsProjectiles
             // 
@@ -341,7 +345,7 @@
             unitsProjectiles.Margin = new Padding(4, 3, 4, 3);
             unitsProjectiles.Name = "unitsProjectiles";
             unitsProjectiles.OrderByThumbnail = false;
-            unitsProjectiles.Size = new Size(1169, 396);
+            unitsProjectiles.Size = new Size(747, 370);
             unitsProjectiles.TabIndex = 0;
             unitsProjectiles.Tag = "PLAIN";
             unitsProjectiles.UnitCreateCopy += unitsProjectiles_UnitCreateCopy;
@@ -352,7 +356,7 @@
             ultraTabPageControl7.Controls.Add(unitsWarheads);
             ultraTabPageControl7.Location = new Point(-10000, -10000);
             ultraTabPageControl7.Name = "ultraTabPageControl7";
-            ultraTabPageControl7.Size = new Size(1169, 396);
+            ultraTabPageControl7.Size = new Size(747, 370);
             // 
             // unitsWarheads
             // 
@@ -363,7 +367,7 @@
             unitsWarheads.Margin = new Padding(5, 3, 5, 3);
             unitsWarheads.Name = "unitsWarheads";
             unitsWarheads.OrderByThumbnail = false;
-            unitsWarheads.Size = new Size(1169, 396);
+            unitsWarheads.Size = new Size(747, 370);
             unitsWarheads.TabIndex = 4;
             unitsWarheads.Tag = "PLAIN";
             unitsWarheads.UnitCreateCopy += unitsWarheads_UnitCreateCopy;
@@ -374,7 +378,7 @@
             ultraTabPageControl9.Controls.Add(splitContainerSuperWeapons);
             ultraTabPageControl9.Location = new Point(-10000, -10000);
             ultraTabPageControl9.Name = "ultraTabPageControl9";
-            ultraTabPageControl9.Size = new Size(1169, 396);
+            ultraTabPageControl9.Size = new Size(747, 370);
             // 
             // splitContainerSuperWeapons
             // 
@@ -391,8 +395,8 @@
             // splitContainerSuperWeapons.Panel2
             // 
             splitContainerSuperWeapons.Panel2.Controls.Add(groupBoxSuperWeapons);
-            splitContainerSuperWeapons.Size = new Size(1169, 396);
-            splitContainerSuperWeapons.SplitterDistance = 188;
+            splitContainerSuperWeapons.Size = new Size(747, 370);
+            splitContainerSuperWeapons.SplitterDistance = 170;
             splitContainerSuperWeapons.SplitterWidth = 6;
             splitContainerSuperWeapons.TabIndex = 5;
             // 
@@ -404,7 +408,7 @@
             unitsSuperWeapons.Margin = new Padding(5, 3, 5, 3);
             unitsSuperWeapons.Name = "unitsSuperWeapons";
             unitsSuperWeapons.OrderByThumbnail = false;
-            unitsSuperWeapons.Size = new Size(1169, 188);
+            unitsSuperWeapons.Size = new Size(747, 170);
             unitsSuperWeapons.TabIndex = 4;
             unitsSuperWeapons.Tag = "PLAIN";
             // 
@@ -415,7 +419,7 @@
             groupBoxSuperWeapons.Dock = DockStyle.Fill;
             groupBoxSuperWeapons.Location = new Point(0, 0);
             groupBoxSuperWeapons.Name = "groupBoxSuperWeapons";
-            groupBoxSuperWeapons.Size = new Size(1169, 202);
+            groupBoxSuperWeapons.Size = new Size(747, 194);
             groupBoxSuperWeapons.TabIndex = 0;
             groupBoxSuperWeapons.TabStop = false;
             groupBoxSuperWeapons.Text = "General Values";
@@ -425,7 +429,7 @@
             valuesEditSuperWeapons.Dock = DockStyle.Fill;
             valuesEditSuperWeapons.Location = new Point(3, 19);
             valuesEditSuperWeapons.Name = "valuesEditSuperWeapons";
-            valuesEditSuperWeapons.Size = new Size(1163, 180);
+            valuesEditSuperWeapons.Size = new Size(741, 172);
             valuesEditSuperWeapons.TabIndex = 1;
             // 
             // ultraTabPageControl12
@@ -434,7 +438,7 @@
             ultraTabPageControl12.Controls.Add(panelPhobosShowEmpty);
             ultraTabPageControl12.Location = new Point(-10000, -10000);
             ultraTabPageControl12.Name = "ultraTabPageControl12";
-            ultraTabPageControl12.Size = new Size(1169, 396);
+            ultraTabPageControl12.Size = new Size(747, 370);
             // 
             // tabPhobos
             // 
@@ -445,7 +449,7 @@
             appearance110.FontData.BoldAsString = "True";
             tabPhobos.SelectedTabAppearance = appearance110;
             tabPhobos.SharedControlsPage = ultraTabSharedControlsPage2;
-            tabPhobos.Size = new Size(1169, 372);
+            tabPhobos.Size = new Size(747, 346);
             tabPhobos.TabIndex = 0;
             tabPhobos.UseOsThemes = Infragistics.Win.DefaultableBoolean.False;
             // 
@@ -453,7 +457,7 @@
             // 
             ultraTabSharedControlsPage2.Location = new Point(2, 21);
             ultraTabSharedControlsPage2.Name = "ultraTabSharedControlsPage2";
-            ultraTabSharedControlsPage2.Size = new Size(1165, 349);
+            ultraTabSharedControlsPage2.Size = new Size(743, 323);
             // 
             // panelPhobosShowEmpty
             // 
@@ -461,7 +465,7 @@
             panelPhobosShowEmpty.Dock = DockStyle.Top;
             panelPhobosShowEmpty.Location = new Point(0, 0);
             panelPhobosShowEmpty.Name = "panelPhobosShowEmpty";
-            panelPhobosShowEmpty.Size = new Size(1169, 24);
+            panelPhobosShowEmpty.Size = new Size(747, 24);
             panelPhobosShowEmpty.TabIndex = 2;
             // 
             // checkBoxPhobosShowEmpty
@@ -493,13 +497,13 @@
             mainTab.Controls.Add(ultraTabPageControl13);
             mainTab.Controls.Add(ultraTabPageControl14);
             mainTab.Dock = DockStyle.Fill;
-            mainTab.Location = new Point(0, 73);
+            mainTab.Location = new Point(0, 0);
             mainTab.Margin = new Padding(4, 3, 4, 3);
             mainTab.Name = "mainTab";
             appearance11.FontData.BoldAsString = "True";
             mainTab.SelectedTabAppearance = appearance11;
             mainTab.SharedControlsPage = ultraTabSharedControlsPage1;
-            mainTab.Size = new Size(1173, 428);
+            mainTab.Size = new Size(751, 428);
             mainTab.TabIndex = 1;
             mainTab.TabLayoutStyle = Infragistics.Win.UltraWinTabs.TabLayoutStyle.MultiRowAutoSize;
             mainTab.TabPadding = new Size(1, 3);
@@ -573,7 +577,7 @@
             ultraTabSharedControlsPage1.Location = new Point(-10000, -10000);
             ultraTabSharedControlsPage1.Margin = new Padding(4, 3, 4, 3);
             ultraTabSharedControlsPage1.Name = "ultraTabSharedControlsPage1";
-            ultraTabSharedControlsPage1.Size = new Size(1169, 396);
+            ultraTabSharedControlsPage1.Size = new Size(747, 370);
             // 
             // panelTitle
             // 
@@ -684,10 +688,41 @@
             filterControl.Visible = false;
             filterControl.FilterChanged += filterControl_FilterChanged;
             // 
+            // iniTextEditorControl
+            // 
+            iniTextEditorControl.Dock = DockStyle.Right;
+            iniTextEditorControl.Location = new Point(755, 73);
+            iniTextEditorControl.LockPanel = panelTabs;
+            iniTextEditorControl.Name = "iniTextEditorControl";
+            iniTextEditorControl.Size = new Size(418, 428);
+            iniTextEditorControl.TabIndex = 4;
+            iniTextEditorControl.Visible = false;
+            // 
+            // panelTabs
+            // 
+            panelTabs.Controls.Add(mainTab);
+            panelTabs.Dock = DockStyle.Fill;
+            panelTabs.Location = new Point(0, 73);
+            panelTabs.Name = "panelTabs";
+            panelTabs.Size = new Size(751, 428);
+            panelTabs.TabIndex = 6;
+            // 
+            // iniEditorSplitter
+            // 
+            iniEditorSplitter.Dock = DockStyle.Right;
+            iniEditorSplitter.Location = new Point(751, 73);
+            iniEditorSplitter.Name = "iniEditorSplitter";
+            iniEditorSplitter.Size = new Size(4, 428);
+            iniEditorSplitter.TabIndex = 5;
+            iniEditorSplitter.TabStop = false;
+            iniEditorSplitter.Visible = false;
+            // 
             // RulesEditMainControl
             // 
             AutoScaleMode = AutoScaleMode.Inherit;
-            Controls.Add(mainTab);
+            Controls.Add(panelTabs);
+            Controls.Add(iniEditorSplitter);
+            Controls.Add(iniTextEditorControl);
             Controls.Add(filterControl);
             Controls.Add(panelTitle);
             Margin = new Padding(4, 3, 4, 3);
@@ -720,6 +755,7 @@
             mainTab.ResumeLayout(false);
             panelTitle.ResumeLayout(false);
             panelTitle.PerformLayout();
+            panelTabs.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -770,5 +806,8 @@
         private Label labelFilePath;
         private Label labelFileTitle;
         private FileChangedControl fileChangedControl;
+        private IniTextEditorControl iniTextEditorControl;
+        private Splitter iniEditorSplitter;
+        private Panel panelTabs;
     }
 }

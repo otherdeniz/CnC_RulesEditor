@@ -12,6 +12,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
     {
         private bool _readonlyMode;
         private bool _filterVisible;
+        private bool _iniEditorVisible;
         private bool _showOnlyFavoriteValues;
         private bool _showOnlyFavoriteUnits;
         private bool _titleVisible = true;
@@ -52,6 +53,19 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 {
                     filterControl.ClearFilter();
                 }
+            }
+        }
+
+        [DefaultValue(false)]
+        public bool IniEditorVisible
+        {
+            get => _iniEditorVisible;
+            set
+            {
+                if (_iniEditorVisible == value) return;
+                _iniEditorVisible = value;
+                iniEditorSplitter.Visible = value;
+                iniTextEditorControl.Visible = value;
             }
         }
 
@@ -196,6 +210,18 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 TakeSubTab(_aiEditSubControl.mainTab, "TaskForces");
                 TakeSubTab(_aiEditSubControl.mainTab, "Teams");
             }
+            iniTextEditorControl.LoadIniFile(model.File, () =>
+            {
+                try
+                {
+                    Model.ReloadGameEntites();
+                    ReloadModels();
+                }
+                catch (Exception)
+                {
+                    // control disposed
+                }
+            });
         }
 
         public void UpdateHeaderFilePath(string? saveLocation = null)

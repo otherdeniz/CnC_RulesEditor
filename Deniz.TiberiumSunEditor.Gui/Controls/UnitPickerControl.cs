@@ -130,7 +130,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             }
         }
 
-        private void FileSectionOnValueChanged(object? sender, IniFileSectionChangedEventArgs e)
+        private void FileSectionOnValueChanged(object? sender, IniFileSectionValueChangedEventArgs e)
         {
             if (e.Key == "Owner"
                 || e.Key == "AnimList"

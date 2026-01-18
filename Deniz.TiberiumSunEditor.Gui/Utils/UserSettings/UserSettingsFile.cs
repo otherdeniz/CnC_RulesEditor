@@ -57,6 +57,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.UserSettings
             }
         }
 
+        public bool ShowIniEditor { get; set; }
+
         public List<GamePathSetting> GamePaths { get; set; } = new();
 
         public List<CustomModSetting> CustomMods { get; set; } = new();
