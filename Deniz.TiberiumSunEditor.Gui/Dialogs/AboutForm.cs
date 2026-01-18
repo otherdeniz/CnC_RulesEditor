@@ -31,7 +31,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             {
                 var latestRelease = AutoUpdateManager.LatestRelease;
                 labelVersion.Text = latestRelease.Release.Name;
-                labelDownloads.Text = $"({latestRelease.Asset.DownloadCount} downloads)";
+                if (AutoUpdateManager.AllReleases != null)
+                {
+                    var totalDownload = AutoUpdateManager.AllReleases.Sum(r => r.Asset.DownloadCount);
+                    labelDownloads.Text = $"Total: {totalDownload:#,##0} downloads; Latest Version: {latestRelease.Asset.DownloadCount} downloads";
+                }
+                else
+                {
+                    labelDownloads.Text = $"Latest Version: {latestRelease.Asset.DownloadCount} downloads";
+                }
                 labelReleaseDate.Text = latestRelease.Release.CreatedAt.ToString("d");
                 linkLabelRelease.Text = $"{linkLabelRelease.Text}/{latestRelease.Release.Name}";
             }

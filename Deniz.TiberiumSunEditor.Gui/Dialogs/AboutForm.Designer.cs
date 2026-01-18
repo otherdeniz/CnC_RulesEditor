@@ -213,9 +213,9 @@
             labelDownloads.AutoSize = true;
             labelDownloads.Location = new Point(174, 22);
             labelDownloads.Name = "labelDownloads";
-            labelDownloads.Size = new Size(82, 15);
+            labelDownloads.Size = new Size(248, 15);
             labelDownloads.TabIndex = 0;
-            labelDownloads.Text = "(0 downloads)";
+            labelDownloads.Text = "Total: 0 downloads, This Version: 0 downloads";
             // 
             // labelReleaseDate
             // 

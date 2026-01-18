@@ -27,6 +27,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
 
         public static GitHubReleaseInfo? LatestRelease { get; private set; }
 
+        public static List<GitHubReleaseInfo>? AllReleases { get; private set; }
+
         private void RunCheck(bool autoUpdate)
         {
             var currentVeresion = GetType().Assembly.GetName().Version;
@@ -36,6 +38,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                 {
                     try
                     {
+                        var doUpdate = false;
                         LatestRelease = GetLatestRelease();
                         if (autoUpdate && LatestRelease != null)
                         {
@@ -57,9 +60,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                                             Path.Combine(Application.StartupPath, "Updater\\Deniz.Updater.exe"),
                                             $"{LatestRelease.Asset.BrowserDownloadUrl} Deniz.TiberiumSunEditor.Gui.exe");
                                         _mainForm.Close();
+                                        doUpdate = true;
                                     }
                                 }, null);
                             }
+                        }
+
+                        if (!doUpdate)
+                        {
+                            AllReleases = GetAllReleases();
                         }
                     }
                     catch (Exception)
@@ -86,6 +95,25 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                     }
                 }
                 return null;
+            }).GetAwaiter().GetResult();
+        }
+
+        public List<GitHubReleaseInfo>? GetAllReleases()
+        {
+            var github = new GitHubClient(new ProductHeaderValue(GithubUserAgent));
+
+            return Task.Run(async () =>
+            {
+                var allReleases = await github.Repository.Release.GetAll("otherdeniz", "CnC_RulesEditor");
+                return allReleases?.Where(r => VersionRegex.IsMatch(r.Name))
+                    .Select(r => new
+                    {
+                        Release = r,
+                        Asset = r.Assets.FirstOrDefault(a => a.Name.EndsWith(".zip"))
+                    })
+                    .Where(r => r.Asset != null)
+                    .Select(r => new GitHubReleaseInfo(r.Asset!, r.Release))
+                    .ToList();
             }).GetAwaiter().GetResult();
         }
 
