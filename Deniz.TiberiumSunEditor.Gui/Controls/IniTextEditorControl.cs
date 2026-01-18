@@ -105,14 +105,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 {
                     Dock = DockStyle.Fill,
                     Visible = true,
-                    SizeMode = PictureBoxSizeMode.StretchImage
+                    BackgroundImageLayout = ImageLayout.Stretch,
+                    SizeMode = PictureBoxSizeMode.CenterImage
                 };
                 _lockScreen.Controls.Add(printScrerenpictureBox);
                 var imgTmp = controlPrintScreenBitmap.GetThumbnailImage(controlPrintScreenBitmap.Width / 5, controlPrintScreenBitmap.Height / 5, null, IntPtr.Zero);
                 printScrerenpictureBox.Click += (sender, args) => UnlockMainControl();
-                printScrerenpictureBox.Image = imgTmp;
-
-                //LockPanel.Controls.SetChildIndex(_lockScreen, 0);
+                printScrerenpictureBox.BackgroundImage = imgTmp;
+                using var lockScreenHint = new LockScreenHint();
+                printScrerenpictureBox.Image = lockScreenHint.CreateBitmap();
             }
         }
 
