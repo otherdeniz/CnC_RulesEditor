@@ -1,0 +1,14 @@
+<SyntaxModes version="1.0">
+	<Mode file       = "Ini-Light.xshd"
+	      name       = "INI-Light"
+	      extensions = ".inilight"/>
+	<Mode file       = "Ini-Dark.xshd"
+	      name       = "INI-Dark"
+	      extensions = ".inidark"/>
+	<Mode file       = "Ini-Dos.xshd"
+	      name       = "INI-Dos"
+	      extensions = ".inidos"/>
+	<Mode file       = "Ini-Redalert.xshd"
+	      name       = "INI-Redalert"
+	      extensions = ".inira"/>
+</SyntaxModes>

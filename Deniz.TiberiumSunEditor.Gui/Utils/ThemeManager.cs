@@ -1,5 +1,7 @@
-﻿using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
+﻿using Deniz.TiberiumSunEditor.Gui.Controls;
+using Deniz.TiberiumSunEditor.Gui.Utils.Datastructure;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
+using ICSharpCode.TextEditor;
 using Infragistics.Win;
 using Infragistics.Win.Misc;
 using Infragistics.Win.UltraWinEditors;
@@ -142,6 +144,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                             textBoxControl.BackColor = CurrentTheme.TextBoxBackColor;
                             textBoxControl.ForeColor = CurrentTheme.TextBoxTextColor;
                         }
+                        break;
+                    case IniTextEditorControl iniTextEditorControl:
+                        iniTextEditorControl.ApplyIniSyntaxHighligthing(true);
                         break;
                     case UltraComboEditor ultraComboControl:
                         ultraComboControl.BackColor = CurrentTheme.TextBoxBackColor;

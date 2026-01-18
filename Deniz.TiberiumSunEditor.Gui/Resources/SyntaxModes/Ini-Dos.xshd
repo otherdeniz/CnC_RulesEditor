@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<SyntaxDefinition name="INI-Dos" extensions=".inidos">
+	<Environment> 
+        <Default color="#FFFFFF" bgcolor="#000040"/>
+        <Selection color="#FFFFFF" bgcolor="#968676"/>
+        <LineNumbers color="#E3CE93" bgcolor="#000040"/>
+        <CaretMarker color="#F0F0F1"/>
+        <VRuler color="#000040"/>
+        
+        <FoldLine color="#A0A0A0" bgcolor="#FFFFFF"/>
+        <FoldMarker color="Black" bgcolor="#FFFFFF"/>
+        <SelectedFoldLine color="Black" bgcolor="#FFFFFF"/>
+        
+        <EOLMarkers color="#CACAD2"/>
+        <SpaceMarkers color="#B6B6C0"/>
+        <TabMarkers color="#B6B6C0"/>
+        <InvalidLines color="#B6B6C0"/>
+    </Environment>
+	<Digits name = "Digits" bold = "false" italic = "false" color = "#9b9bff"/>
+  <RuleSets>
+    <RuleSet ignorecase="false">
+      <!-- Delimiters split tokens so that '=' can be treated as a separate word -->
+      <Delimiters>=[];#&lt;&gt;~!%^*()-+|\{}:"' ,	.?</Delimiters>
+
+      <!-- Comments: ; or # until end of line -->
+      <Span name="CommentSemicolon" color="Green" stopateol="true">
+        <Begin>;</Begin>
+      </Span>
+
+      <Span name="CommentHash" color="Green" stopateol="true">
+        <Begin>#</Begin>
+      </Span>
+
+      <!-- Sections: [SectionName] -->
+      <Span name="Section" color="#E3CE93" stopateol="false">
+        <Begin>[</Begin>
+        <End>]</End>
+      </Span>
+
+      <!-- The '=' character, colored blue -->
+      <KeyWords name="EqualsSign" bold="false" italic="false" color="#FFFFFF">
+        <Key word="="/>
+      </KeyWords>
+    </RuleSet>
+  </RuleSets>
+</SyntaxDefinition>

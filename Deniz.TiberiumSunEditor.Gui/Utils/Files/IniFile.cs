@@ -1,10 +1,10 @@
-﻿using System.ComponentModel;
+﻿using Deniz.TiberiumSunEditor.Gui.Utils.Extensions;
+using Infragistics.Win.UltraWinMaskedEdit;
+using System.ComponentModel;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using Deniz.TiberiumSunEditor.Gui.Utils.Extensions;
-using Newtonsoft.Json.Linq;
+using FileMode = System.IO.FileMode;
 
 namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
 {
@@ -16,7 +16,9 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
 
         private Dictionary<string, IniFileSection>? _sectionsDictionary;
 
-        public event EventHandler<IniFileSectionChangedEventArgs>? ValueChanged;
+        public event EventHandler<IniFileSectionEventArgs>? SectionTracked;
+        public event EventHandler<IniFileSectionChangedEventArgs>? SectionChanged;
+        public event EventHandler<IniFileSectionValueChangedEventArgs>? ValueChanged;
         public event EventHandler<EventArgs>? BeforeOriginalFileSaved;
         public event EventHandler<EventArgs>? AfterOriginalFileSaved;
 
@@ -28,31 +30,25 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
 
         public static IniFile Load(byte[] fileBytes, string filename = "", string? originalFullpath = null)
         {
-            using (var fileStream = new MemoryStream(fileBytes))
-            {
-                var iniFile = LoadStream(fileStream);
-                iniFile.FileName = filename;
-                iniFile.OriginalFullPath = originalFullpath;
-                return iniFile;
-            }
+            using var fileStream = new MemoryStream(fileBytes);
+            return LoadStream(fileStream, filename, originalFullpath);
         }
 
         public static IniFile Load(string filePath)
         {
-            using (var fileStream = File.OpenRead(filePath))
-            {
-                var iniFile = LoadStream(fileStream);
-                iniFile.OriginalFullPath = filePath;
-                iniFile.FileName = Path.GetFileName(filePath);
-                return iniFile;
-            }
+            using var fileStream = File.OpenRead(filePath);
+            return LoadStream(fileStream, Path.GetFileName(filePath), filePath);
         }
 
-        private static IniFile LoadStream(Stream fileStream)
+        public static IniFile LoadStream(Stream fileStream, string filename = "", string? originalFullpath = null)
         {
-            var iniFile = new IniFile();
+            var iniFile = new IniFile
+            {
+                FileName = filename,
+                OriginalFullPath = originalFullpath
+            };
 
-            var currentSection = new IniFileSection(); // first create the 'null' Section that contains all the comments before the first real Section
+            var currentSection = new IniFileSection(iniFile); // first create the 'null' Section that contains all the comments before the first real Section
             var lastCommentLines = new List<IniFileLineComment>(); // we use this to write trailing comments as 'header' comments to the next Section
             using (var reader = new StreamReader(fileStream, Encoding.UTF8, false))
             {
@@ -150,11 +146,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
                            Access = FileAccess.Write
                        }))
             {
-                foreach (var category in Sections.Where(s => !s.IsEmpty || s.KeepWhenEmpty))
-                {
-                    writer.Write(category.ToString());
-                }
-                writer.Flush();
+                SaveToTextWriter(writer);
             }
 
             if (saveAsOriginalFile)
@@ -162,6 +154,22 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
                 OriginalFullPath = filePath;
                 AfterOriginalFileSaved?.Invoke(this, EventArgs.Empty);
             }
+        }
+
+        public string SaveAsString()
+        {
+            using var writer = new StringWriter();
+            SaveToTextWriter(writer);
+            return writer.ToString();
+        }
+
+        public void SaveToTextWriter(TextWriter writer)
+        {
+            foreach (var section in Sections.Where(s => !s.IsEmpty || s.KeepWhenEmpty))
+            {
+                writer.Write(section.ToString());
+            }
+            writer.Flush();
         }
 
         public IniFile GetChangesFile(IniFile defaultFile)
@@ -209,24 +217,51 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
             }
         }
 
+        public void ApplyFromFile(IniFile sourceFile)
+        {
+            for (int i = 0; i < sourceFile.Sections.Count; i++)
+            {
+                var sourceSection = sourceFile.Sections[i];
+                var targetSection = GetSection(sourceSection.SectionName)
+                                    ?? AddSection(sourceSection.SectionName!);
+                foreach (var sourceKeyValue in sourceSection.KeyValues)
+                {
+                    targetSection.SetValue(sourceKeyValue.Key, sourceKeyValue.Value, sourceKeyValue.Comment);
+                }
+            }
+            // remove deleted sections
+            foreach (var deletedSection in Sections.Where(s => !string.IsNullOrEmpty(s.SectionName) 
+                                                  && !sourceFile.Sections.Any(s2 => s2.SectionName == s.SectionName))
+                         .ToList())
+            {
+                RemoveSection(deletedSection.SectionName);
+            }
+        }
+
         public IniFileSection AddSection(string name, bool keepWhenEmpty = false)
         {
-            var newSection = new IniFileSection
+            var newSection = new IniFileSection(this)
             {
                 SectionName = name,
                 KeepWhenEmpty = keepWhenEmpty
             };
+            AddSection(newSection);
+            return newSection;
+        }
+
+        public void AddSection(IniFileSection newSection)
+        {
             newSection.ValueChanged += (sender, args) => ValueChanged?.Invoke(sender, args);
             if (Sections.LastOrDefault()?.SectionName == "Digest")
             {
-                Sections.Insert(Sections.Count-1, newSection);
+                Sections.Insert(Sections.Count - 1, newSection);
             }
             else
             {
                 Sections.Add(newSection);
             }
             _sectionsDictionary = null;
-            return newSection;
+            SectionChanged?.Invoke(this, new IniFileSectionChangedEventArgs(newSection.SectionName ?? "", IniFileSectionChangedEventArgs.SectionChangeReason.Added));
         }
 
         public void RemoveSection(string? name)
@@ -236,6 +271,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
             {
                 Sections.RemoveAt(removeIndex);
                 _sectionsDictionary = null;
+                SectionChanged?.Invoke(this, new IniFileSectionChangedEventArgs(name ?? "", IniFileSectionChangedEventArgs.SectionChangeReason.Removed));
+            }
+        }
+
+        public void TrackSectionInEditor(IniFileSection section)
+        {
+            if (!section.IsEmpty)
+            {
+                SectionTracked?.Invoke(this, new IniFileSectionEventArgs(section));
             }
         }
 
@@ -269,7 +313,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
             if (categoryMatch.Success)
             {
                 var sectionName = categoryMatch.Groups[1].Value;
-                var newSection = new IniFileSection()
+                var newSection = new IniFileSection(currentFile)
                        {
                            SectionName = sectionName,
                            KeepWhenEmpty = true
@@ -310,7 +354,32 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
         private Dictionary<string, IniFileLineKeyValue>? _keyValuesDictionary;
         private List<IniFileLineBase> _lines = new List<IniFileLineBase>();
 
-        public event EventHandler<IniFileSectionChangedEventArgs>? ValueChanged;
+        public event EventHandler<IniFileSectionValueChangedEventArgs>? ValueChanged;
+
+        public IniFileSection(IniFile? file = null)
+        {
+            File = file;
+        }
+
+        public IniFile? File { get; }
+
+        public int SectionIndex => File?.Sections.IndexOf(this) ?? -1;
+
+        public int SectionLine
+        {
+            get
+            {
+                var sectionIdx = SectionIndex;
+                if (File != null && sectionIdx > -1)
+                {
+                    return sectionIdx > 0 
+                        ? File.Sections.Take(sectionIdx).Where(s => !s.IsEmpty || s.KeepWhenEmpty).Sum(s => s.GetLineCount()) 
+                        : 0;
+                }
+
+                return -1;
+            }
+        }
 
         public string? SectionName { get; set; }
 
@@ -336,7 +405,12 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
 
         public void RaiseValueChanged(string key, string value)
         {
-            ValueChanged?.Invoke(this, new IniFileSectionChangedEventArgs(SectionName ?? "", key, value));
+            ValueChanged?.Invoke(this, new IniFileSectionValueChangedEventArgs(SectionName ?? "", key, value));
+        }
+
+        public void TrackInEditor()
+        {
+            File?.TrackSectionInEditor(this);
         }
 
         public IniFileLineKeyValue? GetValue(string key)
@@ -427,6 +501,22 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
             }
             return linesText.ToString();
         }
+
+        public int GetLineCount()
+        {
+            var lineCount = 0;
+            if (SectionName != null)
+            {
+                lineCount++;
+            }
+            lineCount += Lines.Count;
+            if (Lines.Any()
+                && Lines.LastEx() is not IniFileLineEmpty)
+            {
+                lineCount += 1;
+            }
+            return lineCount;
+        }
     }
 
     public abstract class IniFileLineBase
@@ -483,7 +573,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
         public event EventHandler? ValueChanged;
 
         [Browsable(false)]
-        public IniFileSection Section { get; }
+        public IniFileSection Section { get; set; }
 
         public string Key { get; }
 
@@ -492,6 +582,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
             get => _value;
             set
             {
+                if (_value == value) return;
                 _value = value;
                 ValueChanged?.Invoke(this, EventArgs.Empty);
                 Section.RaiseValueChanged(Key, Value);
@@ -514,9 +605,37 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
         }
     }
 
+    public class IniFileSectionEventArgs : EventArgs
+    {
+        public IniFileSectionEventArgs(IniFileSection section)
+        {
+            Section = section;
+        }
+
+        public IniFileSection Section { get; }
+    }
+
     public class IniFileSectionChangedEventArgs : EventArgs
     {
-        public IniFileSectionChangedEventArgs(string section, string key, string newValue)
+        public enum SectionChangeReason
+        {
+            Added,
+            Removed
+        }
+
+        public IniFileSectionChangedEventArgs(string section, SectionChangeReason reason)
+        {
+            Section = section;
+            Reason = reason;
+        }
+
+        public string Section { get; }
+        public SectionChangeReason Reason { get; }
+    }
+
+    public class IniFileSectionValueChangedEventArgs : EventArgs
+    {
+        public IniFileSectionValueChangedEventArgs(string section, string key, string newValue)
         {
             Section = section;
             Key = key;

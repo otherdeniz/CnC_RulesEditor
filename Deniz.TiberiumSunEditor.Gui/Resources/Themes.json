@@ -23,7 +23,8 @@
 			"TabsUsesOsTheme": true,
 			"ButtonUsesOsTheme": true,
 			"WindowUseDarkHeader": false,
-			"BlankTechnoBitmap": "_BLANK.bmp"
+			"BlankTechnoBitmap": "_BLANK.bmp",
+			"SyntaxMode": "INI-Light"
 		},
 		{
 			"Name": "Dark",
@@ -48,7 +49,8 @@
 			"TabsUsesOsTheme": false,
 			"ButtonUsesOsTheme": false,
 			"WindowUseDarkHeader": true,
-			"BlankTechnoBitmap": "_BLANK-DARK.bmp"
+			"BlankTechnoBitmap": "_BLANK-DARK.bmp",
+			"SyntaxMode": "INI-Dark"
 		},
 		{
 			"Name": "DOS/QBasic",
@@ -73,7 +75,8 @@
 			"TabsUsesOsTheme": false,
 			"ButtonUsesOsTheme": false,
 			"WindowUseDarkHeader": true,
-			"BlankTechnoBitmap": "_BLANK-DARK.bmp"
+			"BlankTechnoBitmap": "_BLANK-DARK.bmp",
+			"SyntaxMode": "INI-Dos"
 		},
 		{
 			"Name": "Red Alert",
@@ -98,7 +101,8 @@
 			"TabsUsesOsTheme": false,
 			"ButtonUsesOsTheme": false,
 			"WindowUseDarkHeader": true,
-			"BlankTechnoBitmap": "_BLANK-DARK.bmp"
+			"BlankTechnoBitmap": "_BLANK-DARK.bmp",
+			"SyntaxMode": "INI-Redalert"
 		}
 	]
 }

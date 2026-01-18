@@ -13,6 +13,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
         private bool _showOnlyFavoriteValues;
         private bool _showOnlyFavoriteUnits;
         private bool _titleVisible = true;
+        private bool _iniEditorVisible;
         private string _searchText = "";
 
         public ArtEditMainControl()
@@ -49,6 +50,19 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 {
                     filterControl.ClearFilter();
                 }
+            }
+        }
+
+        [DefaultValue(false)]
+        public bool IniEditorVisible
+        {
+            get => _iniEditorVisible;
+            set
+            {
+                if (_iniEditorVisible == value) return;
+                _iniEditorVisible = value;
+                iniEditorSplitter.Visible = value;
+                iniTextEditorControl.Visible = value;
             }
         }
 
@@ -151,6 +165,18 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 mainTab.SelectedTab = firstVisibleTab;
             }
             model.EntitiesReloaded += (sender, args) => ReloadModels();
+            iniTextEditorControl.LoadIniFile(model.File, () =>
+            {
+                try
+                {
+                    Model.ReloadGameEntites();
+                    ReloadModels();
+                }
+                catch (Exception)
+                {
+                    // control disposed
+                }
+            });
         }
 
         public void UpdateHeaderFilePath(string? saveLocation = null)

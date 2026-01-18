@@ -220,6 +220,12 @@
     <None Remove="Resources\startup_awaiting_orders.wav" />
     <None Remove="Resources\startup_read_for_action.wav" />
     <None Remove="Resources\startup_sir-yes-sir.wav" />
+    <None Remove="Resources\SyntaxModes\Ini-Dark.xshd" />
+    <None Remove="Resources\SyntaxModes\Ini-Dos.xshd" />
+    <None Remove="Resources\SyntaxModes\Ini-Light.xshd" />
+    <None Remove="Resources\SyntaxModes\Ini-Redalert.xshd" />
+    <None Remove="Resources\SyntaxModes\Ini.xshd" />
+    <None Remove="Resources\SyntaxModes\SyntaxModes.xml" />
     <None Remove="Resources\Themes.json" />
     <None Remove="Resources\TSai.ini" />
     <None Remove="Resources\TSaifs.ini" />
@@ -416,6 +422,21 @@
     <Content Include="Resources\startup_sir-yes-sir.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\SyntaxModes\Ini-Dark.xshd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SyntaxModes\Ini-Dos.xshd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SyntaxModes\Ini-Light.xshd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SyntaxModes\Ini-Redalert.xshd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SyntaxModes\SyntaxModes.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Themes.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -510,6 +531,7 @@
 
   <ItemGroup>
     <PackageReference Include="AnimatedGif" Version="1.0.5" />
+    <PackageReference Include="ICSharpCode.TextEditorEx" Version="1.4.0" />
     <PackageReference Include="Infragistics.WinForms.DataSource" Version="23.2.81" />
     <PackageReference Include="Infragistics.WinForms.Editors" Version="23.2.81" />
     <PackageReference Include="Infragistics.WinForms.ListView" Version="23.2.81" />

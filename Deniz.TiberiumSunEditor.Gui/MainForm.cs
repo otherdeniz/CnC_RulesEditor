@@ -19,6 +19,7 @@ namespace Deniz.TiberiumSunEditor.Gui
         private ArtEditMainControl? _editArtMainControl;
         private AiEditMainControl? _editAiMainControl;
         private bool _filterEnabled;
+        private bool _iniEditorEnabled;
         private bool _doEvents;
 
         public MainForm()
@@ -530,6 +531,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = false;
             mainToolbarsManager.Tools["Filter"].SharedProps.Enabled = false;
+            mainToolbarsManager.Tools["INI-Editor"].SharedProps.Enabled = false;
             ((TextBoxTool)mainToolbarsManager.Tools["SearchText"]).Text = "";
             Application.DoEvents();
             foreach (var control in panelMain.Controls
@@ -598,6 +600,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["Filter"].SharedProps.Enabled = true;
+            mainToolbarsManager.Tools["INI-Editor"].SharedProps.Enabled = false;
             var relativeFolder = string.IsNullOrEmpty(compareModel.FileType.GameDefinition.SaveAsRelativeToGameFolder)
                 ? "root"
                 : compareModel.FileType.GameDefinition.SaveAsRelativeToGameFolder;
@@ -627,7 +630,8 @@ namespace Deniz.TiberiumSunEditor.Gui
             _editRulesMainControl = new RulesEditMainControl()
             {
                 Dock = DockStyle.Fill,
-                FilterVisible = _filterEnabled
+                FilterVisible = _filterEnabled,
+                IniEditorVisible = _iniEditorEnabled
             };
             _editRulesMainControl.ReloadFile += (sender, args) =>
             {
@@ -651,6 +655,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["Filter"].SharedProps.Enabled = true;
+            mainToolbarsManager.Tools["INI-Editor"].SharedProps.Enabled = true;
             var relativeFolder = string.IsNullOrEmpty(_editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
                 ? "root"
                 : _editRulesMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder;
@@ -681,7 +686,8 @@ namespace Deniz.TiberiumSunEditor.Gui
             _editArtMainControl = new ArtEditMainControl()
             {
                 Dock = DockStyle.Fill,
-                FilterVisible = _filterEnabled
+                FilterVisible = _filterEnabled,
+                IniEditorVisible = _iniEditorEnabled
             };
             _editArtMainControl.ReloadFile += (sender, args) =>
             {
@@ -701,6 +707,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["Filter"].SharedProps.Enabled = true;
+            mainToolbarsManager.Tools["INI-Editor"].SharedProps.Enabled = true;
             var relativeFolder = string.IsNullOrEmpty(_editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
                 ? "root"
                 : _editArtMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder;
@@ -750,6 +757,7 @@ namespace Deniz.TiberiumSunEditor.Gui
             mainToolbarsManager.Tools["SearchLabel"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["SearchText"].SharedProps.Enabled = true;
             mainToolbarsManager.Tools["Filter"].SharedProps.Enabled = false;
+            mainToolbarsManager.Tools["INI-Editor"].SharedProps.Enabled = false;
             var relativeFolder = string.IsNullOrEmpty(_editAiMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder)
                 ? "root"
                 : _editAiMainControl.Model.FileType.GameDefinition.SaveAsRelativeToGameFolder;
@@ -829,9 +837,28 @@ namespace Deniz.TiberiumSunEditor.Gui
             _doEvents = true;
         }
 
+        private void ButtonShowIniEditor(bool enabled)
+        {
+            _iniEditorEnabled = enabled;
+            if (_editRulesMainControl != null)
+            {
+                _editRulesMainControl.IniEditorVisible = _iniEditorEnabled;
+            }
+            else if (_editArtMainControl != null)
+            {
+                _editArtMainControl.IniEditorVisible = _iniEditorEnabled;
+            }
+
+            _doEvents = false;
+            ((StateButtonTool)mainToolbarsManager.Tools["INI-Editor"]).Checked = _iniEditorEnabled;
+            _doEvents = true;
+        }
+
         private void LoadUserSettings()
         {
             _doEvents = false;
+            ((StateButtonTool)mainToolbarsManager.Tools["INI-Editor"]).Checked = _iniEditorEnabled;
+
             ((StateButtonTool)mainToolbarsManager.Tools["SettingOpeningSound"]).Checked = 
                 UserSettingsFile.Instance.SettingPlayOpeningSound;
 
@@ -1029,6 +1056,12 @@ namespace Deniz.TiberiumSunEditor.Gui
                 case "Filter":
                     ButtonShowFilter();
                     break;
+                case "INI-Editor":
+                    var showEditor = !_iniEditorEnabled;
+                    UserSettingsFile.Instance.ShowIniEditor = showEditor;
+                    UserSettingsFile.Instance.Save();
+                    ButtonShowIniEditor(showEditor);
+                    break;
                 case "About":
                     AboutForm.ExecuteShow(this);
                     break;
@@ -1077,6 +1110,11 @@ namespace Deniz.TiberiumSunEditor.Gui
             else
             {
                 AutoUpdateManager.CheckForUpdate(this, false);
+            }
+
+            if (UserSettingsFile.Instance.ShowIniEditor)
+            {
+                ButtonShowIniEditor(true);
             }
             DarkTitleBarHelper.UseImmersiveDarkMode(Handle, ThemeManager.Instance.CurrentTheme.WindowUseDarkHeader);
             InitUserSettings();

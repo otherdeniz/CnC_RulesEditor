@@ -326,7 +326,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 }
             }
 
-            private void FileSectionOnValueChanged(object? sender, IniFileSectionChangedEventArgs e)
+            private void FileSectionOnValueChanged(object? sender, IniFileSectionValueChangedEventArgs e)
             {
                 // write the trigger value
                 var valueBuilder = new StringBuilder();

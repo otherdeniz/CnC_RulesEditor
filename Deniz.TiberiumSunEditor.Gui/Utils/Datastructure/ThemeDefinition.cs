@@ -26,5 +26,6 @@
         public bool ButtonUsesOsTheme { get; set; } = true;
         public bool WindowUseDarkHeader { get; set; } = false;
         public string BlankTechnoBitmap { get; set; } = "_BLANK.bmp";
+        public string SyntaxMode { get; set; } = "INI-Light";
     }
 }
