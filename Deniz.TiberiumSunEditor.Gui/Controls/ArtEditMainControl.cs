@@ -164,19 +164,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 mainTab.SelectedTab = firstVisibleTab;
             }
-            model.EntitiesReloaded += (sender, args) => ReloadModels();
-            iniTextEditorControl.LoadIniFile(model.File, () =>
-            {
-                try
-                {
-                    Model.ReloadGameEntites();
-                    ReloadModels();
-                }
-                catch (Exception)
-                {
-                    // control disposed
-                }
-            });
+            model.EntitiesReloaded += (sender, args) => ReloadModels(mainTab.SelectedTab.Key);
+            iniTextEditorControl.LoadIniFile(model.File, () => Model.ReloadGameEntites());
         }
 
         public void UpdateHeaderFilePath(string? saveLocation = null)
@@ -186,15 +175,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                                  ?? "new";
         }
 
-        public void ReloadModels()
+        public void ReloadModels(string? preserveSelectionOnTab = null)
         {
             AnimationsAsyncLoader.Instance.Stop(true, false);
-            mainTab.Tabs["Buildings"].Visible = unitsBuildings.LoadModel(Model, Model.BuildingEntities, filterControl.CurrentFilter);
-            mainTab.Tabs["Infantry"].Visible = unitsInfantry.LoadModel(Model, Model.InfantryEntities, filterControl.CurrentFilter);
-            mainTab.Tabs["Vehicles"].Visible = unitsVehicles.LoadModel(Model, Model.VehicleEntities, filterControl.CurrentFilter);
-            mainTab.Tabs["Aircrafts"].Visible = unitsAircrafts.LoadModel(Model, Model.AircraftEntities, filterControl.CurrentFilter);
-            mainTab.Tabs["Projectiles"].Visible = unitsProjectiles.LoadModel(Model, Model.ProjectileEntities, filterControl.CurrentFilter);
-            mainTab.Tabs["Animations"].Visible = unitsAnimations.LoadModel(Model, Model.AnimationEntities, filterControl.CurrentFilter);
+            mainTab.Tabs["Buildings"].Visible = unitsBuildings.LoadModel(Model, Model.BuildingEntities, filterControl.CurrentFilter, preserveSelectionOnTab == "Buildings");
+            mainTab.Tabs["Infantry"].Visible = unitsInfantry.LoadModel(Model, Model.InfantryEntities, filterControl.CurrentFilter, preserveSelectionOnTab == "Infantry");
+            mainTab.Tabs["Vehicles"].Visible = unitsVehicles.LoadModel(Model, Model.VehicleEntities, filterControl.CurrentFilter, preserveSelectionOnTab == "Vehicles");
+            mainTab.Tabs["Aircrafts"].Visible = unitsAircrafts.LoadModel(Model, Model.AircraftEntities, filterControl.CurrentFilter, preserveSelectionOnTab == "Aircrafts");
+            mainTab.Tabs["Projectiles"].Visible = unitsProjectiles.LoadModel(Model, Model.ProjectileEntities, filterControl.CurrentFilter, preserveSelectionOnTab == "Projectiles");
+            mainTab.Tabs["Animations"].Visible = unitsAnimations.LoadModel(Model, Model.AnimationEntities, filterControl.CurrentFilter, preserveSelectionOnTab == "Animations");
             var hasPhobos = false;
             tabPhobos.Tabs.Clear();
             tabPhobos.Controls.OfType<UltraTabPageControl>().ToList().ForEach(c =>

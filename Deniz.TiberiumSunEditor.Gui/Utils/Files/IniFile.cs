@@ -223,11 +223,44 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
             {
                 var sourceSection = sourceFile.Sections[i];
                 var targetSection = GetSection(sourceSection.SectionName)
-                                    ?? AddSection(sourceSection.SectionName!);
-                foreach (var sourceKeyValue in sourceSection.KeyValues)
+                                    ?? AddSection(sourceSection.SectionName!, sectionIndex: i);
+                for (int j = 0; j < sourceSection.Lines.Count; j++)
                 {
-                    targetSection.SetValue(sourceKeyValue.Key, sourceKeyValue.Value, sourceKeyValue.Comment);
+                    var sourceLine = sourceSection.Lines[j];
+                    var targetLine = targetSection.Lines.Count > j ? targetSection.Lines[j] : null;
+                    if (sourceLine is IniFileLineKeyValue sourceKeyValueLine)
+                    {
+                        if (targetLine is IniFileLineKeyValue targetKeyValueLine
+                            && targetKeyValueLine.Key == sourceKeyValueLine.Key)
+                        {
+                            targetKeyValueLine.Value = sourceKeyValueLine.Value;
+                            targetKeyValueLine.Comment = sourceKeyValueLine.Comment;
+                        }
+                        else
+                        {
+                            targetKeyValueLine = new IniFileLineKeyValue(targetSection,
+                                sourceKeyValueLine.Key, sourceKeyValueLine.Value, sourceKeyValueLine.Comment);
+                            targetSection.Lines.Insert(j, targetKeyValueLine);
+                        }
+                    }
+                    else
+                    {
+                        if (targetSection.Lines.Count > j)
+                        {
+                            targetSection.Lines[j] = sourceLine;
+                        }
+                        else
+                        {
+                            targetSection.Lines.Add(sourceLine);
+                        }
+                    }
                 }
+                // removed trailing lines
+                while (targetSection.Lines.Count > sourceSection.Lines.Count)
+                {
+                    targetSection.Lines.RemoveAt(targetSection.Lines.Count - 1);
+                }
+                targetSection.ResetValueCache();
             }
             // remove deleted sections
             foreach (var deletedSection in Sections.Where(s => !string.IsNullOrEmpty(s.SectionName) 
@@ -238,21 +271,26 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
             }
         }
 
-        public IniFileSection AddSection(string name, bool keepWhenEmpty = false)
+        public IniFileSection AddSection(string name, bool keepWhenEmpty = false, int sectionIndex = -1)
         {
             var newSection = new IniFileSection(this)
             {
                 SectionName = name,
                 KeepWhenEmpty = keepWhenEmpty
             };
-            AddSection(newSection);
+            AddSection(newSection, sectionIndex);
             return newSection;
         }
 
-        public void AddSection(IniFileSection newSection)
+        public void AddSection(IniFileSection newSection, int sectionIndex = -1)
         {
             newSection.ValueChanged += (sender, args) => ValueChanged?.Invoke(sender, args);
-            if (Sections.LastOrDefault()?.SectionName == "Digest")
+            if (sectionIndex > -1 
+                && sectionIndex < Sections.Count)
+            {
+                Sections.Insert(sectionIndex, newSection);
+            }
+            else if (Sections.LastOrDefault()?.SectionName == "Digest")
             {
                 Sections.Insert(Sections.Count - 1, newSection);
             }
@@ -432,8 +470,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
                 if (value == "" && keyValue.RuntimeAdded && removeEmptyRuntimeAdded)
                 {
                     Lines.Remove(keyValue);
-                    _keyValuesList = null;
-                    _keyValuesDictionary = null;
+                    ResetValueCache();
                     RaiseValueChanged(key, value);
                 }
                 else
@@ -456,8 +493,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
                 {
                     Lines.Add(new IniFileLineKeyValue(this, key, value, comment, runtimeAdded: true));
                 }
-                _keyValuesList = null;
-                _keyValuesDictionary = null;
+                ResetValueCache();
                 RaiseValueChanged(key, value);
             }
         }
@@ -468,6 +504,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
                 l is IniFileLineKeyValue keyValue
                 && removeMatch(keyValue)).ToList();
             removeLines.ForEach(l => Lines.Remove(l));
+            ResetValueCache();
+        }
+
+        public void ResetValueCache()
+        {
             _keyValuesList = null;
             _keyValuesDictionary = null;
         }

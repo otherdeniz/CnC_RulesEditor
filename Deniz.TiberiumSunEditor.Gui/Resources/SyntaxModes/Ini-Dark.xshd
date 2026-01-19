@@ -16,29 +16,25 @@
         <TabMarkers color="#B6B6C0"/>
         <InvalidLines color="#B6B6C0"/>
     </Environment>
-	<Digits name = "Digits" bold = "false" italic = "false" color = "#9b9bff"/>
+	<Digits name = "Digits" bold = "false" italic = "false" color = "#babaf8"/>
   <RuleSets>
     <RuleSet ignorecase="false">
       <!-- Delimiters split tokens so that '=' can be treated as a separate word -->
       <Delimiters>=[];#&lt;&gt;~!%^*()-+|\{}:"' ,	.?</Delimiters>
 
-      <!-- Comments: ; or # until end of line -->
-      <Span name="CommentSemicolon" color="Green" stopateol="true">
+      <!-- Comments: ; until end of line -->
+      <Span name="CommentSemicolon" color="#22b622" stopateol="true">
         <Begin>;</Begin>
       </Span>
 
-      <Span name="CommentHash" color="Green" stopateol="true">
-        <Begin>#</Begin>
-      </Span>
-
       <!-- Sections: [SectionName] -->
-      <Span name="Section" color="Red" stopateol="false">
+      <Span name="Section" color="Red" bold="true" stopateol="false">
         <Begin>[</Begin>
         <End>]</End>
       </Span>
 
       <!-- The '=' character, colored blue -->
-      <KeyWords name="EqualsSign" bold="false" italic="false" color="#FFFFFF">
+      <KeyWords name="EqualsSign" bold="false" italic="false" color="#CC33FF">
         <Key word="="/>
       </KeyWords>
     </RuleSet>

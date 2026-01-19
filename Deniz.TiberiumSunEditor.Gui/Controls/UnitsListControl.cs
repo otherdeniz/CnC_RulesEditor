@@ -137,7 +137,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         public bool LoadModel(IRootModel rootModel,
             List<GameEntityModel> entities, 
-            FilterModel? filter = null)
+            FilterModel? filter = null,
+            bool preserveSelection = false)
         {
             _rootModel = rootModel;
             _entities = entities;
@@ -145,7 +146,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             _doEvents = false;
             checkBoxOnlyModified.Checked = false;
             _doEvents = true;
-            return LoadUnits(true);
+            return LoadUnits(preserveSelection);
         }
 
         public void SelectKey(string key)

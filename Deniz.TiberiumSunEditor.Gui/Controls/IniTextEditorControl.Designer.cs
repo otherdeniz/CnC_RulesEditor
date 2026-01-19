@@ -28,13 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IniTextEditorControl));
             groupTextEditor = new GroupBox();
             textEditorIni = new ICSharpCode.TextEditor.TextEditorControlEx();
             panelFilterIni = new Panel();
-            buttonResetSearchIni = new Button();
             labelSearchIni = new Label();
-            textBoxSearchIni = new TextBox();
             groupTextEditor.SuspendLayout();
             panelFilterIni.SuspendLayout();
             SuspendLayout();
@@ -49,7 +46,7 @@
             groupTextEditor.Size = new Size(473, 593);
             groupTextEditor.TabIndex = 1;
             groupTextEditor.TabStop = false;
-            groupTextEditor.Text = "INI-File Live Editor";
+            groupTextEditor.Text = "INI-File Text-Editor";
             groupTextEditor.Leave += groupTextEditor_Leave;
             // 
             // textEditorIni
@@ -57,9 +54,9 @@
             textEditorIni.Dock = DockStyle.Fill;
             textEditorIni.FoldingStrategy = "C#";
             textEditorIni.Font = new Font("Courier New", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            textEditorIni.Location = new Point(3, 43);
+            textEditorIni.Location = new Point(3, 19);
             textEditorIni.Name = "textEditorIni";
-            textEditorIni.Size = new Size(467, 547);
+            textEditorIni.Size = new Size(467, 553);
             textEditorIni.SyntaxHighlighting = "C#";
             textEditorIni.TabIndex = 11;
             textEditorIni.Text = "textEditorControlEx1";
@@ -67,41 +64,21 @@
             // 
             // panelFilterIni
             // 
-            panelFilterIni.Controls.Add(buttonResetSearchIni);
             panelFilterIni.Controls.Add(labelSearchIni);
-            panelFilterIni.Controls.Add(textBoxSearchIni);
-            panelFilterIni.Dock = DockStyle.Top;
-            panelFilterIni.Location = new Point(3, 19);
+            panelFilterIni.Dock = DockStyle.Bottom;
+            panelFilterIni.Location = new Point(3, 572);
             panelFilterIni.Name = "panelFilterIni";
-            panelFilterIni.Size = new Size(467, 24);
+            panelFilterIni.Size = new Size(467, 18);
             panelFilterIni.TabIndex = 10;
-            panelFilterIni.Visible = false;
-            // 
-            // buttonResetSearchIni
-            // 
-            buttonResetSearchIni.Enabled = false;
-            buttonResetSearchIni.Image = (Image)resources.GetObject("buttonResetSearchIni.Image");
-            buttonResetSearchIni.Location = new Point(165, 0);
-            buttonResetSearchIni.Name = "buttonResetSearchIni";
-            buttonResetSearchIni.Size = new Size(23, 23);
-            buttonResetSearchIni.TabIndex = 2;
-            buttonResetSearchIni.UseVisualStyleBackColor = true;
             // 
             // labelSearchIni
             // 
             labelSearchIni.AutoSize = true;
-            labelSearchIni.Location = new Point(3, 3);
+            labelSearchIni.Location = new Point(3, 1);
             labelSearchIni.Name = "labelSearchIni";
-            labelSearchIni.Size = new Size(45, 15);
+            labelSearchIni.Size = new Size(223, 15);
             labelSearchIni.TabIndex = 1;
-            labelSearchIni.Text = "Search:";
-            // 
-            // textBoxSearchIni
-            // 
-            textBoxSearchIni.Location = new Point(66, 0);
-            textBoxSearchIni.Name = "textBoxSearchIni";
-            textBoxSearchIni.Size = new Size(100, 23);
-            textBoxSearchIni.TabIndex = 0;
+            labelSearchIni.Text = "Tip: press CTRL+F to open Search-Dialog";
             // 
             // IniTextEditorControl
             // 
@@ -121,8 +98,6 @@
         private GroupBox groupTextEditor;
         private ICSharpCode.TextEditor.TextEditorControlEx textEditorIni;
         private Panel panelFilterIni;
-        private Button buttonResetSearchIni;
         private Label labelSearchIni;
-        private TextBox textBoxSearchIni;
     }
 }
