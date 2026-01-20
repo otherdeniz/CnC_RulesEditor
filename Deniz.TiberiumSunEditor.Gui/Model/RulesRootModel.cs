@@ -56,19 +56,6 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             DescriptionFile = FileType.GameDefinition.LoadDescriptionRulesFile();
             LoadGameEntities();
             InitialiseLookupItems();
-            CommonValues = GetCommonValues(Datastructure.CommonGeneral)
-                .Union(GetOtherValues("General"))
-                .ToList();
-            TiberiumValues = GetCommonValues(Datastructure.TiberiumGeneral)
-                .Union(GetTiberiumValues(Datastructure.TiberiumValues))
-                .ToList();
-            AiValues = GetCommonValues(Datastructure.AIGeneral)
-                .Union(GetOtherValues("AI"))
-                .ToList();
-            SuperWeaponValues = GetCommonValues(Datastructure.SuperWeaponsGeneral)
-                .Union(GetOtherValues("SpecialWeapons"))
-                .ToList();
-            AudioVisualValues = GetAllSectionValues("AudioVisual");
         }
 
         public event EventHandler<EventArgs>? EntitiesReloaded;
@@ -110,15 +97,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                     new("Nod", new List<string> { "Nod" })
                 };
 
-        public List<CommonValueModel> CommonValues { get; }
+        public List<CommonValueModel> CommonValues { get; private set; } = null!;
 
-        public List<CommonValueModel> AiValues { get; }
+        public List<CommonValueModel> AiValues { get; private set; } = null!;
 
-        public List<CommonValueModel> SuperWeaponValues { get; }
+        public List<CommonValueModel> SuperWeaponValues { get; private set; } = null!;
 
-        public List<CommonValueModel> TiberiumValues { get; }
+        public List<CommonValueModel> TiberiumValues { get; private set; } = null!;
 
-        public List<CommonValueModel> AudioVisualValues { get; }
+        public List<CommonValueModel> AudioVisualValues { get; private set; } = null!;
 
         public List<GameEntityModel> SideEntities { get; private set; } = null!;
 
@@ -287,6 +274,20 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 AdditionalEntities.Add(new AdditionalGameEntityModels(additionalType.Module,
                     additionalType.TypesName, gameEntities));
             }
+            // common values
+            CommonValues = GetCommonValues(Datastructure.CommonGeneral)
+                .Union(GetOtherValues("General"))
+                .ToList();
+            TiberiumValues = GetCommonValues(Datastructure.TiberiumGeneral)
+                .Union(GetTiberiumValues(Datastructure.TiberiumValues))
+                .ToList();
+            AiValues = GetCommonValues(Datastructure.AIGeneral)
+                .Union(GetOtherValues("AI"))
+                .ToList();
+            SuperWeaponValues = GetCommonValues(Datastructure.SuperWeaponsGeneral)
+                .Union(GetOtherValues("SpecialWeapons"))
+                .ToList();
+            AudioVisualValues = GetAllSectionValues("AudioVisual");
         }
 
         private void InitialiseLookupItems()
