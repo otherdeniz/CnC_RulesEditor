@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using Deniz.TiberiumSunEditor.Gui.Dialogs;
 using Deniz.TiberiumSunEditor.Gui.Dialogs.Popup;
 using Deniz.TiberiumSunEditor.Gui.Model;
@@ -218,6 +219,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         private void LoadValueGrid()
         {
+            var collapsedRows = valuesGrid.Rows.Where(r => !r.Expanded).Select(r => r.Description).ToList();
             _valueColumn = EntityModel!.RulesRootModel.UseSectionInheritance
                            || EntityModel!.RulesRootModel.UsePhobosSectionInheritance
                 ? "ValueResolved"
@@ -257,6 +259,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 valuesGrid.DisplayLayout.Bands[0].Columns["FavoriteImage"].Hidden = true;
                 valuesGrid.DisplayLayout.Bands[0].Columns["UseNormalImage"].Hidden = true;
+            }
+            foreach (var collapsedGroupByRow in valuesGrid.Rows.OfType<UltraGridGroupByRow>().Where(r => collapsedRows.Any(c => c == r.Description)))
+            {
+                collapsedGroupByRow.Expanded = false;
             }
         }
 
