@@ -1,6 +1,7 @@
 ﻿using Deniz.TiberiumSunEditor.Gui.Utils.Extensions;
 using Infragistics.Win.UltraWinMaskedEdit;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -550,7 +551,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
             {
                 lineCount++;
             }
-            lineCount += Lines.Count;
+            lineCount += Lines.Sum(l => l.LineCount);
             if (Lines.Any()
                 && Lines.LastEx() is not IniFileLineEmpty)
             {
@@ -562,6 +563,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
 
     public abstract class IniFileLineBase
     {
+        public virtual int LineCount { get; } = 1;
+
         public override string ToString()
         {
             return "";
@@ -580,6 +583,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Files
         {
             _rawText = rawText;
         }
+
+        public override int LineCount => _rawText.Contains('\n') 
+            ? _rawText.Split("\n").Length 
+            : 1;
+
         public override string ToString()
         {
             return _rawText;
