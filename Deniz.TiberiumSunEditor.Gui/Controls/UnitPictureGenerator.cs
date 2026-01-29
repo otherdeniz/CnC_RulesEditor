@@ -16,6 +16,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
 
         public Bitmap GetUnitPicture(GameEntityModel entityModel, 
             bool isSelected,
+            bool forceReload,
             Action<Image>? afterAnimationLoad, 
             out AnimationRequirementToken? animationRequirementToken)
         {

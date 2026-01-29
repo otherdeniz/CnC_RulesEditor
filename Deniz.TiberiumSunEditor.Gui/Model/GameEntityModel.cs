@@ -162,106 +162,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
             }
         }
 
-        public ThumbnailModel? Thumbnail
-        {
-            get
-            {
-                if (EntityType == "Warheads")
-                {
-                    var animKeys = GetRulesFileValue("AnimList")?.Value;
-                    if (!string.IsNullOrEmpty(animKeys))
-                    {
-                        return new ThumbnailModel(animKeys);
-                    }
-                    return null;
-                }
-                if (EntityType == "Weapons")
-                {
-                    var warheadValue = GetRulesFileValue("Warhead")?.Value;
-                    if (warheadValue != null)
-                    {
-                        var animKeys = RulesRootModel.FindSection(warheadValue)?.GetValue("AnimList")?.Value;
-                        if (!string.IsNullOrEmpty(animKeys))
-                        {
-                            return new ThumbnailModel(animKeys);
-                        }
-                        return null;
-                    }
-                }
-                if (EntityType == "Projectiles" 
-                    || EntityType == "Particles")
-                {
-                    var animKey = GetRulesFileValue("Image")?.Value;
-                    if (!string.IsNullOrEmpty(animKey))
-                    {
-                        return new ThumbnailModel(animKey);
-                    }
-                    var trailerKey = FileSection.GetValue("Trailer")?.Value;
-                    if (!string.IsNullOrEmpty(trailerKey))
-                    {
-                        return new ThumbnailModel(trailerKey);
-                    }
-                    return null;
-                }
-                if (EntityType == "ParticleSystems")
-                {
-                    var particleValue = GetRulesFileValue("HoldsWhat")?.Value;
-                    if (particleValue != null)
-                    {
-                        var animKey = RulesRootModel.FindSection(particleValue)?.GetValue("Image")?.Value;
-                        if (!string.IsNullOrEmpty(animKey))
-                        {
-                            return new ThumbnailModel(animKey);
-                        }
-                        return null;
-                    }
-                }
-                if (EntityType == "Animations")
-                {
-                    return new ThumbnailModel(EntityKey);
-                }
-                if (EntityType == "Sides")
-                {
-                    var sideName = GetRulesFileValue("Side")?.Value;
-                    var sideDefinition = RulesRootModel.FileType.GameDefinition.Sides
-                        .FirstOrDefault(d => d.Name.Equals(sideName, StringComparison.InvariantCultureIgnoreCase));
-                    if (sideDefinition != null)
-                    {
-                        return new ThumbnailModel(BitmapRepository.Instance.BlankImage.OverlayImage(sideDefinition.GetLogoImage()));
-                    }
-                    return null;
-                }
-                var sidebarImageShpName = GetRulesFileValue("SidebarImage")?.Value;
-                if (sidebarImageShpName != null)
-                {
-                    var shpImage = CCGameRepository.Instance.GetCameoByShp(sidebarImageShpName);
-                    if (shpImage != null)
-                    {
-                        return new ThumbnailModel(shpImage);
-                    }
-                }
-                var sidebarImagePcxName = GetRulesFileValue("SidebarPCX")?.Value;
-                if (sidebarImagePcxName != null)
-                {
-                    var pcxImage = CCGameRepository.Instance.GetCameoByPcx(sidebarImagePcxName);
-                    if (pcxImage != null)
-                    {
-                        return new ThumbnailModel(pcxImage);
-                    }
-                }
-                var imageKey = GetRulesFileValue("Image")?.Value;
-                if (string.IsNullOrEmpty(imageKey) || imageKey == "null")
-                {
-                    imageKey = EntityKey;
-                }
-
-                var image = CCGameRepository.Instance.GetCameo(imageKey)
-                            ?? BitmapRepository.Instance.GetBitmap(imageKey);
-                return image != null 
-                    ? new ThumbnailModel(image)
-                    : null;
-            }
-        }
+        public ThumbnailModel? Thumbnail => GetThumbnail(false);
 
         public int ModificationCount =>
             FileSection.KeyValues.Count(v => 
@@ -279,6 +180,105 @@ namespace Deniz.TiberiumSunEditor.Gui.Model
                 UserSettingsFile.Instance.SectionsSettings.SetFavorite(FileSection.SectionName ?? "_", value);
                 UserSettingsFile.Instance.Save();
             }
+        }
+
+        public ThumbnailModel? GetThumbnail(bool forceReload)
+        {
+            if (EntityType == "Warheads")
+            {
+                var animKeys = GetRulesFileValue("AnimList")?.Value;
+                if (!string.IsNullOrEmpty(animKeys))
+                {
+                    return new ThumbnailModel(animKeys);
+                }
+                return null;
+            }
+            if (EntityType == "Weapons")
+            {
+                var warheadValue = GetRulesFileValue("Warhead")?.Value;
+                if (warheadValue != null)
+                {
+                    var animKeys = RulesRootModel.FindSection(warheadValue)?.GetValue("AnimList")?.Value;
+                    if (!string.IsNullOrEmpty(animKeys))
+                    {
+                        return new ThumbnailModel(animKeys);
+                    }
+                    return null;
+                }
+            }
+            if (EntityType == "Projectiles"
+                || EntityType == "Particles")
+            {
+                var animKey = GetRulesFileValue("Image")?.Value;
+                if (!string.IsNullOrEmpty(animKey))
+                {
+                    return new ThumbnailModel(animKey);
+                }
+                var trailerKey = FileSection.GetValue("Trailer")?.Value;
+                if (!string.IsNullOrEmpty(trailerKey))
+                {
+                    return new ThumbnailModel(trailerKey);
+                }
+                return null;
+            }
+            if (EntityType == "ParticleSystems")
+            {
+                var particleValue = GetRulesFileValue("HoldsWhat")?.Value;
+                if (particleValue != null)
+                {
+                    var animKey = RulesRootModel.FindSection(particleValue)?.GetValue("Image")?.Value;
+                    if (!string.IsNullOrEmpty(animKey))
+                    {
+                        return new ThumbnailModel(animKey);
+                    }
+                    return null;
+                }
+            }
+            if (EntityType == "Animations")
+            {
+                return new ThumbnailModel(EntityKey);
+            }
+            if (EntityType == "Sides")
+            {
+                var sideName = GetRulesFileValue("Side")?.Value;
+                var sideDefinition = RulesRootModel.FileType.GameDefinition.Sides
+                    .FirstOrDefault(d => d.Name.Equals(sideName, StringComparison.InvariantCultureIgnoreCase));
+                if (sideDefinition != null)
+                {
+                    return new ThumbnailModel(BitmapRepository.Instance.BlankImage.OverlayImage(sideDefinition.GetLogoImage()));
+                }
+                return null;
+            }
+            var sidebarImageShpName = GetRulesFileValue("SidebarImage")?.Value;
+            if (sidebarImageShpName != null)
+            {
+                var shpImage = CCGameRepository.Instance.GetCameoByShp(sidebarImageShpName, false);
+                if (shpImage != null)
+                {
+                    return new ThumbnailModel(shpImage);
+                }
+            }
+            var sidebarImagePcxName = GetRulesFileValue("SidebarPCX")?.Value;
+            if (sidebarImagePcxName != null)
+            {
+                var pcxImage = CCGameRepository.Instance.GetCameoByPcx(sidebarImagePcxName, false);
+                if (pcxImage != null)
+                {
+                    return new ThumbnailModel(pcxImage);
+                }
+            }
+            var imageKey = GetRulesFileValue("Image")?.Value;
+            if (string.IsNullOrEmpty(imageKey) || imageKey == "null")
+            {
+                imageKey = EntityKey;
+            }
+
+            var artSection = RootModel is ArtRootModel ? FileSection : null;
+            var image = CCGameRepository.Instance.GetCameo(imageKey, true, artSection)
+                        ?? BitmapRepository.Instance.GetBitmap(imageKey);
+            return image != null
+                ? new ThumbnailModel(image)
+                : null;
         }
 
         public int GetInfoNumber()

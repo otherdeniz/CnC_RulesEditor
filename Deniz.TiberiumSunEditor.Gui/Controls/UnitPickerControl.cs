@@ -57,7 +57,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             {
                 _isSelected = value;
                 BackgroundImage = _isSelected
-                    ? (_selectedUnitPicture ??= UnitPictureGenerator.Instance.GetUnitPicture(EntityModel!, true, null, out _))
+                    ? (_selectedUnitPicture ??= UnitPictureGenerator.Instance.GetUnitPicture(EntityModel!, true, false, null, out _))
                     : _unitPicture;
             }
         }
@@ -107,7 +107,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             EntityModel = entityModel;
             EntityModel.FileSection.ValueChanged += FileSectionOnValueChanged;
             _wasEmpty = entityModel.FileSection.IsEmpty;
-            _unitPicture = UnitPictureGenerator.Instance.GetUnitPicture(entityModel, false, LoadAnimatedThumbnail, out var requirementToken);
+            _unitPicture = UnitPictureGenerator.Instance.GetUnitPicture(entityModel, false, false, LoadAnimatedThumbnail, out var requirementToken);
             _animationRequirementToken = requirementToken;
             BackgroundImage = _unitPicture;
             RefreshInfoNumber();
@@ -135,6 +135,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
             if (e.Key == "Owner"
                 || e.Key == "AnimList"
                 || e.Key == "Name"
+                || e.Key.Equals("cameo", StringComparison.InvariantCultureIgnoreCase)
+                || e.Key.Equals("cameopcx", StringComparison.InvariantCultureIgnoreCase)
                 || _wasEmpty
                 || EntityModel!.FileSection.IsEmpty)
             {
@@ -144,10 +146,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Controls
                 {
                     _animationRequirementToken.StillNeeded = false;
                 }
-                _unitPicture = UnitPictureGenerator.Instance.GetUnitPicture(EntityModel!, false, LoadAnimatedThumbnail, out var requirementToken);
+                _unitPicture = UnitPictureGenerator.Instance.GetUnitPicture(EntityModel!, false, true, LoadAnimatedThumbnail, out var requirementToken);
                 _animationRequirementToken = requirementToken;
                 BackgroundImage = _isSelected
-                    ? (_selectedUnitPicture = UnitPictureGenerator.Instance.GetUnitPicture(EntityModel!, true, null, out _))
+                    ? (_selectedUnitPicture = UnitPictureGenerator.Instance.GetUnitPicture(EntityModel!, true, true, null, out _))
                     : _unitPicture;
             }
         }

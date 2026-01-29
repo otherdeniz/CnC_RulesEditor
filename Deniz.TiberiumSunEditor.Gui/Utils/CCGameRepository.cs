@@ -186,10 +186,11 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
             return null;
         }
 
-        public Image? GetCameoByShp(string shpName)
+        public Image? GetCameoByShp(string shpName, bool forceArtReload)
         {
             if (_fileManager == null || _cameoPaletteColors == null) return null;
-            if (_cameosCache.TryGetValue(shpName, out var bitmap))
+            if (!forceArtReload 
+                && _cameosCache.TryGetValue(shpName, out var bitmap))
             {
                 return bitmap;
             }
@@ -225,7 +226,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                             }
                             finalImage = BitmapRepository.Instance.OverlayImage(finalImage, scale);
                         }
-                        _cameosCache.Add(shpName, finalImage);
+                        _cameosCache[shpName] = finalImage;
                         return finalImage;
                     }
                 }
@@ -235,14 +236,15 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                 Debug.WriteLine($"Shp load failed: {shpName} - error: {e.Message}");
             }
 
-            _cameosCache.Add(shpName, null);
+            _cameosCache[shpName] = null;
             return null;
         }
 
-        public Image? GetCameoByPcx(string pcxName)
+        public Image? GetCameoByPcx(string pcxName, bool forceArtReload)
         {
             if (_fileManager == null || _cameoPaletteColors == null) return null;
-            if (_cameosCache.TryGetValue(pcxName, out var bitmap))
+            if (!forceArtReload
+                && _cameosCache.TryGetValue(pcxName, out var bitmap))
             {
                 return bitmap;
             }
@@ -255,7 +257,7 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                     using var bitmapStream = new MemoryStream(pcxData);
                     using var bmpImage = new MagickImage(bitmapStream, MagickFormat.Pcx);
                     var pcxImage = bmpImage.ToImage();
-                    _cameosCache.Add(pcxName, pcxImage);
+                    _cameosCache[pcxName] = pcxImage;
                     return pcxImage;
                 }
             }
@@ -264,31 +266,34 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils
                 Debug.WriteLine($"PCX load failed: {pcxName} - error: {e.Message}");
             }
 
-            _cameosCache.Add(pcxName, null);
+            _cameosCache[pcxName] = null;
             return null;
         }
 
-        public Image? GetCameo(string key)
+        public Image? GetCameo(string key, bool forceArtReload, IniFileSection? artSection = null)
         {
             if (_fileManager == null || _cameoPaletteColors == null) return null;
-            if (_cameosCache.TryGetValue(key, out var bitmap))
+            if (!forceArtReload
+                && _cameosCache.TryGetValue(key, out var bitmap))
             {
                 return bitmap;
             }
 
-            var shpName = _artIniFile?.GetSection(key)?.GetValue("Cameo")?.Value.ToLowerInvariant();
-            if (shpName != null)
-            {
-                return GetCameoByShp(shpName);
-            }
+            artSection ??= _artIniFile?.GetSection(key);
 
-            var pcxName = _artIniFile?.GetSection(key)?.GetValue("CameoPCX")?.Value.ToLowerInvariant();
+            var pcxName = artSection?.GetValue("CameoPCX")?.Value.ToLowerInvariant();
             if (pcxName != null)
             {
-                return GetCameoByPcx(pcxName);
+                return GetCameoByPcx(pcxName, forceArtReload);
             }
 
-            _cameosCache.Add(key, null);
+            var shpName = artSection?.GetValue("Cameo")?.Value.ToLowerInvariant();
+            if (shpName != null)
+            {
+                return GetCameoByShp(shpName, forceArtReload);
+            }
+
+            _cameosCache[key] = null;
             return null;
         }
 
