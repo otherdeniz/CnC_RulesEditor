@@ -6,11 +6,13 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.Datastructure
     public class DatastructureFile : JsonFileBase
     {
         private static DatastructureFile? _artInstance;
+        private static DatastructureFile? _artInstanceAres;
         private static DatastructureFile? _instance;
         private static DatastructureFile? _instanceAres;
         private static DatastructureFile? _instanceVinifera;
 
         public static DatastructureFile ArtInstance => _artInstance ??= LoadFile("Artstructure.json", null);
+        public static DatastructureFile ArtInstanceAres => _artInstanceAres ??= LoadFile("ArtstructureAres.json", "ARES");
         public static DatastructureFile Instance => _instance ??= LoadFile("Datastructure.json", null);
         public static DatastructureFile InstanceAres => _instanceAres ??= LoadFile("DatastructureAres.json", "ARES");
         public static DatastructureFile InstanceVinifera => _instanceVinifera ??= LoadFile("DatastructureVinifera.json", "VINIFERA");
