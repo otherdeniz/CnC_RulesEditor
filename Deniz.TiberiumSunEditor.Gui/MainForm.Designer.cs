@@ -138,8 +138,10 @@
             Infragistics.Win.Appearance appearance146 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool140 = new Infragistics.Win.UltraWinToolbars.ButtonTool("BalancingTool");
             Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool142 = new Infragistics.Win.UltraWinToolbars.ButtonTool("MixBrowser");
+            Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool146 = new Infragistics.Win.UltraWinToolbars.ButtonTool("MixEditor");
             Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool141 = new Infragistics.Win.UltraWinToolbars.ButtonTool("MixBrowser");
             Infragistics.Win.Appearance appearance147 = new Infragistics.Win.Appearance();
+            Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool147 = new Infragistics.Win.UltraWinToolbars.ButtonTool("MixEditor");
             Infragistics.Win.UltraWinToolbars.PopupMenuTool popupMenuTool120 = new Infragistics.Win.UltraWinToolbars.PopupMenuTool("HotSyncMenu");
             Infragistics.Win.Appearance appearance148 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinToolbars.StateButtonTool stateButtonTool110 = new Infragistics.Win.UltraWinToolbars.StateButtonTool("AutoSave", "");
@@ -340,10 +342,11 @@
             popupMenuTool118.SharedPropsInternal.AppearancesSmall.Appearance = appearance146;
             popupMenuTool118.SharedPropsInternal.Caption = "Tools";
             popupMenuTool118.SharedPropsInternal.Enabled = false;
-            popupMenuTool118.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] { buttonTool140, buttonTool142 });
+            popupMenuTool118.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] { buttonTool140, buttonTool142, buttonTool146 });
             appearance147.Image = resources.GetObject("appearance147.Image");
             buttonTool141.SharedPropsInternal.AppearancesSmall.Appearance = appearance147;
             buttonTool141.SharedPropsInternal.Caption = "Mix Content Browser";
+            buttonTool147.SharedPropsInternal.Caption = "Mix File Editor";
             appearance148.Image = resources.GetObject("appearance148.Image");
             popupMenuTool120.SharedPropsInternal.AppearancesSmall.Appearance = appearance148;
             popupMenuTool120.SharedPropsInternal.Caption = "Hot Sync";
@@ -382,7 +385,7 @@
             appearance155.Image = resources.GetObject("appearance155.Image");
             buttonTool144.SharedPropsInternal.AppearancesSmall.Appearance = appearance155;
             buttonTool144.SharedPropsInternal.Caption = "Full Documentation";
-            mainToolbarsManager.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] { popupMenuTool11, buttonTool17, buttonTool19, buttonTool11, popupMenuTool13, buttonTool111, buttonTool113, buttonTool115, buttonTool117, labelTool11, textBoxTool11, buttonTool119, buttonTool121, buttonTool123, buttonTool125, buttonTool127, popupMenuTool15, stateButtonTool11, stateButtonTool13, buttonTool18, buttonTool110, popupMenuTool17, stateButtonTool15, stateButtonTool17, popupMenuTool19, buttonTool124, buttonTool128, buttonTool130, popupMenuTool110, popupMenuTool112, popupMenuTool114, buttonTool132, labelTool13, popupMenuTool116, buttonTool13, buttonTool15, buttonTool134, buttonTool136, popupMenuTool118, buttonTool141, popupMenuTool120, stateButtonTool19, stateButtonTool111, stateButtonTool113, popupMenuTool121, popupMenuTool123, stateButtonTool115, stateButtonTool117, stateButtonTool119, stateButtonTool121, popupMenuTool125, buttonTool12, buttonTool144 });
+            mainToolbarsManager.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] { popupMenuTool11, buttonTool17, buttonTool19, buttonTool11, popupMenuTool13, buttonTool111, buttonTool113, buttonTool115, buttonTool117, labelTool11, textBoxTool11, buttonTool119, buttonTool121, buttonTool123, buttonTool125, buttonTool127, popupMenuTool15, stateButtonTool11, stateButtonTool13, buttonTool18, buttonTool110, popupMenuTool17, stateButtonTool15, stateButtonTool17, popupMenuTool19, buttonTool124, buttonTool128, buttonTool130, popupMenuTool110, popupMenuTool112, popupMenuTool114, buttonTool132, labelTool13, popupMenuTool116, buttonTool13, buttonTool15, buttonTool134, buttonTool136, popupMenuTool118, buttonTool141, buttonTool147, popupMenuTool120, stateButtonTool19, stateButtonTool111, stateButtonTool113, popupMenuTool121, popupMenuTool123, stateButtonTool115, stateButtonTool117, stateButtonTool119, stateButtonTool121, popupMenuTool125, buttonTool12, buttonTool144 });
             mainToolbarsManager.ToolClick += mainToolbarsManager_ToolClick;
             mainToolbarsManager.ToolValueChanged += mainToolbarsManager_ToolValueChanged;
             // 
