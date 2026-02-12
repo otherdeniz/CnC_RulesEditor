@@ -9,6 +9,8 @@ using Deniz.TiberiumSunEditor.Gui.Utils.Exceptions;
 using Deniz.TiberiumSunEditor.Gui.Utils.Files;
 using Deniz.TiberiumSunEditor.Gui.Utils.UserSettings;
 using Infragistics.Win.UltraWinToolbars;
+using System.Diagnostics;
+using System.Security.Policy;
 
 namespace Deniz.TiberiumSunEditor.Gui
 {
@@ -1064,6 +1066,13 @@ namespace Deniz.TiberiumSunEditor.Gui
                     break;
                 case "About":
                     AboutForm.ExecuteShow(this);
+                    break;
+                case "OnlineDocu":
+                    var docuLinkProcessInfo = new ProcessStartInfo("https://github.com/otherdeniz/CnC_RulesEditor/blob/master/README_DOCS.md")
+                    {
+                        UseShellExecute = true
+                    };
+                    Process.Start(docuLinkProcessInfo);
                     break;
             }
         }

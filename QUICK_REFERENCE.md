@@ -190,7 +190,7 @@ Hint: Weapons and Warheads are detected "by usage", once you use a custom warhea
 ### Creating a Warhead
 
 1. Go to **Warheads** tab
-2. you can just use the `Copy` function to create a new Weapon
+2. you can just use the `Copy` function to create a new Warhead
 3. Enter warhead ID (e.g., "MyWarhead")
 4. Set properties:
    - `Verses` - Damage vs armor types (comma-separated percentages)
