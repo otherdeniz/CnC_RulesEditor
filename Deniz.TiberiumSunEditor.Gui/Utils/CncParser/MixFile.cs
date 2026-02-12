@@ -197,10 +197,22 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
             else
             {
                 _contentList = Entries
-                    .Select(e => new MixFileContent(e.Identifier, MixEntryNames.Instance.GetName(e.Identifier), 
+                    .Select(e => new MixFileContent(e.Identifier, MixEntryNames.Instance.GetName(e.Identifier),
                         new FileLocationInfo(this, e.Offset, e.Size)))
                     .Where(n => !string.IsNullOrEmpty(n.FileName))
                     .ToList();
+            }
+
+            // Preserve unmatched index entries using hex-ID fallback names (mirrors XCC Mixer behavior)
+            var matchedIds = new HashSet<uint>(_contentList.Select(c => c.Id));
+            foreach (var entry in Entries)
+            {
+                if (!matchedIds.Contains(entry.Identifier) && entry.Identifier != localMixDbId)
+                {
+                    var hexName = entry.Identifier.ToString("x8");
+                    _contentList.Add(new MixFileContent(entry.Identifier, hexName,
+                        new FileLocationInfo(this, entry.Offset, entry.Size)));
+                }
             }
 
             return _contentList;

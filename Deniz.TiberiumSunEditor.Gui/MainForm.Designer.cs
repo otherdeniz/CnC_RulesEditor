@@ -142,6 +142,7 @@
             Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool141 = new Infragistics.Win.UltraWinToolbars.ButtonTool("MixBrowser");
             Infragistics.Win.Appearance appearance147 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool147 = new Infragistics.Win.UltraWinToolbars.ButtonTool("MixEditor");
+            Infragistics.Win.Appearance appearance145 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinToolbars.PopupMenuTool popupMenuTool120 = new Infragistics.Win.UltraWinToolbars.PopupMenuTool("HotSyncMenu");
             Infragistics.Win.Appearance appearance148 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinToolbars.StateButtonTool stateButtonTool110 = new Infragistics.Win.UltraWinToolbars.StateButtonTool("AutoSave", "");
@@ -346,6 +347,8 @@
             appearance147.Image = resources.GetObject("appearance147.Image");
             buttonTool141.SharedPropsInternal.AppearancesSmall.Appearance = appearance147;
             buttonTool141.SharedPropsInternal.Caption = "Mix Content Browser";
+            appearance145.Image = resources.GetObject("appearance145.Image");
+            buttonTool147.SharedPropsInternal.AppearancesSmall.Appearance = appearance145;
             buttonTool147.SharedPropsInternal.Caption = "Mix File Editor";
             appearance148.Image = resources.GetObject("appearance148.Image");
             popupMenuTool120.SharedPropsInternal.AppearancesSmall.Appearance = appearance148;

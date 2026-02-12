@@ -40,7 +40,7 @@ namespace Deniz.TiberiumSunEditor.Gui.OpenRa
 			Entries = filenames.ToArray();
 		}
 
-		public byte[] Data()
+		public byte[] Data(int gameType = 2)
 		{
 			var data = new MemoryStream();
 			using (var writer = new BinaryWriter(data))
@@ -51,7 +51,7 @@ namespace Deniz.TiberiumSunEditor.Gui.OpenRa
 				writer.Write(Entries.Sum(e => e.Length) + Entries.Length + 52); // Size
 				writer.Write(0); // Type
 				writer.Write(0); // Version
-				writer.Write(0); // Game/Format (0 == TD)
+				writer.Write(gameType); // Game/Format (2 == TS)
 				writer.Write(Entries.Length); // Entries
 				foreach (var e in Entries)
 				{

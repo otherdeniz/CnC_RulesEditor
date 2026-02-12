@@ -6,9 +6,8 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
     {
         public static void Write(string outputPath, List<MixEditorEntry> entries)
         {
-            // Build the local mix database from all filenames (including itself)
-            var filenames = entries.Select(e => e.FileName).ToList();
-            filenames.Add("local mix database.dat");
+            // Build the local mix database from content filenames (lowercase, excluding the LMDB itself)
+            var filenames = entries.Select(e => e.FileName.ToLowerInvariant()).ToList();
             var lmdb = new XccLocalDatabase(filenames);
             var lmdbData = lmdb.Data();
 
@@ -16,12 +15,16 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
             var allEntries = new List<MixEditorEntry>(entries);
             allEntries.Add(new MixEditorEntry("local mix database.dat", lmdbData));
 
-            // Calculate aligned offsets (each entry starts at a 16-byte boundary)
+            // Sort all entries by their MIX ID (ascending) to match the C++ std::map<int,...> order.
+            // The game engine uses binary search on the index, so entries must be sorted by ID.
+            allEntries.Sort((a, b) =>
+                ((int)MixFile.GetFileID(a.FileName)).CompareTo((int)MixFile.GetFileID(b.FileName)));
+
+            // Calculate sequential offsets (no alignment — matches C++ writer)
             var offsets = new List<int>();
             int offset = 0;
             for (int i = 0; i < allEntries.Count; i++)
             {
-                offset = (offset + 0xF) & ~0xF;
                 offsets.Add(offset);
                 offset += allEntries[i].Size;
             }
@@ -46,16 +49,10 @@ namespace Deniz.TiberiumSunEditor.Gui.Utils.CncParser
                 writer.Write(allEntries[i].Size);
             }
 
-            // Body: write file data with 16-byte alignment padding between entries
+            // Body: write file data contiguously (no padding — matches C++ writer)
             for (int i = 0; i < allEntries.Count; i++)
             {
                 writer.Write(allEntries[i].Data);
-                if (i < allEntries.Count - 1)
-                {
-                    int padding = offsets[i + 1] - (offsets[i] + allEntries[i].Size);
-                    if (padding > 0)
-                        writer.Write(new byte[padding]);
-                }
             }
         }
     }

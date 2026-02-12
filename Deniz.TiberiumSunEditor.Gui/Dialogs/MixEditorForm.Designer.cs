@@ -44,30 +44,29 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             panelTop.SuspendLayout();
             panelBottom.SuspendLayout();
             SuspendLayout();
-            //
+            // 
             // panelTop
-            //
+            // 
             panelTop.Controls.Add(labelFilePath);
             panelTop.Controls.Add(buttonNewEmpty);
             panelTop.Controls.Add(buttonOpenMix);
             panelTop.Dock = DockStyle.Top;
             panelTop.Location = new Point(8, 8);
             panelTop.Name = "panelTop";
-            panelTop.Size = new Size(584, 60);
+            panelTop.Size = new Size(589, 60);
             panelTop.TabIndex = 0;
-            //
-            // buttonOpenMix
-            //
-            buttonOpenMix.Location = new Point(0, 4);
-            buttonOpenMix.Name = "buttonOpenMix";
-            buttonOpenMix.Size = new Size(120, 25);
-            buttonOpenMix.TabIndex = 0;
-            buttonOpenMix.Text = "Open Mix File...";
-            buttonOpenMix.UseVisualStyleBackColor = true;
-            buttonOpenMix.Click += buttonOpenMix_Click;
-            //
+            // 
+            // labelFilePath
+            // 
+            labelFilePath.AutoSize = true;
+            labelFilePath.Location = new Point(0, 36);
+            labelFilePath.Name = "labelFilePath";
+            labelFilePath.Size = new Size(84, 15);
+            labelFilePath.TabIndex = 2;
+            labelFilePath.Text = "(New MIX File)";
+            // 
             // buttonNewEmpty
-            //
+            // 
             buttonNewEmpty.Location = new Point(126, 4);
             buttonNewEmpty.Name = "buttonNewEmpty";
             buttonNewEmpty.Size = new Size(110, 25);
@@ -75,42 +74,43 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             buttonNewEmpty.Text = "New Empty Mix";
             buttonNewEmpty.UseVisualStyleBackColor = true;
             buttonNewEmpty.Click += buttonNewEmpty_Click;
-            //
-            // labelFilePath
-            //
-            labelFilePath.AutoSize = true;
-            labelFilePath.Location = new Point(0, 36);
-            labelFilePath.Name = "labelFilePath";
-            labelFilePath.Size = new Size(93, 15);
-            labelFilePath.TabIndex = 2;
-            labelFilePath.Text = "(New MIX File)";
-            //
+            // 
+            // buttonOpenMix
+            // 
+            buttonOpenMix.Location = new Point(0, 4);
+            buttonOpenMix.Name = "buttonOpenMix";
+            buttonOpenMix.Size = new Size(120, 25);
+            buttonOpenMix.TabIndex = 0;
+            buttonOpenMix.Text = "Open Mix File...";
+            buttonOpenMix.UseVisualStyleBackColor = true;
+            buttonOpenMix.Click += buttonOpenMix_Click;
+            // 
             // listViewEntries
-            //
+            // 
             listViewEntries.Columns.AddRange(new ColumnHeader[] { columnFileName, columnSize });
             listViewEntries.Dock = DockStyle.Fill;
             listViewEntries.FullRowSelect = true;
             listViewEntries.GridLines = true;
             listViewEntries.Location = new Point(8, 68);
             listViewEntries.Name = "listViewEntries";
-            listViewEntries.Size = new Size(584, 327);
+            listViewEntries.Size = new Size(589, 327);
             listViewEntries.TabIndex = 1;
             listViewEntries.UseCompatibleStateImageBehavior = false;
             listViewEntries.View = View.Details;
             listViewEntries.SelectedIndexChanged += listViewEntries_SelectedIndexChanged;
-            //
+            // 
             // columnFileName
-            //
+            // 
             columnFileName.Text = "File Name";
             columnFileName.Width = 400;
-            //
+            // 
             // columnSize
-            //
+            // 
             columnSize.Text = "Size";
             columnSize.Width = 150;
-            //
+            // 
             // panelBottom
-            //
+            // 
             panelBottom.Controls.Add(labelFileCount);
             panelBottom.Controls.Add(buttonCancel);
             panelBottom.Controls.Add(buttonSave);
@@ -119,21 +119,44 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             panelBottom.Dock = DockStyle.Bottom;
             panelBottom.Location = new Point(8, 395);
             panelBottom.Name = "panelBottom";
-            panelBottom.Size = new Size(584, 45);
+            panelBottom.Size = new Size(589, 45);
             panelBottom.TabIndex = 2;
-            //
-            // buttonAdd
-            //
-            buttonAdd.Location = new Point(0, 12);
-            buttonAdd.Name = "buttonAdd";
-            buttonAdd.Size = new Size(110, 25);
-            buttonAdd.TabIndex = 0;
-            buttonAdd.Text = "Add from File...";
-            buttonAdd.UseVisualStyleBackColor = true;
-            buttonAdd.Click += buttonAdd_Click;
-            //
+            // 
+            // labelFileCount
+            // 
+            labelFileCount.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            labelFileCount.Location = new Point(295, 16);
+            labelFileCount.Name = "labelFileCount";
+            labelFileCount.Size = new Size(80, 15);
+            labelFileCount.TabIndex = 2;
+            labelFileCount.Text = "0 file(s)";
+            labelFileCount.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // buttonCancel
+            // 
+            buttonCancel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            buttonCancel.Location = new Point(497, 12);
+            buttonCancel.Name = "buttonCancel";
+            buttonCancel.Size = new Size(90, 25);
+            buttonCancel.TabIndex = 4;
+            buttonCancel.Text = "Close";
+            buttonCancel.UseVisualStyleBackColor = true;
+            buttonCancel.Click += buttonCancel_Click;
+            // 
+            // buttonSave
+            // 
+            buttonSave.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            buttonSave.Enabled = false;
+            buttonSave.Location = new Point(381, 12);
+            buttonSave.Name = "buttonSave";
+            buttonSave.Size = new Size(110, 25);
+            buttonSave.TabIndex = 3;
+            buttonSave.Text = "Save Mix File...";
+            buttonSave.UseVisualStyleBackColor = true;
+            buttonSave.Click += buttonSave_Click;
+            // 
             // buttonRemove
-            //
+            // 
             buttonRemove.Enabled = false;
             buttonRemove.Location = new Point(116, 12);
             buttonRemove.Name = "buttonRemove";
@@ -142,45 +165,22 @@ namespace Deniz.TiberiumSunEditor.Gui.Dialogs
             buttonRemove.Text = "Remove Selected";
             buttonRemove.UseVisualStyleBackColor = true;
             buttonRemove.Click += buttonRemove_Click;
-            //
-            // labelFileCount
-            //
-            labelFileCount.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            labelFileCount.Location = new Point(290, 16);
-            labelFileCount.Name = "labelFileCount";
-            labelFileCount.Size = new Size(80, 15);
-            labelFileCount.TabIndex = 2;
-            labelFileCount.Text = "0 file(s)";
-            labelFileCount.TextAlign = ContentAlignment.MiddleRight;
-            //
-            // buttonSave
-            //
-            buttonSave.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonSave.Enabled = false;
-            buttonSave.Location = new Point(376, 12);
-            buttonSave.Name = "buttonSave";
-            buttonSave.Size = new Size(110, 25);
-            buttonSave.TabIndex = 3;
-            buttonSave.Text = "Save Mix File...";
-            buttonSave.UseVisualStyleBackColor = true;
-            buttonSave.Click += buttonSave_Click;
-            //
-            // buttonCancel
-            //
-            buttonCancel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonCancel.Location = new Point(492, 12);
-            buttonCancel.Name = "buttonCancel";
-            buttonCancel.Size = new Size(90, 25);
-            buttonCancel.TabIndex = 4;
-            buttonCancel.Text = "Cancel";
-            buttonCancel.UseVisualStyleBackColor = true;
-            buttonCancel.Click += buttonCancel_Click;
-            //
+            // 
+            // buttonAdd
+            // 
+            buttonAdd.Location = new Point(0, 12);
+            buttonAdd.Name = "buttonAdd";
+            buttonAdd.Size = new Size(110, 25);
+            buttonAdd.TabIndex = 0;
+            buttonAdd.Text = "Add from File...";
+            buttonAdd.UseVisualStyleBackColor = true;
+            buttonAdd.Click += buttonAdd_Click;
+            // 
             // MixEditorForm
-            //
+            // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(600, 448);
+            ClientSize = new Size(605, 448);
             Controls.Add(listViewEntries);
             Controls.Add(panelBottom);
             Controls.Add(panelTop);
