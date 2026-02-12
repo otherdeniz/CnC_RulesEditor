@@ -117,4 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="buttonOk.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAK
+        6QAACukB/XXO0wAAAAd0SU1FB9MEGBAlLP5eAuUAAAJ/SURBVDhPrZJbSNNhGId/++tyMt00TQnLw7CJ
+        KY4KJBVCCvUmMVAEgyKTLDyUB8izITXZxLyIrOahTMHDSuqiAjF0YZpb3ZgXiboOpJW2NCitafGLeVoa
+        3flcf8/zvS+8wKbTBBdokCPUCD3bdR4TXrXySZFWMOAC8qGBbOPz9TQj2rNOPpFvSmbD2wKWD6cwffAQ
+        k56EU6X3pVgr/oRqxG7UlmlGdEir4mfr+wpqRo4zzbSHiX1BjHscwKhHOxl234v+HXKKqwQrqhG3Xm6C
+        i6dONtE2eZFFw4eZ9jyMJ4wqJvUFM7ZbwciHO+jXLqX6RTEDO92JItEUCuBmD6iRkzWQSO1IKk+awphq
+        VDGlP5TxhiAe7PKnQu9M85dR0kq+spgoqZEROSiyB6rQUztewKP9oYzp9mPy02AmGJSM6VZQeVdK88wo
+        +Yvkb/LaWCFR7UHkip6t+dtq3SdKXx7jrhZvanprGHjHndFdPgzqlPLN7BhX0Y2VULgJotKHyJXMrAU8
+        r8gnj/REsc2op3V6gUPvhrjvni/Ns6Nrcr25hE42uQ5EaTBx7q8ALgmGhN4I7tb7c/qDhd9n5sgfJBeX
+        5QZzGZ1vgUI9iKsCkRtOZMBoD5QgX9UeSJ8OCQ88COHc13kuzNuWJhtely39vCTrQJQFEGeVRDpK7QEt
+        ZE6VWz56t0vpelvEpN79nPo2znpzMR0aV8QbINRbiaxIIkNsQRo87AEbGsQ6qgWrpMmRaARdW1b2vW4b
+        G0S5L5EZQWTIF5GH+PXyKhWIWzoSjYS4LCc0HkS5H5G3l8hWEmecLDj/P3mVQrghG4XIdBhAtuQzspwt
+        OO0wiFMo+XfsTeAP4/xb+uNs/t8AAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="buttonCancel.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAK
+        6QAACukB/XXO0wAAAAd0SU1FB9MEGBAbNzX+0HQAAAJ1SURBVDhPrZBdTM0BGId/ZdVRHeMoycTp+Kwk
+        k0xTptGY8jEfWxtbbJilpjFmtblxIW5cqdlcWGZpY4rpgqkuTD5qjRU5WhR9dyT/Ps+pHjundUabO8/1
+        +3t+7/tK/xuHTUFdETrXudqnumdTSHtHgqW9OVJVjYt09oNFgTPn/4JV2jGwOaTLWXASSgvgehbk7YWc
+        LQynW/lk8+toW6jUmTkPrNROY1+Mk8eFcOMMzpOJkJUIR+OYPBAJSSbYGsxnq8/Yl/kzJEQo+MeWBT1U
+        FDF2Pp2m7MO0nj4IJ+IhM5bx1DCc72rgXDok+PAyVN31UpBX0LZE+c5rp6Awl5GMKFoqn9JpDDGyLZSJ
+        lDm4+jpxM5kRBQnCHinKg3XRK/gWY3pN8WXITobsJLpz9tPtAqPqEWP2Bk+Y6zkQL1gv2paJskC99Ara
+        E8N+cvU4ZK6F4/GMJ/rjaLZjjLlwuZurH0yFN/riXCfsVvEwSA6voHXjggEupMEhG5MpZn7mHaHX0Y8x
+        PDwlsNfBrjDGo4WxRrwNF/dn/yH4uDzgLVnJTCaZaLtTROvAID3GMEbXd0anDoARg4mc7XTaRKVFFPvp
+        lVfwOlSXRvesgA2iue4NLf1D9FeXQ7I/zhflni3cTFw5xhuLeBQsbkr5XkFtoALf2wIc7g93lRYxWHDK
+        IyNWOOPFRPkNXLmpNISLCrO4PUt9JZLZK3Dzea52Ny6WizjhihajseJXjPgRJdqXytP8xCzu+Mn1UEr7
+        KzxNvVm7qyzqa7KKr8vEJ6uoDRfP54myIE9zb9m/wtM8k8wlJuWX+Knmnkm9d/3Ve8tXNUVSXuHMtf8H
+        vwGD95VrGzWIWAAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>While working on RULES files, the Editor loads an Art-File in the Background to know everything about the mod,
+you can assign a modified Art-File to the current "rules.ini" (the assignment is persistent during application restarts)</value>
+  </data>
 </root>
