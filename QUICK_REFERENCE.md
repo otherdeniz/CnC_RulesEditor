@@ -129,9 +129,12 @@
 
 ## Creating New Units
 
+- `Add Empty Unit` has a special functionality, it browses the ART-File for unused Units
+- To just add a new custom Unit, use the `Copy` function of an existing Unit that mostly fits your needs, then change everything you want to change.
+
 ### Method 1: Add Empty
 
-1. Click `Edit → Add Empty Unit`
+1. Click `Add Empty Unit`
 2. Select unit type (Building, Infantry, Vehicle, Aircraft)
 3. Enter unique ID (e.g., "MYUNIT")
 4. Enter display name
@@ -141,7 +144,7 @@
 ### Method 2: Copy Existing
 
 1. Select a unit to copy
-2. Click `Edit → Create Copy`
+2. Click `Create Copy`
 3. Enter new ID
 4. Enter new name
 5. Click OK
@@ -149,12 +152,14 @@
 
 ### Method 3: Insert Snippet
 
-1. Click `Edit → Insert Snippet`
+1. In the Main-Menu Click `Snippets → Insert Snippet`
 2. Browse snippet categories
 3. Select pre-configured unit
 4. Enter unique ID
 5. Click OK
 6. Customize values
+
+Hint: The Snippets are searched in the Folder: "[CncRulesEditor-Path]\Snippets\[BaseGameKey]" you can store your custom Snippets in 1 Level deep Folders.
 
 ### Best Practices
 
@@ -171,7 +176,7 @@
 ### Creating a Weapon
 
 1. Go to **Weapons** tab
-2. Click `Add Empty Unit`
+2. you can just use the `Copy` function to create a new Weapon
 3. Enter weapon ID (e.g., "MyGun")
 4. Set properties:
    - `Damage` - How much damage
@@ -180,17 +185,19 @@
    - `Projectile` - What it looks like
    - `Warhead` - What damage type
    - `Speed` - Projectile speed
+Hint: Weapons and Warheads are detected "by usage", once you use a custom warhead or weapon it will be recognized as such, thats because there is no "List" of Weapons or Warheads in the File to enumerate
 
 ### Creating a Warhead
 
 1. Go to **Warheads** tab
-2. Click `Add Empty Unit`
+2. you can just use the `Copy` function to create a new Weapon
 3. Enter warhead ID (e.g., "MyWarhead")
 4. Set properties:
    - `Verses` - Damage vs armor types (comma-separated percentages)
    - `Spread` - Splash damage radius
    - `Wall` - Can destroy walls
    - `Wood` - Can destroy trees
+Hint: Weapons and Warheads are detected "by usage", once you use a custom warhead or weapon it will be recognized as such, thats because there is no "List" of Weapons or Warheads in the File to enumerate
 
 ### Assigning to Unit
 
