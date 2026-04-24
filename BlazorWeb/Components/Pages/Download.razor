@@ -1,0 +1,235 @@
+@page "/download"
+@using BlazorWeb.Services
+@using BlazorWeb.Models
+@inject IGitHubService GitHubService
+
+<PageTitle>Download - C&C Rules Editor</PageTitle>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h2>Download C&C Rules Editor</h2>
+        <p>Get the latest version of the free modding tool for Command & Conquer games</p>
+    </div>
+</section>
+
+<!-- Main Content -->
+<main>
+    <!-- Download Section -->
+    <section id="download">
+        <h2>Latest Release</h2>
+        @if (isLoading)
+        {
+            <div class="feature-card text-center">
+                <p>Loading latest release information...</p>
+            </div>
+        }
+        else if (latestRelease != null)
+        {
+            <div class="feature-card text-center">
+                <h3>C&C Rules Editor @latestRelease.TagName</h3>
+                <p>Released on @latestRelease.PublishedAt.ToString("MMMM dd, yyyy")</p>
+                <p>Free and Open Source - Licensed under GNU GPL v3.0</p>
+                <div class="cta-buttons mt-2">
+                    <a href="@latestRelease.HtmlUrl" class="btn btn-primary" target="_blank">
+                        Download @latestRelease.TagName
+                    </a>
+                    <a href="https://github.com/otherdeniz/CnC_RulesEditor/releases" class="btn btn-secondary" target="_blank">
+                        View All Releases
+                    </a>
+                </div>
+                
+                @if (latestRelease.Assets.Any())
+                {
+                    <div class="mt-2">
+                        <h4>Available Downloads:</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            @foreach (var asset in latestRelease.Assets)
+                            {
+                                <li style="margin: 10px 0;">
+                                    <a href="@asset.BrowserDownloadUrl" class="btn btn-secondary" target="_blank">
+                                        @asset.Name (@FormatFileSize(asset.Size))
+                                    </a>
+                                    <small style="display: block; margin-top: 5px;">Downloads: @asset.DownloadCount</small>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="feature-card text-center">
+                <h3>C&C Rules Editor</h3>
+                <p>Free and Open Source - Licensed under GNU GPL v3.0</p>
+                <div class="cta-buttons mt-2">
+                    <a href="https://github.com/otherdeniz/CnC_RulesEditor/releases/latest" class="btn btn-primary" target="_blank">
+                        Download Latest Version
+                    </a>
+                    <a href="https://github.com/otherdeniz/CnC_RulesEditor/releases" class="btn btn-secondary" target="_blank">
+                        View All Releases
+                    </a>
+                </div>
+            </div>
+        }
+    </section>
+
+    <!-- System Requirements -->
+    <section id="requirements">
+        <h2>System Requirements</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Minimum Requirements</h3>
+                <ul>
+                    <li><strong>OS:</strong> Windows 7 or later</li>
+                    <li><strong>Framework:</strong> .NET 6.0 Runtime (included in installer)</li>
+                    <li><strong>RAM:</strong> 2 GB</li>
+                    <li><strong>Storage:</strong> 100 MB free space</li>
+                    <li><strong>Display:</strong> 1024x768 resolution</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3>Recommended</h3>
+                <ul>
+                    <li><strong>OS:</strong> Windows 10/11</li>
+                    <li><strong>RAM:</strong> 4 GB or more</li>
+                    <li><strong>Storage:</strong> 500 MB free space</li>
+                    <li><strong>Display:</strong> 1920x1080 resolution</li>
+                    <li><strong>Additional:</strong> Mouse with scroll wheel</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section id="installation">
+        <h2>Installation Instructions</h2>
+        <div class="tutorial-steps">
+            <div class="tutorial-step">
+                <h3>Download the Editor</h3>
+                <ul>
+                    <li>Click the "Download" button above</li>
+                    <li>Download the ZIP file from GitHub Releases</li>
+                    <li>The file will be named something like <code>CnC_RulesEditor_v2.6.60.zip</code></li>
+                </ul>
+            </div>
+
+            <div class="tutorial-step">
+                <h3>Extract the Files</h3>
+                <ul>
+                    <li>Right-click the downloaded ZIP file</li>
+                    <li>Select "Extract All..."</li>
+                    <li>Choose a destination folder (e.g., <code>C:\Tools\CnC_RulesEditor</code>)</li>
+                    <li>Click "Extract"</li>
+                </ul>
+            </div>
+
+            <div class="tutorial-step">
+                <h3>Run the Editor</h3>
+                <ul>
+                    <li>Navigate to the extracted folder</li>
+                    <li>Double-click <code>Deniz.TiberiumSunEditor.Gui.exe</code></li>
+                    <li>If prompted by Windows Defender, click "More info" then "Run anyway"</li>
+                    <li>The editor will launch and you're ready to start modding!</li>
+                </ul>
+            </div>
+
+            <div class="tutorial-step">
+                <h3>Configure Your Game</h3>
+                <ul>
+                    <li>Click the "Games" button in the editor</li>
+                    <li>Select your C&C game (Tiberian Sun, Red Alert 2, etc.)</li>
+                    <li>Browse to your game installation folder</li>
+                    <li>Click "OK" to save the configuration</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rest of the sections remain the same as static HTML -->
+    <section id="supported-games">
+        <h2>Supported Games</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Tiberian Sun</h3>
+                <ul>
+                    <li>Command & Conquer: Tiberian Sun</li>
+                    <li>Firestorm expansion</li>
+                    <li>All TS-based mods</li>
+                    <li>Vinifera engine support</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3>Red Alert 2</h3>
+                <ul>
+                    <li>Command & Conquer: Red Alert 2</li>
+                    <li>Yuri's Revenge expansion</li>
+                    <li>All RA2-based mods</li>
+                    <li>Ares and Phobos engine support</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3>Custom Mods</h3>
+                <ul>
+                    <li>Dawn of the Tiberium Age</li>
+                    <li>Mental Omega</li>
+                    <li>Twisted Insurrection</li>
+                    <li>Any custom TS/RA2 mod</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="help">
+        <h2>Getting Help</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Documentation</h3>
+                <ul>
+                    <li><a href="/tutorial">Beginner Tutorial</a></li>
+                    <li><a href="/features">Features Overview</a></li>
+                    <li><a href="https://github.com/otherdeniz/CnC_RulesEditor/blob/master/README_DOCS.md" target="_blank">Complete Documentation</a></li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3>Community Support</h3>
+                <ul>
+                    <li><a href="https://forums.cncnet.org/topic/12869-tiberian-sun-rules-editor-version-2024/" target="_blank">CNCNet Forum Thread</a></li>
+                    <li><a href="https://discord.gg/cncmodding" target="_blank">Discord - C&C Mod Haven</a></li>
+                    <li><a href="https://github.com/otherdeniz/CnC_RulesEditor/issues" target="_blank">GitHub Issues</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</main>
+
+@code {
+    private GitHubRelease? latestRelease;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            latestRelease = await GitHubService.GetLatestReleaseAsync();
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private string FormatFileSize(long bytes)
+    {
+        string[] sizes = { "B", "KB", "MB", "GB" };
+        double len = bytes;
+        int order = 0;
+        while (len >= 1024 && order < sizes.Length - 1)
+        {
+            order++;
+            len = len / 1024;
+        }
+        return $"{len:0.##} {sizes[order]}";
+    }
+}

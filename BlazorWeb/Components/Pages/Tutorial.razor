@@ -1,0 +1,229 @@
+@page "/tutorial"
+
+<PageTitle>Beginner Tutorial - C&C Rules Editor</PageTitle>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h2>Beginner Tutorial</h2>
+        <p>Learn how to use C&C Rules Editor to mod your favorite Command & Conquer games</p>
+    </div>
+</section>
+
+<!-- Main Content -->
+<main>
+    <!-- Getting Started -->
+    <section id="getting-started">
+        <h2>Getting Started</h2>
+        
+        <div class="tutorial-steps">
+            <div class="tutorial-step">
+                <h3>Setup Game Folders</h3>
+                <p>
+                    Before you start working with the Editor, you should set the Game-Path of the C&C Edition you want to edit 
+                    by pressing the "Games" button. There you can also add any Custom Mod Folder by pressing "Add custom Mod".
+                </p>
+                <ul>
+                    <li>Launch <code>Deniz.TiberiumSunEditor.Gui.exe</code></li>
+                    <li>Go to <code>Games</code> menu</li>
+                    <li>Choose your C&C game (Tiberian Sun, Red Alert 2, etc.)</li>
+                    <li>Browse to your game installation folder</li>
+                </ul>
+            </div>
+
+            <div class="tutorial-step">
+                <h3>Locate the Game Files</h3>
+                <p>Find your C&C installation folder.</p>
+                <p><strong>Locate the following files:</strong></p>
+                <ul>
+                    <li><strong>rules.ini</strong> – controls game logic, unit stats, weapons, building behavior, etc.</li>
+                    <li><strong>art.ini</strong> – handles graphical definitions like SHP animations, voxel models, and effects</li>
+                    <li><strong>ai.ini</strong> – handles the artificial intelligence</li>
+                </ul>
+            </div>
+
+            <div class="tutorial-step">
+                <h3>Save and Test</h3>
+                <ul>
+                    <li>Save the INI files in the game-folder</li>
+                    <li>Launch the game</li>
+                    <li>Play a skirmish or custom mission to test your changes</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Creating New Units -->
+    <section id="creating-units">
+        <h2>Creating New Units</h2>
+        
+        <div class="tutorial-steps">
+            <div class="tutorial-step">
+                <h3>Method 1: Add Empty</h3>
+                <ol>
+                    <li>Click <code>Edit → Add Empty Unit</code></li>
+                    <li>Select unit type (Building, Infantry, Vehicle, Aircraft)</li>
+                    <li>Enter unique ID (e.g., "MYUNIT")</li>
+                    <li>Enter display name</li>
+                    <li>Click OK</li>
+                    <li>Edit properties manually</li>
+                </ol>
+            </div>
+
+            <div class="tutorial-step">
+                <h3>Method 2: Copy Existing</h3>
+                <ol>
+                    <li>Select a unit to copy</li>
+                    <li>Click <code>Edit → Create Copy</code></li>
+                    <li>Enter new ID</li>
+                    <li>Enter new name</li>
+                    <li>Click OK</li>
+                    <li>Modify as needed</li>
+                </ol>
+            </div>
+
+            <div class="tutorial-step">
+                <h3>Method 3: Insert Snippet</h3>
+                <ol>
+                    <li>Click <code>Edit → Insert Snippet</code></li>
+                    <li>Browse snippet categories</li>
+                    <li>Select pre-configured unit</li>
+                    <li>Enter unique ID</li>
+                    <li>Click OK</li>
+                    <li>Customize values</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="feature-card mt-2">
+            <h3>Best Practices</h3>
+            <ul>
+                <li><strong>Use descriptive IDs</strong> (e.g., "HTANK" not "UNIT1")</li>
+                <li><strong>Keep IDs short</strong> (max 24 characters)</li>
+                <li><strong>No spaces in IDs</strong> (use underscores if needed)</li>
+                <li><strong>Start with letter</strong> (not number)</li>
+                <li><strong>Check for conflicts</strong> (ID must be unique)</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Editing Entities -->
+    <section id="editing-entities">
+        <h2>Editing Entities</h2>
+        
+        <h3>Selecting an Entity</h3>
+        <ol>
+            <li>Browse the list on the left</li>
+            <li>Click on any unit/building/weapon</li>
+            <li>Properties appear on the right</li>
+        </ol>
+
+        <h3>Common Properties</h3>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h4>All Units</h4>
+                <ul>
+                    <li><code>Name</code> - Display name</li>
+                    <li><code>Cost</code> - Build cost in credits</li>
+                    <li><code>Strength</code> - Hit points</li>
+                    <li><code>Armor</code> - Armor type</li>
+                    <li><code>Primary</code> - Primary weapon</li>
+                    <li><code>Speed</code> - Movement speed</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h4>Buildings</h4>
+                <ul>
+                    <li><code>Power</code> - Power generation/consumption</li>
+                    <li><code>BuildCat</code> - Build category</li>
+                    <li><code>Adjacent</code> - Adjacency bonus</li>
+                    <li><code>Factory</code> - Production type</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h4>Weapons</h4>
+                <ul>
+                    <li><code>Damage</code> - Base damage</li>
+                    <li><code>ROF</code> - Rate of fire</li>
+                    <li><code>Range</code> - Attack range</li>
+                    <li><code>Projectile</code> - Projectile type</li>
+                    <li><code>Warhead</code> - Warhead type</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Saving Your Work -->
+    <section id="saving">
+        <h2>Saving Your Work</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Save to File</h3>
+                <p><strong>Save:</strong></p>
+                <ul>
+                    <li><code>File → Save</code> (Ctrl+S)</li>
+                    <li>Overwrites current file</li>
+                </ul>
+                <p><strong>Save As:</strong></p>
+                <ul>
+                    <li><code>File → Save As</code> (Ctrl+Shift+S)</li>
+                    <li>Choose new location/name</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3>Save to Game</h3>
+                <p><strong>Direct Save:</strong></p>
+                <ul>
+                    <li><code>File → Save in Game</code></li>
+                    <li>Saves directly to game folder</li>
+                    <li>Game will use modified rules</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3>Multiplayer</h3>
+                <p>To play modified games online:</p>
+                <ol>
+                    <li>Save your rules.ini</li>
+                    <li>Share file with all players</li>
+                    <li>All players copy to game folder</li>
+                    <li>Everyone must have identical rules.ini</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tips and Tricks -->
+    <section id="tips">
+        <h2>Tips and Tricks</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Favorites System</h3>
+                <ul>
+                    <li>Right-click unit → "Add to Favorites"</li>
+                    <li>Right-click property → "Add to Favorites"</li>
+                    <li>Click ☆ button to filter favorites</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3>Search and Filter</h3>
+                <ul>
+                    <li>Type in search box for real-time filtering</li>
+                    <li>Use "Filter by Parent" dropdown</li>
+                    <li>Filter by faction/side</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3>Keyboard Shortcuts</h3>
+                <ul>
+                    <li><code>Ctrl+O</code> - Open file</li>
+                    <li><code>Ctrl+S</code> - Save</li>
+                    <li><code>Ctrl+Shift+S</code> - Save As</li>
+                    <li><code>Ctrl+F</code> - Search</li>
+                    <li><code>Ctrl+C</code> - Copy unit</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</main>

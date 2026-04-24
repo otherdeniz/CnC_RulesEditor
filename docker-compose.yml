@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  blazorweb:
+    build:
+      context: .
+      dockerfile: BlazorWeb/Dockerfile
+    container_name: cnc-rules-editor-web
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - GitHub__Owner=otherdeniz
+      - GitHub__Repository=CnC_RulesEditor
+    restart: unless-stopped
+    networks:
+      - cnc-network
+
+networks:
+  cnc-network:
+    driver: bridge
